@@ -1,0 +1,686 @@
+id,movie_id,person_id,name,job,department,movie_title,movie_release_date
+1441,11,1,George Lucas,Director,Directing,Star Wars,1977-05-25
+1438,11,1,George Lucas,Executive Producer,Production,Star Wars,1977-05-25
+1439,11,12401,Gary Kurtz,Producer,Production,Star Wars,1977-05-25
+1440,11,1,George Lucas,Writer,Writing,Star Wars,1977-05-25
+2740,12,7,Andrew Stanton,Director,Directing,Finding Nemo,2003-05-30
+2745,12,7879,John Lasseter,Executive Producer,Production,Finding Nemo,2003-05-30
+2741,12,9,Graham Walters,Producer,Production,Finding Nemo,2003-05-30
+2742,12,11,David Reynolds,Screenplay,Writing,Finding Nemo,2003-05-30
+2743,12,10,Bob Peterson,Screenplay,Writing,Finding Nemo,2003-05-30
+2744,12,7,Andrew Stanton,Screenplay,Writing,Finding Nemo,2003-05-30
+1452,13,24,Robert Zemeckis,Director,Directing,Forrest Gump,1994-06-23
+1451,13,28,Wendy Finerman,Producer,Production,Forrest Gump,1994-06-23
+1453,13,30,Steve Starkey,Producer,Production,Forrest Gump,1994-06-23
+1454,13,29,Steve Tisch,Producer,Production,Forrest Gump,1994-06-23
+1450,13,27,Eric Roth,Screenplay,Writing,Forrest Gump,1994-06-23
+2052,22,1704,Gore Verbinski,Director,Directing,Pirates of the Caribbean: The Curse of the Black Pearl,2003-07-09
+2055,22,2446,Chad Oman,Executive Producer,Production,Pirates of the Caribbean: The Curse of the Black Pearl,2003-07-09
+2056,22,2444,Mike Stenson,Executive Producer,Production,Pirates of the Caribbean: The Curse of the Black Pearl,2003-07-09
+2057,22,1186326,Paul Deason,Executive Producer,Production,Pirates of the Caribbean: The Curse of the Black Pearl,2003-07-09
+2058,22,2443,Bruce Hendricks,Executive Producer,Production,Pirates of the Caribbean: The Curse of the Black Pearl,2003-07-09
+2051,22,770,Jerry Bruckheimer,Producer,Production,Pirates of the Caribbean: The Curse of the Black Pearl,2003-07-09
+2053,22,1706,Terry Rossio,Screenplay,Writing,Pirates of the Caribbean: The Curse of the Black Pearl,2003-07-09
+2054,22,1705,Ted Elliott,Screenplay,Writing,Pirates of the Caribbean: The Curse of the Black Pearl,2003-07-09
+2192,98,578,Ridley Scott,Director,Directing,Gladiator,2000-05-04
+2199,98,578,Ridley Scott,Executive Producer,Production,Gladiator,2000-05-04
+2200,98,8701,Laurie MacDonald,Executive Producer,Production,Gladiator,2000-05-04
+2201,98,2212,Walter F. Parkes,Executive Producer,Production,Gladiator,2000-05-04
+2194,98,930,Branko Lustig,Producer,Production,Gladiator,2000-05-04
+2195,98,931,Douglas Wick,Producer,Production,Gladiator,2000-05-04
+2197,98,929,David Franzoni,Producer,Production,Gladiator,2000-05-04
+2193,98,933,William Nicholson,Screenplay,Writing,Gladiator,2000-05-04
+2196,98,932,John Logan,Screenplay,Writing,Gladiator,2000-05-04
+2198,98,929,David Franzoni,Screenplay,Writing,Gladiator,2000-05-04
+1928,105,24,Robert Zemeckis,Director,Directing,Back to the Future,1985-07-03
+1933,105,489,Kathleen Kennedy,Executive Producer,Production,Back to the Future,1985-07-03
+1934,105,664,Frank Marshall,Executive Producer,Production,Back to the Future,1985-07-03
+1935,105,488,Steven Spielberg,Executive Producer,Production,Back to the Future,1985-07-03
+1929,105,1058,Bob Gale,Producer,Production,Back to the Future,1985-07-03
+1930,105,1059,Neil Canton,Producer,Production,Back to the Future,1985-07-03
+1931,105,24,Robert Zemeckis,Writer,Writing,Back to the Future,1985-07-03
+1932,105,1058,Bob Gale,Writer,Writing,Back to the Future,1985-07-03
+1086,120,108,Peter Jackson,Director,Directing,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1085,120,1311,Michael Lynne,Executive Producer,Production,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1088,120,1307,Bob Weinstein,Executive Producer,Production,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1091,120,59839,Harvey Weinstein,Executive Producer,Production,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1093,120,1309,Mark Ordesky,Executive Producer,Production,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1096,120,13663,Robert Shaye,Executive Producer,Production,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1087,120,108,Peter Jackson,Producer,Production,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1092,120,123,Barrie M. Osborne,Producer,Production,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1094,120,15292,Tim Sanders,Producer,Production,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1095,120,126,Fran Walsh,Producer,Production,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1084,120,128,Philippa Boyens,Screenplay,Writing,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1089,120,126,Fran Walsh,Screenplay,Writing,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1090,120,108,Peter Jackson,Screenplay,Writing,The Lord of the Rings: The Fellowship of the Ring,2001-12-18
+1483,121,108,Peter Jackson,Director,Directing,The Lord of the Rings: The Two Towers,2002-12-18
+1472,121,1307,Bob Weinstein,Executive Producer,Production,The Lord of the Rings: The Two Towers,2002-12-18
+1473,121,1309,Mark Ordesky,Executive Producer,Production,The Lord of the Rings: The Two Towers,2002-12-18
+1475,121,59839,Harvey Weinstein,Executive Producer,Production,The Lord of the Rings: The Two Towers,2002-12-18
+1477,121,1311,Michael Lynne,Executive Producer,Production,The Lord of the Rings: The Two Towers,2002-12-18
+1479,121,13663,Robert Shaye,Executive Producer,Production,The Lord of the Rings: The Two Towers,2002-12-18
+1474,121,108,Peter Jackson,Producer,Production,The Lord of the Rings: The Two Towers,2002-12-18
+1476,121,123,Barrie M. Osborne,Producer,Production,The Lord of the Rings: The Two Towers,2002-12-18
+1478,121,126,Fran Walsh,Producer,Production,The Lord of the Rings: The Two Towers,2002-12-18
+1480,121,128,Philippa Boyens,Screenplay,Writing,The Lord of the Rings: The Two Towers,2002-12-18
+1481,121,126,Fran Walsh,Screenplay,Writing,The Lord of the Rings: The Two Towers,2002-12-18
+1482,121,11325,Stephen Sinclair,Screenplay,Writing,The Lord of the Rings: The Two Towers,2002-12-18
+1484,121,108,Peter Jackson,Screenplay,Writing,The Lord of the Rings: The Two Towers,2002-12-18
+893,122,108,Peter Jackson,Director,Directing,The Lord of the Rings: The Return of the King,2003-12-17
+896,122,1307,Bob Weinstein,Executive Producer,Production,The Lord of the Rings: The Return of the King,2003-12-17
+897,122,59839,Harvey Weinstein,Executive Producer,Production,The Lord of the Rings: The Return of the King,2003-12-17
+898,122,1309,Mark Ordesky,Executive Producer,Production,The Lord of the Rings: The Return of the King,2003-12-17
+899,122,1311,Michael Lynne,Executive Producer,Production,The Lord of the Rings: The Return of the King,2003-12-17
+904,122,13663,Robert Shaye,Executive Producer,Production,The Lord of the Rings: The Return of the King,2003-12-17
+894,122,108,Peter Jackson,Producer,Production,The Lord of the Rings: The Return of the King,2003-12-17
+895,122,123,Barrie M. Osborne,Producer,Production,The Lord of the Rings: The Return of the King,2003-12-17
+903,122,126,Fran Walsh,Producer,Production,The Lord of the Rings: The Return of the King,2003-12-17
+900,122,108,Peter Jackson,Screenplay,Writing,The Lord of the Rings: The Return of the King,2003-12-17
+901,122,126,Fran Walsh,Screenplay,Writing,The Lord of the Rings: The Return of the King,2003-12-17
+902,122,128,Philippa Boyens,Screenplay,Writing,The Lord of the Rings: The Return of the King,2003-12-17
+763,155,525,Christopher Nolan,Director,Directing,The Dark Knight,2008-07-16
+755,155,10949,Michael Uslan,Executive Producer,Production,The Dark Knight,2008-07-16
+756,155,75804,Kevin De La Noy,Executive Producer,Production,The Dark Knight,2008-07-16
+758,155,10951,Benjamin Melniker,Executive Producer,Production,The Dark Knight,2008-07-16
+760,155,54211,Thomas Tull,Executive Producer,Production,The Dark Knight,2008-07-16
+759,155,556,Emma Thomas,Producer,Production,The Dark Knight,2008-07-16
+761,155,282,Charles Roven,Producer,Production,The Dark Knight,2008-07-16
+762,155,525,Christopher Nolan,Producer,Production,The Dark Knight,2008-07-16
+754,155,525,Christopher Nolan,Screenplay,Writing,The Dark Knight,2008-07-16
+757,155,527,Jonathan Nolan,Screenplay,Writing,The Dark Knight,2008-07-16
+582,238,1776,Francis Ford Coppola,Director,Directing,The Godfather,1972-03-14
+578,238,457,Albert S. Ruddy,Producer,Production,The Godfather,1972-03-14
+580,238,1776,Francis Ford Coppola,Producer,Production,The Godfather,1972-03-14
+581,238,12288,Robert Evans,Producer,Production,The Godfather,1972-03-14
+577,238,3083,Mario Puzo,Screenplay,Writing,The Godfather,1972-03-14
+579,238,1776,Francis Ford Coppola,Screenplay,Writing,The Godfather,1972-03-14
+2219,272,525,Christopher Nolan,Director,Directing,Batman Begins,2005-06-10
+2215,272,10951,Benjamin Melniker,Executive Producer,Production,Batman Begins,2005-06-10
+2216,272,10949,Michael Uslan,Executive Producer,Production,Batman Begins,2005-06-10
+2211,272,556,Emma Thomas,Producer,Production,Batman Begins,2005-06-10
+2212,272,282,Charles Roven,Producer,Production,Batman Begins,2005-06-10
+2213,272,511,Larry Franco,Producer,Production,Batman Begins,2005-06-10
+2218,272,20643,Lorne Orleans,Producer,Production,Batman Begins,2005-06-10
+2214,272,525,Christopher Nolan,Screenplay,Writing,Batman Begins,2005-06-10
+2217,272,3893,David S. Goyer,Screenplay,Writing,Batman Begins,2005-06-10
+681,278,4027,Frank Darabont,Director,Directing,The Shawshank Redemption,1994-09-23
+679,278,4054,David V. Lester,Executive Producer,Production,The Shawshank Redemption,1994-09-23
+680,278,46347,Liz Glotzer,Executive Producer,Production,The Shawshank Redemption,1994-09-23
+677,278,4028,Niki Marvin,Producer,Production,The Shawshank Redemption,1994-09-23
+678,278,4027,Frank Darabont,Screenplay,Writing,The Shawshank Redemption,1994-09-23
+1187,550,7467,David Fincher,Director,Directing,Fight Club,1999-10-15
+1188,550,376,Arnon Milchan,Executive Producer,Production,Fight Club,1999-10-15
+1184,550,1254,Art Linson,Producer,Production,Fight Club,1999-10-15
+1185,550,7475,Ceán Chaffin,Producer,Production,Fight Club,1999-10-15
+1186,550,7474,Ross Grayson Bell,Producer,Production,Fight Club,1999-10-15
+1189,550,7469,Jim Uhls,Screenplay,Writing,Fight Club,1999-10-15
+1926,557,7623,Sam Raimi,Director,Directing,Spider-Man,2002-05-01
+1922,557,7626,Avi Arad,Executive Producer,Production,Spider-Man,2002-05-01
+1927,557,7624,Stan Lee,Executive Producer,Production,Spider-Man,2002-05-01
+1923,557,9987,Ian Bryce,Producer,Production,Spider-Man,2002-05-01
+1924,557,7627,Laura Ziskin,Producer,Production,Spider-Man,2002-05-01
+1925,557,508,David Koepp,Screenplay,Writing,Spider-Man,2002-05-01
+820,597,2710,James Cameron,Director,Directing,Titanic,1997-12-18
+823,597,21567,Rae Sanchini,Executive Producer,Production,Titanic,1997-12-18
+821,597,8529,Jon Landau,Producer,Production,Titanic,1997-12-18
+822,597,2710,James Cameron,Producer,Production,Titanic,1997-12-18
+824,597,2710,James Cameron,Writer,Writing,Titanic,1997-12-18
+1055,603,9340,Lana Wachowski,Director,Directing,The Matrix,1999-03-31
+1059,603,9339,Lilly Wachowski,Director,Directing,The Matrix,1999-03-31
+1051,603,123,Barrie M. Osborne,Executive Producer,Production,The Matrix,1999-03-31
+1052,603,8299,Andrew Mason,Executive Producer,Production,The Matrix,1999-03-31
+1053,603,10950,Erwin Stoff,Executive Producer,Production,The Matrix,1999-03-31
+1054,603,1296,Bruce Berman,Executive Producer,Production,The Matrix,1999-03-31
+1058,603,9339,Lilly Wachowski,Executive Producer,Production,The Matrix,1999-03-31
+1060,603,9340,Lana Wachowski,Executive Producer,Production,The Matrix,1999-03-31
+1050,603,1091,Joel Silver,Producer,Production,The Matrix,1999-03-31
+1056,603,9340,Lana Wachowski,Writer,Writing,The Matrix,1999-03-31
+1057,603,9339,Lilly Wachowski,Writer,Writing,The Matrix,1999-03-31
+1355,671,10965,Chris Columbus,Director,Directing,Harry Potter and the Philosopher's Stone,2001-11-16
+1358,671,6870,Duncan Henderson,Executive Producer,Production,Harry Potter and the Philosopher's Stone,2001-11-16
+1359,671,11222,Mark Radcliffe,Executive Producer,Production,Harry Potter and the Philosopher's Stone,2001-11-16
+1360,671,17828,Michael Barnathan,Executive Producer,Production,Harry Potter and the Philosopher's Stone,2001-11-16
+1361,671,10965,Chris Columbus,Executive Producer,Production,Harry Potter and the Philosopher's Stone,2001-11-16
+1356,671,10968,David Heyman,Producer,Production,Harry Potter and the Philosopher's Stone,2001-11-16
+1357,671,10967,Steve Kloves,Screenplay,Writing,Harry Potter and the Philosopher's Stone,2001-11-16
+2711,672,10965,Chris Columbus,Director,Directing,Harry Potter and the Chamber of Secrets,2002-11-13
+2712,672,17828,Michael Barnathan,Executive Producer,Production,Harry Potter and the Chamber of Secrets,2002-11-13
+2713,672,10965,Chris Columbus,Executive Producer,Production,Harry Potter and the Chamber of Secrets,2002-11-13
+2714,672,11222,Mark Radcliffe,Executive Producer,Production,Harry Potter and the Chamber of Secrets,2002-11-13
+2715,672,65614,David Barron,Executive Producer,Production,Harry Potter and the Chamber of Secrets,2002-11-13
+2710,672,10968,David Heyman,Producer,Production,Harry Potter and the Chamber of Secrets,2002-11-13
+2709,672,10967,Steve Kloves,Screenplay,Writing,Harry Potter and the Chamber of Secrets,2002-11-13
+2029,673,11218,Alfonso Cuarón,Director,Directing,Harry Potter and the Prisoner of Azkaban,2004-05-31
+2033,673,17828,Michael Barnathan,Executive Producer,Production,Harry Potter and the Prisoner of Azkaban,2004-05-31
+2034,673,10876,Callum McDougall,Executive Producer,Production,Harry Potter and the Prisoner of Azkaban,2004-05-31
+2036,673,58697,Tanya Seghatchian,Executive Producer,Production,Harry Potter and the Prisoner of Azkaban,2004-05-31
+2031,673,10968,David Heyman,Producer,Production,Harry Potter and the Prisoner of Azkaban,2004-05-31
+2032,673,11222,Mark Radcliffe,Producer,Production,Harry Potter and the Prisoner of Azkaban,2004-05-31
+2035,673,20643,Lorne Orleans,Producer,Production,Harry Potter and the Prisoner of Azkaban,2004-05-31
+2037,673,10965,Chris Columbus,Producer,Production,Harry Potter and the Prisoner of Azkaban,2004-05-31
+2030,673,10967,Steve Kloves,Screenplay,Writing,Harry Potter and the Prisoner of Azkaban,2004-05-31
+2303,674,10723,Mike Newell,Director,Directing,Harry Potter and the Goblet of Fire,2005-11-16
+2306,674,58697,Tanya Seghatchian,Executive Producer,Production,Harry Potter and the Goblet of Fire,2005-11-16
+2307,674,65614,David Barron,Executive Producer,Production,Harry Potter and the Goblet of Fire,2005-11-16
+2305,674,10968,David Heyman,Producer,Production,Harry Potter and the Goblet of Fire,2005-11-16
+2304,674,10967,Steve Kloves,Screenplay,Writing,Harry Potter and the Goblet of Fire,2005-11-16
+1985,675,11343,David Yates,Director,Directing,Harry Potter and the Order of the Phoenix,2007-07-08
+1989,675,41289,Lionel Wigram,Executive Producer,Production,Harry Potter and the Order of the Phoenix,2007-07-08
+1987,675,10968,David Heyman,Producer,Production,Harry Potter and the Order of the Phoenix,2007-07-08
+1988,675,20643,Lorne Orleans,Producer,Production,Harry Potter and the Order of the Phoenix,2007-07-08
+1990,675,65614,David Barron,Producer,Production,Harry Potter and the Order of the Phoenix,2007-07-08
+1986,675,10296,Michael Goldenberg,Screenplay,Writing,Harry Potter and the Order of the Phoenix,2007-07-08
+1425,680,138,Quentin Tarantino,Director,Directing,Pulp Fiction,1994-09-10
+1421,680,518,Danny DeVito,Executive Producer,Production,Pulp Fiction,1994-09-10
+1423,680,5381,Michael Shamberg,Executive Producer,Production,Pulp Fiction,1994-09-10
+1424,680,5382,Stacey Sher,Executive Producer,Production,Pulp Fiction,1994-09-10
+1422,680,2545,Lawrence Bender,Producer,Production,Pulp Fiction,1994-09-10
+1426,680,138,Quentin Tarantino,Writer,Writing,Pulp Fiction,1994-09-10
+2965,767,11343,David Yates,Director,Directing,Harry Potter and the Half-Blood Prince,2009-07-15
+2964,767,41289,Lionel Wigram,Executive Producer,Production,Harry Potter and the Half-Blood Prince,2009-07-15
+2963,767,10968,David Heyman,Producer,Production,Harry Potter and the Half-Blood Prince,2009-07-15
+2967,767,65614,David Barron,Producer,Production,Harry Potter and the Half-Blood Prince,2009-07-15
+2966,767,10967,Steve Kloves,Screenplay,Writing,Harry Potter and the Half-Blood Prince,2009-07-15
+2093,807,7467,David Fincher,Director,Directing,Se7en,1995-09-22
+2091,807,12050,Anne Kopelson,Executive Producer,Production,Se7en,1995-09-22
+2092,807,11815,Dan Kolsrud,Executive Producer,Production,Se7en,1995-09-22
+2095,807,11420,Gianni Nunnari,Executive Producer,Production,Se7en,1995-09-22
+2089,807,12048,Phyllis Carlyle,Producer,Production,Se7en,1995-09-22
+2090,807,10764,Arnold Kopelson,Producer,Production,Se7en,1995-09-22
+2094,807,12047,Andrew Kevin Walker,Writer,Writing,Se7en,1995-09-22
+2043,862,7879,John Lasseter,Director,Directing,Toy Story,1995-11-22
+2045,862,12895,Edwin Catmull,Executive Producer,Production,Toy Story,1995-11-22
+2048,862,12897,Steve Jobs,Executive Producer,Production,Toy Story,1995-11-22
+2042,862,12896,Ralph Guggenheim,Producer,Production,Toy Story,1995-11-22
+2047,862,12894,Bonnie Arnold,Producer,Production,Toy Story,1995-11-22
+2044,862,12893,Alec Sokolow,Screenplay,Writing,Toy Story,1995-11-22
+2046,862,12892,Joel Cohen,Screenplay,Writing,Toy Story,1995-11-22
+2049,862,12891,Joss Whedon,Screenplay,Writing,Toy Story,1995-11-22
+2050,862,7,Andrew Stanton,Screenplay,Writing,Toy Story,1995-11-22
+2191,1726,15277,Jon Favreau,Director,Directing,Iron Man,2008-04-30
+2179,1726,12708,Peter Billingsley,Executive Producer,Production,Iron Man,2008-04-30
+2180,1726,57027,Louis D'Esposito,Executive Producer,Production,Iron Man,2008-04-30
+2181,1726,113673,David Maisel,Executive Producer,Production,Iron Man,2008-04-30
+2182,1726,15277,Jon Favreau,Executive Producer,Production,Iron Man,2008-04-30
+2183,1726,937174,Ari Arad,Executive Producer,Production,Iron Man,2008-04-30
+2185,1726,7624,Stan Lee,Executive Producer,Production,Iron Man,2008-04-30
+2184,1726,7626,Avi Arad,Producer,Production,Iron Man,2008-04-30
+2186,1726,10850,Kevin Feige,Producer,Production,Iron Man,2008-04-30
+2187,1726,79207,Mark Fergus,Screenplay,Writing,Iron Man,2008-04-30
+2188,1726,79209,Hawk Ostby,Screenplay,Writing,Iron Man,2008-04-30
+2189,1726,18875,Matt Holloway,Screenplay,Writing,Iron Man,2008-04-30
+2190,1726,18873,Art Marcum,Screenplay,Writing,Iron Man,2008-04-30
+10927,1771,4945,Joe Johnston,Director,Directing,Captain America: The First Avenger,2011-07-22
+10918,1771,113672,Alan Fine,Executive Producer,Production,Captain America: The First Avenger,2011-07-22
+10919,1771,8415,Nigel Gostelow,Executive Producer,Production,Captain America: The First Avenger,2011-07-22
+10921,1771,4945,Joe Johnston,Executive Producer,Production,Captain America: The First Avenger,2011-07-22
+10923,1771,57027,Louis D'Esposito,Executive Producer,Production,Captain America: The First Avenger,2011-07-22
+10925,1771,7624,Stan Lee,Executive Producer,Production,Captain America: The First Avenger,2011-07-22
+10926,1771,113673,David Maisel,Executive Producer,Production,Captain America: The First Avenger,2011-07-22
+10920,1771,10850,Kevin Feige,Producer,Production,Captain America: The First Avenger,2011-07-22
+10922,1771,5551,Christopher Markus,Screenplay,Writing,Captain America: The First Avenger,2011-07-22
+10924,1771,5552,Stephen McFeely,Screenplay,Writing,Captain America: The First Avenger,2011-07-22
+2234,10138,15277,Jon Favreau,Director,Directing,Iron Man 2,2010-04-28
+2236,10138,57027,Louis D'Esposito,Executive Producer,Production,Iron Man 2,2010-04-28
+2237,10138,37162,Susan Downey,Executive Producer,Production,Iron Man 2,2010-04-28
+2238,10138,15277,Jon Favreau,Executive Producer,Production,Iron Man 2,2010-04-28
+2239,10138,113672,Alan Fine,Executive Producer,Production,Iron Man 2,2010-04-28
+2240,10138,113673,David Maisel,Executive Producer,Production,Iron Man 2,2010-04-28
+2241,10138,12770,Denis L. Stewart,Executive Producer,Production,Iron Man 2,2010-04-28
+2243,10138,7624,Stan Lee,Executive Producer,Production,Iron Man 2,2010-04-28
+2242,10138,10850,Kevin Feige,Producer,Production,Iron Man 2,2010-04-28
+2235,10138,15009,Justin Theroux,Screenplay,Writing,Iron Man 2,2010-04-28
+5143,10195,11181,Kenneth Branagh,Director,Directing,Thor,2011-04-21
+5137,10195,113672,Alan Fine,Executive Producer,Production,Thor,2011-04-21
+5139,10195,7624,Stan Lee,Executive Producer,Production,Thor,2011-04-21
+5141,10195,57027,Louis D'Esposito,Executive Producer,Production,Thor,2011-04-21
+5142,10195,8703,Patricia Whitcher,Executive Producer,Production,Thor,2011-04-21
+5145,10195,113673,David Maisel,Executive Producer,Production,Thor,2011-04-21
+5140,10195,10850,Kevin Feige,Producer,Production,Thor,2011-04-21
+5138,10195,20401,Don Payne,Screenplay,Writing,Thor,2011-04-21
+5144,10195,67484,Ashley Miller,Screenplay,Writing,Thor,2011-04-21
+5146,10195,67485,Zack Stentz,Screenplay,Writing,Thor,2011-04-21
+2504,10681,7,Andrew Stanton,Director,Directing,WALL·E,2008-06-22
+2503,10681,7887,Thomas Porter,Executive Producer,Production,WALL·E,2008-06-22
+2509,10681,7879,John Lasseter,Executive Producer,Production,WALL·E,2008-06-22
+2506,10681,72753,Lindsey Collins,Producer,Production,WALL·E,2008-06-22
+2508,10681,72752,Jim Morris,Producer,Production,WALL·E,2008-06-22
+2505,10681,15020,Jim Reardon,Screenplay,Writing,WALL·E,2008-06-22
+2507,10681,7,Andrew Stanton,Screenplay,Writing,WALL·E,2008-06-22
+2804,11324,1032,Martin Scorsese,Director,Directing,Shutter Island,2010-02-14
+2810,11324,1539947,Louis Phillips,Executive Producer,Production,Shutter Island,2010-02-14
+2806,11324,20208,Bradley J. Fischer,Producer,Production,Shutter Island,2010-02-14
+2807,11324,20207,Arnold Messer,Producer,Production,Shutter Island,2010-02-14
+2808,11324,1032,Martin Scorsese,Producer,Production,Shutter Island,2010-02-14
+2809,11324,20206,Mike Medavoy,Producer,Production,Shutter Island,2010-02-14
+2805,11324,20294,Laeta Kalogridis,Screenplay,Writing,Shutter Island,2010-02-14
+2850,12444,11343,David Yates,Director,Directing,Harry Potter and the Deathly Hallows: Part 1,2010-11-17
+2849,12444,41289,Lionel Wigram,Executive Producer,Production,Harry Potter and the Deathly Hallows: Part 1,2010-11-17
+2846,12444,10968,David Heyman,Producer,Production,Harry Potter and the Deathly Hallows: Part 1,2010-11-17
+2847,12444,65614,David Barron,Producer,Production,Harry Potter and the Deathly Hallows: Part 1,2010-11-17
+2848,12444,10966,J.K. Rowling,Producer,Production,Harry Potter and the Deathly Hallows: Part 1,2010-11-17
+2845,12444,10967,Steve Kloves,Screenplay,Writing,Harry Potter and the Deathly Hallows: Part 1,2010-11-17
+2297,12445,11343,David Yates,Director,Directing,Harry Potter and the Deathly Hallows: Part 2,2011-07-12
+2300,12445,41289,Lionel Wigram,Executive Producer,Production,Harry Potter and the Deathly Hallows: Part 2,2011-07-12
+2299,12445,65614,David Barron,Producer,Production,Harry Potter and the Deathly Hallows: Part 2,2011-07-12
+2301,12445,10966,J.K. Rowling,Producer,Production,Harry Potter and the Deathly Hallows: Part 2,2011-07-12
+2302,12445,10968,David Heyman,Producer,Production,Harry Potter and the Deathly Hallows: Part 2,2011-07-12
+2298,12445,10967,Steve Kloves,Screenplay,Writing,Harry Potter and the Deathly Hallows: Part 2,2011-07-12
+2534,14160,12890,Pete Docter,Director,Directing,Up,2009-05-28
+2531,14160,7879,John Lasseter,Executive Producer,Production,Up,2009-05-28
+2532,14160,7,Andrew Stanton,Executive Producer,Production,Up,2009-05-28
+2533,14160,7940,Jonas Rivera,Producer,Production,Up,2009-05-28
+2530,14160,10,Bob Peterson,Screenplay,Writing,Up,2009-05-28
+2535,14160,12890,Pete Docter,Screenplay,Writing,Up,2009-05-28
+2525,16869,138,Quentin Tarantino,Director,Directing,Inglourious Basterds,2009-08-02
+2519,16869,286,Lloyd Phillips,Executive Producer,Production,Inglourious Basterds,2009-08-02
+2520,16869,1307,Bob Weinstein,Executive Producer,Production,Inglourious Basterds,2009-08-02
+2522,16869,59839,Harvey Weinstein,Executive Producer,Production,Inglourious Basterds,2009-08-02
+2524,16869,16849,Erica Steinberg,Executive Producer,Production,Inglourious Basterds,2009-08-02
+2523,16869,2545,Lawrence Bender,Producer,Production,Inglourious Basterds,2009-08-02
+2521,16869,138,Quentin Tarantino,Writer,Writing,Inglourious Basterds,2009-08-02
+466,19995,2710,James Cameron,Director,Directing,Avatar,2009-12-16
+470,19995,20294,Laeta Kalogridis,Executive Producer,Production,Avatar,2009-12-16
+471,19995,490,Colin Wilson,Executive Producer,Production,Avatar,2009-12-16
+467,19995,2710,James Cameron,Producer,Production,Avatar,2009-12-16
+468,19995,8529,Jon Landau,Producer,Production,Avatar,2009-12-16
+469,19995,2710,James Cameron,Writer,Writing,Avatar,2009-12-16
+282,24428,12891,Joss Whedon,Director,Directing,The Avengers,2012-04-25
+276,24428,15277,Jon Favreau,Executive Producer,Production,The Avengers,2012-04-25
+277,24428,113675,Jeremy Latcham,Executive Producer,Production,The Avengers,2012-04-25
+278,24428,57027,Louis D'Esposito,Executive Producer,Production,The Avengers,2012-04-25
+279,24428,113672,Alan Fine,Executive Producer,Production,The Avengers,2012-04-25
+280,24428,7626,Avi Arad,Executive Producer,Production,The Avengers,2012-04-25
+283,24428,113674,Victoria Alonso,Executive Producer,Production,The Avengers,2012-04-25
+284,24428,41018,Chris Brigham,Executive Producer,Production,The Avengers,2012-04-25
+285,24428,7624,Stan Lee,Executive Producer,Production,The Avengers,2012-04-25
+281,24428,10850,Kevin Feige,Producer,Production,The Avengers,2012-04-25
+275,24428,12891,Joss Whedon,Screenplay,Writing,The Avengers,2012-04-25
+726,27205,525,Christopher Nolan,Director,Directing,Inception,2010-07-15
+721,27205,41018,Chris Brigham,Executive Producer,Production,Inception,2010-07-15
+722,27205,54211,Thomas Tull,Executive Producer,Production,Inception,2010-07-15
+719,27205,525,Christopher Nolan,Producer,Production,Inception,2010-07-15
+720,27205,556,Emma Thomas,Producer,Production,Inception,2010-07-15
+724,27205,2157773,Kanjirô Sakura,Producer,Production,Inception,2010-07-15
+725,27205,2157775,Yoshikuni Taki,Producer,Production,Inception,2010-07-15
+723,27205,525,Christopher Nolan,Writer,Writing,Inception,2010-07-15
+2607,37165,2690,Peter Weir,Director,Directing,The Truman Show,1998-06-04
+2613,37165,56969,Lynn Pleshette,Executive Producer,Production,The Truman Show,1998-06-04
+2608,37165,8685,Andrew Niccol,Producer,Production,The Truman Show,1998-06-04
+2609,37165,11302,Edward S. Feldman,Producer,Production,The Truman Show,1998-06-04
+2610,37165,2997,Scott Rudin,Producer,Production,The Truman Show,1998-06-04
+2612,37165,11303,Adam Schroeder,Producer,Production,The Truman Show,1998-06-04
+2611,37165,8685,Andrew Niccol,Writer,Writing,The Truman Show,1998-06-04
+2010,49026,525,Christopher Nolan,Director,Directing,The Dark Knight Rises,2012-07-17
+2002,49026,10949,Michael Uslan,Executive Producer,Production,The Dark Knight Rises,2012-07-17
+2004,49026,54211,Thomas Tull,Executive Producer,Production,The Dark Knight Rises,2012-07-17
+2005,49026,10951,Benjamin Melniker,Executive Producer,Production,The Dark Knight Rises,2012-07-17
+2009,49026,75804,Kevin De La Noy,Executive Producer,Production,The Dark Knight Rises,2012-07-17
+2001,49026,525,Christopher Nolan,Producer,Production,The Dark Knight Rises,2012-07-17
+2007,49026,282,Charles Roven,Producer,Production,The Dark Knight Rises,2012-07-17
+2008,49026,556,Emma Thomas,Producer,Production,The Dark Knight Rises,2012-07-17
+2003,49026,527,Jonathan Nolan,Screenplay,Writing,The Dark Knight Rises,2012-07-17
+2006,49026,525,Christopher Nolan,Screenplay,Writing,The Dark Knight Rises,2012-07-17
+1730,68718,138,Quentin Tarantino,Director,Directing,Django Unchained,2012-12-25
+1725,68718,59839,Harvey Weinstein,Executive Producer,Production,Django Unchained,2012-12-25
+1726,68718,1307,Bob Weinstein,Executive Producer,Production,Django Unchained,2012-12-25
+1727,68718,4701,James W. Skotchdopole,Executive Producer,Production,Django Unchained,2012-12-25
+1728,68718,5381,Michael Shamberg,Executive Producer,Production,Django Unchained,2012-12-25
+1729,68718,963669,Shannon McIntosh,Executive Producer,Production,Django Unchained,2012-12-25
+1722,68718,68215,Reginald Hudlin,Producer,Production,Django Unchained,2012-12-25
+1723,68718,1003189,Pilar Savone,Producer,Production,Django Unchained,2012-12-25
+1724,68718,5382,Stacey Sher,Producer,Production,Django Unchained,2012-12-25
+1721,68718,138,Quentin Tarantino,Writer,Writing,Django Unchained,2012-12-25
+2538,68721,1108,Shane Black,Director,Directing,Iron Man 3,2013-04-18
+2540,68721,15277,Jon Favreau,Executive Producer,Production,Iron Man 3,2013-04-18
+2541,68721,7624,Stan Lee,Executive Producer,Production,Iron Man 3,2013-04-18
+2543,68721,113674,Victoria Alonso,Executive Producer,Production,Iron Man 3,2013-04-18
+2544,68721,1117748,Stephen Broussard,Executive Producer,Production,Iron Man 3,2013-04-18
+2545,68721,57027,Louis D'Esposito,Executive Producer,Production,Iron Man 3,2013-04-18
+2546,68721,113672,Alan Fine,Executive Producer,Production,Iron Man 3,2013-04-18
+2547,68721,15004,Charles Newirth,Executive Producer,Production,Iron Man 3,2013-04-18
+2548,68721,969387,Bing Wu,Executive Producer,Production,Iron Man 3,2013-04-18
+2549,68721,1059732,Wenge Xiao,Executive Producer,Production,Iron Man 3,2013-04-18
+2551,68721,3948623,Dan Mintz,Executive Producer,Production,Iron Man 3,2013-04-18
+2539,68721,10850,Kevin Feige,Producer,Production,Iron Man 3,2013-04-18
+2542,68721,1108,Shane Black,Screenplay,Writing,Iron Man 3,2013-04-18
+2550,68721,1239407,Drew Pearce,Screenplay,Writing,Iron Man 3,2013-04-18
+9442,70160,23964,Gary Ross,Director,Directing,The Hunger Games,2012-03-12
+9443,70160,189111,Suzanne Collins,Executive Producer,Production,The Hunger Games,2012-03-12
+9444,70160,38270,Robin Bissell,Executive Producer,Production,The Hunger Games,2012-03-12
+9445,70160,56327,Louise Rosner-Meyer,Executive Producer,Production,The Hunger Games,2012-03-12
+9440,70160,4446,Jon Kilik,Producer,Production,The Hunger Games,2012-03-12
+9446,70160,935634,Nina Jacobson,Producer,Production,The Hunger Games,2012-03-12
+9441,70160,23964,Gary Ross,Screenplay,Writing,The Hunger Games,2012-03-12
+9447,70160,21807,Billy Ray,Screenplay,Writing,The Hunger Games,2012-03-12
+9448,70160,189111,Suzanne Collins,Screenplay,Writing,The Hunger Games,2012-03-12
+2059,76341,20629,George Miller,Director,Directing,Mad Max: Fury Road,2015-05-13
+2066,76341,1451219,Steven Mnuchin,Executive Producer,Production,Mad Max: Fury Road,2015-05-13
+2067,76341,66897,Christopher DeFaria,Executive Producer,Production,Mad Max: Fury Road,2015-05-13
+2068,76341,8374,Iain Smith,Executive Producer,Production,Mad Max: Fury Road,2015-05-13
+2069,76341,59774,Graham Burke,Executive Producer,Production,Mad Max: Fury Road,2015-05-13
+2070,76341,1296,Bruce Berman,Executive Producer,Production,Mad Max: Fury Road,2015-05-13
+2071,76341,1726512,Courtenay Valenti,Executive Producer,Production,Mad Max: Fury Road,2015-05-13
+2060,76341,11651,Doug Mitchell,Producer,Production,Mad Max: Fury Road,2015-05-13
+2064,76341,20629,George Miller,Producer,Production,Mad Max: Fury Road,2015-05-13
+2065,76341,1518756,P.J. Voeten,Producer,Production,Mad Max: Fury Road,2015-05-13
+2061,76341,20629,George Miller,Writer,Writing,Mad Max: Fury Road,2015-05-13
+2062,76341,1027146,Nico Lathouris,Writer,Writing,Mad Max: Fury Road,2015-05-13
+2063,76341,1468313,Brendan McCarthy,Writer,Writing,Mad Max: Fury Road,2015-05-13
+1280,99861,12891,Joss Whedon,Director,Directing,Avengers: Age of Ultron,2015-04-22
+1279,99861,7624,Stan Lee,Executive Producer,Production,Avengers: Age of Ultron,2015-04-22
+1282,99861,113675,Jeremy Latcham,Executive Producer,Production,Avengers: Age of Ultron,2015-04-22
+1283,99861,15277,Jon Favreau,Executive Producer,Production,Avengers: Age of Ultron,2015-04-22
+1284,99861,57027,Louis D'Esposito,Executive Producer,Production,Avengers: Age of Ultron,2015-04-22
+1285,99861,113672,Alan Fine,Executive Producer,Production,Avengers: Age of Ultron,2015-04-22
+1286,99861,113674,Victoria Alonso,Executive Producer,Production,Avengers: Age of Ultron,2015-04-22
+1287,99861,8703,Patricia Whitcher,Executive Producer,Production,Avengers: Age of Ultron,2015-04-22
+1278,99861,10850,Kevin Feige,Producer,Production,Avengers: Age of Ultron,2015-04-22
+1281,99861,12891,Joss Whedon,Writer,Writing,Avengers: Age of Ultron,2015-04-22
+10341,100402,19272,Joe Russo,Director,Directing,Captain America: The Winter Soldier,2014-03-20
+10342,100402,19271,Anthony Russo,Director,Directing,Captain America: The Winter Soldier,2014-03-20
+10336,100402,113674,Victoria Alonso,Executive Producer,Production,Captain America: The Winter Soldier,2014-03-20
+10337,100402,57027,Louis D'Esposito,Executive Producer,Production,Captain America: The Winter Soldier,2014-03-20
+10338,100402,113672,Alan Fine,Executive Producer,Production,Captain America: The Winter Soldier,2014-03-20
+10339,100402,30383,Michael Grillo,Executive Producer,Production,Captain America: The Winter Soldier,2014-03-20
+10340,100402,7624,Stan Lee,Executive Producer,Production,Captain America: The Winter Soldier,2014-03-20
+10335,100402,10850,Kevin Feige,Producer,Production,Captain America: The Winter Soldier,2014-03-20
+10333,100402,5551,Christopher Markus,Screenplay,Writing,Captain America: The Winter Soldier,2014-03-20
+10334,100402,5552,Stephen McFeely,Screenplay,Writing,Captain America: The Winter Soldier,2014-03-20
+2938,102899,59026,Peyton Reed,Director,Directing,Ant-Man,2015-07-14
+2939,102899,113672,Alan Fine,Executive Producer,Production,Ant-Man,2015-07-14
+2940,102899,7624,Stan Lee,Executive Producer,Production,Ant-Man,2015-07-14
+2941,102899,57027,Louis D'Esposito,Executive Producer,Production,Ant-Man,2015-07-14
+2947,102899,11090,Edgar Wright,Executive Producer,Production,Ant-Man,2015-07-14
+2948,102899,113674,Victoria Alonso,Executive Producer,Production,Ant-Man,2015-07-14
+2949,102899,30383,Michael Grillo,Executive Producer,Production,Ant-Man,2015-07-14
+2942,102899,10850,Kevin Feige,Producer,Production,Ant-Man,2015-07-14
+2943,102899,55710,Adam McKay,Screenplay,Writing,Ant-Man,2015-07-14
+2944,102899,155531,Joe Cornish,Screenplay,Writing,Ant-Man,2015-07-14
+2945,102899,22226,Paul Rudd,Screenplay,Writing,Ant-Man,2015-07-14
+2946,102899,11090,Edgar Wright,Screenplay,Writing,Ant-Man,2015-07-14
+1605,106646,1032,Martin Scorsese,Director,Directing,The Wolf of Wall Street,2013-12-25
+1612,106646,45830,Danny Dimbort,Executive Producer,Production,The Wolf of Wall Street,2013-12-25
+1613,106646,2947,Georgia Kacandes,Executive Producer,Production,The Wolf of Wall Street,2013-12-25
+1614,106646,75040,Alexandra Milchan,Executive Producer,Production,The Wolf of Wall Street,2013-12-25
+1615,106646,11472,Irwin Winkler,Executive Producer,Production,The Wolf of Wall Street,2013-12-25
+1616,106646,30714,Rick Yorn,Executive Producer,Production,The Wolf of Wall Street,2013-12-25
+1607,106646,1027545,Riza Aziz,Producer,Production,The Wolf of Wall Street,2013-12-25
+1608,106646,6193,Leonardo DiCaprio,Producer,Production,The Wolf of Wall Street,2013-12-25
+1609,106646,45648,Emma Tillinger Koskoff,Producer,Production,The Wolf of Wall Street,2013-12-25
+1610,106646,1027550,Joey McFarland,Producer,Production,The Wolf of Wall Street,2013-12-25
+1611,106646,1032,Martin Scorsese,Producer,Production,The Wolf of Wall Street,2013-12-25
+1606,106646,62635,Terence Winter,Screenplay,Writing,The Wolf of Wall Street,2013-12-25
+5865,118340,15218,James Gunn,Director,Directing,Guardians of the Galaxy,2014-07-30
+5856,118340,113675,Jeremy Latcham,Executive Producer,Production,Guardians of the Galaxy,2014-07-30
+5857,118340,113674,Victoria Alonso,Executive Producer,Production,Guardians of the Galaxy,2014-07-30
+5859,118340,7624,Stan Lee,Executive Producer,Production,Guardians of the Galaxy,2014-07-30
+5860,118340,57027,Louis D'Esposito,Executive Producer,Production,Guardians of the Galaxy,2014-07-30
+5861,118340,113672,Alan Fine,Executive Producer,Production,Guardians of the Galaxy,2014-07-30
+5862,118340,1582747,Nik Korda,Executive Producer,Production,Guardians of the Galaxy,2014-07-30
+5858,118340,10850,Kevin Feige,Producer,Production,Guardians of the Galaxy,2014-07-30
+5863,118340,15218,James Gunn,Writer,Writing,Guardians of the Galaxy,2014-07-30
+5864,118340,1171123,Nicole Perlman,Writer,Writing,Guardians of the Galaxy,2014-07-30
+4841,135397,930707,Colin Trevorrow,Director,Directing,Jurassic World,2015-06-06
+4844,135397,488,Steven Spielberg,Executive Producer,Production,Jurassic World,2015-06-06
+4847,135397,54211,Thomas Tull,Executive Producer,Production,Jurassic World,2015-06-06
+4843,135397,664,Frank Marshall,Producer,Production,Jurassic World,2015-06-06
+4846,135397,25600,Patrick Crowley,Producer,Production,Jurassic World,2015-06-06
+4840,135397,67802,Rick Jaffa,Screenplay,Writing,Jurassic World,2015-06-06
+4842,135397,67803,Amanda Silver,Screenplay,Writing,Jurassic World,2015-06-06
+4845,135397,1020013,Derek Connolly,Screenplay,Writing,Jurassic World,2015-06-06
+4848,135397,930707,Colin Trevorrow,Screenplay,Writing,Jurassic World,2015-06-06
+4113,140607,15344,J.J. Abrams,Director,Directing,Star Wars: The Force Awakens,2015-12-15
+4116,140607,1102139,Jason McGatlin,Executive Producer,Production,Star Wars: The Force Awakens,2015-12-15
+4117,140607,1106751,Tommy Harper,Executive Producer,Production,Star Wars: The Force Awakens,2015-12-15
+4111,140607,28977,Bryan Burk,Producer,Production,Star Wars: The Force Awakens,2015-12-15
+4112,140607,489,Kathleen Kennedy,Producer,Production,Star Wars: The Force Awakens,2015-12-15
+4114,140607,15344,J.J. Abrams,Producer,Production,Star Wars: The Force Awakens,2015-12-15
+4115,140607,16961,Michael Arndt,Writer,Writing,Star Wars: The Force Awakens,2015-12-15
+4118,140607,8844,Lawrence Kasdan,Writer,Writing,Star Wars: The Force Awakens,2015-12-15
+4119,140607,15344,J.J. Abrams,Writer,Writing,Star Wars: The Force Awakens,2015-12-15
+2158,150540,12890,Pete Docter,Director,Directing,Inside Out,2015-06-17
+2160,150540,7879,John Lasseter,Executive Producer,Production,Inside Out,2015-06-17
+2164,150540,7,Andrew Stanton,Executive Producer,Production,Inside Out,2015-06-17
+2159,150540,7940,Jonas Rivera,Producer,Production,Inside Out,2015-06-17
+2161,150540,1457025,Meg LeFauve,Screenplay,Writing,Inside Out,2015-06-17
+2162,150540,84496,Josh Cooley,Screenplay,Writing,Inside Out,2015-06-17
+2163,150540,12890,Pete Docter,Screenplay,Writing,Inside Out,2015-06-17
+417,157336,525,Christopher Nolan,Director,Directing,Interstellar,2014-11-05
+411,157336,1157625,Kip Thorne,Executive Producer,Production,Interstellar,2014-11-05
+413,157336,54211,Thomas Tull,Executive Producer,Production,Interstellar,2014-11-05
+414,157336,113913,Jordan Goldberg,Executive Producer,Production,Interstellar,2014-11-05
+415,157336,29608,Jake Myers,Executive Producer,Production,Interstellar,2014-11-05
+408,157336,2162,Lynda Obst,Producer,Production,Interstellar,2014-11-05
+409,157336,525,Christopher Nolan,Producer,Production,Interstellar,2014-11-05
+410,157336,556,Emma Thomas,Producer,Production,Interstellar,2014-11-05
+412,157336,527,Jonathan Nolan,Writer,Writing,Interstellar,2014-11-05
+416,157336,525,Christopher Nolan,Writer,Writing,Interstellar,2014-11-05
+1537,210577,7467,David Fincher,Director,Directing,Gone Girl,2014-10-01
+1541,210577,52993,Bruna Papandrea,Executive Producer,Production,Gone Girl,2014-10-01
+1542,210577,11708,Leslie Dixon,Executive Producer,Production,Gone Girl,2014-10-01
+1536,210577,368,Reese Witherspoon,Producer,Production,Gone Girl,2014-10-01
+1538,210577,71262,Joshua Donen,Producer,Production,Gone Girl,2014-10-01
+1539,210577,7475,Ceán Chaffin,Producer,Production,Gone Girl,2014-10-01
+1540,210577,376,Arnon Milchan,Producer,Production,Gone Girl,2014-10-01
+1535,210577,1194205,Gillian Flynn,Screenplay,Writing,Gone Girl,2014-10-01
+6817,245891,40644,Chad Stahelski,Director,Directing,John Wick,2014-10-22
+6803,245891,80788,Mike Upton,Executive Producer,Production,John Wick,2014-10-22
+6804,245891,6384,Keanu Reeves,Executive Producer,Production,John Wick,2014-10-22
+6805,245891,1413502,Raj Brinder Singh,Executive Producer,Production,John Wick,2014-10-22
+6806,245891,882944,Stephen Hamel,Executive Producer,Production,John Wick,2014-10-22
+6807,245891,1413500,Tara Finegan,Executive Producer,Production,John Wick,2014-10-22
+6808,245891,1413501,Andrew C. Robinson,Executive Producer,Production,John Wick,2014-10-22
+6809,245891,94825,Jared Underwood,Executive Producer,Production,John Wick,2014-10-22
+6810,245891,94456,Kevin Scott Frakes,Executive Producer,Production,John Wick,2014-10-22
+6811,245891,3355660,Sam X. Eyde,Executive Producer,Production,John Wick,2014-10-22
+6812,245891,1932093,Erica Lee,Executive Producer,Production,John Wick,2014-10-22
+6813,245891,1548066,Peter Lawson,Executive Producer,Production,John Wick,2014-10-22
+6814,245891,1533677,Darren Blumenthal,Executive Producer,Production,John Wick,2014-10-22
+6815,245891,3355659,Giuseppe Vincenti,Executive Producer,Production,John Wick,2014-10-22
+6799,245891,1281371,Mike Witherill,Producer,Production,John Wick,2014-10-22
+6800,245891,67759,Basil Iwanyk,Producer,Production,John Wick,2014-10-22
+6801,245891,40684,David Leitch,Producer,Production,John Wick,2014-10-22
+6802,245891,52605,Eva Longoria,Producer,Production,John Wick,2014-10-22
+6816,245891,1076800,Derek Kolstad,Writer,Writing,John Wick,2014-10-22
+5449,259316,11343,David Yates,Director,Directing,Fantastic Beasts and Where to Find Them,2016-11-16
+5450,259316,89320,Tim Lewis,Executive Producer,Production,Fantastic Beasts and Where to Find Them,2016-11-16
+5451,259316,1699229,Neil Blair,Executive Producer,Production,Fantastic Beasts and Where to Find Them,2016-11-16
+5453,259316,1699230,Rick Senat,Executive Producer,Production,Fantastic Beasts and Where to Find Them,2016-11-16
+5452,259316,10967,Steve Kloves,Producer,Production,Fantastic Beasts and Where to Find Them,2016-11-16
+5454,259316,41289,Lionel Wigram,Producer,Production,Fantastic Beasts and Where to Find Them,2016-11-16
+5455,259316,10966,J.K. Rowling,Producer,Production,Fantastic Beasts and Where to Find Them,2016-11-16
+5456,259316,10968,David Heyman,Producer,Production,Fantastic Beasts and Where to Find Them,2016-11-16
+5448,259316,10966,J.K. Rowling,Screenplay,Writing,Fantastic Beasts and Where to Find Them,2016-11-16
+2288,263115,366,James Mangold,Director,Directing,Logan,2017-02-28
+2286,263115,7624,Stan Lee,Executive Producer,Production,Logan,2017-02-28
+2290,263115,10570,Joseph M. Caracciolo Jr.,Executive Producer,Production,Logan,2017-02-28
+2294,263115,366,James Mangold,Executive Producer,Production,Logan,2017-02-28
+2296,263115,10956,Josh McLaglen,Executive Producer,Production,Logan,2017-02-28
+2287,263115,7200,Lauren Shuler Donner,Producer,Production,Logan,2017-02-28
+2289,263115,11092,Simon Kinberg,Producer,Production,Logan,2017-02-28
+2295,263115,584598,Hutch Parker,Producer,Production,Logan,2017-02-28
+2291,263115,191937,Michael Green,Screenplay,Writing,Logan,2017-02-28
+2292,263115,366,James Mangold,Screenplay,Writing,Logan,2017-02-28
+2293,263115,2199,Scott Frank,Screenplay,Writing,Logan,2017-02-28
+1831,271110,19272,Joe Russo,Director,Directing,Captain America: Civil War,2016-04-27
+1832,271110,19271,Anthony Russo,Director,Directing,Captain America: Civil War,2016-04-27
+1825,271110,113672,Alan Fine,Executive Producer,Production,Captain America: Civil War,2016-04-27
+1826,271110,7624,Stan Lee,Executive Producer,Production,Captain America: Civil War,2016-04-27
+1827,271110,57027,Louis D'Esposito,Executive Producer,Production,Captain America: Civil War,2016-04-27
+1828,271110,113674,Victoria Alonso,Executive Producer,Production,Captain America: Civil War,2016-04-27
+1829,271110,1067682,Nate Moore,Executive Producer,Production,Captain America: Civil War,2016-04-27
+1830,271110,8703,Patricia Whitcher,Executive Producer,Production,Captain America: Civil War,2016-04-27
+1823,271110,10850,Kevin Feige,Producer,Production,Captain America: Civil War,2016-04-27
+1822,271110,5552,Stephen McFeely,Screenplay,Writing,Captain America: Civil War,2016-04-27
+1824,271110,5551,Christopher Markus,Screenplay,Writing,Captain America: Civil War,2016-04-27
+2142,283995,15218,James Gunn,Director,Directing,Guardians of the Galaxy Vol. 2,2017-04-19
+2136,283995,7624,Stan Lee,Executive Producer,Production,Guardians of the Galaxy Vol. 2,2017-04-19
+2137,283995,57027,Louis D'Esposito,Executive Producer,Production,Guardians of the Galaxy Vol. 2,2017-04-19
+2138,283995,113674,Victoria Alonso,Executive Producer,Production,Guardians of the Galaxy Vol. 2,2017-04-19
+2140,283995,1154553,Jonathan Schwartz,Executive Producer,Production,Guardians of the Galaxy Vol. 2,2017-04-19
+2141,283995,1582747,Nik Korda,Executive Producer,Production,Guardians of the Galaxy Vol. 2,2017-04-19
+2139,283995,10850,Kevin Feige,Producer,Production,Guardians of the Galaxy Vol. 2,2017-04-19
+2135,283995,15218,James Gunn,Writer,Writing,Guardians of the Galaxy Vol. 2,2017-04-19
+3725,284052,55499,Scott Derrickson,Director,Directing,Doctor Strange,2016-10-25
+3719,284052,7624,Stan Lee,Executive Producer,Production,Doctor Strange,2016-10-25
+3720,284052,15004,Charles Newirth,Executive Producer,Production,Doctor Strange,2016-10-25
+3721,284052,113672,Alan Fine,Executive Producer,Production,Doctor Strange,2016-10-25
+3722,284052,57027,Louis D'Esposito,Executive Producer,Production,Doctor Strange,2016-10-25
+3723,284052,113674,Victoria Alonso,Executive Producer,Production,Doctor Strange,2016-10-25
+3724,284052,1117748,Stephen Broussard,Executive Producer,Production,Doctor Strange,2016-10-25
+3718,284052,10850,Kevin Feige,Producer,Production,Doctor Strange,2016-10-25
+3715,284052,564940,Jon Spaihts,Writer,Writing,Doctor Strange,2016-10-25
+3716,284052,55499,Scott Derrickson,Writer,Writing,Doctor Strange,2016-10-25
+3717,284052,928106,C. Robert Cargill,Writer,Writing,Doctor Strange,2016-10-25
+3287,284053,55934,Taika Waititi,Director,Directing,Thor: Ragnarok,2017-10-02
+3288,284053,7624,Stan Lee,Executive Producer,Production,Thor: Ragnarok,2017-10-02
+3289,284053,57027,Louis D'Esposito,Executive Producer,Production,Thor: Ragnarok,2017-10-02
+3291,284053,113674,Victoria Alonso,Executive Producer,Production,Thor: Ragnarok,2017-10-02
+3292,284053,58190,Thomas M. Hammel,Executive Producer,Production,Thor: Ragnarok,2017-10-02
+3293,284053,1256726,Brad Winderbaum,Executive Producer,Production,Thor: Ragnarok,2017-10-02
+3290,284053,10850,Kevin Feige,Producer,Production,Thor: Ragnarok,2017-10-02
+3285,284053,87173,Craig Kyle,Writer,Writing,Thor: Ragnarok,2017-10-02
+3286,284053,109542,Christopher L. Yost,Writer,Writing,Thor: Ragnarok,2017-10-02
+3294,284053,579281,Eric Pearson,Writer,Writing,Thor: Ragnarok,2017-10-02
+2210,284054,1056121,Ryan Coogler,Director,Directing,Black Panther,2018-02-13
+2205,284054,40592,Jeffrey Chernov,Executive Producer,Production,Black Panther,2018-02-13
+2206,284054,57027,Louis D'Esposito,Executive Producer,Production,Black Panther,2018-02-13
+2207,284054,7624,Stan Lee,Executive Producer,Production,Black Panther,2018-02-13
+2208,284054,113674,Victoria Alonso,Executive Producer,Production,Black Panther,2018-02-13
+2209,284054,1067682,Nate Moore,Executive Producer,Production,Black Panther,2018-02-13
+2204,284054,10850,Kevin Feige,Producer,Production,Black Panther,2018-02-13
+2202,284054,1056121,Ryan Coogler,Writer,Writing,Black Panther,2018-02-13
+2203,284054,1151834,Joe Robert Cole,Writer,Writing,Black Panther,2018-02-13
+4294,286217,578,Ridley Scott,Director,Directing,The Martian,2015-09-30
+4298,286217,47506,Drew Goddard,Executive Producer,Production,The Martian,2015-09-30
+4291,286217,1320090,Aditya Sood,Producer,Production,The Martian,2015-09-30
+4292,286217,11092,Simon Kinberg,Producer,Production,The Martian,2015-09-30
+4295,286217,578,Ridley Scott,Producer,Production,The Martian,2015-09-30
+4296,286217,8401,Mark Huffam,Producer,Production,The Martian,2015-09-30
+4297,286217,22498,Michael Schaefer,Producer,Production,The Martian,2015-09-30
+4293,286217,47506,Drew Goddard,Screenplay,Writing,The Martian,2015-09-30
+3762,293660,55252,Tim Miller,Director,Directing,Deadpool,2016-02-09
+3766,293660,91269,Paul Wernick,Executive Producer,Production,Deadpool,2016-02-09
+3767,293660,7624,Stan Lee,Executive Producer,Production,Deadpool,2016-02-09
+3768,293660,25292,John J. Kelly,Executive Producer,Production,Deadpool,2016-02-09
+3769,293660,71230,Jonathon Komack Martin,Executive Producer,Production,Deadpool,2016-02-09
+3770,293660,7932,Rhett Reese,Executive Producer,Production,Deadpool,2016-02-09
+3771,293660,1320090,Aditya Sood,Executive Producer,Production,Deadpool,2016-02-09
+3763,293660,10859,Ryan Reynolds,Producer,Production,Deadpool,2016-02-09
+3764,293660,11092,Simon Kinberg,Producer,Production,Deadpool,2016-02-09
+3765,293660,7200,Lauren Shuler Donner,Producer,Production,Deadpool,2016-02-09
+3760,293660,7932,Rhett Reese,Writer,Writing,Deadpool,2016-02-09
+3761,293660,91269,Paul Wernick,Writer,Writing,Deadpool,2016-02-09
+11756,297761,19769,David Ayer,Director,Directing,Suicide Squad,2016-08-03
+11753,297761,15217,Zack Snyder,Executive Producer,Production,Suicide Squad,2016-08-03
+11754,297761,211962,Geoff Johns,Executive Producer,Production,Suicide Squad,2016-08-03
+11759,297761,1451219,Steven Mnuchin,Executive Producer,Production,Suicide Squad,2016-08-03
+11760,297761,79243,Deborah Snyder,Executive Producer,Production,Suicide Squad,2016-08-03
+11757,297761,282,Charles Roven,Producer,Production,Suicide Squad,2016-08-03
+11758,297761,18953,Richard Suckle,Producer,Production,Suicide Squad,2016-08-03
+11755,297761,19769,David Ayer,Writer,Writing,Suicide Squad,2016-08-03
+2382,297762,6884,Patty Jenkins,Director,Directing,Wonder Woman,2017-05-30
+2383,297762,211962,Geoff Johns,Executive Producer,Production,Wonder Woman,2017-05-30
+2384,297762,79242,Wesley Coller,Executive Producer,Production,Wonder Woman,2017-05-30
+2385,297762,1121617,Stephen Jones,Executive Producer,Production,Wonder Woman,2017-05-30
+2387,297762,1821143,Rebecca Steel Roven,Executive Producer,Production,Wonder Woman,2017-05-30
+2388,297762,66821,Jon Berg,Executive Producer,Production,Wonder Woman,2017-05-30
+2389,297762,1451219,Steven Mnuchin,Executive Producer,Production,Wonder Woman,2017-05-30
+2378,297762,282,Charles Roven,Producer,Production,Wonder Woman,2017-05-30
+2379,297762,79243,Deborah Snyder,Producer,Production,Wonder Woman,2017-05-30
+2380,297762,15217,Zack Snyder,Producer,Production,Wonder Woman,2017-05-30
+2381,297762,18953,Richard Suckle,Producer,Production,Wonder Woman,2017-05-30
+2386,297762,1213170,Allan Heinberg,Screenplay,Writing,Wonder Woman,2017-05-30
+1218,299534,19271,Anthony Russo,Director,Directing,Avengers: Endgame,2019-04-24
+1219,299534,19272,Joe Russo,Director,Directing,Avengers: Endgame,2019-04-24
+1208,299534,57027,Louis D'Esposito,Executive Producer,Production,Avengers: Endgame,2019-04-24
+1210,299534,15277,Jon Favreau,Executive Producer,Production,Avengers: Endgame,2019-04-24
+1212,299534,113674,Victoria Alonso,Executive Producer,Production,Avengers: Endgame,2019-04-24
+1214,299534,15218,James Gunn,Executive Producer,Production,Avengers: Endgame,2019-04-24
+1215,299534,7624,Stan Lee,Executive Producer,Production,Avengers: Endgame,2019-04-24
+1216,299534,2275675,Trinh Tran,Executive Producer,Production,Avengers: Endgame,2019-04-24
+1217,299534,30383,Michael Grillo,Executive Producer,Production,Avengers: Endgame,2019-04-24
+1209,299534,10850,Kevin Feige,Producer,Production,Avengers: Endgame,2019-04-24
+1211,299534,5552,Stephen McFeely,Screenplay,Writing,Avengers: Endgame,2019-04-24
+1213,299534,5551,Christopher Markus,Screenplay,Writing,Avengers: Endgame,2019-04-24
+632,299536,19272,Joe Russo,Director,Directing,Avengers: Infinity War,2018-04-25
+633,299536,19271,Anthony Russo,Director,Directing,Avengers: Infinity War,2018-04-25
+623,299536,15277,Jon Favreau,Executive Producer,Production,Avengers: Infinity War,2018-04-25
+624,299536,113672,Alan Fine,Executive Producer,Production,Avengers: Infinity War,2018-04-25
+625,299536,113674,Victoria Alonso,Executive Producer,Production,Avengers: Infinity War,2018-04-25
+626,299536,57027,Louis D'Esposito,Executive Producer,Production,Avengers: Infinity War,2018-04-25
+627,299536,7624,Stan Lee,Executive Producer,Production,Avengers: Infinity War,2018-04-25
+630,299536,15218,James Gunn,Executive Producer,Production,Avengers: Infinity War,2018-04-25
+631,299536,2275675,Trinh Tran,Executive Producer,Production,Avengers: Infinity War,2018-04-25
+622,299536,10850,Kevin Feige,Producer,Production,Avengers: Infinity War,2018-04-25
+628,299536,5552,Stephen McFeely,Screenplay,Writing,Avengers: Infinity War,2018-04-25
+629,299536,5551,Christopher Markus,Screenplay,Writing,Avengers: Infinity War,2018-04-25
+1183,315635,1293994,Jon Watts,Director,Directing,Spider-Man: Homecoming,2017-07-05
+1168,315635,57027,Louis D'Esposito,Executive Producer,Production,Spider-Man: Homecoming,2017-07-05
+1169,315635,113674,Victoria Alonso,Executive Producer,Production,Spider-Man: Homecoming,2017-07-05
+1170,315635,8703,Patricia Whitcher,Executive Producer,Production,Spider-Man: Homecoming,2017-07-05
+1171,315635,113675,Jeremy Latcham,Executive Producer,Production,Spider-Man: Homecoming,2017-07-05
+1174,315635,7624,Stan Lee,Executive Producer,Production,Spider-Man: Homecoming,2017-07-05
+1175,315635,977941,Matt Tolmach,Executive Producer,Production,Spider-Man: Homecoming,2017-07-05
+1182,315635,7626,Avi Arad,Executive Producer,Production,Spider-Man: Homecoming,2017-07-05
+1172,315635,10850,Kevin Feige,Producer,Production,Spider-Man: Homecoming,2017-07-05
+1173,315635,1425616,Amy Pascal,Producer,Production,Spider-Man: Homecoming,2017-07-05
+1176,315635,1236679,Jonathan Goldstein,Screenplay,Writing,Spider-Man: Homecoming,2017-07-05
+1177,315635,52935,John Francis Daley,Screenplay,Writing,Spider-Man: Homecoming,2017-07-05
+1178,315635,1293994,Jon Watts,Screenplay,Writing,Spider-Man: Homecoming,2017-07-05
+1179,315635,101814,Christopher Ford,Screenplay,Writing,Spider-Man: Homecoming,2017-07-05
+1180,315635,1246890,Chris McKenna,Screenplay,Writing,Spider-Man: Homecoming,2017-07-05
+1181,315635,1350918,Erik Sommers,Screenplay,Writing,Spider-Man: Homecoming,2017-07-05
+2716,346364,1113116,Andy Muschietti,Director,Directing,It,2017-09-06
+2718,346364,928546,Jon Silk,Executive Producer,Production,It,2017-09-06
+2721,346364,11655,Marty P. Ewing,Executive Producer,Production,It,2017-09-06
+2724,346364,57430,Richard Brener,Executive Producer,Production,It,2017-09-06
+2725,346364,10830,Toby Emmerich,Executive Producer,Production,It,2017-09-06
+2726,346364,47365,Walter Hamada,Executive Producer,Production,It,2017-09-06
+2730,346364,21035,Doug Davison,Executive Producer,Production,It,2017-09-06
+2717,346364,112690,Dan Lin,Producer,Production,It,2017-09-06
+2719,346364,565491,Seth Grahame-Smith,Producer,Production,It,2017-09-06
+2720,346364,1094761,Barbara Muschietti,Producer,Production,It,2017-09-06
+2722,346364,1236538,David Katzenberg,Producer,Production,It,2017-09-06
+2723,346364,21036,Roy Lee,Producer,Production,It,2017-09-06
+2727,346364,87257,Cary Joji Fukunaga,Screenplay,Writing,It,2017-09-06
+2728,346364,1625271,Chase Palmer,Screenplay,Writing,It,2017-09-06
+2729,346364,1338249,Gary Dauberman,Screenplay,Writing,It,2017-09-06
+1467,354912,8,Lee Unkrich,Director,Directing,Coco,2017-10-27
+1471,354912,7879,John Lasseter,Executive Producer,Production,Coco,2017-10-27
+1470,354912,7878,Darla K. Anderson,Producer,Production,Coco,2017-10-27
+1468,354912,1684652,Adrian Molina,Screenplay,Writing,Coco,2017-10-27
+1469,354912,74343,Matthew Aldrich,Screenplay,Writing,Coco,2017-10-27
+1685,475557,57130,Todd Phillips,Director,Directing,Joker,2019-10-01
+1679,475557,38939,Richard Baratta,Executive Producer,Production,Joker,2019-10-01
+1680,475557,1065353,Joseph Garner,Executive Producer,Production,Joker,2019-10-01
+1681,475557,1116278,Aaron L. Gilbert,Executive Producer,Production,Joker,2019-10-01
+1682,475557,47365,Walter Hamada,Executive Producer,Production,Joker,2019-10-01
+1683,475557,1296,Bruce Berman,Executive Producer,Production,Joker,2019-10-01
+1684,475557,10949,Michael Uslan,Executive Producer,Production,Joker,2019-10-01
+1675,475557,57130,Todd Phillips,Producer,Production,Joker,2019-10-01
+1677,475557,51329,Bradley Cooper,Producer,Production,Joker,2019-10-01
+1678,475557,45648,Emma Tillinger Koskoff,Producer,Production,Joker,2019-10-01
+1674,475557,324,Scott Silver,Writer,Writing,Joker,2019-10-01
+1676,475557,57130,Todd Phillips,Writer,Writing,Joker,2019-10-01
+1396,496243,21684,Bong Joon Ho,Director,Directing,Parasite,2019-05-30
+1394,496243,41288,Miky Lee,Executive Producer,Production,Parasite,2019-05-30
+1395,496243,2478768,Lim Myeong-gyun,Executive Producer,Production,Parasite,2019-05-30
+1391,496243,2187821,Jang Young-hwan,Producer,Production,Parasite,2019-05-30
+1392,496243,2187912,Kwak Sin-ae,Producer,Production,Parasite,2019-05-30
+1393,496243,1305523,Moon Yang-kwon,Producer,Production,Parasite,2019-05-30
+1397,496243,21684,Bong Joon Ho,Producer,Production,Parasite,2019-05-30
+1398,496243,21684,Bong Joon Ho,Screenplay,Writing,Parasite,2019-05-30
+1399,496243,2320121,Han Jin-won,Screenplay,Writing,Parasite,2019-05-30
+913,634649,1293994,Jon Watts,Director,Directing,Spider-Man: No Way Home,2021-12-15
+905,634649,113674,Victoria Alonso,Executive Producer,Production,Spider-Man: No Way Home,2021-12-15
+906,634649,1774412,Rachel O'Connor,Executive Producer,Production,Spider-Man: No Way Home,2021-12-15
+907,634649,59834,JoAnn Perritano,Executive Producer,Production,Spider-Man: No Way Home,2021-12-15
+908,634649,57027,Louis D'Esposito,Executive Producer,Production,Spider-Man: No Way Home,2021-12-15
+909,634649,977941,Matt Tolmach,Executive Producer,Production,Spider-Man: No Way Home,2021-12-15
+910,634649,7626,Avi Arad,Executive Producer,Production,Spider-Man: No Way Home,2021-12-15
+911,634649,1425616,Amy Pascal,Producer,Production,Spider-Man: No Way Home,2021-12-15
+912,634649,10850,Kevin Feige,Producer,Production,Spider-Man: No Way Home,2021-12-15
+914,634649,1246890,Chris McKenna,Writer,Writing,Spider-Man: No Way Home,2021-12-15
+915,634649,1350918,Erik Sommers,Writer,Writing,Spider-Man: No Way Home,2021-12-15
