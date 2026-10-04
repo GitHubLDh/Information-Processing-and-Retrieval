@@ -30,11 +30,70 @@ def clean_review_text(text):
     return text.strip()
 
 
+def read_csv(path):
+    with open(path, newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
+def write_csv(path, rows, fieldnames):
+    INTERIM_DIR.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def clean_movies(movies):
+    seen_ids = set()
+    cleaned = []
+    for row in movies:
+        row["movie_id"] = row.pop("id")  # rename to match cast/crew/reviews
+        if row["movie_id"] in seen_ids:
+            continue
+        if not (row["release_date"] or "").strip():
+            continue
+        seen_ids.add(row["movie_id"])
+        cleaned.append(row)
+    return cleaned
+
+
+def clean_reviews(reviews, valid_movie_ids):
+    seen = set()
+    cleaned = []
+    for row in reviews:
+        if row["movie_id"] not in valid_movie_ids:
+            continue
+
+        text = clean_review_text(row["content"])
+        if not text:
+            continue
+        if len(text.split()) < 20:
+            continue
+
+        key = (row["movie_id"], text)
+        if key in seen:
+            continue
+        seen.add(key)
+
+        row["content"] = text
+        cleaned.append(row)
+    return cleaned
+
+
 def main():
-    # TODO: load data/raw/movies.csv and data/raw/reviews.csv,
-    # apply the cleaning steps above, write to data/interim/movies_clean.csv
-    # and data/interim/reviews_clean.csv
-    raise NotImplementedError
+    movies = read_csv(RAW_DIR / "movies.csv")
+    reviews = read_csv(RAW_DIR / "reviews.csv")
+
+    clean_movie_rows = clean_movies(movies)
+    valid_movie_ids = {row["movie_id"] for row in clean_movie_rows}
+    clean_review_rows = clean_reviews(reviews, valid_movie_ids)
+
+    movie_fieldnames = ["movie_id"] + [k for k in clean_movie_rows[0].keys() if k != "movie_id"]
+    write_csv(INTERIM_DIR / "movies_clean.csv", clean_movie_rows, movie_fieldnames)
+    write_csv(INTERIM_DIR / "reviews_clean.csv", clean_review_rows, list(reviews[0].keys()))
+
+    print(f"movies:  {len(movies)} -> {len(clean_movie_rows)} after cleaning")
+    print(f"reviews: {len(reviews)} -> {len(clean_review_rows)} after cleaning")
 
 
 if __name__ == "__main__":
