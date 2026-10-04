@@ -14,8 +14,8 @@ Usage: python3 scripts/make_sample.py
 import csv
 from pathlib import Path
 
-RAW_DIR = Path(__file__).resolve().parent.parent / "raw data" / "archive"
-SAMPLE_DIR = Path(__file__).resolve().parent.parent / "raw data" / "sample"
+RAW_DIR = Path(__file__).resolve().parent.parent / "data" / "raw"
+SAMPLE_DIR = Path(__file__).resolve().parent.parent / "data" / "sample"
 SAMPLE_SIZE = 75
 
 
