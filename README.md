@@ -33,8 +33,13 @@ data/
   sample/    small 75-movie subset for testing scripts before running on full data
   interim/   per-stage cleaned outputs (cleaned movies/reviews, Wikidata links, Wikipedia sections)
   final/     the final joined document collection, ready for Solr indexing
+  wikipedia/
+    fetch/   raw Wikipedia API responses (one JSON file per movie)
+    parse/   parsed output (parsed_log.csv — movie_id, title, status, plot)
 
 scripts/
   make_sample.py    builds data/sample/ from data/raw/
-  clean_movies.py    cleans movies.csv + reviews.csv -> data/interim/
+  clean_movies.py   cleans movies.csv + reviews.csv -> data/interim/
+  wiki_fetch.py     fetches Wikipedia articles by title, caches raw JSON in data/wikipedia/fetch/
+  wiki_parse.py     extracts the plot from each article -> data/wikipedia/parse/parsed_log.csv
 ```

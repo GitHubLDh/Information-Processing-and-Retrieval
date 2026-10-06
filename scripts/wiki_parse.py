@@ -1,3 +1,8 @@
+"""
+reads raw json from data/wikipedia/fetch/, extracts the plot section from each article's html, 
+and writes a summary table to data/wikipedia/parse/parsed_log.csv (movie_id, title, status, plot)
+"""
+
 import json
 from pathlib import Path
 from bs4 import BeautifulSoup

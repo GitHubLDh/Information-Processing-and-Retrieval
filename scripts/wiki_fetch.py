@@ -1,3 +1,8 @@
+""""
+fetches wikipedia articles by title for each movie in the sample, saves raw json responses to 
+data/wikipedia/fetch/ (skips already-fetched movies, retries on failure, 1s pause between requests)
+"""
+
 import requests
 import json
 import time
