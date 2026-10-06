@@ -37,7 +37,7 @@ def process_file(path):
     plot = extract_plot(html)
 
     return {
-        "status": "ok" if plot else "no_plot_section",
+        "status": "ok" if plot else "no_plot",
         "plot": plot,
         "wiki_title": data["parse"]["title"],
     }
@@ -50,4 +50,6 @@ for path in WIKIF_DIR.glob("*.json"):
     result["movie_id"] = movie_id
     results.append(result)
 
-pd.DataFrame(results).to_csv(WIKIP_DIR / "parsed_log.csv", index=False)
+df = pd.DataFrame(results)
+df = df[["movie_id", "wiki_title", "status", "plot"]] # reorder
+df.to_csv(WIKIP_DIR / "parsed_log.csv", index=False)
