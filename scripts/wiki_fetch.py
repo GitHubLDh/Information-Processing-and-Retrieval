@@ -2,6 +2,8 @@ import requests
 import json
 import time
 from pathlib import Path
+import pandas as pd
+
 
 WIKIF_DIR = Path(__file__).resolve().parent.parent / "data" / "wikipedia" / "fetch"
 WIKIF_DIR.mkdir(parents=True, exist_ok=True)
@@ -46,10 +48,6 @@ def fetch_and_save(movie_id, title, max_retries=3):
                 return f"failed: {e}"
 
     return "failed"
-
-
-# --- run over your 75 movies ---
-import pandas as pd
 
 movies = pd.read_csv(SAMPLE_DIR / "movies_sample.csv")
 
