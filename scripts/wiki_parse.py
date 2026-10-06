@@ -8,48 +8,39 @@ WIKIF_DIR = Path(__file__).resolve().parent.parent / "data" / "wikipedia" / "fet
 WIKIP_DIR = Path(__file__).resolve().parent.parent / "data" / "wikipedia" / "parse"
 WIKIP_DIR.mkdir(parents=True, exist_ok=True)
 
-def extract_sections(html):
+def extract_plot(html):
     soup = BeautifulSoup(html, "html.parser")
-    sections = {}
-    current_heading = "intro"  # text before any heading (intro/lead paragraph)
-    sections[current_heading] = []
+    current_heading = None
+    plot_paragraphs = []
 
     for tag in soup.find_all(["h2", "h3", "p"]):
         if tag.name in ("h2", "h3"):
             current_heading = tag.get_text().strip().lower()
-            sections[current_heading] = []
-        else:
+        elif current_heading == "plot":
             text = tag.get_text().strip()
             if text:
-                sections[current_heading].append(text)
+                plot_paragraphs.append(text)
+        elif current_heading is not None and plot_paragraphs:
+            # moved past the plot section (stop)
+            break
 
-    return {k: " ".join(v) for k, v in sections.items() if v}
-
-def get_field(sections, candidates):
-    for name in candidates:
-        if name in sections:
-            return sections[name]
-    return None
-
-def extract_movie_fields(sections):
-    return {
-        "plot": get_field(sections, ["plot", "plot summary", "synopsis"]),
-    }
+    return " ".join(plot_paragraphs) if plot_paragraphs else None
 
 
 def process_file(path):
     data = json.loads(path.read_text(encoding="utf-8"))
 
     if "error" in data:
-        return {"status": "not_found"}
+        return {"status": "not_found", "plot": None, "wiki_title": None}
 
     html = data["parse"]["text"]["*"]
+    plot = extract_plot(html)
 
-    sections = extract_sections(html)
-    fields = extract_movie_fields(sections)
-    fields["status"] = "ok"
-    fields["wiki_title"] = data["parse"]["title"]
-    return fields
+    return {
+        "status": "ok" if plot else "no_plot_section",
+        "plot": plot,
+        "wiki_title": data["parse"]["title"],
+    }
 
 
 results = []
