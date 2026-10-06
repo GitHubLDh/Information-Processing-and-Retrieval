@@ -3,12 +3,12 @@ import json
 import time
 from pathlib import Path
 
-WIKI_DIR = Path(__file__).resolve().parent.parent / "data" / "wikipedia"
-WIKI_DIR.mkdir(parents=True, exist_ok=True)
+WIKIF_DIR = Path(__file__).resolve().parent.parent / "data" / "wikipedia" / "fetch"
+WIKIF_DIR.mkdir(parents=True, exist_ok=True)
 SAMPLE_DIR = Path(__file__).resolve().parent.parent / "data" / "sample"
 
 def fetch_and_save(movie_id, title, max_retries=3):
-    save_path = WIKI_DIR / f"{movie_id}.json"
+    save_path = WIKIF_DIR / f"{movie_id}.json"
 
     if save_path.exists():
         return "skipped"  # movie already fetched
@@ -61,4 +61,4 @@ for _, row in movies.iterrows():
     time.sleep(1)  # pause between requests
 
 results_df = pd.DataFrame(results)
-results_df.to_csv(WIKI_DIR / "fetch_log.csv", index=False)
+results_df.to_csv(WIKIF_DIR / "fetch_log.csv", index=False)
