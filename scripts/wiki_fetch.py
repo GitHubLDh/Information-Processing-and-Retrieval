@@ -28,13 +28,10 @@ def fetch_and_save(movie_id, title, max_retries=3):
         "format": "json",
         "redirects": 1
     }
-    headers = {
-        "User-Agent": "PRI-Project-FEUP/1.0 (up202304064@fe.up.pt)"
-    }
 
     for attempt in range(max_retries):
         try:
-            response = requests.get(url, params=params, headers=headers, timeout=15)
+            response = requests.get(url, params=params, timeout=15)
             response.raise_for_status()
             data = response.json()
 
