@@ -1,0 +1,153 @@
+% M1 report skeleton — ACM sigconf template.
+% Compile on Overleaf (search "ACM sigconf" template, or upload this + references.bib) —
+% the acmart class isn't installed locally. Word template is also available from ACM if
+% the group prefers that instead; this file assumes LaTeX.
+
+\documentclass[sigconf]{acmart}
+
+% Suppress the ACM copyright block / DOI / ISBN stamp — this is a course report,
+% not an actual ACM publication.
+\settopmatter{printacmref=false}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\pagestyle{plain}
+\acmConference[PRI 2026/27]{Information Processing and Retrieval}{2026}{Porto, Portugal}
+
+\begin{document}
+
+\title{Find Movies Like the One You're Thinking Of}
+\subtitle{An Information Retrieval System Linking Movie Metadata and Wikipedia Plots}
+
+% TODO: fill in real names/emails for all 4 group members.
+\author{Lara}
+\affiliation{%
+  \institution{FEUP, U.Porto}
+  \country{Portugal}
+}
+
+\author{P2 Name}
+\affiliation{%
+  \institution{FEUP, U.Porto}
+  \country{Portugal}
+}
+
+\author{P3 Name}
+\affiliation{%
+  \institution{FEUP, U.Porto}
+  \country{Portugal}
+}
+
+\author{P4 Name}
+\affiliation{%
+  \institution{FEUP, U.Porto}
+  \country{Portugal}
+}
+
+\begin{abstract}
+Existing movie search tools let users filter by title, genre, cast, or year, but fail
+when a user remembers only a vague plot detail rather than any exact metadata. We
+present a document collection and retrieval system that combines \textit{The Movie
+Database (TMDB) Comprehensive Dataset} (Kaggle), providing structured movie metadata
+and user reviews, with plot summaries scraped from Wikipedia and linked through
+Wikidata. Each document describes a single movie through both structured fields and
+substantial free text, enabling retrieval that goes beyond exact-field matching to
+surface movies by narrative and thematic description. This report covers the data
+sources, the collection and linking pipeline, dataset characterization, and a set of
+prospective information needs motivating the retrieval work in later milestones.
+\end{abstract}
+
+\maketitle
+
+\section{Topic}
+% The differentiating angle: why movies despite it being a common topic.
+Movies are a common dataset choice, so this project deliberately does not center on
+metadata search (genre, year, cast) that any catalog already supports well. Instead,
+the goal is retrieval driven by \emph{what a user remembers about a movie} — a plot
+detail, a theme, a narrative trope, or what critics said about it — rather than what
+they can already filter for. This motivates linking structured TMDB metadata with two
+free-text sources: Wikipedia plot summaries (narrative content) and TMDB user reviews
+(reception and opinion), so that information needs can be phrased the way people
+actually half-remember movies, not the way a database schema represents them.
+
+\section{Data Sources}
+
+\subsection{The Movie Database (TMDB) Comprehensive Dataset}
+Kaggle dataset by rishabhkumar2003, sourced from the TMDB API. Five CSV files:
+\texttt{movies.csv} (9{,}771 rows — one per movie; title, overview, release date,
+runtime, budget, revenue, rating, vote count, genres, language), \texttt{cast.csv}
+(\textasciitilde150{,}000 rows), \texttt{crew.csv} (\textasciitilde63{,}600 rows),
+\texttt{genres.csv} (a 20-row reference table, not a per-movie join table — genres are
+already embedded in \texttt{movies.csv}), and \texttt{reviews.csv} (user reviews,
+13{,}073 rows after parsing). No IMDb ID field exists in this dataset.
+% TODO: confirm and state the dataset's license explicitly.
+
+\subsection{Wikipedia}
+Plot summaries for each movie, retrieved via the Wikipedia/MediaWiki API
+(\texttt{action=parse}), linked to TMDB IDs through Wikidata (property P4947) rather
+than by title matching, to avoid collisions with same-titled non-film articles.
+Wikipedia text is licensed CC~BY-SA~4.0.
+% TODO: confirm exact license wording to cite.
+
+\section{Collection \& Preparation}
+% TODO: insert pipeline diagram (UML-style) once the full pipeline is merged.
+The collection pipeline has four stages, run by different group members and merged
+into a single final collection:
+\begin{enumerate}
+  \item \textbf{Movies/reviews cleaning} — deduplicate movies, drop movies with no
+    release date, clean review text (strip HTML/Markdown formatting), drop empty or
+    very short (\textless20 words) reviews, drop duplicate reviews. Result:
+    9{,}771 $\rightarrow$ 9{,}710 movies, 13{,}073 $\rightarrow$ 12{,}248 reviews.
+  \item \textbf{Wikidata linking} — resolve each TMDB ID to an English Wikipedia
+    article title via Wikidata property P4947. 7{,}016 / 9{,}710 movies (72.3\%)
+    linked successfully.
+  \item \textbf{Wikipedia fetching \& parsing} — fetch each linked article and extract
+    its Plot section.
+    % TODO: numbers once the fetch runs on the full linked set with the corrected titles.
+  \item \textbf{Final join} — merge cleaned movies, reviews, cast/crew, Wikidata
+    links, and Wikipedia plots into one document per movie.
+    % TODO: not yet complete.
+\end{enumerate}
+
+% TODO: conceptual data model (document = movie, has reviews, has cast/crew, has a
+% linked Wikipedia plot, etc.)
+
+\section{Characterization}
+% Reviews characterization (P1's part) is complete; the rest needs the final
+% joined collection.
+
+\subsection{Reviews}
+Of 9{,}710 cleaned movies, 6{,}013 (62\%) have zero reviews after cleaning; review
+coverage is sparse and concentrated on popular titles. Movies with at least one review
+average 1.26 reviews (median 0 across all movies, since most have none); reviews
+average 239 words (median 181). Review length shows essentially no correlation with a
+movie's rating (Pearson $r = 0.115$, $n=3{,}697$). The most frequent words across all
+reviews, after stopword removal, are dominated by generic film-review vocabulary
+(\textit{story, character, cast, plot, scenes}) rather than genre-distinctive terms —
+see \texttt{data/interim/movies\_reviews\_report.md} for full tables.
+
+% TODO: collection-wide stats (doc count, vocabulary size, frequent terms),
+% structured-field stats (genre/year/language/rating distributions),
+% multi-variable analysis, Wikipedia-section stats, NER — all pending the final join.
+
+\section{Prospective Search Tasks}
+Information needs are deliberately phrased around themes, situations, and reception
+rather than metadata filters, since the latter is already well-served by existing
+movie catalogs.
+
+\begin{enumerate}
+  \item A movie whose reviewers describe the comedy as clever, witty, or
+    intellectually sharp, rather than slapstick or lowbrow.
+  \item A romantic movie where reviewers are divided — some call it predictable or
+    clichéd, others find it genuinely heartwarming.
+  \item A science-fiction survival film about astronauts stranded away from Earth who
+    need to survive or get home.
+  \item A crime or thriller film in which an FBI agent investigates serial killings.
+\end{enumerate}
+% TODO: 5 more needed (2 from P3, 3 from P4, including one combining a text query
+% with a structured filter) — see docs/information_needs.md for the living list.
+
+\section{References}
+% See references.bib — TMDB/Kaggle dataset, Wikipedia, Wikidata, MediaWiki API.
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
