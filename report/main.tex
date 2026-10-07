@@ -45,8 +45,8 @@ motivating the retrieval work in later milestones.
 
 \section{Topic}
 % The differentiating angle: why movies despite it being a common topic.
-Movies are a common dataset choice, so this project deliberately does not center on
-metadata search (genre, year, cast) that any catalog already supports well. Instead,
+Movies are a common dataset choice, so the retrieval goal deliberately does not center
+on metadata search (genre, year, cast) that any catalog already supports well. Instead,
 the goal is retrieval driven by \emph{what a user remembers about a movie} — a plot
 detail, a theme, a narrative trope, or what critics said about it — rather than what
 they can already filter for. This motivates linking structured TMDB metadata with two
@@ -79,7 +79,10 @@ CC~BY-SA~4.0.
 % TODO: confirm exact license wording to cite.
 
 \section{Collection \& Preparation}
-% TODO: insert pipeline diagram (UML-style) once the full pipeline is merged.
+% TODO: insert a Data Flow Diagram (DFD) of the pipeline once merged — per the course's
+% own notation: squares = external entities, rounded rectangles = processes, arrows =
+% data flows, open-ended rectangles = data stores. This is distinct from the conceptual
+% data model below, which should be a separate UML class diagram, not the same diagram.
 The collection pipeline has four stages, run by different group members and merged
 into a single final collection:
 \begin{enumerate}
@@ -98,8 +101,8 @@ into a single final collection:
     % TODO: not yet complete.
 \end{enumerate}
 
-% TODO: conceptual data model (document = movie, has reviews, has cast/crew, has a
-% linked Wikipedia plot, etc.)
+% TODO: conceptual data model — a UML class diagram (per course requirement), not prose:
+% Movie 1--* Review, Movie 1--* CastMember, Movie 1--* CrewMember, Movie 1--1 WikipediaArticle.
 
 \section{Characterization}
 % Reviews characterization (P1's part) is complete; the rest needs the final
