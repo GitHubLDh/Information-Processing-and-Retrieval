@@ -14,32 +14,13 @@
 
 \begin{document}
 
-\title{Find Movies Like the One You're Thinking Of}
-\subtitle{An Information Retrieval System Linking Movie Metadata and Wikipedia Plots}
+\title{Find Me Something Like That}
+\subtitle{Searching Movies by Vague Descriptions and Half-Remembered Plots}
 
-% TODO: fill in real names/emails for all 4 group members.
-\author{Lara}
-\affiliation{%
-  \institution{FEUP, U.Porto}
-  \city{Porto}
-  \country{Portugal}
-}
-
-\author{P2 Name}
-\affiliation{%
-  \institution{FEUP, U.Porto}
-  \city{Porto}
-  \country{Portugal}
-}
-
-\author{P3 Name}
-\affiliation{%
-  \institution{FEUP, U.Porto}
-  \city{Porto}
-  \country{Portugal}
-}
-
-\author{P4 Name}
+\author{Lara Dehandschutter}
+\author{Gabriela de Mattos Barboza da Silva}
+\author{Lara Funico Guerra}
+\author{Maria Luiza Vieira}
 \affiliation{%
   \institution{FEUP, U.Porto}
   \city{Porto}
@@ -49,14 +30,15 @@
 \begin{abstract}
 Existing movie search tools let users filter by title, genre, cast, or year, but fail
 when a user remembers only a vague plot detail rather than any exact metadata. We
-present a document collection and retrieval system that combines \textit{The Movie
-Database (TMDB) Comprehensive Dataset} (Kaggle), providing structured movie metadata
-and user reviews, with plot summaries scraped from Wikipedia and linked through
-Wikidata. Each document describes a single movie through both structured fields and
-substantial free text, enabling retrieval that goes beyond exact-field matching to
-surface movies by narrative and thematic description. This report covers the data
-sources, the collection and linking pipeline, dataset characterization, and a set of
-prospective information needs motivating the retrieval work in later milestones.
+combine two linked sources: \textit{The Movie Database (TMDB) Comprehensive Dataset}
+(Kaggle, by rishabhkumar2003), containing structured movie metadata including cast,
+genres, ratings, and release info, and plot summaries scraped from Wikipedia via an
+API. Linking the two by title and year produces a collection where each movie has both
+structured, filterable metadata and a free-text narrative description, enabling
+retrieval that goes beyond exact fields to find movies by what a user actually
+remembers about them. This report covers the data sources, the collection and linking
+pipeline, dataset characterization, and a set of prospective information needs
+motivating the retrieval work in later milestones.
 \end{abstract}
 
 \maketitle
@@ -70,7 +52,11 @@ detail, a theme, a narrative trope, or what critics said about it — rather tha
 they can already filter for. This motivates linking structured TMDB metadata with two
 free-text sources: Wikipedia plot summaries (narrative content) and TMDB user reviews
 (reception and opinion), so that information needs can be phrased the way people
-actually half-remember movies, not the way a database schema represents them.
+actually half-remember movies, not the way a database schema represents them. For
+example: \textit{``A story where the main character can't trust their own memories or
+perception of reality, and slowly uncovers a hidden truth about who they really
+are.''} No metadata field captures this, and no single keyword match is reliable
+either — it requires matching the collection's free text to a vaguely-recalled theme.
 
 \section{Data Sources}
 
