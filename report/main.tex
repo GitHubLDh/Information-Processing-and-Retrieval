@@ -67,8 +67,9 @@ runtime, budget, revenue, rating, vote count, genres, language), \texttt{cast.cs
 (\textasciitilde150{,}000 rows), \texttt{crew.csv} (\textasciitilde63{,}600 rows),
 \texttt{genres.csv} (a 20-row reference table, not a per-movie join table — genres are
 already embedded in \texttt{movies.csv}), and \texttt{reviews.csv} (user reviews,
-13{,}073 rows after parsing). No IMDb ID field exists in this dataset.
-% TODO: confirm and state the dataset's license explicitly.
+13{,}073 rows after parsing). No IMDb ID field exists in this dataset. The dataset is
+licensed CC~BY-NC-SA~4.0 — non-commercial use with attribution and share-alike, which
+is compatible with this (non-commercial, academic) project.
 
 \paragraph{Authority assessment.} The dataset is published by a third-party Kaggle
 contributor (rishabhkumar2003), not by TMDB itself, but its acquisition method is
@@ -78,8 +79,7 @@ production applications (e.g.\ Plex, Kodi), which lends indirect authority. Per-
 \texttt{created\_at}/\texttt{updated\_at} timestamps indicate a recent snapshot
 (February 2026). During cleaning we spot-checked several well-known entries (e.g.\
 \textit{Interstellar}, \textit{Star Wars}) and found their metadata plausible and
-accurate. The main open gap is the dataset's license, which is not stated on its Kaggle
-page and remains to be confirmed.
+accurate.
 
 \subsection{Wikipedia}
 Plot summaries for each movie, retrieved via the Wikipedia and MediaWiki API's
