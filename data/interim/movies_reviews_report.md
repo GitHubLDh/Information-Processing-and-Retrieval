@@ -74,18 +74,22 @@ are substantial written reviews, not one-liners.
 weak positive relationship — review length is essentially not predictive of a movie's
 rating. Reporting this as a (legitimate) null result rather than omitting it.
 
-**Most frequent words across all reviews** (top 10 of 25 computed): *from, it's, like,
-story, well, good, really, time, when, much*.
-**Caveat**: the current stopword list is incomplete — generic filler words ("it's," "really,"
-"well," "much," "even," "quite," "though") dominate the list and drown out anything
-movie-specific. The word-frequency analysis needs a better stopword list (or a standard
-library's, e.g. `nltk`/`scikit-learn`) before it's informative enough for the report. Not yet
-fixed as of this writing.
+**Most frequent words across all reviews** (top 10 of 25 computed): *story, good, time,
+action, great, character, characters, best, other, watch*. After expanding the stopword
+list (articles/pronouns/auxiliary verbs/contractions plus generic filler like "really,"
+"well," "much," "even," "quite," "though," and generic verbs like "get," "go," "make,"
+"see," "know," "think," "say," "take," "give," "find," "put," "let," "need"), the list
+now surfaces genuinely review-relevant vocabulary (*story, character, cast, plot, scenes,
+love, fun, bad*) instead of filler.
 
 **Top words by genre** (5 most-reviewed genres): Action, Drama, Adventure, Thriller, and
-Science Fiction all surface nearly the same top-10 words as the overall list above — a
-direct consequence of the stopword-list issue; a cleaner stopword list is needed before
-genre differences become visible.
+Science Fiction still surface largely overlapping top-10 lists (*story, good, time,
+character, great*...) even with the better stopword list. This looks like a genuine
+finding rather than a stopword artifact — these are simply the most universal words
+reviewers reach for regardless of genre. Surfacing genre-*distinctive* vocabulary (words
+disproportionately common in one genre vs. others) would need a different method, e.g.
+TF-IDF across genres rather than raw frequency — noted as a possible follow-up, not done
+here.
 
 ## Information needs
 

@@ -20,15 +20,46 @@ from pathlib import Path
 INTERIM_DIR = Path(__file__).resolve().parent.parent / "data" / "interim"
 
 STOPWORDS = {
-    "the", "a", "an", "and", "or", "but", "is", "are", "was", "were", "be", "been",
-    "being", "to", "of", "in", "on", "for", "with", "as", "at", "by", "it", "its",
-    "this", "that", "these", "those", "i", "you", "he", "she", "we", "they", "his",
-    "her", "their", "our", "your", "my", "me", "him", "them", "us", "not", "no",
-    "so", "if", "than", "then", "there", "here", "what", "which", "who", "whom",
-    "do", "does", "did", "doing", "have", "has", "had", "having", "will", "would",
-    "can", "could", "should", "shall", "may", "might", "must", "about", "into",
-    "out", "up", "down", "over", "under", "again", "just", "all", "some", "one",
-    "also", "very", "more", "most", "film", "movie",
+    # articles, conjunctions, prepositions
+    "the", "a", "an", "and", "or", "but", "nor", "to", "of", "in", "on", "for",
+    "with", "as", "at", "by", "from", "about", "into", "onto", "out", "up", "down",
+    "over", "under", "between", "through", "during", "before", "after", "above",
+    "below", "off", "against", "while", "since", "because", "though", "although",
+    "unless", "until", "whether",
+    # pronouns
+    "it", "its", "it's", "this", "that", "these", "those", "i", "you", "he", "she",
+    "we", "they", "his", "her", "hers", "their", "theirs", "our", "ours", "your",
+    "yours", "my", "mine", "me", "him", "them", "us", "who", "whom", "whose",
+    "which", "what", "whoever", "whatever", "someone", "somebody", "something",
+    "anyone", "anybody", "anything", "everyone", "everybody", "everything", "none",
+    # auxiliary / modal verbs + contractions
+    "is", "are", "was", "were", "be", "been", "being", "am", "do", "does", "did",
+    "doing", "done", "have", "has", "had", "having", "will", "would", "can",
+    "could", "should", "shall", "may", "might", "must", "don't", "doesn't",
+    "didn't", "isn't", "wasn't", "weren't", "aren't", "won't", "can't", "couldn't",
+    "wouldn't", "shouldn't", "that's", "there's", "here's", "what's", "who's",
+    "they're", "you're", "we're", "i'm", "he's", "she's", "i've", "we've",
+    "they've", "you've", "i'd", "you'd", "he'd", "she'd", "we'd", "they'd", "i'll",
+    "you'll", "he'll", "she'll", "we'll", "they'll",
+    # generic adverbs / intensifiers / discourse filler
+    "not", "no", "so", "if", "than", "then", "there", "here", "just", "all",
+    "some", "any", "one", "two", "three", "also", "very", "more", "most", "much",
+    "many", "few", "less", "least", "too", "only", "even", "still", "yet",
+    "already", "again", "further", "really", "actually", "basically", "quite",
+    "rather", "pretty", "somewhat", "almost", "always", "never", "sometimes",
+    "often", "ever", "once", "now", "well", "like", "way", "ways", "thing",
+    "things", "lot", "lots", "bit", "kind", "sort", "first", "last", "how", "why",
+    "when", "where",
+    # generic verbs that carry little content on their own
+    "get", "gets", "got", "getting", "go", "goes", "going", "went", "gone", "come",
+    "comes", "coming", "came", "make", "makes", "made", "making", "see", "sees",
+    "seeing", "saw", "seen", "know", "knows", "knew", "known", "think", "thinks",
+    "thought", "want", "wants", "wanted", "say", "says", "said", "saying", "take",
+    "takes", "took", "taken", "taking", "give", "gives", "gave", "given", "giving",
+    "find", "finds", "found", "finding", "put", "puts", "putting", "let", "lets",
+    "need", "needs", "needed",
+    # domain-generic (true of every review regardless of content)
+    "film", "films", "movie", "movies",
 }
 
 
