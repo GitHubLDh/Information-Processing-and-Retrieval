@@ -122,7 +122,9 @@ def main():
         if imdb_column:
             for movie_id in batch:
                 source_imdb = row_by_id[movie_id].get(imdb_column, "").strip()
-                if movie_id not in found and source_imdb:
+                # IMDb can still find a useful article when the TMDB item has
+                # no English sitelink, so treat that as unresolved too.
+                if (movie_id not in found or not found[movie_id]["wikipedia_title"]) and source_imdb:
                     imdb_candidates.setdefault(source_imdb, []).append(movie_id)
         if imdb_candidates:
             fallback_rows = query_wikidata(list(imdb_candidates), "P345")
@@ -131,8 +133,10 @@ def main():
                 entity = row["item"]["value"].rsplit("/", 1)[-1]
                 article = row.get("article", {}).get("value", "")
                 for movie_id in imdb_candidates[imdb]:
-                    found[movie_id] = {"movie_id": movie_id, "wikipedia_title": article_title(article), "wikipedia_url": article,
-                                       "imdb_id": imdb, "wikidata_id": entity, "match_method": "imdb"}
+                    fallback = {"movie_id": movie_id, "wikipedia_title": article_title(article), "wikipedia_url": article,
+                                "imdb_id": imdb, "wikidata_id": entity, "match_method": "imdb"}
+                    if article or movie_id not in found:
+                        found[movie_id] = fallback
 
         for movie_id, mapping in found.items():
             completed[movie_id] = mapping
