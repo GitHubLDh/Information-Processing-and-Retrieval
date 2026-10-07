@@ -112,11 +112,29 @@ into a single final collection:
 Of 9{,}710 cleaned movies, 6{,}013 (62\%) have zero reviews after cleaning; review
 coverage is sparse and concentrated on popular titles. Movies with at least one review
 average 1.26 reviews (median 0 across all movies, since most have none); reviews
-average 239 words (median 181). Review length shows essentially no correlation with a
-movie's rating (Pearson $r = 0.115$, $n=3{,}697$). The most frequent words across all
-reviews, after stopword removal, are dominated by generic film-review vocabulary
+average 239 words (median 181), with a right-skewed distribution
+(Figure~\ref{fig:review-length-hist}). Review length shows essentially no correlation
+with a movie's rating (Pearson $r = 0.115$, $n=3{,}697$), visible as a dense, largely
+flat scatter in Figure~\ref{fig:review-length-rating}. The most frequent words across
+all reviews, after stopword removal, are dominated by generic film-review vocabulary
 (\textit{story, character, cast, plot, scenes}) rather than genre-distinctive terms —
 see \texttt{data/interim/movies\_reviews\_report.md} for full tables.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/review_length_hist.pdf}
+  \caption{Distribution of review length in words (78 reviews over 1500 words omitted
+  for readability).}
+  \label{fig:review-length-hist}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/review_length_vs_rating.pdf}
+  \caption{A movie's average review length vs. its rating, with a linear fit
+  ($r=0.115$).}
+  \label{fig:review-length-rating}
+\end{figure}
 
 % TODO: collection-wide stats (doc count, vocabulary size, frequent terms),
 % structured-field stats (genre/year/language/rating distributions),
