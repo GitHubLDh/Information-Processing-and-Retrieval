@@ -21,24 +21,28 @@
 \author{Lara}
 \affiliation{%
   \institution{FEUP, U.Porto}
+  \city{Porto}
   \country{Portugal}
 }
 
 \author{P2 Name}
 \affiliation{%
   \institution{FEUP, U.Porto}
+  \city{Porto}
   \country{Portugal}
 }
 
 \author{P3 Name}
 \affiliation{%
   \institution{FEUP, U.Porto}
+  \city{Porto}
   \country{Portugal}
 }
 
 \author{P4 Name}
 \affiliation{%
   \institution{FEUP, U.Porto}
+  \city{Porto}
   \country{Portugal}
 }
 
@@ -71,7 +75,7 @@ actually half-remember movies, not the way a database schema represents them.
 \section{Data Sources}
 
 \subsection{The Movie Database (TMDB) Comprehensive Dataset}
-Kaggle dataset by rishabhkumar2003, sourced from the TMDB API. Five CSV files:
+Kaggle dataset by rishabhkumar2003~\cite{tmdb-kaggle}, sourced from the TMDB API. Five CSV files:
 \texttt{movies.csv} (9{,}771 rows — one per movie; title, overview, release date,
 runtime, budget, revenue, rating, vote count, genres, language), \texttt{cast.csv}
 (\textasciitilde150{,}000 rows), \texttt{crew.csv} (\textasciitilde63{,}600 rows),
@@ -81,10 +85,11 @@ already embedded in \texttt{movies.csv}), and \texttt{reviews.csv} (user reviews
 % TODO: confirm and state the dataset's license explicitly.
 
 \subsection{Wikipedia}
-Plot summaries for each movie, retrieved via the Wikipedia/MediaWiki API
-(\texttt{action=parse}), linked to TMDB IDs through Wikidata (property P4947) rather
-than by title matching, to avoid collisions with same-titled non-film articles.
-Wikipedia text is licensed CC~BY-SA~4.0.
+Plot summaries for each movie, retrieved via the Wikipedia~\cite{wikipedia}/MediaWiki
+API~\cite{mediawiki-api} (\texttt{action=parse}), linked to TMDB IDs through
+Wikidata~\cite{wikidata} (property P4947) rather than by title matching, to avoid
+collisions with same-titled non-film articles. Wikipedia text is licensed
+CC~BY-SA~4.0.
 % TODO: confirm exact license wording to cite.
 
 \section{Collection \& Preparation}
