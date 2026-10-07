@@ -70,6 +70,17 @@ already embedded in \texttt{movies.csv}), and \texttt{reviews.csv} (user reviews
 13{,}073 rows after parsing). No IMDb ID field exists in this dataset.
 % TODO: confirm and state the dataset's license explicitly.
 
+\paragraph{Authority assessment.} The dataset is published by a third-party Kaggle
+contributor (rishabhkumar2003), not by TMDB itself, but its acquisition method is
+documented (the official TMDB API) and the underlying source, TMDB, is a
+long-established, actively moderated community movie database used by numerous
+production applications (e.g.\ Plex, Kodi), which lends indirect authority. Per-row
+\texttt{created\_at}/\texttt{updated\_at} timestamps indicate a recent snapshot
+(February 2026). During cleaning we spot-checked several well-known entries (e.g.\
+\textit{Interstellar}, \textit{Star Wars}) and found their metadata plausible and
+accurate. The main open gap is the dataset's license, which is not stated on its Kaggle
+page and remains to be confirmed.
+
 \subsection{Wikipedia}
 Plot summaries for each movie, retrieved via the Wikipedia and MediaWiki API's
 \texttt{action=parse} endpoint~\cite{wikipedia,mediawiki-api}, linked to TMDB IDs
@@ -77,6 +88,13 @@ through Wikidata~\cite{wikidata} using property P4947, rather than by title matc
 to avoid collisions with same-titled non-film articles. Wikipedia text is licensed
 CC~BY-SA~4.0.
 % TODO: confirm exact license wording to cite.
+
+\paragraph{Authority assessment.} Wikipedia's authority is crowd-sourced rather than
+centrally verified: article quality depends on how actively a given page is edited and
+cited. High-profile films tend to have well-maintained, citation-backed articles, while
+niche titles may have thin or stale ones — a disparity already visible in our linking
+results, where mainstream genres (e.g.\ Adventure, Action) link to an English Wikipedia
+article far more often than niche categories (e.g.\ Documentary, TV Movie).
 
 \section{Collection \& Preparation}
 % TODO: insert a Data Flow Diagram (DFD) of the pipeline once merged — per the course's
