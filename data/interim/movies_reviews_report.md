@@ -54,6 +54,39 @@ would pollute tokenization (e.g. `_bold_` wouldn't match a search for `bold`).
 - **Reviews: 13,073 → 12,248** (825 dropped — too short, empty after cleanup, duplicates, or
   belonging to a dropped movie)
 
+## Statistics
+
+Script: [`scripts/reviews_stats.py`](../../scripts/reviews_stats.py). Run with
+`python3 scripts/reviews_stats.py`. Computed against `data/interim/movies_clean.csv` +
+`data/interim/reviews_clean.csv` (the cleaned-but-not-yet-joined data) — numbers may shift
+slightly once P4's final join drops movies with no Wikipedia plot, but are not expected to
+change qualitatively.
+
+**Reviews per movie**: mean 1.26, median 0, min 0, max 53.
+**6,013 / 9,710 movies (62%) have zero reviews** after cleaning — review coverage is sparse
+and concentrated on popular titles, not evenly spread across the collection. This is an
+honest limitation of the collection, worth stating directly rather than hiding.
+
+**Review length**: mean 239 words, median 181, min 20 (the cleaning floor), max 4,028. These
+are substantial written reviews, not one-liners.
+
+**Review length vs. rating**: Pearson r = 0.115 (n = 3,697 movies with ≥1 review). A very
+weak positive relationship — review length is essentially not predictive of a movie's
+rating. Reporting this as a (legitimate) null result rather than omitting it.
+
+**Most frequent words across all reviews** (top 10 of 25 computed): *from, it's, like,
+story, well, good, really, time, when, much*.
+**Caveat**: the current stopword list is incomplete — generic filler words ("it's," "really,"
+"well," "much," "even," "quite," "though") dominate the list and drown out anything
+movie-specific. The word-frequency analysis needs a better stopword list (or a standard
+library's, e.g. `nltk`/`scikit-learn`) before it's informative enough for the report. Not yet
+fixed as of this writing.
+
+**Top words by genre** (5 most-reviewed genres): Action, Drama, Adventure, Thriller, and
+Science Fiction all surface nearly the same top-10 words as the overall list above — a
+direct consequence of the stopword-list issue; a cleaner stopword list is needed before
+genre differences become visible.
+
 ## Information needs
 
 See [`docs/information_needs.md`](../../docs/information_needs.md) for the full shared list.
@@ -74,5 +107,5 @@ verified against a real search system. To be re-tested once the final collection
 
 - `cast.csv` / `crew.csv` still need aggregating to one row per movie (top-N cast, director) —
   needed before the final join, nobody has claimed this yet.
-- Reviews-level stats (count/length per movie, rating correlation, frequent words) are blocked
-  on the final joined collection existing.
+- The word-frequency stopword list needs improvement (see Statistics section above) before
+  it's report-ready.
