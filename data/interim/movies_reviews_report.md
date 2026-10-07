@@ -72,8 +72,7 @@ change qualitatively.
 | Max | 53 |
 | Movies with zero reviews | 6,013 / 9,710 (62%) |
 
-Review coverage is sparse and concentrated on popular titles, not evenly spread across the
-collection. Worth stating directly as an honest limitation, not hiding it.
+Review coverage is sparse and concentrated on popular titles, not evenly spread across the collection.
 
 ### Review length (words)
 
@@ -93,8 +92,14 @@ These are substantial written reviews, not one-liners.
 | Pearson r | 0.115 |
 | Movies used (≥1 review) | 3,697 |
 
-A very weak positive relationship — review length is essentially not predictive of a
-movie's rating. Reported as a (legitimate) null result rather than omitted.
+Pearson r ranges from -1 to +1: +1 would mean longer average reviews always go with
+higher ratings, -1 would mean longer average reviews always go with lower ratings, and 0
+means no linear relationship at all. In practice, values under ~0.3 are generally
+considered negligible.
+
+Our r = 0.115 is barely above zero — a very weak positive relationship. Review length is
+essentially not predictive of a movie's rating. Reported as a (legitimate) null result
+rather than omitted.
 
 ### Most frequent words across all reviews
 
