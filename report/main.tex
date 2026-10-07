@@ -85,10 +85,10 @@ already embedded in \texttt{movies.csv}), and \texttt{reviews.csv} (user reviews
 % TODO: confirm and state the dataset's license explicitly.
 
 \subsection{Wikipedia}
-Plot summaries for each movie, retrieved via the Wikipedia~\cite{wikipedia}/MediaWiki
-API~\cite{mediawiki-api} (\texttt{action=parse}), linked to TMDB IDs through
-Wikidata~\cite{wikidata} (property P4947) rather than by title matching, to avoid
-collisions with same-titled non-film articles. Wikipedia text is licensed
+Plot summaries for each movie, retrieved via the Wikipedia and MediaWiki API's
+\texttt{action=parse} endpoint~\cite{wikipedia,mediawiki-api}, linked to TMDB IDs
+through Wikidata~\cite{wikidata} using property P4947, rather than by title matching,
+to avoid collisions with same-titled non-film articles. Wikipedia text is licensed
 CC~BY-SA~4.0.
 % TODO: confirm exact license wording to cite.
 
