@@ -62,29 +62,75 @@ Script: [`scripts/reviews_stats.py`](../../scripts/reviews_stats.py). Run with
 slightly once P4's final join drops movies with no Wikipedia plot, but are not expected to
 change qualitatively.
 
-**Reviews per movie**: mean 1.26, median 0, min 0, max 53.
-**6,013 / 9,710 movies (62%) have zero reviews** after cleaning — review coverage is sparse
-and concentrated on popular titles, not evenly spread across the collection. This is an
-honest limitation of the collection, worth stating directly rather than hiding.
+### Reviews per movie
 
-**Review length**: mean 239 words, median 181, min 20 (the cleaning floor), max 4,028. These
-are substantial written reviews, not one-liners.
+| Metric | Value |
+|---|---|
+| Mean | 1.26 |
+| Median | 0 |
+| Min | 0 |
+| Max | 53 |
+| Movies with zero reviews | 6,013 / 9,710 (62%) |
 
-**Review length vs. rating**: Pearson r = 0.115 (n = 3,697 movies with ≥1 review). A very
-weak positive relationship — review length is essentially not predictive of a movie's
-rating. Reporting this as a (legitimate) null result rather than omitting it.
+Review coverage is sparse and concentrated on popular titles, not evenly spread across the
+collection. Worth stating directly as an honest limitation, not hiding it.
 
-**Most frequent words across all reviews** (top 10 of 25 computed): *story, good, time,
-action, great, character, characters, best, other, watch*. After expanding the stopword
-list (articles/pronouns/auxiliary verbs/contractions plus generic filler like "really,"
-"well," "much," "even," "quite," "though," and generic verbs like "get," "go," "make,"
-"see," "know," "think," "say," "take," "give," "find," "put," "let," "need"), the list
-now surfaces genuinely review-relevant vocabulary (*story, character, cast, plot, scenes,
-love, fun, bad*) instead of filler.
+### Review length (words)
 
-**Top words by genre** (5 most-reviewed genres): Action, Drama, Adventure, Thriller, and
-Science Fiction still surface largely overlapping top-10 lists (*story, good, time,
-character, great*...) even with the better stopword list. This looks like a genuine
+| Metric | Value |
+|---|---|
+| Mean | 239 |
+| Median | 181 |
+| Min | 20 (the cleaning floor) |
+| Max | 4,028 |
+
+These are substantial written reviews, not one-liners.
+
+### Review length vs. rating
+
+| Metric | Value |
+|---|---|
+| Pearson r | 0.115 |
+| Movies used (≥1 review) | 3,697 |
+
+A very weak positive relationship — review length is essentially not predictive of a
+movie's rating. Reported as a (legitimate) null result rather than omitted.
+
+### Most frequent words across all reviews
+
+| Rank | Word | Count | | Rank | Word | Count |
+|---|---|---|---|---|---|---|
+| 1 | story | 8,217 | | 14 | cast | 2,791 |
+| 2 | good | 6,948 | | 15 | man | 2,777 |
+| 3 | time | 6,050 | | 16 | work | 2,747 |
+| 4 | action | 4,704 | | 17 | life | 2,745 |
+| 5 | great | 4,443 | | 18 | end | 2,731 |
+| 6 | character | 4,302 | | 19 | plot | 2,713 |
+| 7 | characters | 4,038 | | 20 | better | 2,602 |
+| 8 | best | 3,586 | | 21 | scenes | 2,483 |
+| 9 | other | 3,571 | | 22 | world | 2,469 |
+| 10 | watch | 3,457 | | 23 | fun | 2,425 |
+| 11 | little | 3,210 | | 24 | love | 2,400 |
+| 12 | new | 2,989 | | 25 | bad | 2,348 |
+| 13 | people | 2,951 | | | | |
+
+After expanding the stopword list (articles/pronouns/auxiliary verbs/contractions, plus
+generic filler like "really," "well," "much," "even," "quite," "though," and generic verbs
+like "get," "go," "make," "see," "know," "think," "say," "take," "give," "find," "put,"
+"let," "need"), the list now surfaces genuinely review-relevant vocabulary instead of
+filler.
+
+### Top words by genre (5 most-reviewed genres)
+
+| Genre | Top 10 words |
+|---|---|
+| Action | action, good, story, time, great, character, characters, other, best, watch |
+| Drama | story, good, time, life, character, great, best, other, characters, watch |
+| Adventure | story, good, action, time, great, character, characters, new, other, best |
+| Thriller | story, good, action, time, great, character, best, characters, plot, other |
+| Science Fiction | story, good, time, action, great, character, characters, other, man, new |
+
+These still largely overlap even with the better stopword list. This looks like a genuine
 finding rather than a stopword artifact — these are simply the most universal words
 reviewers reach for regardless of genre. Surfacing genre-*distinctive* vocabulary (words
 disproportionately common in one genre vs. others) would need a different method, e.g.
