@@ -1,0 +1,20 @@
+# LaTeX build artifacts (compiled PDF excluded too - regenerate from main.tex,
+# or on Overleaf; commit a final PDF snapshot only when ready to submit)
+report/main.pdf
+*.aux
+*.bbl
+*.bbl-SAVE-ERROR
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
