@@ -49,15 +49,7 @@
     },
     "crew": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["name", "job"],
-        "properties": {
-          "name": {"type": "string"},
-          "job": {"type": "string"}
-        }
-      }
+      "items": {"type": "string"}
     },
     "wikipedia": {
       "type": ["object", "null"],

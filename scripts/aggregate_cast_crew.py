@@ -9,7 +9,7 @@ writes data/interim/castcrew_agg.csv with one row per cleaned movie:
   director   - "; "-joined unique names with job == "Director"
   cast       - the FULL cast in billing order, "; "-joined "Name (Character)"
                (bare name when the character field is empty)
-  crew       - the FULL crew in file order, "; "-joined "Name (Job)"
+  crew       - unique crew names, "; "-joined (no job/position)
 
 The dataset stores at most 20 cast rows per movie, so the full cast list stays a
 manageable cell. Movies that exist in movies_clean.csv but have no cast/crew rows
@@ -56,15 +56,17 @@ def aggregate(movies, cast, crew):
         )
 
         crew_rows = crew_by_movie.get(movie_id, [])
-        directors, seen = [], set()
+        directors, seen_directors = [], set()
+        crew_names, seen_crew = [], set()
         for row in crew_rows:
-            if row["job"] == "Director" and row["name"] not in seen:
-                seen.add(row["name"])
-                directors.append(row["name"])
-        crew_str = "; ".join(
-            f"{row['name']} ({row['job']})" if (row["job"] or "").strip() else row["name"]
-            for row in crew_rows
-        )
+            name = row["name"]
+            if row["job"] == "Director" and name not in seen_directors:
+                seen_directors.add(name)
+                directors.append(name)
+            if name not in seen_crew:
+                seen_crew.add(name)
+                crew_names.append(name)
+        crew_str = "; ".join(crew_names)
 
         rows.append({
             "movie_id": movie_id,

@@ -54,8 +54,8 @@ marker for *missing* — see "Missing-value rules" below.
     {"name": "Heath Ledger", "character": "Joker", "order": 1}
   ],
   "crew": [
-    {"name": "Christopher Nolan", "job": "Director"},
-    {"name": "Emma Thomas", "job": "Producer"}
+    "Christopher Nolan",
+    "Emma Thomas"
   ],
 
   "wikipedia": {
@@ -99,7 +99,7 @@ marker for *missing* — see "Missing-value rules" below.
 | `revenue` | integer | yes | `0` → `null` |
 | `director` | array[string] | no (may be `[]`) | from crew, `job == Director`; multi-valued |
 | `cast` | array[object] | no | full cast, billing order; `{name, character}` (`character` nullable) |
-| `crew` | array[object] | no | full crew; `{name, job}` |
+| `crew` | array[string] | no | crew names only (positions dropped), deduplicated |
 | `wikipedia` | object | yes | null if the movie has no Wikipedia article |
 | `wikipedia.title/url/wikidata_id/imdb_id/match_method` | string | yes | `imdb_id` may be null even when linked |
 | `plot` | string | yes | extracted Plot section (P3); **stored in full — no maximum length** |

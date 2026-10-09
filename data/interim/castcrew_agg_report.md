@@ -19,7 +19,7 @@ both files to one row per movie, which the final join then attaches by `movie_id
 | `movie_id`, `title` | from `movies_clean.csv` (join keys / human check) |
 | `director` | unique names with `job == "Director"`, `; `-joined (683 movies have >1) |
 | `cast` | **full cast** in billing order, `; `-joined as `Name (Character)`; bare `Name` when the character field is empty |
-| `crew` | **full crew** in file order, `; `-joined as `Name (Job)` |
+| `crew` | **unique crew names**, `; `-joined (no job/position) |
 
 ## Design decisions (for the group to confirm)
 
@@ -40,10 +40,12 @@ both files to one row per movie, which the final join then attaches by `movie_id
    so a left join on this file never drops movies.
 4. **Multi-director movies stay multi-valued** (`Robert Rodriguez; Frank Miller` for
    *Sin City*) — in the JSONL collection these become a list, not a `;`-joined string.
-5. **Format is `; `-joined text because the intermediate is CSV**; the final JSONL
-   collection splits each of these back into arrays of objects
-   (`cast: [{name, character, order}]`, `crew: [{name, job}]`) so Solr can index
-   `cast.name` and `crew.job` as separate fields.
+5. **Crew is names only, deduplicated.** The job/position is dropped, so `crew` is a
+   list of unique names (a person with several credits appears once). The distinction
+   "who directed" survives through the separate `director` column. In the final JSONL,
+   `crew` becomes an array of strings (`crew: ["Christopher Nolan", "Emma Thomas"]`),
+   while `cast` becomes an array of objects (`cast: [{name, character, order}]`) so
+   Solr can still index actor names, characters and billing separately.
 
 ## Numbers
 
@@ -68,5 +70,6 @@ driven by `movies_clean.csv`, keeping the output aligned with the final collecti
   `Name ()`.
 - `crew.csv` only covers **5 distinct jobs** in 3 departments (Producer, Executive
   Producer, Director, Writer, Screenplay — Production/Writing/Directing) — there is no
-  cinematography, editing or music credit in this dataset, so `crew` in the final
-  schema means *production/writing/directing crew only*.
+  cinematography, editing or music credit in this dataset. Since `crew` keeps only the
+  names, it is a flat list of people from those roles; which role each person had is not
+  recorded in the collection.
