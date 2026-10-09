@@ -20,8 +20,6 @@ both files to one row per movie, which the final join then attaches by `movie_id
 | `director` | unique names with `job == "Director"`, `; `-joined (683 movies have >1) |
 | `cast` | **full cast** in billing order, `; `-joined as `Name (Character)`; bare `Name` when the character field is empty |
 | `crew` | **full crew** in file order, `; `-joined as `Name (Job)` |
-| `num_cast` | total cast rows for the movie |
-| `num_crew` | total crew rows for the movie |
 
 ## Design decisions (for the group to confirm)
 
@@ -30,6 +28,8 @@ both files to one row per movie, which the final join then attaches by `movie_id
    billing would lose searchable names. The dataset itself caps cast at **20 rows per
    movie** (median 20, mean 15.5) and crew at **30** (mean 6.5), so the full lists
    stay small enough to keep as one cell — no truncation needed.
+2. **No cast/crew size counts.** Earlier drafts stored `num_cast`/`num_crew`; they add
+   no retrieval value (the lists themselves already have a length), so they were dropped.
 2. **`director` is kept as its own column** on top of `crew`, because "directed by X"
    is by far the most common structured query and shouldn't require substring matching
    inside the crew cell. 48 cleaned movies have no director on record (no `crew` rows

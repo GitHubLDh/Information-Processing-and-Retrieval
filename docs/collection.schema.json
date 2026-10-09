@@ -12,8 +12,6 @@
     "director",
     "cast",
     "crew",
-    "num_cast",
-    "num_crew",
     "reviews",
     "num_reviews"
   ],
@@ -61,9 +59,6 @@
         }
       }
     },
-    "num_cast": {"type": "integer", "minimum": 0},
-    "num_crew": {"type": "integer", "minimum": 0},
-
     "wikipedia": {
       "type": ["object", "null"],
       "additionalProperties": false,
@@ -76,7 +71,7 @@
         "match_method": {"type": ["string", "null"]}
       }
     },
-    "plot": {"type": ["string", "null"]},
+    "plot": {"type": ["string", "null"], "description": "Full extracted Plot section, stored in full with no maximum length."},
     "reception": {"type": ["string", "null"]},
     "production": {"type": ["string", "null"]},
 

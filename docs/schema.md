@@ -20,7 +20,7 @@ lists as lists and nested objects as objects, and Solr ingests it directly.
 |---|---|
 | `data/interim/movies_clean.csv` (P1) | identity + structured metadata fields |
 | `data/interim/reviews_clean.csv` (P1) | `reviews` array |
-| `data/interim/castcrew_agg.csv` (P4) | `director`, `cast`, `crew`, counts |
+| `data/interim/castcrew_agg.csv` (P4) | `director`, `cast`, `crew` |
 | `data/interim/movies_wikipedia_links.csv` (P2) | `wikipedia` object |
 | `data/interim/*` wiki parse output (P3) | `plot`, `reception`, `production` |
 
@@ -57,8 +57,6 @@ marker for *missing* — see "Missing-value rules" below.
     {"name": "Christopher Nolan", "job": "Director"},
     {"name": "Emma Thomas", "job": "Producer"}
   ],
-  "num_cast": 20,
-  "num_crew": 10,
 
   "wikipedia": {
     "title": "The Dark Knight",
@@ -102,10 +100,9 @@ marker for *missing* — see "Missing-value rules" below.
 | `director` | array[string] | no (may be `[]`) | from crew, `job == Director`; multi-valued |
 | `cast` | array[object] | no | full cast, billing order; `{name, character}` (`character` nullable) |
 | `crew` | array[object] | no | full crew; `{name, job}` |
-| `num_cast`, `num_crew` | integer | no | list sizes |
 | `wikipedia` | object | yes | null if the movie has no Wikipedia article |
 | `wikipedia.title/url/wikidata_id/imdb_id/match_method` | string | yes | `imdb_id` may be null even when linked |
-| `plot` | string | yes | extracted Plot section (P3) |
+| `plot` | string | yes | extracted Plot section (P3); **stored in full — no maximum length** |
 | `reception` | string | yes | Reception/Critical response section |
 | `production` | string | yes | Production/Development section |
 | `reviews` | array[object] | no (may be `[]`) | `{author, rating, text, created_at}` |
@@ -129,7 +126,8 @@ marker for *missing* — see "Missing-value rules" below.
 |---|---|---|
 | Non-numeric `movie_id` | **reject** | drops the CSV phantom row; join key must be the TMDB id |
 | Wikipedia plot | **require non-empty** | the project is plot/reception search; a movie with no plot can't serve it |
-| Plot length | **≥ 50 words** | removes stub/disambiguation extracts P3 logged as `no_plot`/short |
+| Plot maximum length | **none — always store the full text** | long plots are valuable; never truncate |
+| Plot minimum length | **≥ 50 words (proposal)** | drops stub/disambiguation extracts P3 logged as `no_plot`/short; independent of size |
 | `num_reviews` | **no minimum** | 62% of movies have 0 reviews; requiring reviews would gut the collection. Reviews stay an optional field |
 | Future release dates | **keep** | they are announced films; excluded from year stats only |
 | Non-English original language | **keep** | plots are from en.wikipedia, but the movies are searchable |
@@ -142,7 +140,8 @@ documents (exact number comes from the join run).
 
 1. **Confirm JSONL** + the field names above (vs. flat CSV).
 2. **Confirm requiring a Wikipedia plot** (recommended) vs. keeping metadata-only movies.
-3. **Confirm plot length threshold** (proposed 50 words).
+3. **Confirm the minimum plot length** (proposed 50 words). There is never a maximum —
+   plots are always stored whole.
 4. **Confirm no minimum review count** (proposed), or set one for review-heavy analysis.
 5. **Keep `original_title`, `overview`, `popularity`, `budget`, `revenue`?** Suggested:
    keep all (cheap; `popularity`/`budget`/`revenue` enable extra structured filters).

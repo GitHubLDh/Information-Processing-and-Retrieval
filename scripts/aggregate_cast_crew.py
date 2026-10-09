@@ -10,8 +10,6 @@ writes data/interim/castcrew_agg.csv with one row per cleaned movie:
   cast       - the FULL cast in billing order, "; "-joined "Name (Character)"
                (bare name when the character field is empty)
   crew       - the FULL crew in file order, "; "-joined "Name (Job)"
-  num_cast   - total cast rows for the movie
-  num_crew   - total crew rows for the movie
 
 The dataset stores at most 20 cast rows per movie, so the full cast list stays a
 manageable cell. Movies that exist in movies_clean.csv but have no cast/crew rows
@@ -74,8 +72,6 @@ def aggregate(movies, cast, crew):
             "director": "; ".join(directors),
             "cast": cast_str,
             "crew": crew_str,
-            "num_cast": len(cast_members),
-            "num_crew": len(crew_rows),
         })
     return rows
 
@@ -91,8 +87,7 @@ def main():
     out = INTERIM_DIR / "castcrew_agg.csv"
     with open(out, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["movie_id", "title", "director",
-                                               "cast", "crew",
-                                               "num_cast", "num_crew"])
+                                               "cast", "crew"])
         writer.writeheader()
         writer.writerows(rows)
 
@@ -100,9 +95,9 @@ def main():
     print(f"movies in movies_clean.csv: {len(clean_ids):,}")
     print(f"rows written to {out}: {len(rows):,}")
     print(f"clean movies with no cast rows: "
-          f"{sum(1 for r in rows if r['num_cast'] == 0)}")
+          f"{sum(1 for r in rows if not r['cast'])}")
     print(f"clean movies with no crew rows: "
-          f"{sum(1 for r in rows if r['num_crew'] == 0)}")
+          f"{sum(1 for r in rows if not r['crew'])}")
     print(f"clean movies with no director: "
           f"{sum(1 for r in rows if not r['director'])}")
     print(f"clean movies with >1 director: "
