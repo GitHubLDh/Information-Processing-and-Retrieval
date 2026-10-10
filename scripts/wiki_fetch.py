@@ -14,8 +14,8 @@ import urllib.parse
 BASE_DIR = Path(__file__).resolve().parent.parent
 USER_AGENT = "PRI-movie-fetcher/1.0 (student research; FEUP PRI project)"
 
-WIKIF_DIR = BASE_DIR / "data" / "wikipedia" / "fetch"
-WIKIF_DIR.mkdir(parents=True, exist_ok=True)
+WIKI_FETCH_DIR = BASE_DIR / "data" / "interim" / "fetch"
+WIKI_FETCH_DIR.mkdir(parents=True, exist_ok=True)
 
 LINKS_PATH = BASE_DIR / "data" / "interim" / "sample_wikipedia_links.csv"
 
@@ -26,7 +26,7 @@ def article_title_from_url(url):
     return urllib.parse.unquote(url.rsplit("/", 1)[-1].replace("_", " "))
 
 def fetch_and_save(movie_id, title, max_retries=3):
-    save_path = WIKIF_DIR / f"{movie_id}.json"
+    save_path = WIKI_FETCH_DIR / f"{movie_id}.json"
 
     if save_path.exists():
         return "skipped"  # movie already fetched
@@ -88,4 +88,4 @@ for _, row in links.iterrows():
     print(movie_id, title, "->", status)
     time.sleep(5)  
 
-pd.DataFrame(results).to_csv(WIKIF_DIR / "fetch_log.csv", index=False)
+pd.DataFrame(results).to_csv(WIKI_FETCH_DIR / "fetch_log.csv", index=False)

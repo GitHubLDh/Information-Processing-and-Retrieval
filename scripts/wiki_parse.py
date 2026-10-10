@@ -8,10 +8,8 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 import pandas as pd
 
-WIKIF_DIR = Path(__file__).resolve().parent.parent / "data" / "wikipedia" / "fetch"
-
-WIKIP_DIR = Path(__file__).resolve().parent.parent / "data" / "wikipedia" / "parse"
-WIKIP_DIR.mkdir(parents=True, exist_ok=True)
+WIKI_FETCH_DIR = Path(__file__).resolve().parent.parent / "data" / "interim" / "fetch"
+PLOT_PATH = Path(__file__).resolve().parent.parent / "data" / "interim" / "wikipedia_plot.csv"
 
 def extract_plot(html):
     soup = BeautifulSoup(html, "html.parser")
@@ -49,7 +47,7 @@ def process_file(path):
 
 
 results = []
-for path in WIKIF_DIR.glob("*.json"):
+for path in WIKI_FETCH_DIR.glob("*.json"):
     movie_id = path.stem
     result = process_file(path)
     result["movie_id"] = movie_id
@@ -57,4 +55,4 @@ for path in WIKIF_DIR.glob("*.json"):
 
 df = pd.DataFrame(results)
 df = df[["movie_id", "wiki_title", "status", "plot"]] # reorder
-df.to_csv(WIKIP_DIR / "parsed_log.csv", index=False)
+df.to_csv(PLOT_PATH, index=False)
