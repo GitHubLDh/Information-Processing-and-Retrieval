@@ -12,11 +12,13 @@ import urllib.parse
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+USER_AGENT = "PRI-movie-fetcher/1.0 (student research; FEUP PRI project)"
 
 WIKIF_DIR = BASE_DIR / "data" / "wikipedia" / "fetch"
 WIKIF_DIR.mkdir(parents=True, exist_ok=True)
 
 LINKS_PATH = BASE_DIR / "data" / "interim" / "sample_wikipedia_links.csv"
+
 
 def article_title_from_url(url):
     if pd.isna(url) or not url:
@@ -40,7 +42,14 @@ def fetch_and_save(movie_id, title, max_retries=3):
 
     for attempt in range(max_retries):
         try:
-            response = requests.get(url, params=params, timeout=15)
+            response = requests.get(
+                url, 
+                params=params, 
+                headers={
+                    "User-Agent": USER_AGENT,
+                    "Accept-Language": "en",
+                },
+                timeout=20)
             response.raise_for_status()
             data = response.json()
 
@@ -61,8 +70,8 @@ def fetch_and_save(movie_id, title, max_retries=3):
     return "failed"
 
 links = pd.read_csv(LINKS_PATH)
-
 results = []
+
 for _, row in links.iterrows():
     movie_id = row["movie_id"]
     title = row.get("wikipedia_title")
@@ -77,6 +86,6 @@ for _, row in links.iterrows():
 
     results.append({"id": movie_id, "title": title, "status": status})
     print(movie_id, title, "->", status)
-    time.sleep(1)  
+    time.sleep(5)  
 
 pd.DataFrame(results).to_csv(WIKIF_DIR / "fetch_log.csv", index=False)
