@@ -1,6 +1,6 @@
 """"
-fetches wikipedia articles by title for each movie in "movies_wikipedia_links.csv", saves raw json 
-responses to data/interim/fetch/ (skips already-fetched movies, retries on failure, 5s pause between requests)
+fetches Wikipedia articles by title for each movie in "movies_wikipedia_links.csv",
+stores raw API responses in a single JSONL archive under data/interim
 """
 
 import requests
@@ -11,14 +11,12 @@ import pandas as pd
 import urllib.parse
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = Path(__file__).resolve().parent.parent / "data" / "interim" 
 USER_AGENT = "PRI-movie-fetcher/1.0 (student research; FEUP PRI project)"
 
-WIKI_FETCH_DIR = BASE_DIR / "data" / "interim" / "fetch"
-WIKI_FETCH_DIR.mkdir(parents=True, exist_ok=True)
-
-LINKS_PATH = BASE_DIR / "data" / "interim" / "movies_wikipedia_links.csv"
-FAILED_PATH = WIKI_FETCH_DIR / "failed_fetches.csv"
+RESPONSE_PATH = DATA_DIR / "wikipedia_responses.jsonl"
+LINKS_PATH = DATA_DIR / "sample_wikipedia_links.csv"
+FAILED_PATH = DATA_DIR / "failed_fetches.csv"
 
 
 def article_title_from_url(url):
@@ -26,11 +24,24 @@ def article_title_from_url(url):
         return None
     return urllib.parse.unquote(url.rsplit("/", 1)[-1].replace("_", " "))
 
-def fetch_and_save(movie_id, title, max_retries=5):
-    save_path = WIKI_FETCH_DIR / f"{movie_id}.json"
 
-    if save_path.exists():
-        return "skipped"  # movie already fetched
+def response_exists(movie_id):
+    if not RESPONSE_PATH.exists():
+        return False
+
+    with RESPONSE_PATH.open("r", encoding="utf-8") as f:
+        for line in f:
+            if not line.strip():
+                continue
+            record = json.loads(line)
+            if str(record.get("movie_id")) == str(movie_id):
+                return True
+    return False
+
+
+def fetch_and_save(movie_id, title, max_retries=5):
+    if response_exists(movie_id):
+        return "skipped"
 
     url = "https://en.wikipedia.org/w/api.php"
     params = {
@@ -44,8 +55,8 @@ def fetch_and_save(movie_id, title, max_retries=5):
     for attempt in range(1, max_retries + 1):
         try:
             response = requests.get(
-                url, 
-                params=params, 
+                url,
+                params=params,
                 headers={
                     "User-Agent": USER_AGENT,
                     "Accept-Language": "en",
@@ -55,9 +66,8 @@ def fetch_and_save(movie_id, title, max_retries=5):
 
             if response.status_code == 429:
                 retry_after = int(response.headers.get("Retry-After", 5))
-                wait = retry_after + attempt
-                print(f"429 for {movie_id} ({title}); retrying in {wait}s", flush=True)
-                time.sleep(wait)
+                print(f"429 for {movie_id} ({title}); retrying in {retry_after}s", flush=True)
+                time.sleep(retry_after)
                 continue
 
             response.raise_for_status()
@@ -66,8 +76,14 @@ def fetch_and_save(movie_id, title, max_retries=5):
             if "error" in data:
                 return f"not_found: {data['error'].get('info')}"
 
-            with open(save_path, "w", encoding="utf-8") as f:
-                json.dump(data, f, ensure_ascii=False)
+            record = {
+                "movie_id": movie_id,
+                "title": title,
+                "response": data,
+            }
+
+            with RESPONSE_PATH.open("a", encoding="utf-8") as f:
+                f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
             return "ok"
 
@@ -104,7 +120,8 @@ for _, row in links.iterrows():
     print(movie_id, title, "->", status)
     time.sleep(1)  
 
-pd.DataFrame(results).to_csv(WIKI_FETCH_DIR / "fetch_log.csv", index=False)
+pd.DataFrame(results).to_csv(DATA_DIR / "fetch_log.csv", index=False)
+
 if failed_titles:
     pd.DataFrame(failed_titles).to_csv(FAILED_PATH, index=False)
     print(f"Logged {len(failed_titles)} titles that never succeeded after retries to {FAILED_PATH}", flush=True)
