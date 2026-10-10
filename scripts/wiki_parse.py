@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 WIKI_FETCH_DIR = Path(__file__).resolve().parent.parent / "data" / "interim" / "fetch"
-PLOT_PATH = Path(__file__).resolve().parent.parent / "data" / "interim" / "movieswikipedia_plot.csv"
+PLOT_PATH = Path(__file__).resolve().parent.parent / "data" / "interim" / "wikipedia_plot.csv"
 
 def extract_plot(html):
     soup = BeautifulSoup(html, "html.parser")

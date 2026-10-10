@@ -18,6 +18,7 @@ WIKI_FETCH_DIR = BASE_DIR / "data" / "interim" / "fetch"
 WIKI_FETCH_DIR.mkdir(parents=True, exist_ok=True)
 
 LINKS_PATH = BASE_DIR / "data" / "interim" / "movies_wikipedia_links.csv"
+FAILED_PATH = WIKI_FETCH_DIR / "failed_fetches.csv"
 
 
 def article_title_from_url(url):
@@ -25,7 +26,7 @@ def article_title_from_url(url):
         return None
     return urllib.parse.unquote(url.rsplit("/", 1)[-1].replace("_", " "))
 
-def fetch_and_save(movie_id, title, max_retries=3):
+def fetch_and_save(movie_id, title, max_retries=5):
     save_path = WIKI_FETCH_DIR / f"{movie_id}.json"
 
     if save_path.exists():
@@ -37,10 +38,10 @@ def fetch_and_save(movie_id, title, max_retries=3):
         "page": title,
         "prop": "text",
         "format": "json",
-        "redirects": 1
+        "redirects": 1,
     }
 
-    for attempt in range(max_retries):
+    for attempt in range(1, max_retries + 1):
         try:
             response = requests.get(
                 url, 
@@ -49,7 +50,16 @@ def fetch_and_save(movie_id, title, max_retries=3):
                     "User-Agent": USER_AGENT,
                     "Accept-Language": "en",
                 },
-                timeout=20)
+                timeout=20,
+            )
+
+            if response.status_code == 429:
+                retry_after = int(response.headers.get("Retry-After", 5))
+                wait = retry_after + attempt
+                print(f"429 for {movie_id} ({title}); retrying in {wait}s", flush=True)
+                time.sleep(wait)
+                continue
+
             response.raise_for_status()
             data = response.json()
 
@@ -62,15 +72,18 @@ def fetch_and_save(movie_id, title, max_retries=3):
             return "ok"
 
         except requests.RequestException as e:
-            if attempt < max_retries - 1:
-                time.sleep(3 * (attempt + 1))  # wait longer each retry
-            else:
-                return f"failed: {e}"
+            if attempt < max_retries:
+                wait = 3 * attempt
+                print(f"Request failed for {movie_id} ({title}) attempt {attempt}/{max_retries}: {e}. Retrying in {wait}s", flush=True)
+                time.sleep(wait)
+                continue
+            return f"failed: {e}"
 
     return "failed"
 
 links = pd.read_csv(LINKS_PATH)
 results = []
+failed_titles = []
 
 for _, row in links.iterrows():
     movie_id = row["movie_id"]
@@ -84,8 +97,18 @@ for _, row in links.iterrows():
     else:
         status = fetch_and_save(movie_id, title)
 
+    if status.startswith("failed") or status.startswith("not_found"):
+        failed_titles.append({"movie_id": movie_id, "title": title, "status": status})
+
     results.append({"id": movie_id, "title": title, "status": status})
     print(movie_id, title, "->", status)
-    time.sleep(5)  
+    time.sleep(1)  
 
 pd.DataFrame(results).to_csv(WIKI_FETCH_DIR / "fetch_log.csv", index=False)
+if failed_titles:
+    pd.DataFrame(failed_titles).to_csv(FAILED_PATH, index=False)
+    print(f"Logged {len(failed_titles)} titles that never succeeded after retries to {FAILED_PATH}", flush=True)
+else:
+    if FAILED_PATH.exists():
+        FAILED_PATH.unlink()
+    print("No titles failed after retries.", flush=True)
