@@ -8,11 +8,20 @@ import json
 import time
 from pathlib import Path
 import pandas as pd
+import urllib.parse
 
 
-WIKIF_DIR = Path(__file__).resolve().parent.parent / "data" / "wikipedia" / "fetch"
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+WIKIF_DIR = BASE_DIR / "data" / "wikipedia" / "fetch"
 WIKIF_DIR.mkdir(parents=True, exist_ok=True)
-SAMPLE_DIR = Path(__file__).resolve().parent.parent / "data" / "sample"
+
+LINKS_PATH = BASE_DIR / "data" / "interim" / "sample_wikipedia_links.csv"
+
+def article_title_from_url(url):
+    if pd.isna(url) or not url:
+        return None
+    return urllib.parse.unquote(url.rsplit("/", 1)[-1].replace("_", " "))
 
 def fetch_and_save(movie_id, title, max_retries=3):
     save_path = WIKIF_DIR / f"{movie_id}.json"
@@ -51,14 +60,23 @@ def fetch_and_save(movie_id, title, max_retries=3):
 
     return "failed"
 
-movies = pd.read_csv(SAMPLE_DIR / "movies_sample.csv")
+links = pd.read_csv(LINKS_PATH)
 
 results = []
-for _, row in movies.iterrows():
-    status = fetch_and_save(row["id"], row["title"])
-    results.append({"id": row["id"], "title": row["title"], "status": status})
-    print(row["id"], row["title"], "->", status)
-    time.sleep(1)  # pause between requests
+for _, row in links.iterrows():
+    movie_id = row["movie_id"]
+    title = row.get("wikipedia_title")
 
-results_df = pd.DataFrame(results)
-results_df.to_csv(WIKIF_DIR / "fetch_log.csv", index=False)
+    if pd.isna(title) or str(title).strip() == "":
+        title = article_title_from_url(row.get("wikipedia_url"))
+
+    if pd.isna(title) or str(title).strip() == "":
+        status = "unmatched"
+    else:
+        status = fetch_and_save(movie_id, title)
+
+    results.append({"id": movie_id, "title": title, "status": status})
+    print(movie_id, title, "->", status)
+    time.sleep(1)  
+
+pd.DataFrame(results).to_csv(WIKIF_DIR / "fetch_log.csv", index=False)
