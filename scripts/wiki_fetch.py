@@ -98,7 +98,6 @@ def fetch_and_save(movie_id, title, max_retries=5):
     return "failed"
 
 links = pd.read_csv(LINKS_PATH)
-results = []
 failed_titles = []
 
 for _, row in links.iterrows():
@@ -116,11 +115,8 @@ for _, row in links.iterrows():
     if status.startswith("failed") or status.startswith("not_found"):
         failed_titles.append({"movie_id": movie_id, "title": title, "status": status})
 
-    results.append({"id": movie_id, "title": title, "status": status})
     print(movie_id, title, "->", status)
-    time.sleep(1)  
-
-pd.DataFrame(results).to_csv(DATA_DIR / "fetch_log.csv", index=False)
+    time.sleep(1)
 
 if failed_titles:
     pd.DataFrame(failed_titles).to_csv(FAILED_PATH, index=False)

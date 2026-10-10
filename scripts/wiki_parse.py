@@ -46,17 +46,14 @@ def process_data(data):
 
 
 def load_raw_records():
-    if RESPONSE_PATH.exists():
-        for line in RESPONSE_PATH.read_text(encoding="utf-8").splitlines():
-            if not line.strip():
-                continue
-            record = json.loads(line)
-            yield str(record["movie_id"]), record["response"]
-        return
+    if not RESPONSE_PATH.exists():
+        raise FileNotFoundError(f"Missing Wikipedia response archive: {RESPONSE_PATH}")
 
-    for path in sorted(DATA_DIR.glob("*.json")):
-        data = json.loads(path.read_text(encoding="utf-8"))
-        yield path.stem, data
+    for line in RESPONSE_PATH.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        record = json.loads(line)
+        yield str(record["movie_id"]), record["response"]
 
 
 results = []
