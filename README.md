@@ -32,10 +32,8 @@ data/
   raw/       original Kaggle CSVs (movies, cast, crew, genres, reviews) — never edit these
   sample/    small 75-movie subset for testing scripts before running on full data
   interim/   per-stage cleaned outputs (cleaned movies/reviews, Wikidata links, Wikipedia sections)
-  final/     the final joined document collection, ready for Solr indexing
-  wikipedia/
     fetch/   raw Wikipedia API responses (one JSON file per movie)
-    parse/   parsed output (parsed_log.csv — movie_id, title, status, plot)
+  final/     the final joined document collection, ready for Solr indexing
 
 scripts/
   make_sample.py    builds data/sample/ from data/raw/

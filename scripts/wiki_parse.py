@@ -1,6 +1,6 @@
 """
-reads raw json from data/wikipedia/fetch/, extracts the plot section from each article's html, 
-and writes a summary table to data/wikipedia/parse/parsed_log.csv (movie_id, title, status, plot)
+reads raw json from data/interim/fetch/, extracts the plot section from each article's html, 
+and writes a summary table to data/interim/wikipedia_plot.csv (movie_id,wiki_title,status,plot)
 """
 
 import json
@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 WIKI_FETCH_DIR = Path(__file__).resolve().parent.parent / "data" / "interim" / "fetch"
-PLOT_PATH = Path(__file__).resolve().parent.parent / "data" / "interim" / "wikipedia_plot.csv"
+PLOT_PATH = Path(__file__).resolve().parent.parent / "data" / "interim" / "movieswikipedia_plot.csv"
 
 def extract_plot(html):
     soup = BeautifulSoup(html, "html.parser")

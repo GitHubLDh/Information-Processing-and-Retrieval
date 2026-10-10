@@ -1,6 +1,6 @@
 """"
-fetches wikipedia articles by title for each movie in the sample, saves raw json responses to 
-data/wikipedia/fetch/ (skips already-fetched movies, retries on failure, 1s pause between requests)
+fetches wikipedia articles by title for each movie in "movies_wikipedia_links.csv", saves raw json 
+responses to data/interim/fetch/ (skips already-fetched movies, retries on failure, 5s pause between requests)
 """
 
 import requests
@@ -17,7 +17,7 @@ USER_AGENT = "PRI-movie-fetcher/1.0 (student research; FEUP PRI project)"
 WIKI_FETCH_DIR = BASE_DIR / "data" / "interim" / "fetch"
 WIKI_FETCH_DIR.mkdir(parents=True, exist_ok=True)
 
-LINKS_PATH = BASE_DIR / "data" / "interim" / "sample_wikipedia_links.csv"
+LINKS_PATH = BASE_DIR / "data" / "interim" / "movies_wikipedia_links.csv"
 
 
 def article_title_from_url(url):
