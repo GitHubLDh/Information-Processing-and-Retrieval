@@ -10,7 +10,7 @@ Owner: **P4** (integration). Feeds: Milestone 2 indexing, Milestone 3 semantic s
 ## Why JSONL (not CSV)
 
 The collection mixes scalars (year, runtime), multi-valued fields (genres, cast, crew),
-and long text (plot, reviews, reception). A CSV would force cast/crew/reviews/genres
+and long text (plot, reviews). A CSV would force cast/crew/reviews/genres
 into `;`-joined strings, which breaks per-field querying and tokenization. JSONL keeps
 lists as lists and nested objects as objects, and Solr ingests it directly.
 
@@ -22,7 +22,7 @@ lists as lists and nested objects as objects, and Solr ingests it directly.
 | `data/interim/reviews_clean.csv` (P1) | `reviews` array |
 | `data/interim/castcrew_agg.csv` (P4) | `director`, `cast`, `crew` |
 | `data/interim/movies_wikipedia_links.csv` (P2) | `wikipedia` object |
-| `data/interim/*` wiki parse output (P3) | `plot`, `reception`, `production` |
+| `data/interim/*` wiki parse output (P3) | `plot` |
 
 ## Document structure
 
@@ -66,14 +66,11 @@ marker for *missing* — see "Missing-value rules" below.
     "match_method": "tmdb"
   },
   "plot": "In Gotham City, the Joker...",
-  "reception": "The Dark Knight received critical acclaim...",
-  "production": null,
 
   "reviews": [
     {"author": "Cat Ellington", "rating": null, "text": "As I'm writing this review...", "created_at": "2020-01-02"}
   ],
-  "num_reviews": 1,
-  "avg_review_words": 512.0
+  "num_reviews": 1
 }
 ```
 
@@ -103,11 +100,8 @@ marker for *missing* — see "Missing-value rules" below.
 | `wikipedia` | object | yes | null if the movie has no Wikipedia article |
 | `wikipedia.title/url/wikidata_id/imdb_id/match_method` | string | yes | `imdb_id` may be null even when linked |
 | `plot` | string | yes | extracted Plot section (P3); **stored in full — no maximum length** |
-| `reception` | string | yes | Reception/Critical response section |
-| `production` | string | yes | Production/Development section |
 | `reviews` | array[object] | no (may be `[]`) | `{author, rating, text, created_at}` |
 | `num_reviews` | integer | no | 0 for 62% of movies |
-| `avg_review_words` | number | yes | null when `num_reviews = 0` |
 
 ## Missing-value rules (important for stats and Solr)
 
@@ -125,7 +119,7 @@ marker for *missing* — see "Missing-value rules" below.
 | Filter | Proposal | Rationale |
 |---|---|---|
 | Non-numeric `movie_id` | **reject** | drops the CSV phantom row; join key must be the TMDB id |
-| Wikipedia plot | **require non-empty** | the project is plot/reception search; a movie with no plot can't serve it |
+| Wikipedia plot | **require non-empty** | the project is plot/review search; a movie with no plot can't serve it |
 | Plot maximum length | **none — always store the full text** | long plots are valuable; never truncate |
 | Plot minimum length | **≥ 50 words (proposal)** | drops stub/disambiguation extracts P3 logged as `no_plot`/short; independent of size |
 | `num_reviews` | **no minimum** | 62% of movies have 0 reviews; requiring reviews would gut the collection. Reviews stay an optional field |
@@ -145,9 +139,7 @@ documents (exact number comes from the join run).
 4. **Confirm no minimum review count** (proposed), or set one for review-heavy analysis.
 5. **Keep `original_title`, `overview`, `popularity`, `budget`, `revenue`?** Suggested:
    keep all (cheap; `popularity`/`budget`/`revenue` enable extra structured filters).
-6. **`reception`/`production` fields** — P3 currently extracts only `plot`; these stay
-   `null` until P3 adds them. Schema reserves them now so P3's output shape is settled.
-7. **P3 parser must strip footnote markers** (`[b]`, `[c]`, `[1]`) and reference brackets
+6. **P3 parser must strip footnote markers** (`[b]`, `[c]`, `[1]`) and reference brackets
    — currently present in parsed plot text (seen in the sample), and they pollute tokens.
 
 ## Reproducibility

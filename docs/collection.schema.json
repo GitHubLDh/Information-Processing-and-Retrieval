@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/PRI-movie-search/collection.schema.json",
   "title": "Movie collection document",
-  "description": "One JSON object per movie in data/final/collection.jsonl. Proposal for group confirmation; see docs/schema.md for rationale and open decisions.",
+  "description": "One JSON object per movie in data/final/collection.jsonl.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -64,8 +64,6 @@
       }
     },
     "plot": {"type": ["string", "null"], "description": "Full extracted Plot section, stored in full with no maximum length."},
-    "reception": {"type": ["string", "null"]},
-    "production": {"type": ["string", "null"]},
 
     "reviews": {
       "type": "array",
@@ -81,7 +79,6 @@
         }
       }
     },
-    "num_reviews": {"type": "integer", "minimum": 0},
-    "avg_review_words": {"type": ["number", "null"], "minimum": 0, "description": "null when num_reviews is 0."}
+    "num_reviews": {"type": "integer", "minimum": 0}
   }
 }
