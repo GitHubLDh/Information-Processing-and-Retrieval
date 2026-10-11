@@ -1,7 +1,7 @@
 {
   "build_script": "scripts/build_collection.py",
-  "build_date": "2026-10-11T11:36:22.027498+00:00",
-  "git_commit": "21ca27c969815ef6faaf40ec3ff419deb4bccea6",
+  "build_date": "2026-10-11T13:44:28.398149+00:00",
+  "git_commit": "507686cbc1445827ea958836820e86c0e451c959",
   "schema_file": "docs/collection.schema.json",
   "filters": {
     "reject_non_numeric_movie_id": true,
@@ -23,13 +23,13 @@
       "rows": 7016
     },
     "wikipedia_plot.csv": {
-      "rows": 74
+      "rows": 7014
     }
   },
   "output": {
     "path": "data/final/collection.jsonl",
-    "documents": 74,
-    "dropped_no_plot": 9635,
-    "dropped_below_50_words": 0
+    "documents": 6104,
+    "dropped_no_plot": 3231,
+    "dropped_below_50_words": 374
   }
 }

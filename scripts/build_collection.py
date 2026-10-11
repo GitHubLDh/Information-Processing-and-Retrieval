@@ -58,7 +58,7 @@ def load_rows(filename):
         return list(csv.DictReader(f))
 
 
-def to_int(value, when_zero=None):
+def to_int(value, zero_to_null=False):
     value = value.strip()
     if not value:
         return None
@@ -66,12 +66,12 @@ def to_int(value, when_zero=None):
         num = int(float(value))
     except ValueError:
         return None
-    if when_zero is not None and num == 0:
-        return when_zero
+    if zero_to_null and num == 0:
+        return None
     return num
 
 
-def to_float(value, when_zero=None):
+def to_float(value, zero_to_null=False):
     value = value.strip()
     if not value:
         return None
@@ -79,8 +79,8 @@ def to_float(value, when_zero=None):
         num = float(value)
     except ValueError:
         return None
-    if when_zero is not None and num == 0:
-        return when_zero
+    if zero_to_null and num == 0:
+        return None
     return num
 
 
@@ -180,7 +180,7 @@ def build_document(movie, castcrew, link_row, plot_row, reviews):
         "original_title": non_empty(movie["original_title"]),
         "release_date": movie["release_date"].strip() if release_date else None,
         "year": year,
-        "runtime": to_int(movie["runtime"], when_zero=None),
+        "runtime": to_int(movie["runtime"], zero_to_null=True),
         "original_language": non_empty(movie["original_language"]),
         "status": non_empty(movie["status"]),
         "overview": non_empty(movie["overview"]),
@@ -189,8 +189,8 @@ def build_document(movie, castcrew, link_row, plot_row, reviews):
         "vote_average": vote_average,
         "vote_count": vote_count,
         "popularity": to_float(movie["popularity"]),
-        "budget": to_int(movie["budget"], when_zero=None),
-        "revenue": to_int(movie["revenue"], when_zero=None),
+        "budget": to_int(movie["budget"], zero_to_null=True),
+        "revenue": to_int(movie["revenue"], zero_to_null=True),
         "director": split_list(castcrew.get("director", "")),
         "cast": parse_cast(castcrew.get("cast", "")),
         "crew_names": split_list(castcrew.get("crew_names", "")),
@@ -245,7 +245,7 @@ def main():
             continue
         reviews_by_movie.setdefault(mid, []).append({
             "author": non_empty(rev["author"]),
-            "rating": to_float(rev["author_rating"], when_zero=None)
+            "rating": to_float(rev["author_rating"])
             if rev["author_rating"].strip() else None,
             "text": (rev.get("content") or "").replace("\r\n", "\n").strip(),
             "created_at": (
