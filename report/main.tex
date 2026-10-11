@@ -29,16 +29,14 @@
 
 \begin{abstract}
 Existing movie search tools let users filter by title, genre, cast, or year, but fail
-when a user remembers only a vague plot detail rather than any exact metadata. We
-combine two linked sources: \textit{The Movie Database (TMDB) Comprehensive Dataset}
-(Kaggle, by rishabhkumar2003), containing structured movie metadata including cast,
-genres, ratings, and release info, and plot summaries scraped from Wikipedia via an
-API. Linking the two by title and year produces a collection where each movie has both
-structured, filterable metadata and a free-text narrative description, enabling
-retrieval that goes beyond exact fields to find movies by what a user actually
-remembers about them. This report covers the data sources, the collection and linking
-pipeline, dataset characterization, and a set of prospective information needs
-motivating the retrieval work in later milestones.
+when a user remembers only a vague plot detail rather than exact metadata. We combine
+structured movie metadata and user reviews from \textit{The Movie Database (TMDB)
+Comprehensive Dataset} (Kaggle, by rishabhkumar2003) with plot text from English
+Wikipedia. We link records by TMDB ID through Wikidata, using its TMDB movie ID
+property (P4947), rather than matching titles and years. The resulting collection
+supports retrieval by remembered plot details and review opinions as well as structured
+fields. This report describes the sources, processing pipeline, dataset
+characterization, and prospective information needs for later milestones.
 \end{abstract}
 
 \maketitle
@@ -85,8 +83,10 @@ accurate.
 Plot summaries for each movie, retrieved via the Wikipedia and MediaWiki API's
 \texttt{action=parse} endpoint~\cite{wikipedia,mediawiki-api}, linked to TMDB IDs
 through Wikidata~\cite{wikidata} using property P4947, rather than by title matching,
-to avoid collisions with same-titled non-film articles. Wikipedia text is licensed
-CC~BY-SA~4.0.
+to avoid collisions with same-titled non-film articles. We also retrieve IMDb IDs
+through Wikidata property P345 when available. A manually run Wikidata Query Service
+query on 20 hand-picked sample movies returned the TMDB ID, IMDb ID, and English
+Wikipedia article together for all 20. Wikipedia text is licensed CC~BY-SA~4.0.
 % TODO: confirm exact license wording to cite.
 
 \paragraph{Authority assessment.} Wikipedia's authority is crowd-sourced rather than
@@ -110,7 +110,11 @@ into a single final collection:
     9{,}771 $\rightarrow$ 9{,}710 movies, 13{,}073 $\rightarrow$ 12{,}248 reviews.
   \item \textbf{Wikidata linking} — resolve each TMDB ID to an English Wikipedia
     article title via Wikidata property P4947. 7{,}016 / 9{,}710 movies (72.3\%)
-    linked successfully.
+    linked successfully. Of the 2{,}694 unmatched IDs, 1{,}614 had no Wikidata item
+    returned for the supplied TMDB ID, while 1{,}080 matched an item without an
+    English Wikipedia sitelink. The first count does not establish that no Wikidata
+    item exists; an item may lack the TMDB identifier. This Kaggle dataset has no
+    IMDb ID column, so an IMDb fallback was unavailable.
   \item \textbf{Wikipedia fetching \& parsing} — fetch each linked article and extract
     its Plot section.
     % TODO: numbers once the fetch runs on the full linked set with the corrected titles.
@@ -152,6 +156,34 @@ see \texttt{data/interim/movies\_reviews\_report.md} for full tables.
   \caption{A movie's average review length vs. its rating, with a linear fit
   ($r=0.115$).}
   \label{fig:review-length-rating}
+\end{figure}
+
+\subsection{Wikidata linking}
+Wikidata-linking coverage varied by release period and genre. It was 78.5\% for
+2000s films and 66.7\% for 2020s films (not a monotonic trend by age); by genre it
+was 90.9\% for Adventure and 92.1\% for Western, compared with 37.4\% for
+Documentary and 41.3\% for TV Movie. Genre counts overlap. In a manual check, eight
+successful sample links were confirmed against their movie pages. A 20-title
+unmatched-title spot check found collisions such as \emph{Rita} and \emph{Roxanna}
+(disambiguation pages) and \emph{The Photographer} (redirecting to a disambiguation
+page), supporting identifier-based rather than title-only linking. Figures
+\ref{fig:wikidata-decade} and~\ref{fig:wikidata-genre} show the coverage differences.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{figures/wikidata_coverage_by_decade.pdf}
+  \caption{English Wikipedia linking coverage by release period. Labels show linked
+  and total movies for each period.}
+  \label{fig:wikidata-decade}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{figures/wikidata_coverage_by_genre.pdf}
+  \caption{English Wikipedia linking coverage for the two highest- and lowest-coverage
+  genres. Movies with multiple genres contribute to each
+  relevant category; labels show linked and total movies.}
+  \label{fig:wikidata-genre}
 \end{figure}
 
 % TODO: collection-wide stats (doc count, vocabulary size, frequent terms),
