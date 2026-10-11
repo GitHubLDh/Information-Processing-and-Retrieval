@@ -80,21 +80,27 @@ production applications (e.g.\ Plex, Kodi), which lends indirect authority. Per-
 accurate.
 
 \subsection{Wikipedia}
-Plot summaries for each movie, retrieved via the Wikipedia and MediaWiki API's
-\texttt{action=parse} endpoint~\cite{wikipedia,mediawiki-api}, linked to TMDB IDs
-through Wikidata~\cite{wikidata} using property P4947, rather than by title matching,
-to avoid collisions with same-titled non-film articles. We also retrieve IMDb IDs
-through Wikidata property P345 when available. A manually run Wikidata Query Service
-query on 20 hand-picked sample movies returned the TMDB ID, IMDb ID, and English
-Wikipedia article together for all 20. Wikipedia text is licensed CC~BY-SA~4.0.
-% TODO: confirm exact license wording to cite.
-
+Plot summaries are retrieved from English Wikipedia through the MediaWiki API's
+\texttt{action=parse} endpoint~\cite{wikipedia,mediawiki-api}, which returns the
+rendered HTML of an article as JSON. Each article is linked to a TMDB movie through
+Wikidata~\cite{wikidata}, using the TMDB movie ID property (P4947), instead of by
+title. An early attempt that looked articles up by plain title returned
+disambiguation pages for some films (e.g.\ \textit{Interstellar}), so title matching
+was not reliable. Only the Plot section of each article is kept. Wikipedia text is
+available under the CC~BY-SA~4.0 license~\cite{wikimedia-terms}, which requires
+attribution and share-alike and is compatible with this non-commercial academic
+project. Requests are limited to one per second, following the API usage guidelines.
+ 
 \paragraph{Authority assessment.} Wikipedia's authority is crowd-sourced rather than
-centrally verified: article quality depends on how actively a given page is edited and
-cited. High-profile films tend to have well-maintained, citation-backed articles, while
-niche titles may have thin or stale ones — a disparity already visible in our linking
-results, where mainstream genres (e.g.\ Adventure, Action) link to an English Wikipedia
-article far more often than niche categories (e.g.\ Documentary, TV Movie).
+centrally verified: article quality depends on how actively a page is edited and
+cited. High-profile films tend to have well-maintained, citation-backed articles,
+while niche titles may have thin or stale ones --- a disparity already visible in our
+linking results, where mainstream genres (e.g.\ Adventure, Action) link to an English
+Wikipedia article far more often than niche categories (e.g.\ Documentary, TV Movie).
+For this project the relevant content is the plot summary, which follows a common
+editorial convention (present tense, spoilers included) and is therefore fairly
+uniform across articles, although its completeness still depends on how well a page
+is maintained.
 
 \section{Collection \& Preparation}
 % TODO: insert a Data Flow Diagram (DFD) of the pipeline once merged — per the course's
@@ -115,10 +121,18 @@ into a single final collection:
     English Wikipedia sitelink. The first count does not establish that no Wikidata
     item exists; an item may lack the TMDB identifier. This Kaggle dataset has no
     IMDb ID column, so an IMDb fallback was unavailable.
-  \item \textbf{Wikipedia fetching \& parsing} — fetch each linked article and extract
-    its Plot section.
-    % TODO: numbers once the fetch runs on the full linked set with the corrected titles.
-  \item \textbf{Final join} — merge cleaned movies, reviews, cast/crew, Wikidata
+  \item \textbf{Wikipedia fetching \& parsing} - each linked article is requested
+    through the MediaWiki API (redirects followed, one request per second, up to
+    three retries on failure) and the raw JSON response is cached unchanged, one
+    file per movie, so that parsing can be rerun without downloading anything
+    again. A separate script then extracts the Plot section from the cached HTML and every movie 
+    receives a status: plot extracted, \texttt{no\_plot} (the article was fetched but no
+    matching section was found), or not fetched. In the final run, 7{,}014 of the
+    7{,}016 linked titles were fetched (2 could not be fetched), and 6{,}478 plots
+    were extracted (92.3\% of the linked titles). The 536 \texttt{no\_plot}
+    articles are pages where the parser found no matching Plot section, not failed
+    downloads.
+    \item \textbf{Final join} — merge cleaned movies, reviews, cast/crew, Wikidata
     links, and Wikipedia plots into one document per movie.
     % TODO: not yet complete.
 \end{enumerate}
@@ -129,6 +143,34 @@ into a single final collection:
 \section{Characterization}
 % Reviews characterization (P1's part) is complete; the rest needs the final
 % joined collection.
+
+\subsection{Wikipedia plots}
+Of the 7{,}016 linked movies, 6{,}478 (92.3\%) have an extracted plot. Across all 9{,}710 cleaned movies this is 66.7\%,
+so plot-based retrieval can only reach movies that have an English Wikipedia article
+with a recognizable plot section.
+ 
+\begin{table}[h]
+  \caption{Wikipedia plot extraction outcomes for the 7{,}016 linked movies.}
+  \label{tab:plot-coverage}
+  \begin{tabular}{lrr}
+    \toprule
+    Outcome & Movies & \% \\
+    \midrule
+    Plot extracted                   & 6{,}478 & 92.3 \\
+    Fetched but no plot section      &     536 &  7.6 \\
+    Not fetched                      &       2 & $<$0.1 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+ 
+Plots average 511 words (median 580, range 10 to 3{,}253), about twice the length of
+an average review (239 words). They are narrative rather than evaluative: they retell
+events and characters, while reviews express opinions. They are also much longer than
+TMDB's own overview field, which is the main reason
+for adding Wikipedia: it supplies the long free text that the Kaggle data lacks.
+These plots are the field that the plot-based information
+needs will be matched against in Milestone 2, where their usefulness for retrieval
+will be measured.
 
 \subsection{Reviews}
 Of 9{,}710 cleaned movies, 6{,}013 (62\%) have zero reviews after cleaning; review
