@@ -15,7 +15,7 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data" / "interim"
 USER_AGENT = "PRI-movie-fetcher/1.0 (student research; FEUP PRI project)"
 
 RESPONSE_PATH = DATA_DIR / "wikipedia_responses.jsonl"
-LINKS_PATH = DATA_DIR / "sample_wikipedia_links.csv"
+LINKS_PATH = DATA_DIR / "movies_wikipedia_links.csv"
 FAILED_PATH = DATA_DIR / "failed_fetches.csv"
 
 

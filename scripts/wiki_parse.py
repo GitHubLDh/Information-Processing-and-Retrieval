@@ -4,6 +4,7 @@ and writes a summary table to data/interim/wikipedia_plot.csv (movie_id,wiki_tit
 """
 
 import json
+import sys
 from pathlib import Path
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -14,19 +15,29 @@ PLOT_PATH = DATA_DIR / "wikipedia_plot.csv"
 
 def extract_plot(html):
     soup = BeautifulSoup(html, "html.parser")
-    current_heading = None
+    in_plot = False
     plot_paragraphs = []
+    heading_options = ["plot", "synopsis", "premise", "plot summary"]
 
     for tag in soup.find_all(["h2", "h3", "p"]):
+        text = tag.get_text(" ", strip=True)
+
         if tag.name in ("h2", "h3"):
-            current_heading = tag.get_text().strip().lower()
-        elif current_heading == "plot":
-            text = tag.get_text().strip()
-            if text:
-                plot_paragraphs.append(text)
-        elif current_heading is not None and plot_paragraphs:
-            # moved past the plot section (stop)
-            break
+            heading = text.lower()
+
+            if heading in heading_options:
+                in_plot = True
+                continue
+
+            if in_plot:
+                if tag.name == "h2":
+                    break
+                if text:
+                    plot_paragraphs.append(text)
+                continue
+
+        if in_plot and tag.name == "p" and text:
+            plot_paragraphs.append(text)
 
     return " ".join(plot_paragraphs) if plot_paragraphs else None
 
@@ -49,10 +60,23 @@ def load_raw_records():
     if not RESPONSE_PATH.exists():
         raise FileNotFoundError(f"Missing Wikipedia response archive: {RESPONSE_PATH}")
 
-    for line in RESPONSE_PATH.read_text(encoding="utf-8").splitlines():
+    for line_number, line in enumerate(RESPONSE_PATH.read_text(encoding="utf-8").splitlines(), start=1):
         if not line.strip():
             continue
-        record = json.loads(line)
+        try:
+            record = json.loads(line)
+        except json.JSONDecodeError as exc:
+            print(f"Skipping malformed JSONL record on line {line_number}: {exc}", file=sys.stderr)
+            continue
+
+        if not isinstance(record, dict):
+            print(f"Skipping non-object record on line {line_number}", file=sys.stderr)
+            continue
+
+        if "movie_id" not in record or "response" not in record:
+            print(f"Skipping incomplete record on line {line_number}", file=sys.stderr)
+            continue
+
         yield str(record["movie_id"]), record["response"]
 
 
