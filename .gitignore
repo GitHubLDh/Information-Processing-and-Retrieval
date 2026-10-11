@@ -18,3 +18,4 @@ report/main.pdf
 # Python
 __pycache__/
 *.pyc
+data/interim/wikipedia_responses.jsonl
