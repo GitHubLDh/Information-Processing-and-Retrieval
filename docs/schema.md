@@ -20,7 +20,7 @@ lists as lists and nested objects as objects, and Solr ingests it directly.
 |---|---|
 | `data/interim/movies_clean.csv` (P1) | identity + structured metadata fields |
 | `data/interim/reviews_clean.csv` (P1) | `reviews` array |
-| `data/interim/castcrew_agg.csv` (P4) | `director`, `cast`, `crew` |
+| `data/interim/castcrew_agg.csv` (P4) | `director`, `cast`, `crew_names`, `crew_roles` |
 | `data/interim/movies_wikipedia_links.csv` (P2) | `wikipedia` object |
 | `data/interim/*` wiki parse output (P3) | `plot` |
 
@@ -53,9 +53,13 @@ marker for *missing* — see "Missing-value rules" below.
     {"name": "Christian Bale", "character": "Bruce Wayne", "order": 0},
     {"name": "Heath Ledger", "character": "Joker", "order": 1}
   ],
-  "crew": [
+  "crew_names": [
     "Christopher Nolan",
     "Emma Thomas"
+  ],
+  "crew_roles": [
+    {"name": "Christopher Nolan", "job": "Director"},
+    {"name": "Emma Thomas", "job": "Producer"}
   ],
 
   "wikipedia": {
@@ -95,13 +99,30 @@ marker for *missing* — see "Missing-value rules" below.
 | `budget` | integer | yes | `0` → `null` (unknown, not free) |
 | `revenue` | integer | yes | `0` → `null` |
 | `director` | array[string] | no (may be `[]`) | from crew, `job == Director`; multi-valued |
-| `cast` | array[object] | no | full cast, billing order; `{name, character}` (`character` nullable) |
-| `crew` | array[string] | no | crew names only (positions dropped), deduplicated |
+| `cast` | array[object] | no | full cast, billing order; `{name, character, order}` (`character` nullable) |
+| `crew_names` | array[string] | no | **searchable** crew names only, deduplicated — names are sought by people |
+| `crew_roles` | array[object] | no | **display-only** `{name, job}` — every credit, one entry per job; never indexed as text |
 | `wikipedia` | object | yes | null if the movie has no Wikipedia article |
 | `wikipedia.title/url/wikidata_id/imdb_id/match_method` | string | yes | `imdb_id` may be null even when linked |
 | `plot` | string | yes | extracted Plot section (P3); **stored in full — no maximum length** |
 | `reviews` | array[object] | no (may be `[]`) | `{author, rating, text, created_at}` |
 | `num_reviews` | integer | no | 0 for 62% of movies |
+
+## Searchable vs display-only (read before Solr config in M2)
+
+The collection file carries both kinds of data; the *indexed/stored* split happens in
+the Solr schema, but this naming convention marks intent so it is never missed:
+
+- **Searchable** (goes in the inverted index): `title`, `original_title`, `overview`,
+  `tagline`, `plot`, `genres`, `director`, `cast.name` + `cast.character`, `crew_names`,
+  review `author`/`text`, and scalars usable as filters (`year`, `runtime`, ...).
+- **Display-only / never indexed as text**: `crew_roles` (job words like "Producer" must
+  not be queryable — otherwise "a movie about a producer" returns the film with the most
+  producers), and `cast.order` (a sort key, not searchable).
+
+`cast` objects keep `character` searchable on purpose: users legitimately search by
+character ("matching movies where Christopher Reeve plays Superman"). `crew_roles`
+exists only for the detail page.
 
 ## Missing-value rules (important for stats and Solr)
 

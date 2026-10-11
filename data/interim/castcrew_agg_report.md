@@ -19,7 +19,8 @@ both files to one row per movie, which the final join then attaches by `movie_id
 | `movie_id`, `title` | from `movies_clean.csv` (join keys / human check) |
 | `director` | unique names with `job == "Director"`, `; `-joined (683 movies have >1) |
 | `cast` | **full cast** in billing order, `; `-joined as `Name (Character)`; bare `Name` when the character field is empty |
-| `crew` | **unique crew names**, `; `-joined (no job/position) |
+| `crew_names` | **unique crew names**, `; `-joined — the searchable field |
+| `crew_roles` | **every crew credit** as `Name (Job)`, `; `-joined — the display-only field; a person with several jobs appears once per job |
 
 ## Design decisions (for the group to confirm)
 
@@ -36,16 +37,22 @@ both files to one row per movie, which the final join then attaches by `movie_id
    or no `job == "Director"`), which is left as an empty value rather than guessed
    from other jobs.
 3. **Empty output rows are kept.** A movie with no cast/crew rows still appears in the
-   file with empty `director`/`cast`/`crew` (96 movies have no cast, 37 have no crew),
-   so a left join on this file never drops movies.
+   file with empty `director`/`cast`/`crew_names`/`crew_roles` (96 movies have no cast,
+   37 have no crew), so a left join on this file never drops movies.
 4. **Multi-director movies stay multi-valued** (`Robert Rodriguez; Frank Miller` for
    *Sin City*) — in the JSONL collection these become a list, not a `;`-joined string.
-5. **Crew is names only, deduplicated.** The job/position is dropped, so `crew` is a
-   list of unique names (a person with several credits appears once). The distinction
-   "who directed" survives through the separate `director` column. In the final JSONL,
-   `crew` becomes an array of strings (`crew: ["Christopher Nolan", "Emma Thomas"]`),
-   while `cast` becomes an array of objects (`cast: [{name, character, order}]`) so
-   Solr can still index actor names, characters and billing separately.
+5. **Crew splits into searchable names + display-only roles.** `crew_names` is the
+   deduplicated list of people (a person with several credits appears once) and is the
+   *only* crew field that goes in the searchable index. `crew_roles` keeps the `Name
+   (Job)` credits for the detail page and must **never be indexed as text** — job words
+   like "Producer" belong to display only, otherwise a query for "a movie about a
+   producer" would surface the film with the most producers. In the final JSONL:
+   `crew_names: ["Christopher Nolan", "Emma Thomas"]` and
+   `crew_roles: [{name, job}]`. `director` survives separately from `crew_names` because
+   "directed by X" is the most common structured query and shouldn't rely on substring
+   matching inside the names cell. `cast` stays as objects (`cast: [{name, character,
+   order}]`) so Solr can index actor names *and* characters ("search me the one with the
+   Joker") plus keep billing order for display.
 
 ## Numbers
 
@@ -70,6 +77,5 @@ driven by `movies_clean.csv`, keeping the output aligned with the final collecti
   `Name ()`.
 - `crew.csv` only covers **5 distinct jobs** in 3 departments (Producer, Executive
   Producer, Director, Writer, Screenplay — Production/Writing/Directing) — there is no
-  cinematography, editing or music credit in this dataset. Since `crew` keeps only the
-  names, it is a flat list of people from those roles; which role each person had is not
-  recorded in the collection.
+  cinematography, editing or music credit in this dataset. `crew_names` keeps the
+  people; `crew_roles` records which of these roles each person had for display.

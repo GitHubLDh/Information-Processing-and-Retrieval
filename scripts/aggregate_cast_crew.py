@@ -9,12 +9,18 @@ writes data/interim/castcrew_agg.csv with one row per cleaned movie:
   director   - "; "-joined unique names with job == "Director"
   cast       - the FULL cast in billing order, "; "-joined "Name (Character)"
                (bare name when the character field is empty)
-  crew       - unique crew names, "; "-joined (no job/position)
+  crew_names - unique crew names, "; "-joined (searchable field; no job/position)
+  crew_roles - every crew credit "Name (Job)", "; "-joined (display-only field;
+               a person with several jobs appears once per job)
+
+`crew_names` and `crew_roles` are deliberately separate: the final collection marks
+names as searchable and roles as display-only, so a query for a role word like
+"producer" cannot match a movie just because it has producers.
 
 The dataset stores at most 20 cast rows per movie, so the full cast list stays a
 manageable cell. Movies that exist in movies_clean.csv but have no cast/crew rows
-still get an output row (empty director/cast/crew), so a left join on this file
-never drops movies.
+still get an output row (empty director/cast/crew_names/crew_roles), so a left join
+on this file never drops movies.
 
 Usage: python3 scripts/aggregate_cast_crew.py
 """
@@ -66,14 +72,15 @@ def aggregate(movies, cast, crew):
             if name not in seen_crew:
                 seen_crew.add(name)
                 crew_names.append(name)
-        crew_str = "; ".join(crew_names)
+        crew_roles_str = "; ".join(f"{row['name']} ({row['job']})" for row in crew_rows)
 
         rows.append({
             "movie_id": movie_id,
             "title": movie["title"],
             "director": "; ".join(directors),
             "cast": cast_str,
-            "crew": crew_str,
+            "crew_names": "; ".join(crew_names),
+            "crew_roles": crew_roles_str,
         })
     return rows
 
@@ -89,7 +96,7 @@ def main():
     out = INTERIM_DIR / "castcrew_agg.csv"
     with open(out, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["movie_id", "title", "director",
-                                               "cast", "crew"])
+                                               "cast", "crew_names", "crew_roles"])
         writer.writeheader()
         writer.writerows(rows)
 
@@ -99,7 +106,7 @@ def main():
     print(f"clean movies with no cast rows: "
           f"{sum(1 for r in rows if not r['cast'])}")
     print(f"clean movies with no crew rows: "
-          f"{sum(1 for r in rows if not r['crew'])}")
+          f"{sum(1 for r in rows if not r['crew_names'])}")
     print(f"clean movies with no director: "
           f"{sum(1 for r in rows if not r['director'])}")
     print(f"clean movies with >1 director: "

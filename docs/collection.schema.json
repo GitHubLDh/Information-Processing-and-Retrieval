@@ -11,7 +11,8 @@
     "genres",
     "director",
     "cast",
-    "crew",
+    "crew_names",
+    "crew_roles",
     "reviews",
     "num_reviews"
   ],
@@ -47,9 +48,23 @@
         }
       }
     },
-    "crew": {
+    "crew_names": {
       "type": "array",
-      "items": {"type": "string"}
+      "items": {"type": "string"},
+      "description": "Unique crew names, searchable. Job words must never appear here."
+    },
+    "crew_roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "job"],
+        "properties": {
+          "name": {"type": "string"},
+          "job": {"type": "string"}
+        }
+      },
+      "description": "Every crew credit {name, job}, display-only. Do NOT index as text."
     },
     "wikipedia": {
       "type": ["object", "null"],
