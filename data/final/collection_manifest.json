@@ -1,0 +1,35 @@
+{
+  "build_script": "scripts/build_collection.py",
+  "build_date": "2026-10-11T13:44:28.398149+00:00",
+  "git_commit": "507686cbc1445827ea958836820e86c0e451c959",
+  "schema_file": "docs/collection.schema.json",
+  "filters": {
+    "reject_non_numeric_movie_id": true,
+    "require_plot": true,
+    "strip_footnote_markers": true,
+    "min_plot_words": 50
+  },
+  "sources": {
+    "movies_clean.csv": {
+      "rows": 9710
+    },
+    "reviews_clean.csv": {
+      "rows": 12248
+    },
+    "castcrew_agg.csv": {
+      "rows": 9710
+    },
+    "movies_wikipedia_links.csv": {
+      "rows": 7016
+    },
+    "wikipedia_plot.csv": {
+      "rows": 7014
+    }
+  },
+  "output": {
+    "path": "data/final/collection.jsonl",
+    "documents": 6104,
+    "dropped_no_plot": 3231,
+    "dropped_below_50_words": 374
+  }
+}

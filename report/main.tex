@@ -1,7 +1,5 @@
 % M1 report skeleton — ACM sigconf template.
-% Compile on Overleaf (search "ACM sigconf" template, or upload this + references.bib) —
-% the acmart class isn't installed locally. Word template is also available from ACM if
-% the group prefers that instead; this file assumes LaTeX.
+% Compile on Overleaf (search "ACM sigconf" template, or upload this + references.bib)
 
 \documentclass[sigconf]{acmart}
 
@@ -42,31 +40,30 @@ characterization, and prospective information needs for later milestones.
 \maketitle
 
 \section{Topic}
-% The differentiating angle: why movies despite it being a common topic.
 Movies are a common dataset choice, so the retrieval goal deliberately does not center
 on metadata search (genre, year, cast) that any catalog already supports well. Instead,
-the goal is retrieval driven by \emph{what a user remembers about a movie} — a plot
-detail, a theme, a narrative trope, or what critics said about it — rather than what
-they can already filter for. This motivates linking structured TMDB metadata with two
+the goal is retrieval driven by \emph{what a user remembers about a movie} --- a plot
+detail, a theme or a narrative trope --- rather than what they can already filter for. 
+This motivates linking structured TMDB metadata with two
 free-text sources: Wikipedia plot summaries (narrative content) and TMDB user reviews
 (reception and opinion), so that information needs can be phrased the way people
 actually half-remember movies, not the way a database schema represents them. For
 example: \textit{``A story where the main character can't trust their own memories or
 perception of reality, and slowly uncovers a hidden truth about who they really
 are.''} No metadata field captures this, and no single keyword match is reliable
-either — it requires matching the collection's free text to a vaguely-recalled theme.
+either --- it requires matching the collection's free text to a vaguely-recalled theme.
 
 \section{Data Sources}
 
 \subsection{The Movie Database (TMDB) Comprehensive Dataset}
 Kaggle dataset by rishabhkumar2003~\cite{tmdb-kaggle}, sourced from the TMDB API. Five CSV files:
-\texttt{movies.csv} (9{,}771 rows — one per movie; title, overview, release date,
+\texttt{movies.csv} (9{,}771 rows --- one per movie; title, overview, release date,
 runtime, budget, revenue, rating, vote count, genres, language), \texttt{cast.csv}
 (\textasciitilde150{,}000 rows), \texttt{crew.csv} (\textasciitilde63{,}600 rows),
-\texttt{genres.csv} (a 20-row reference table, not a per-movie join table — genres are
+\texttt{genres.csv} (a 20-row reference table, not a per-movie join table --- genres are
 already embedded in \texttt{movies.csv}), and \texttt{reviews.csv} (user reviews,
 13{,}073 rows after parsing). No IMDb ID field exists in this dataset. The dataset is
-licensed CC~BY-NC-SA~4.0 — non-commercial use with attribution and share-alike, which
+licensed CC~BY-NC-SA~4.0 --- non-commercial use with attribution and share-alike, which
 is compatible with this (non-commercial, academic) project.
 
 \paragraph{Authority assessment.} The dataset is published by a third-party Kaggle
@@ -103,18 +100,14 @@ uniform across articles, although its completeness still depends on how well a p
 is maintained.
 
 \section{Collection \& Preparation}
-% TODO: insert a Data Flow Diagram (DFD) of the pipeline once merged — per the course's
-% own notation: squares = external entities, rounded rectangles = processes, arrows =
-% data flows, open-ended rectangles = data stores. This is distinct from the conceptual
-% data model below, which should be a separate UML class diagram, not the same diagram.
 The collection pipeline has four stages, run by different group members and merged
-into a single final collection:
+into a single final collection (Figure~\ref{fig:dfd}):
 \begin{enumerate}
-  \item \textbf{Movies/reviews cleaning} — deduplicate movies, drop movies with no
+  \item \textbf{Movies/reviews cleaning} --- deduplicate movies, drop movies with no
     release date, clean review text (strip HTML/Markdown formatting), drop empty or
     very short (\textless20 words) reviews, drop duplicate reviews. Result:
     9{,}771 $\rightarrow$ 9{,}710 movies, 13{,}073 $\rightarrow$ 12{,}248 reviews.
-  \item \textbf{Wikidata linking} — resolve each TMDB ID to an English Wikipedia
+  \item \textbf{Wikidata linking} --- resolve each TMDB ID to an English Wikipedia
     article title via Wikidata property P4947. 7{,}016 / 9{,}710 movies (72.3\%)
     linked successfully. Of the 2{,}694 unmatched IDs, 1{,}614 had no Wikidata item
     returned for the supplied TMDB ID, while 1{,}080 matched an item without an
@@ -132,17 +125,39 @@ into a single final collection:
     were extracted (92.3\% of the linked titles). The 536 \texttt{no\_plot}
     articles are pages where the parser found no matching Plot section, not failed
     downloads.
-    \item \textbf{Final join} — merge cleaned movies, reviews, cast/crew, Wikidata
-    links, and Wikipedia plots into one document per movie.
-    % TODO: not yet complete.
+    \item \textbf{Final join} --- aggregate cast and crew to one row per movie, then
+    merge cleaned movies, reviews, cast/crew, Wikidata links, and Wikipedia plots into
+    one JSONL document per movie, validating every document against our JSON Schema.
+    A movie is kept only if its article yielded a plot of at least 50 words: the join
+    writes \textbf{6{,}104} documents from the 9{,}709 movies (3{,}231 have no usable
+    plot, 374 a plot under 50 words), carrying 12{,}057 reviews. 
 \end{enumerate}
 
-% TODO: conceptual data model — a UML class diagram (per course requirement), not prose:
-% Movie 1--* Review, Movie 1--* CastMember, Movie 1--* CrewMember, Movie 1--1 WikipediaArticle.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/pipeline-pri.png}
+  \caption{Data flow diagram of the collection pipeline: external entities (squares),
+  processes (rounded rectangles), and data stores (open-ended rectangles), connected by
+  data flows. Cast and crew enter through a separate aggregation process, so each movie
+  appears in the join exactly once.}
+  \label{fig:dfd}
+\end{figure}
+
+The conceptual data model is a UML class diagram rather than a relational schema: the
+collection is one JSONL document per movie, with sub-objects embedded, so the child
+classes exist only inside their movie's document (composition). Figure~\ref{fig:uml}
+shows the model; \texttt{director} is not a separate class but a derivation from
+\texttt{CrewMember} where \texttt{job} is \texttt{Director}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/uml-pri.png}
+  \caption{UML class diagram of the final collection schema; composition diamonds mark
+  the embedded sub-objects (reviews, cast, crew) inside each movie document.}
+  \label{fig:uml}
+\end{figure}
 
 \section{Characterization}
-% Reviews characterization (P1's part) is complete; the rest needs the final
-% joined collection.
 
 \subsection{Wikipedia plots}
 Of the 7{,}016 linked movies, 6{,}478 (92.3\%) have an extracted plot. Across all 9{,}710 cleaned movies this is 66.7\%,
@@ -181,10 +196,9 @@ average 239 words (median 181), with a right-skewed distribution
 with a movie's rating (Pearson $r = 0.115$, $n=3{,}697$), visible as a dense, largely
 flat scatter in Figure~\ref{fig:review-length-rating}. The most frequent words across
 all reviews, after stopword removal, are dominated by generic film-review vocabulary
-(\textit{story, character, cast, plot, scenes}) rather than genre-distinctive terms —
-see \texttt{data/interim/movies\_reviews\_report.md} for full tables.
+(\textit{story, character, cast, plot, scenes}) rather than genre-distinctive terms.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\columnwidth]{figures/review_length_hist.pdf}
   \caption{Distribution of review length in words (78 reviews over 1500 words omitted
@@ -192,7 +206,7 @@ see \texttt{data/interim/movies\_reviews\_report.md} for full tables.
   \label{fig:review-length-hist}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\columnwidth]{figures/review_length_vs_rating.pdf}
   \caption{A movie's average review length vs. its rating, with a linear fit
@@ -211,7 +225,7 @@ unmatched-title spot check found collisions such as \emph{Rita} and \emph{Roxann
 page), supporting identifier-based rather than title-only linking. Figures
 \ref{fig:wikidata-decade} and~\ref{fig:wikidata-genre} show the coverage differences.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.9\columnwidth]{figures/wikidata_coverage_by_decade.pdf}
   \caption{English Wikipedia linking coverage by release period. Labels show linked
@@ -219,7 +233,7 @@ page), supporting identifier-based rather than title-only linking. Figures
   \label{fig:wikidata-decade}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.9\columnwidth]{figures/wikidata_coverage_by_genre.pdf}
   \caption{English Wikipedia linking coverage for the two highest- and lowest-coverage
@@ -228,9 +242,18 @@ page), supporting identifier-based rather than title-only linking. Figures
   \label{fig:wikidata-genre}
 \end{figure}
 
-% TODO: collection-wide stats (doc count, vocabulary size, frequent terms),
-% structured-field stats (genre/year/language/rating distributions),
-% multi-variable analysis, Wikipedia-section stats, NER — all pending the final join.
+\subsection{Joined collection}
+The final collection holds 6{,}104 documents. Every document has a title, plot,
+\texttt{wikipedia} object, and vote count; coverage is 99\% for cast, crew, director,
+and runtime, but only 61\% for budget and 63\% for revenue (TMDB stores these as 0,
+which the schema maps to \texttt{null}). Genre and era coverage follow the source
+data: Drama (2{,}670), Comedy (1{,}937), and Thriller (1{,}608) lead, and 4{,}290 of
+the 6{,}104 films (70\%) are from the 2000s--2020s. The plot field dominates the free
+text (median 596 words against a 240-character median overview), which is why it is
+the main retrieval signal; plots and reviews together contribute nearly 99{,}000
+unique word forms (case-folded). Missing-value hygiene holds throughout: no
+empty-string or zero placeholders survive the join, and every nullable field is
+\texttt{null}.
 
 \section{Prospective Search Tasks}
 Information needs are deliberately phrased around themes, situations, and reception
@@ -240,17 +263,16 @@ movie catalogs.
 \begin{enumerate}
   \item A movie whose reviewers describe the comedy as clever, witty, or
     intellectually sharp, rather than slapstick or lowbrow.
-  \item A romantic movie where reviewers are divided — some call it predictable or
+  \item A romantic movie where reviewers are divided --- some call it predictable or
     clichéd, others find it genuinely heartwarming.
   \item A science-fiction survival film about astronauts stranded away from Earth who
     need to survive or get home.
   \item A crime or thriller film in which an FBI agent investigates serial killings.
+  \item A teenager gets sent back to the past in a car that has to be hit by lightning to make the time jump.
 \end{enumerate}
-% TODO: 5 more needed (2 from P3, 3 from P4, including one combining a text query
-% with a structured filter) — see docs/information_needs.md for the living list.
 
 \section{References}
-% See references.bib — TMDB/Kaggle dataset, Wikipedia, Wikidata, MediaWiki API.
+% See references.bib - TMDB/Kaggle dataset, Wikipedia, Wikidata, MediaWiki API.
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
 

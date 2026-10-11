@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/PRI-movie-search/collection.schema.json",
+  "title": "Movie collection document",
+  "description": "One JSON object per movie in data/final/collection.jsonl.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "movie_id",
+    "title",
+    "genres",
+    "director",
+    "cast",
+    "crew_names",
+    "crew_roles",
+    "reviews",
+    "num_reviews"
+  ],
+  "properties": {
+    "movie_id": {"type": "integer", "description": "TMDB id; primary key. Non-numeric ids are rejected at build time."},
+    "title": {"type": "string", "minLength": 1},
+    "original_title": {"type": ["string", "null"]},
+    "release_date": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "null for invalid dates."},
+    "year": {"type": ["integer", "null"], "minimum": 1800, "maximum": 2100},
+    "runtime": {"type": ["integer", "null"], "minimum": 1, "description": "minutes; source 0 becomes null."},
+    "original_language": {"type": ["string", "null"]},
+    "status": {"type": ["string", "null"]},
+    "overview": {"type": ["string", "null"]},
+    "tagline": {"type": ["string", "null"]},
+    "genres": {"type": "array", "items": {"type": "string"}},
+    "vote_average": {"type": ["number", "null"], "minimum": 0, "maximum": 10, "description": "null when vote_count is 0."},
+    "vote_count": {"type": "integer", "minimum": 0},
+    "popularity": {"type": ["number", "null"]},
+    "budget": {"type": ["integer", "null"], "minimum": 1, "description": "USD; source 0 becomes null."},
+    "revenue": {"type": ["integer", "null"], "minimum": 1, "description": "USD; source 0 becomes null."},
+
+    "director": {"type": "array", "items": {"type": "string"}},
+    "cast": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": {"type": "string"},
+          "character": {"type": ["string", "null"]},
+          "order": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "crew_names": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Unique crew names, searchable. Job words must never appear here."
+    },
+    "crew_roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "job"],
+        "properties": {
+          "name": {"type": "string"},
+          "job": {"type": "string"}
+        }
+      },
+      "description": "Every crew credit {name, job}, display-only. Do NOT index as text."
+    },
+    "wikipedia": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["title", "url"],
+      "properties": {
+        "title": {"type": "string"},
+        "url": {"type": "string", "format": "uri"},
+        "wikidata_id": {"type": ["string", "null"]},
+        "imdb_id": {"type": ["string", "null"]},
+        "match_method": {"type": ["string", "null"]}
+      }
+    },
+    "plot": {"type": ["string", "null"], "description": "Full extracted Plot section, stored in full with no maximum length."},
+
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["text"],
+        "properties": {
+          "author": {"type": ["string", "null"]},
+          "rating": {"type": ["number", "null"]},
+          "text": {"type": "string"},
+          "created_at": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "num_reviews": {"type": "integer", "minimum": 0}
+  }
+}
