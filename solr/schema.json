@@ -1,6 +1,63 @@
 {
   "add-field-type": [
+    {
+      "name": "textFoldLower",
+      "class": "solr.TextField",
+      "indexAnalyzer": {
+        "tokenizer": { "class": "solr.StandardTokenizerFactory" },
+        "filters": [
+          { "class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": false },
+          { "class": "solr.LowerCaseFilterFactory" }
+        ]
+      },
+      "queryAnalyzer": {
+        "tokenizer": { "class": "solr.StandardTokenizerFactory" },
+        "filters": [
+          { "class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": false },
+          { "class": "solr.LowerCaseFilterFactory" }
+        ]
+      }
+    }
   ],
   "add-field": [
+    { "name": "movie_id", "type": "plong", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "title", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "original_title", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "release_date", "type": "pdate", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "year", "type": "pint", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "runtime", "type": "pint", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "original_language", "type": "string", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "status", "type": "string", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "overview", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "tagline", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "genres", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": true },
+    { "name": "vote_average", "type": "pfloat", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "vote_count", "type": "pint", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "popularity", "type": "pfloat", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "budget", "type": "plong", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "revenue", "type": "plong", "indexed": true, "stored": true, "multiValued": false },
+
+    { "name": "director", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": true },
+    { "name": "cast.name", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": true },
+    { "name": "cast.character", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": true },
+    { "name": "cast.order", "type": "pint", "indexed": false, "stored": true, "multiValued": true },
+    { "name": "crew_names", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": true },
+
+    { "name": "crew_roles.name", "type": "string", "indexed": false, "stored": true, "multiValued": true },
+    { "name": "crew_roles.job", "type": "string", "indexed": false, "stored": true, "multiValued": true },
+
+    { "name": "wikipedia.title", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "wikipedia.url", "type": "string", "indexed": false, "stored": true, "multiValued": false },
+    { "name": "wikipedia.wikidata_id", "type": "string", "indexed": false, "stored": true, "multiValued": false },
+    { "name": "wikipedia.imdb_id", "type": "string", "indexed": false, "stored": true, "multiValued": false },
+    { "name": "wikipedia.match_method", "type": "string", "indexed": false, "stored": true, "multiValued": false },
+
+    { "name": "plot", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": false },
+
+    { "name": "reviews.text", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": true },
+    { "name": "reviews.author", "type": "string", "indexed": false, "stored": true, "multiValued": true },
+    { "name": "reviews.rating", "type": "pfloat", "indexed": false, "stored": true, "multiValued": true },
+    { "name": "reviews.created_at", "type": "pdate", "indexed": false, "stored": true, "multiValued": true },
+    { "name": "num_reviews", "type": "pint", "indexed": true, "stored": true, "multiValued": false }
   ]
 }
