@@ -201,6 +201,69 @@ def build_document(movie, castcrew, link_row, plot_row, reviews):
         "num_reviews": len(reviews),
     }
 
+def to_solr_document(doc):
+    # Reviews, cast, crew_roles and wikipedia are converted below.
+    parent = {
+        key: value
+        for key, value in doc.items()
+        if key not in {"reviews", "cast", "crew_roles", "wikipedia"}
+    }
+    parent["id"] = f"movie-{doc['movie_id']}"
+    parent["doc_type"] = "movie"
+
+    # Flatten cast objects into the schema's multivalued fields.
+    parent["cast.name"] = [
+        person["name"] for person in doc["cast"] if person.get("name")
+    ]
+    parent["cast.character"] = [
+        person["character"]
+        for person in doc["cast"]
+        if person.get("character")
+    ]
+    parent["cast.order"] = [
+        person["order"]
+        for person in doc["cast"]
+        if person.get("order") is not None
+    ]
+
+    # Flatten crew-role objects into the schema's display-only fields.
+    parent["crew_roles.name"] = [
+        role["name"] for role in doc["crew_roles"] if role.get("name")
+    ]
+    parent["crew_roles.job"] = [
+        role["job"] for role in doc["crew_roles"] if role.get("job")
+    ]
+
+    # Flatten the optional Wikipedia object.
+    wikipedia = doc.get("wikipedia") or {}
+    for key in ("title", "url", "wikidata_id", "imdb_id", "match_method"):
+        value = wikipedia.get(key)
+        if value is not None:
+            parent[f"wikipedia.{key}"] = value
+
+    children = []
+    for index, review in enumerate(doc["reviews"]):
+        child = {
+            "id": f"movie-{doc['movie_id']}-review-{index}",
+            "doc_type": "review",
+        }
+        if review.get("text") is not None:
+            child["review_text"] = review["text"]
+        if review.get("author") is not None:
+            child["review_author"] = review["author"]
+        if review.get("rating") is not None:
+            child["review_rating"] = review["rating"]
+        if review.get("created_at") is not None:
+            # Solr pdate fields require a complete ISO-8601 timestamp. The
+            # collection keeps review dates as YYYY-MM-DD; normalize that
+            # representation to midnight UTC for indexing.
+            date_match = DATE_FROM_ISO.match(review["created_at"].strip())
+            if date_match:
+                child["review_created_at"] = f"{date_match.group(1)}T00:00:00Z"
+        children.append(child)
+
+    parent["_childDocuments_"] = children
+    return parent
 
 def summarize_movie(doc):
     return {
@@ -318,6 +381,14 @@ def main():
     manifest_path = FINAL / "collection_manifest.json"
     with open(manifest_path, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
+
+    solr_path = FINAL / "solr_documents.json"
+    solr_docs = [to_solr_document(doc) for doc in docs]
+
+    with open(solr_path, "w", encoding="utf-8") as f:
+        json.dump(solr_docs, f, ensure_ascii=False)
+
+    print(f"Solr documents: {solr_path}")
 
     print(f"movies (numeric ids): {len(numeric):,}")
     print(f"rejected non-numeric ids: {len(rejected_ids):,} (e.g. {rejected_ids[:1]})")

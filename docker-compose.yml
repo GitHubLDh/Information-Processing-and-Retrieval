@@ -1,0 +1,19 @@
+services:
+  solr:
+    container_name: solr_pri      # Name of the running container
+    image: solr:10               # Use official Solr latest image
+    ports:
+      - "8983:8983"               # Expose Solr UI/API on localhost:8983
+    volumes:
+      - solr_data:/data           # Mount local ./data folder into /data inside container
+    command:
+      - solr-precreate            # Pre-create a new Solr core at startup
+      - movies                   # Core will be called "courses"
+
+volumes:
+  solr_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: data                # Use host ./data directory (relative to compose file)
+      o: bind                     # Bind-mount it instead of Docker-managed volume

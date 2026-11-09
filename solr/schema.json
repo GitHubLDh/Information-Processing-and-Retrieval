@@ -54,10 +54,13 @@
 
     { "name": "plot", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": false },
 
-    { "name": "reviews.text", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": true },
-    { "name": "reviews.author", "type": "string", "indexed": false, "stored": true, "multiValued": true },
-    { "name": "reviews.rating", "type": "pfloat", "indexed": false, "stored": true, "multiValued": true },
-    { "name": "reviews.created_at", "type": "pdate", "indexed": false, "stored": true, "multiValued": true },
-    { "name": "num_reviews", "type": "pint", "indexed": true, "stored": true, "multiValued": false }
+    { "name": "doc_type", "type": "text_general", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "review_text", "type": "textFoldLower", "indexed": true, "stored": true, "multiValued": false },
+    { "name": "review_author", "type": "string", "indexed": false, "stored": true, "multiValued": false },
+    { "name": "review_rating", "type": "pfloat", "indexed": false, "stored": true, "multiValued": false },
+    { "name": "review_created_at", "type": "pdate", "indexed": false, "stored": true, "multiValued": false },
+    { "name": "num_reviews", "type": "pint", "indexed": true, "stored": true, "multiValued": false },
+
+    { "name": "_nest_parent_", "type": "string", "indexed": true, "stored": true }
   ]
 }

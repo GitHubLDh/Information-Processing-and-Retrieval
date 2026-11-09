@@ -1,0 +1,216 @@
+{
+  "setup": "B",
+  "qid": "Q3",
+  "need": "A science-fiction survival film about astronauts stranded away from Earth who need to survive or return home.",
+  "rationale": "Overview is weighted most because it states the central plot; the longer plot field and phrase proximity supply supporting evidence. Lowering minimum match to two and adding space-related wording broadens recall. A genre boost favors science fiction without making it a hard filter.",
+  "endpoint": "http://localhost:8983/solr/movies/select",
+  "num_found": 60,
+  "query_params": [
+    {
+      "name": "q",
+      "value": "astronaut stranded space survival"
+    },
+    {
+      "name": "defType",
+      "value": "edismax"
+    },
+    {
+      "name": "qf",
+      "value": "overview^3 plot^2"
+    },
+    {
+      "name": "pf",
+      "value": "overview^3 plot^2"
+    },
+    {
+      "name": "ps",
+      "value": "4"
+    },
+    {
+      "name": "mm",
+      "value": "2"
+    },
+    {
+      "name": "fq",
+      "value": "doc_type:movie"
+    },
+    {
+      "name": "bq",
+      "value": "genres:\"science fiction\"^2"
+    },
+    {
+      "name": "rows",
+      "value": "20"
+    },
+    {
+      "name": "fl",
+      "value": "movie_id,id,title,score"
+    },
+    {
+      "name": "wt",
+      "value": "json"
+    }
+  ],
+  "results": [
+    {
+      "rank": 1,
+      "id": 30863,
+      "movie_id": 30863,
+      "solr_id": "movie-30863",
+      "title": "Mutant Aliens",
+      "score": 26.548126
+    },
+    {
+      "rank": 2,
+      "id": 286217,
+      "movie_id": 286217,
+      "solr_id": "movie-286217",
+      "title": "The Martian",
+      "score": 25.601559
+    },
+    {
+      "rank": 3,
+      "id": 6795,
+      "movie_id": 6795,
+      "solr_id": "movie-6795",
+      "title": "Zathura: A Space Adventure",
+      "score": 23.604918
+    },
+    {
+      "rank": 4,
+      "id": 8656,
+      "movie_id": 8656,
+      "solr_id": "movie-8656",
+      "title": "Deep Impact",
+      "score": 21.01202
+    },
+    {
+      "rank": 5,
+      "id": 916728,
+      "movie_id": 916728,
+      "solr_id": "movie-916728",
+      "title": "Slingshot",
+      "score": 20.752638
+    },
+    {
+      "rank": 6,
+      "id": 11802,
+      "movie_id": 11802,
+      "solr_id": "movie-11802",
+      "title": "Space Chimps",
+      "score": 20.20095
+    },
+    {
+      "rank": 7,
+      "id": 636706,
+      "movie_id": 636706,
+      "solr_id": "movie-636706",
+      "title": "Spaceman",
+      "score": 17.858759
+    },
+    {
+      "rank": 8,
+      "id": 369972,
+      "movie_id": 369972,
+      "solr_id": "movie-369972",
+      "title": "First Man",
+      "score": 16.26702
+    },
+    {
+      "rank": 9,
+      "id": 21605,
+      "movie_id": 21605,
+      "solr_id": "movie-21605",
+      "title": "Thunderpants",
+      "score": 15.998838
+    },
+    {
+      "rank": 10,
+      "id": 419704,
+      "movie_id": 419704,
+      "solr_id": "movie-419704",
+      "title": "Ad Astra",
+      "score": 15.878696
+    },
+    {
+      "rank": 11,
+      "id": 869,
+      "movie_id": 869,
+      "solr_id": "movie-869",
+      "title": "Planet of the Apes",
+      "score": 15.540302
+    },
+    {
+      "rank": 12,
+      "id": 115290,
+      "movie_id": 115290,
+      "solr_id": "movie-115290",
+      "title": "Blue Lagoon: The Awakening",
+      "score": 15.270209
+    },
+    {
+      "rank": 13,
+      "id": 36797,
+      "movie_id": 36797,
+      "solr_id": "movie-36797",
+      "title": "RocketMan",
+      "score": 15.214779
+    },
+    {
+      "rank": 14,
+      "id": 188927,
+      "movie_id": 188927,
+      "solr_id": "movie-188927",
+      "title": "Star Trek Beyond",
+      "score": 15.164259
+    },
+    {
+      "rank": 15,
+      "id": 698,
+      "movie_id": 698,
+      "solr_id": "movie-698",
+      "title": "Moonraker",
+      "score": 14.958078
+    },
+    {
+      "rank": 16,
+      "id": 49047,
+      "movie_id": 49047,
+      "solr_id": "movie-49047",
+      "title": "Gravity",
+      "score": 14.738157
+    },
+    {
+      "rank": 17,
+      "id": 84765,
+      "movie_id": 84765,
+      "solr_id": "movie-84765",
+      "title": "Perfumed Nightmare",
+      "score": 14.621794
+    },
+    {
+      "rank": 18,
+      "id": 609681,
+      "movie_id": 609681,
+      "solr_id": "movie-609681",
+      "title": "The Marvels",
+      "score": 14.52297
+    },
+    {
+      "rank": 19,
+      "id": 670292,
+      "movie_id": 670292,
+      "solr_id": "movie-670292",
+      "title": "The Creator",
+      "score": 14.446947
+    },
+    {
+      "rank": 20,
+      "id": 871,
+      "movie_id": 871,
+      "solr_id": "movie-871",
+      "title": "Planet of the Apes",
+      "score": 14.286947
+    }
+  ]
+}
