@@ -361,7 +361,7 @@ def main():
         "build_script": "scripts/build_collection.py",
         "build_date": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "git_commit": git_commit(),
-        "schema_file": str(SCHEMA_PATH.relative_to(ROOT)),
+        "schema_file": SCHEMA_PATH.relative_to(ROOT).as_posix(),
         "filters": {
             "reject_non_numeric_movie_id": True,
             "require_plot": True,
@@ -372,7 +372,7 @@ def main():
             name: {"rows": len(rows[name])} for name in rows
         },
         "output": {
-            "path": str(collection_path.relative_to(ROOT)),
+            "path": collection_path.relative_to(ROOT).as_posix(),
             "documents": len(docs),
             "dropped_no_plot": dropped_no_plot,
             "dropped_below_50_words": dropped_short_plot,
