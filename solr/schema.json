@@ -7,14 +7,18 @@
         "tokenizer": { "class": "solr.StandardTokenizerFactory" },
         "filters": [
           { "class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": false },
-          { "class": "solr.LowerCaseFilterFactory" }
+          { "class": "solr.LowerCaseFilterFactory" },
+          { "class": "solr.StopFilterFactory", "words": "lang/stopwords_en.txt", "ignoreCase": true },
+          { "class": "solr.KStemFilterFactory" }
         ]
       },
       "queryAnalyzer": {
         "tokenizer": { "class": "solr.StandardTokenizerFactory" },
         "filters": [
           { "class": "solr.ASCIIFoldingFilterFactory", "preserveOriginal": false },
-          { "class": "solr.LowerCaseFilterFactory" }
+          { "class": "solr.LowerCaseFilterFactory" },
+          { "class": "solr.StopFilterFactory", "words": "lang/stopwords_en.txt", "ignoreCase": true },
+          { "class": "solr.KStemFilterFactory" }
         ]
       }
     }
