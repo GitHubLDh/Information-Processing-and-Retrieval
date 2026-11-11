@@ -5,32 +5,14 @@
   "rationale": "Search nested review text with eDisMax; phrase proximity favors review wording where the descriptors occur together. Restrict parent results to comedy movies.",
   "endpoint": "http://localhost:8983/solr/movies/select",
   "num_found": 216,
-  "query_params": [
-    [
-      "q",
-      "{!parent which=\"doc_type:movie\" score=max v=$childq}"
-    ],
-    [
-      "childq",
-      "{!edismax qf=\"review_text\" pf=\"review_text^3\" ps=3 mm=2}clever witty intelligent sharp sophisticated comedy humor"
-    ],
-    [
-      "fq",
-      "genres:comedy"
-    ],
-    [
-      "rows",
-      "20"
-    ],
-    [
-      "fl",
-      "movie_id,id,title,score"
-    ],
-    [
-      "wt",
-      "json"
-    ]
-  ],
+  "query_params": {
+    "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
+    "childq": "{!edismax qf=\"review_text\" pf=\"review_text^3\" ps=3 mm=2}clever witty intelligent sharp sophisticated comedy humor",
+    "fq": "genres:comedy",
+    "rows": "20",
+    "fl": "movie_id,id,title,score",
+    "wt": "json"
+  },
   "results": [
     {
       "rank": 1,

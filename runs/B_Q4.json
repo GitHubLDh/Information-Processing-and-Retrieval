@@ -5,52 +5,19 @@
   "rationale": "Search plot fields with an FBI/serial-killer phrase query, favor the overview and close phrase matches, and boost crime/thriller genres. Do not require FBI to appear in the short overview, since the plot may state the investigation details instead.",
   "endpoint": "http://localhost:8983/solr/movies/select",
   "num_found": 11,
-  "query_params": [
-    [
-      "q",
-      "FBI \"serial killer\""
-    ],
-    [
-      "defType",
-      "edismax"
-    ],
-    [
-      "qf",
-      "overview^3 plot^2"
-    ],
-    [
-      "pf",
-      "overview^2 plot^2"
-    ],
-    [
-      "ps",
-      "4"
-    ],
-    [
-      "mm",
-      "2"
-    ],
-    [
-      "fq",
-      "doc_type:movie"
-    ],
-    [
-      "bq",
-      "genres:crime^1.5 genres:thriller^1.5"
-    ],
-    [
-      "rows",
-      "20"
-    ],
-    [
-      "fl",
-      "movie_id,id,title,score"
-    ],
-    [
-      "wt",
-      "json"
-    ]
-  ],
+  "query_params": {
+    "q": "FBI \"serial killer\"",
+    "defType": "edismax",
+    "qf": "overview^3 plot^2",
+    "pf": "overview^2 plot^2",
+    "ps": "4",
+    "mm": "2",
+    "fq": "doc_type:movie",
+    "bq": "genres:crime^1.5 genres:thriller^1.5",
+    "rows": "20",
+    "fl": "movie_id,id,title,score",
+    "wt": "json"
+  },
   "results": [
     {
       "rank": 1,

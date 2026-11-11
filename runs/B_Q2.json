@@ -5,32 +5,14 @@
   "rationale": "Search nested review text for either formulaic/predictable or warm-response language; phrase proximity boosts reviewer descriptions. Restrict parent results to romance movies.",
   "endpoint": "http://localhost:8983/solr/movies/select",
   "num_found": 205,
-  "query_params": [
-    [
-      "q",
-      "{!parent which=\"doc_type:movie\" score=max v=$childq}"
-    ],
-    [
-      "childq",
-      "{!edismax qf=\"review_text\" pf=\"review_text^3\" ps=3 mm=2}romance romantic cliché predictable formulaic heartwarming feel-good"
-    ],
-    [
-      "fq",
-      "genres:romance"
-    ],
-    [
-      "rows",
-      "20"
-    ],
-    [
-      "fl",
-      "movie_id,id,title,score"
-    ],
-    [
-      "wt",
-      "json"
-    ]
-  ],
+  "query_params": {
+    "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
+    "childq": "{!edismax qf=\"review_text\" pf=\"review_text^3\" ps=3 mm=2}romance romantic cliché predictable formulaic heartwarming feel-good",
+    "fq": "genres:romance",
+    "rows": "20",
+    "fl": "movie_id,id,title,score",
+    "wt": "json"
+  },
   "results": [
     {
       "rank": 1,

@@ -2,17 +2,17 @@
   "qid": "Q5",
   "need": "A Robert De Niro film about the Italian-American Mafia.",
   "rationale": "Require Robert De Niro in the cast within the eDisMax query, boost cast-name matches, and search overview/plot text for Mafia-related wording. Phrase boosts reward close matches; the crime genre is a secondary boost.",
-  "params": [
-    ["q", "+cast.name:\"Robert De Niro\" +(mafia mob \"organized crime\" \"crime family\" gangster)"],
-    ["defType", "edismax"],
-    ["qf", "cast.name^4 overview^3 plot^2"],
-    ["pf", "cast.name^5 overview^2"],
-    ["ps", "3"],
-    ["mm", "2"],
-    ["fq", "doc_type:movie"],
-    ["bq", "genres:crime^1.5"],
-    ["rows", "20"],
-    ["fl", "movie_id,id,title,score"],
-    ["wt", "json"]
-  ]
+  "params": {
+    "q": "+cast.name:\"Robert De Niro\" +(mafia mob \"organized crime\" \"crime family\" gangster)",
+    "defType": "edismax",
+    "qf": "cast.name^4 overview^3 plot^2",
+    "pf": "cast.name^5 overview^2",
+    "ps": "3",
+    "mm": "2",
+    "fq": "doc_type:movie",
+    "bq": "genres:crime^1.5",
+    "rows": "20",
+    "fl": "movie_id,id,title,score",
+    "wt": "json"
+  }
 }
