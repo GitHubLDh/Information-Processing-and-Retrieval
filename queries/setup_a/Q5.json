@@ -1,0 +1,12 @@
+{
+  "qid": "Q5",
+  "need": "A film starring Robert De Niro about Italian-American mafia.",
+  "rationale": "Hard filter on cast name; plain field search on plot text for mafia vocabulary. Russian mafia explicitly excluded — confirmed false positive (Ronin) found during manual review earlier.",
+  "params": {
+    "q": "plot:(mafia OR \"crime family\" OR \"mob boss\" OR godfather OR \"made man\" OR \"cosa nostra\") AND -plot:\"Russian mafia\"",
+    "fq": ["cast.name:\"Robert De Niro\"", "doc_type:movie"],
+    "fl": "movie_id,id,title,score,overview,year",
+    "rows": 20,
+    "wt": "json"
+  }
+}

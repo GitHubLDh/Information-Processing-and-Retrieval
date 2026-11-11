@@ -1,0 +1,80 @@
+{
+  "setup": "A",
+  "qid": "Q4",
+  "need": "A crime or thriller film in which an FBI agent investigates serial killings.",
+  "rationale": "Plain field search on the plot text, requiring both concepts present together — an FBI story with no serial killer, or vice versa, isn't a real match.",
+  "endpoint": "http://localhost:8983/solr/movies/select",
+  "num_found": 7,
+  "query_params": {
+    "q": "plot:(FBI AND \"serial killer\")",
+    "fq": "doc_type:movie",
+    "fl": "movie_id,id,title,score,overview,year",
+    "rows": 20,
+    "wt": "json"
+  },
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 1032823,
+      "id": "movie-1032823",
+      "title": "Trap",
+      "score": 5.460661,
+      "overview": "A father and teen daughter attend a pop concert, where they realize they're at the center of a dark and sinister event.",
+      "year": 2024
+    },
+    {
+      "rank": 2,
+      "movie_id": 10871,
+      "id": "movie-10871",
+      "title": "Switchback",
+      "score": 5.0058765,
+      "overview": "After FBI agent Frank Lacrosse believes his son was kidnapped by a notorious serial killer, he travels to Amarillo, Texas, where he believes the murde",
+      "year": 1997
+    },
+    {
+      "rank": 3,
+      "movie_id": 9544,
+      "id": "movie-9544",
+      "title": "FearDotCom",
+      "score": 4.845596,
+      "overview": "When four bodies are discovered among the industrial decay and urban grime of New York City, brash young detective Mike Reilly teams with ambitious De",
+      "year": 2002
+    },
+    {
+      "rank": 4,
+      "movie_id": 34314,
+      "id": "movie-34314",
+      "title": "Turbulence",
+      "score": 4.6768694,
+      "overview": "On a flight transporting dangerous convicts, murderer Ryan Weaver manages to break free and cause complete chaos throughout the plane. As various peop",
+      "year": 1997
+    },
+    {
+      "rank": 5,
+      "movie_id": 12149,
+      "id": "movie-12149",
+      "title": "Frailty",
+      "score": 4.6651587,
+      "overview": "A mysterious man arrives at the offices of an FBI agent and recounts his childhood: how his religious fanatic father received visions telling him to k",
+      "year": 2002
+    },
+    {
+      "rank": 6,
+      "movie_id": 274,
+      "id": "movie-274",
+      "title": "The Silence of the Lambs",
+      "score": 4.560957,
+      "overview": "Clarice Starling is a top student at the FBI's training academy.  Jack Crawford wants Clarice to interview Dr. Hannibal Lecter, a brilliant psychiatri",
+      "year": 1991
+    },
+    {
+      "rank": 7,
+      "movie_id": 3489,
+      "id": "movie-3489",
+      "title": "88 Minutes",
+      "score": 4.2345243,
+      "overview": "Famed forensic psychiatrist Dr. Jack Gramm enjoys a reputation as one of the most sought-after profilers around. His expert testimony has resulted in ",
+      "year": 2007
+    }
+  ]
+}

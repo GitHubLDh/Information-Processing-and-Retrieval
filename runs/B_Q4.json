@@ -6,139 +6,150 @@
   "endpoint": "http://localhost:8983/solr/movies/select",
   "num_found": 11,
   "query_params": [
-    {
-      "name": "q",
-      "value": "FBI \"serial killer\""
-    },
-    {
-      "name": "defType",
-      "value": "edismax"
-    },
-    {
-      "name": "qf",
-      "value": "overview^3 plot^2"
-    },
-    {
-      "name": "pf",
-      "value": "overview^2 plot^2"
-    },
-    {
-      "name": "ps",
-      "value": "4"
-    },
-    {
-      "name": "mm",
-      "value": "2"
-    },
-    {
-      "name": "fq",
-      "value": "doc_type:movie"
-    },
-    {
-      "name": "bq",
-      "value": "genres:crime^1.5 genres:thriller^1.5"
-    },
-    {
-      "name": "rows",
-      "value": "20"
-    },
-    {
-      "name": "fl",
-      "value": "movie_id,id,title,score"
-    },
-    {
-      "name": "wt",
-      "value": "json"
-    }
+    [
+      "q",
+      "FBI \"serial killer\""
+    ],
+    [
+      "defType",
+      "edismax"
+    ],
+    [
+      "qf",
+      "overview^3 plot^2"
+    ],
+    [
+      "pf",
+      "overview^2 plot^2"
+    ],
+    [
+      "ps",
+      "4"
+    ],
+    [
+      "mm",
+      "2"
+    ],
+    [
+      "fq",
+      "doc_type:movie"
+    ],
+    [
+      "bq",
+      "genres:crime^1.5 genres:thriller^1.5"
+    ],
+    [
+      "rows",
+      "20"
+    ],
+    [
+      "fl",
+      "movie_id,id,title,score"
+    ],
+    [
+      "wt",
+      "json"
+    ]
   ],
   "results": [
     {
       "rank": 1,
-      "id": 339527,
       "movie_id": 339527,
-      "solr_id": "movie-339527",
+      "id": "movie-339527",
       "title": "Solace",
-      "score": 27.103924
+      "score": 27.083006,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 2,
-      "id": 1226578,
       "movie_id": 1226578,
-      "solr_id": "movie-1226578",
+      "id": "movie-1226578",
       "title": "Longlegs",
-      "score": 18.314741
+      "score": 18.032543,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 3,
-      "id": 9437,
       "movie_id": 9437,
-      "solr_id": "movie-9437",
+      "id": "movie-9437",
       "title": "Kiss the Girls",
-      "score": 16.956812
+      "score": 16.598343,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 4,
-      "id": 602269,
       "movie_id": 602269,
-      "solr_id": "movie-602269",
+      "id": "movie-602269",
       "title": "The Little Things",
-      "score": 16.703293
+      "score": 16.038662,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 5,
-      "id": 10871,
       "movie_id": 10871,
-      "solr_id": "movie-10871",
+      "id": "movie-10871",
       "title": "Switchback",
-      "score": 15.289463
+      "score": 15.00761,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 6,
-      "id": 12149,
       "movie_id": 12149,
-      "solr_id": "movie-12149",
+      "id": "movie-12149",
       "title": "Frailty",
-      "score": 14.790941
+      "score": 14.507671,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 7,
-      "id": 3489,
       "movie_id": 3489,
-      "solr_id": "movie-3489",
+      "id": "movie-3489",
       "title": "88 Minutes",
-      "score": 13.846256
+      "score": 13.309485,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 8,
-      "id": 1032823,
       "movie_id": 1032823,
-      "solr_id": "movie-1032823",
+      "id": "movie-1032823",
       "title": "Trap",
-      "score": 12.951006
+      "score": 13.05422,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 9,
-      "id": 274,
-      "movie_id": 274,
-      "solr_id": "movie-274",
-      "title": "The Silence of the Lambs",
-      "score": 11.918462
+      "movie_id": 9544,
+      "id": "movie-9544",
+      "title": "FearDotCom",
+      "score": 11.82409,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 10,
-      "id": 9544,
-      "movie_id": 9544,
-      "solr_id": "movie-9544",
-      "title": "FearDotCom",
-      "score": 11.836992
+      "movie_id": 34314,
+      "id": "movie-34314",
+      "title": "Turbulence",
+      "score": 11.486637,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 11,
-      "id": 34314,
-      "movie_id": 34314,
-      "solr_id": "movie-34314",
-      "title": "Turbulence",
-      "score": 11.60053
+      "movie_id": 274,
+      "id": "movie-274",
+      "title": "The Silence of the Lambs",
+      "score": 11.254812,
+      "overview": "",
+      "year": null
     }
   ]
 }

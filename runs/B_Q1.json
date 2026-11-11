@@ -4,193 +4,213 @@
   "need": "A comedy whose reviewers call its humor clever, witty, or intellectually sharp.",
   "rationale": "Search nested review text with eDisMax; phrase proximity favors review wording where the descriptors occur together. Restrict parent results to comedy movies.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 186,
+  "num_found": 216,
   "query_params": [
-    {
-      "name": "q",
-      "value": "{!parent which=\"doc_type:movie\" score=max v=$childq}"
-    },
-    {
-      "name": "childq",
-      "value": "{!edismax qf=\"review_text\" pf=\"review_text^3\" ps=3 mm=2}clever witty intelligent sharp sophisticated comedy humor"
-    },
-    {
-      "name": "fq",
-      "value": "genres:comedy"
-    },
-    {
-      "name": "rows",
-      "value": "20"
-    },
-    {
-      "name": "fl",
-      "value": "movie_id,id,title,score"
-    },
-    {
-      "name": "wt",
-      "value": "json"
-    }
+    [
+      "q",
+      "{!parent which=\"doc_type:movie\" score=max v=$childq}"
+    ],
+    [
+      "childq",
+      "{!edismax qf=\"review_text\" pf=\"review_text^3\" ps=3 mm=2}clever witty intelligent sharp sophisticated comedy humor"
+    ],
+    [
+      "fq",
+      "genres:comedy"
+    ],
+    [
+      "rows",
+      "20"
+    ],
+    [
+      "fl",
+      "movie_id,id,title,score"
+    ],
+    [
+      "wt",
+      "json"
+    ]
   ],
   "results": [
     {
       "rank": 1,
-      "id": 34016,
       "movie_id": 34016,
-      "solr_id": "movie-34016",
+      "id": "movie-34016",
       "title": "She's Out of My League",
-      "score": 8.025413
+      "score": 7.94421,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 2,
-      "id": 739405,
-      "movie_id": 739405,
-      "solr_id": "movie-739405",
-      "title": "Operation Fortune: Ruse de Guerre",
-      "score": 7.2483473
+      "movie_id": 929204,
+      "id": "movie-929204",
+      "title": "Wallace & Gromit: Vengeance Most Fowl",
+      "score": 6.9079895,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 3,
-      "id": 929204,
-      "movie_id": 929204,
-      "solr_id": "movie-929204",
-      "title": "Wallace & Gromit: Vengeance Most Fowl",
-      "score": 7.1146803
+      "movie_id": 739405,
+      "id": "movie-739405",
+      "title": "Operation Fortune: Ruse de Guerre",
+      "score": 6.8249083,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 4,
-      "id": 493529,
       "movie_id": 493529,
-      "solr_id": "movie-493529",
+      "id": "movie-493529",
       "title": "Dungeons & Dragons: Honor Among Thieves",
-      "score": 6.801854
+      "score": 6.6601715,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 5,
-      "id": 522627,
-      "movie_id": 522627,
-      "solr_id": "movie-522627",
-      "title": "The Gentlemen",
-      "score": 6.1576357
+      "movie_id": 746036,
+      "id": "movie-746036",
+      "title": "The Fall Guy",
+      "score": 6.212111,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 6,
-      "id": 5680,
-      "movie_id": 5680,
-      "solr_id": "movie-5680",
-      "title": "Elvira: Mistress of the Dark",
-      "score": 6.0306573
+      "movie_id": 137,
+      "id": "movie-137",
+      "title": "Groundhog Day",
+      "score": 6.1283016,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 7,
-      "id": 587792,
-      "movie_id": 587792,
-      "solr_id": "movie-587792",
-      "title": "Palm Springs",
-      "score": 6.01991
+      "movie_id": 649609,
+      "id": "movie-649609",
+      "title": "Renfield",
+      "score": 6.0054693,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 8,
-      "id": 137,
-      "movie_id": 137,
-      "solr_id": "movie-137",
-      "title": "Groundhog Day",
-      "score": 5.9440036
+      "movie_id": 587792,
+      "id": "movie-587792",
+      "title": "Palm Springs",
+      "score": 5.872273,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 9,
-      "id": 419479,
-      "movie_id": 419479,
-      "solr_id": "movie-419479",
-      "title": "The Babysitter",
-      "score": 5.9139056
+      "movie_id": 5680,
+      "id": "movie-5680",
+      "title": "Elvira: Mistress of the Dark",
+      "score": 5.7633276,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 10,
-      "id": 593643,
-      "movie_id": 593643,
-      "solr_id": "movie-593643",
-      "title": "The Menu",
-      "score": 5.6753397
+      "movie_id": 419479,
+      "id": "movie-419479",
+      "title": "The Babysitter",
+      "score": 5.7607613,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 11,
-      "id": 533535,
-      "movie_id": 533535,
-      "solr_id": "movie-533535",
-      "title": "Deadpool & Wolverine",
-      "score": 5.429042
+      "movie_id": 522627,
+      "id": "movie-522627",
+      "title": "The Gentlemen",
+      "score": 5.750251,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 12,
-      "id": 59436,
-      "movie_id": 59436,
-      "solr_id": "movie-59436",
-      "title": "Midnight in Paris",
-      "score": 5.3475046
+      "movie_id": 533535,
+      "id": "movie-533535",
+      "title": "Deadpool & Wolverine",
+      "score": 5.7430687,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 13,
-      "id": 11665,
-      "movie_id": 11665,
-      "solr_id": "movie-11665",
-      "title": "Get Smart",
-      "score": 5.268059
+      "movie_id": 748783,
+      "id": "movie-748783",
+      "title": "The Garfield Movie",
+      "score": 5.4489813,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 14,
-      "id": 505600,
-      "movie_id": 505600,
-      "solr_id": "movie-505600",
-      "title": "Booksmart",
-      "score": 5.207986
+      "movie_id": 593643,
+      "id": "movie-593643",
+      "title": "The Menu",
+      "score": 5.4033895,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 15,
-      "id": 37735,
-      "movie_id": 37735,
-      "solr_id": "movie-37735",
-      "title": "Easy A",
-      "score": 5.060045
+      "movie_id": 59436,
+      "id": "movie-59436",
+      "title": "Midnight in Paris",
+      "score": 5.1962194,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 16,
-      "id": 437557,
-      "movie_id": 437557,
-      "solr_id": "movie-437557",
-      "title": "Blockers",
-      "score": 4.882145
+      "movie_id": 505600,
+      "id": "movie-505600",
+      "title": "Booksmart",
+      "score": 5.0906243,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 17,
-      "id": 746036,
-      "movie_id": 746036,
-      "solr_id": "movie-746036",
-      "title": "The Fall Guy",
-      "score": 4.8438015
+      "movie_id": 11665,
+      "id": "movie-11665",
+      "title": "Get Smart",
+      "score": 4.986392,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 18,
-      "id": 337404,
-      "movie_id": 337404,
-      "solr_id": "movie-337404",
-      "title": "Cruella",
-      "score": 4.7862062
+      "movie_id": 437557,
+      "id": "movie-437557",
+      "title": "Blockers",
+      "score": 4.753361,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 19,
-      "id": 8488,
-      "movie_id": 8488,
-      "solr_id": "movie-8488",
-      "title": "Hitch",
-      "score": 4.750546
+      "movie_id": 813,
+      "id": "movie-813",
+      "title": "Airplane!",
+      "score": 4.688039,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 20,
-      "id": 153518,
-      "movie_id": 153518,
-      "solr_id": "movie-153518",
-      "title": "The Angry Birds Movie",
-      "score": 4.7083845
+      "movie_id": 337404,
+      "id": "movie-337404",
+      "title": "Cruella",
+      "score": 4.671429,
+      "overview": "",
+      "year": null
     }
   ]
 }

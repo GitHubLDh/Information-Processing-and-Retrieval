@@ -4,193 +4,213 @@
   "need": "A clichéd romantic movie reviewers call predictable or heartwarming.",
   "rationale": "Search nested review text for either formulaic/predictable or warm-response language; phrase proximity boosts reviewer descriptions. Restrict parent results to romance movies.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 185,
+  "num_found": 205,
   "query_params": [
-    {
-      "name": "q",
-      "value": "{!parent which=\"doc_type:movie\" score=max v=$childq}"
-    },
-    {
-      "name": "childq",
-      "value": "{!edismax qf=\"review_text\" pf=\"review_text^3\" ps=3 mm=2}romance romantic cliché predictable formulaic heartwarming feel-good"
-    },
-    {
-      "name": "fq",
-      "value": "genres:romance"
-    },
-    {
-      "name": "rows",
-      "value": "20"
-    },
-    {
-      "name": "fl",
-      "value": "movie_id,id,title,score"
-    },
-    {
-      "name": "wt",
-      "value": "json"
-    }
+    [
+      "q",
+      "{!parent which=\"doc_type:movie\" score=max v=$childq}"
+    ],
+    [
+      "childq",
+      "{!edismax qf=\"review_text\" pf=\"review_text^3\" ps=3 mm=2}romance romantic cliché predictable formulaic heartwarming feel-good"
+    ],
+    [
+      "fq",
+      "genres:romance"
+    ],
+    [
+      "rows",
+      "20"
+    ],
+    [
+      "fl",
+      "movie_id,id,title,score"
+    ],
+    [
+      "wt",
+      "json"
+    ]
   ],
   "results": [
     {
       "rank": 1,
-      "id": 843527,
       "movie_id": 843527,
-      "solr_id": "movie-843527",
+      "id": "movie-843527",
       "title": "The Idea of You",
-      "score": 10.753722
+      "score": 10.952972,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 2,
-      "id": 10096,
       "movie_id": 10096,
-      "solr_id": "movie-10096",
+      "id": "movie-10096",
       "title": "13 Going on 30",
-      "score": 8.635722
+      "score": 9.003539,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 3,
-      "id": 455207,
       "movie_id": 455207,
-      "solr_id": "movie-455207",
+      "id": "movie-455207",
       "title": "Crazy Rich Asians",
-      "score": 7.907007
+      "score": 7.8190136,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 4,
-      "id": 38317,
       "movie_id": 38317,
-      "solr_id": "movie-38317",
+      "id": "movie-38317",
       "title": "Zookeeper",
-      "score": 7.195941
+      "score": 6.895799,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 5,
-      "id": 330483,
-      "movie_id": 330483,
-      "solr_id": "movie-330483",
-      "title": "The Choice",
-      "score": 6.651925
+      "movie_id": 370663,
+      "id": "movie-370663",
+      "title": "Below Her Mouth",
+      "score": 6.4462633,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 6,
-      "id": 987686,
       "movie_id": 987686,
-      "solr_id": "movie-987686",
+      "id": "movie-987686",
       "title": "A Family Affair",
-      "score": 6.559654
+      "score": 6.2397757,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 7,
-      "id": 509,
-      "movie_id": 509,
-      "solr_id": "movie-509",
-      "title": "Notting Hill",
-      "score": 5.8859944
+      "movie_id": 956842,
+      "id": "movie-956842",
+      "title": "Fly Me to the Moon",
+      "score": 6.221767,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 8,
-      "id": 152601,
-      "movie_id": 152601,
-      "solr_id": "movie-152601",
-      "title": "Her",
-      "score": 5.875241
+      "movie_id": 330483,
+      "id": "movie-330483",
+      "title": "The Choice",
+      "score": 6.1503143,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 9,
-      "id": 930094,
-      "movie_id": 930094,
-      "solr_id": "movie-930094",
-      "title": "Red, White & Royal Blue",
-      "score": 5.601778
+      "movie_id": 509,
+      "id": "movie-509",
+      "title": "Notting Hill",
+      "score": 5.6261787,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 10,
-      "id": 82693,
-      "movie_id": 82693,
-      "solr_id": "movie-82693",
-      "title": "Silver Linings Playbook",
-      "score": 5.5709057
+      "movie_id": 152601,
+      "id": "movie-152601",
+      "title": "Her",
+      "score": 5.5667715,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 11,
-      "id": 818647,
-      "movie_id": 818647,
-      "solr_id": "movie-818647",
-      "title": "Through My Window",
-      "score": 5.3197203
+      "movie_id": 930094,
+      "id": "movie-930094",
+      "title": "Red, White & Royal Blue",
+      "score": 5.3147225,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 12,
-      "id": 9304,
-      "movie_id": 9304,
-      "solr_id": "movie-9304",
-      "title": "Multiplicity",
-      "score": 5.309984
+      "movie_id": 818647,
+      "id": "movie-818647",
+      "title": "Through My Window",
+      "score": 5.307829,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 13,
-      "id": 848187,
-      "movie_id": 848187,
-      "solr_id": "movie-848187",
-      "title": "Role Play",
-      "score": 5.289539
+      "movie_id": 82693,
+      "id": "movie-82693",
+      "title": "Silver Linings Playbook",
+      "score": 5.12704,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 14,
-      "id": 804,
-      "movie_id": 804,
-      "solr_id": "movie-804",
-      "title": "Roman Holiday",
-      "score": 5.2797813
+      "movie_id": 848187,
+      "id": "movie-848187",
+      "title": "Role Play",
+      "score": 5.0694356,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 15,
-      "id": 459992,
-      "movie_id": 459992,
-      "solr_id": "movie-459992",
-      "title": "Long Shot",
-      "score": 5.2735724
+      "movie_id": 804,
+      "id": "movie-804",
+      "title": "Roman Holiday",
+      "score": 5.0239663,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 16,
-      "id": 843543,
-      "movie_id": 843543,
-      "solr_id": "movie-843543",
-      "title": "Meet Cute",
-      "score": 5.084785
+      "movie_id": 1136867,
+      "id": "movie-1136867",
+      "title": "Materialists",
+      "score": 4.9657416,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 17,
-      "id": 222935,
-      "movie_id": 222935,
-      "solr_id": "movie-222935",
-      "title": "The Fault in Our Stars",
-      "score": 5.0251827
+      "movie_id": 9304,
+      "id": "movie-9304",
+      "title": "Multiplicity",
+      "score": 4.913478,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 18,
-      "id": 1068452,
-      "movie_id": 1068452,
-      "solr_id": "movie-1068452",
-      "title": "Hi Nanna",
-      "score": 5.0243235
+      "movie_id": 676,
+      "id": "movie-676",
+      "title": "Pearl Harbor",
+      "score": 4.859555,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 19,
-      "id": 1136867,
-      "movie_id": 1136867,
-      "solr_id": "movie-1136867",
-      "title": "Materialists",
-      "score": 4.877118
+      "movie_id": 459992,
+      "id": "movie-459992",
+      "title": "Long Shot",
+      "score": 4.7987714,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 20,
-      "id": 515248,
-      "movie_id": 515248,
-      "solr_id": "movie-515248",
-      "title": "Someone Great",
-      "score": 4.876377
+      "movie_id": 1068452,
+      "id": "movie-1068452",
+      "title": "Hi Nanna",
+      "score": 4.773521,
+      "overview": "",
+      "year": null
     }
   ]
 }

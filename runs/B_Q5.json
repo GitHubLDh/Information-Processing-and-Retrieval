@@ -4,157 +4,179 @@
   "need": "A Robert De Niro film about the Italian-American Mafia.",
   "rationale": "Require Robert De Niro in the cast within the eDisMax query, boost cast-name matches, and search overview/plot text for Mafia-related wording. Phrase boosts reward close matches; the crime genre is a secondary boost.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 13,
+  "num_found": 14,
   "query_params": [
-    {
-      "name": "q",
-      "value": "+cast.name:\"Robert De Niro\" +(mafia mob \"organized crime\" \"crime family\" gangster)"
-    },
-    {
-      "name": "defType",
-      "value": "edismax"
-    },
-    {
-      "name": "qf",
-      "value": "cast.name^4 overview^3 plot^2"
-    },
-    {
-      "name": "pf",
-      "value": "cast.name^5 overview^2"
-    },
-    {
-      "name": "ps",
-      "value": "3"
-    },
-    {
-      "name": "mm",
-      "value": "2"
-    },
-    {
-      "name": "fq",
-      "value": "doc_type:movie"
-    },
-    {
-      "name": "bq",
-      "value": "genres:crime^1.5"
-    },
-    {
-      "name": "rows",
-      "value": "20"
-    },
-    {
-      "name": "fl",
-      "value": "movie_id,id,title,score"
-    },
-    {
-      "name": "wt",
-      "value": "json"
-    }
+    [
+      "q",
+      "+cast.name:\"Robert De Niro\" +(mafia mob \"organized crime\" \"crime family\" gangster)"
+    ],
+    [
+      "defType",
+      "edismax"
+    ],
+    [
+      "qf",
+      "cast.name^4 overview^3 plot^2"
+    ],
+    [
+      "pf",
+      "cast.name^5 overview^2"
+    ],
+    [
+      "ps",
+      "3"
+    ],
+    [
+      "mm",
+      "2"
+    ],
+    [
+      "fq",
+      "doc_type:movie"
+    ],
+    [
+      "bq",
+      "genres:crime^1.5"
+    ],
+    [
+      "rows",
+      "20"
+    ],
+    [
+      "fl",
+      "movie_id,id,title,score"
+    ],
+    [
+      "wt",
+      "json"
+    ]
   ],
   "results": [
     {
       "rank": 1,
-      "id": 398978,
       "movie_id": 398978,
-      "solr_id": "movie-398978",
+      "id": "movie-398978",
       "title": "The Irishman",
-      "score": 32.353317
+      "score": 30.611284,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 2,
-      "id": 240,
       "movie_id": 240,
-      "solr_id": "movie-240",
+      "id": "movie-240",
       "title": "The Godfather Part II",
-      "score": 25.991564
+      "score": 25.033148,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 3,
-      "id": 769,
       "movie_id": 769,
-      "solr_id": "movie-769",
+      "id": "movie-769",
       "title": "GoodFellas",
-      "score": 22.28246
+      "score": 24.448195,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 4,
-      "id": 8195,
       "movie_id": 8195,
-      "solr_id": "movie-8195",
+      "id": "movie-8195",
       "title": "Ronin",
-      "score": 16.613914
+      "score": 16.848173,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 5,
-      "id": 2142,
-      "movie_id": 2142,
-      "solr_id": "movie-2142",
-      "title": "Cop Land",
-      "score": 15.260204
+      "movie_id": 819,
+      "id": "movie-819",
+      "title": "Sleepers",
+      "score": 15.533096,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 6,
-      "id": 524,
       "movie_id": 524,
-      "solr_id": "movie-524",
+      "id": "movie-524",
       "title": "Casino",
-      "score": 15.159928
+      "score": 15.144063,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 7,
-      "id": 311,
-      "movie_id": 311,
-      "solr_id": "movie-311",
-      "title": "Once Upon a Time in America",
-      "score": 13.716202
+      "movie_id": 2142,
+      "id": "movie-2142",
+      "title": "Cop Land",
+      "score": 14.507645,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 8,
-      "id": 112205,
-      "movie_id": 112205,
-      "solr_id": "movie-112205",
-      "title": "The Family",
-      "score": 11.816059
+      "movie_id": 311,
+      "id": "movie-311",
+      "title": "Once Upon a Time in America",
+      "score": 12.600012,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 9,
-      "id": 819,
-      "movie_id": 819,
-      "solr_id": "movie-819",
-      "title": "Sleepers",
-      "score": 11.536726
+      "movie_id": 112205,
+      "id": "movie-112205",
+      "title": "The Family",
+      "score": 11.557602,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 10,
-      "id": 1578,
       "movie_id": 1578,
-      "solr_id": "movie-1578",
+      "id": "movie-1578",
       "title": "Raging Bull",
-      "score": 10.853199
+      "score": 10.600399,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 11,
-      "id": 1607,
-      "movie_id": 1607,
-      "solr_id": "movie-1607",
-      "title": "A Bronx Tale",
-      "score": 9.012517
+      "movie_id": 117,
+      "id": "movie-117",
+      "title": "The Untouchables",
+      "score": 9.986845,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 12,
-      "id": 11371,
-      "movie_id": 11371,
-      "solr_id": "movie-11371",
-      "title": "The Score",
-      "score": 8.165143
+      "movie_id": 1607,
+      "id": "movie-1607",
+      "title": "A Bronx Tale",
+      "score": 8.817346,
+      "overview": "",
+      "year": null
     },
     {
       "rank": 13,
-      "id": 10555,
+      "movie_id": 11371,
+      "id": "movie-11371",
+      "title": "The Score",
+      "score": 8.09178,
+      "overview": "",
+      "year": null
+    },
+    {
+      "rank": 14,
       "movie_id": 10555,
-      "solr_id": "movie-10555",
+      "id": "movie-10555",
       "title": "Shark Tale",
-      "score": 7.046352
+      "score": 6.9148445,
+      "overview": "",
+      "year": null
     }
   ]
 }

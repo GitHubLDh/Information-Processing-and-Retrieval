@@ -1,0 +1,92 @@
+{
+  "setup": "A",
+  "qid": "Q5",
+  "need": "A film starring Robert De Niro about Italian-American mafia.",
+  "rationale": "Hard filter on cast name; plain field search on plot text for mafia vocabulary. Russian mafia explicitly excluded — confirmed false positive (Ronin) found during manual review earlier.",
+  "endpoint": "http://localhost:8983/solr/movies/select",
+  "num_found": 8,
+  "query_params": {
+    "q": "plot:(mafia OR \"crime family\" OR \"mob boss\" OR godfather OR \"made man\" OR \"cosa nostra\") AND -plot:\"Russian mafia\"",
+    "fq": [
+      "cast.name:\"Robert De Niro\"",
+      "doc_type:movie"
+    ],
+    "fl": "movie_id,id,title,score,overview,year",
+    "rows": 20,
+    "wt": "json"
+  },
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 769,
+      "id": "movie-769",
+      "title": "GoodFellas",
+      "score": 5.652671,
+      "overview": "The true story of Henry Hill, a half-Irish, half-Sicilian Brooklyn kid who is adopted by neighbourhood gangsters at an early age and climbs the ranks ",
+      "year": 1990
+    },
+    {
+      "rank": 2,
+      "movie_id": 398978,
+      "id": "movie-398978",
+      "title": "The Irishman",
+      "score": 5.2265463,
+      "overview": "Pennsylvania, 1956. Frank Sheeran, a war veteran of Irish origin who works as a truck driver, accidentally meets mobster Russell Bufalino. Once Frank ",
+      "year": 2019
+    },
+    {
+      "rank": 3,
+      "movie_id": 1578,
+      "id": "movie-1578",
+      "title": "Raging Bull",
+      "score": 4.363032,
+      "overview": "The life of boxer Jake LaMotta, whose violence and temper that led him to the top in the ring destroyed his life outside of it.",
+      "year": 1980
+    },
+    {
+      "rank": 4,
+      "movie_id": 240,
+      "id": "movie-240",
+      "title": "The Godfather Part II",
+      "score": 3.7522824,
+      "overview": "In the continuing saga of the Corleone crime family, a young Vito Corleone grows up in Sicily and in 1910s New York. In the 1950s, Michael Corleone at",
+      "year": 1974
+    },
+    {
+      "rank": 5,
+      "movie_id": 524,
+      "id": "movie-524",
+      "title": "Casino",
+      "score": 3.0834975,
+      "overview": "In Las Vegas, two best friends--a casino executive and a Mafia enforcer--compete for a gambling empire and a fast-living, fast-loving socialite.",
+      "year": 1995
+    },
+    {
+      "rank": 6,
+      "movie_id": 112205,
+      "id": "movie-112205",
+      "title": "The Family",
+      "score": 3.0399928,
+      "overview": "After ratting out his Mafia cohorts, Giovanni Manzoni and his family enter the Witness Protection Program and relocate to a sleepy town in France. Des",
+      "year": 2013
+    },
+    {
+      "rank": 7,
+      "movie_id": 11371,
+      "id": "movie-11371",
+      "title": "The Score",
+      "score": 2.6972945,
+      "overview": "An aging thief hopes to retire and live off his ill-gotten wealth when a young kid convinces him into doing one last heist.",
+      "year": 2001
+    },
+    {
+      "rank": 8,
+      "movie_id": 1607,
+      "id": "movie-1607",
+      "title": "A Bronx Tale",
+      "score": 1.6463544,
+      "overview": "Set in the Bronx during the tumultuous 1960s, an adolescent boy is torn between his honest, working-class father and a violent yet charismatic crime b",
+      "year": 1993
+    }
+  ]
+}

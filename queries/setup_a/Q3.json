@@ -1,0 +1,12 @@
+{
+  "qid": "Q3",
+  "need": "A science-fiction survival film about astronauts stranded away from Earth who need to survive or get home.",
+  "rationale": "Plain field search on the plot text, requiring 'astronaut' plus at least one of 'stranded'/'survive' — those two words alone are too generic and matched over 1000 unrelated films.",
+  "params": {
+    "q": "plot:(astronaut) AND plot:(stranded OR survive)",
+    "fq": "doc_type:movie",
+    "fl": "movie_id,id,title,score,overview,year",
+    "rows": 20,
+    "wt": "json"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "qid": "Q4",
+  "need": "A crime or thriller film in which an FBI agent investigates serial killings.",
+  "rationale": "Plain field search on the plot text, requiring both concepts present together — an FBI story with no serial killer, or vice versa, isn't a real match.",
+  "params": {
+    "q": "plot:(FBI AND \"serial killer\")",
+    "fq": "doc_type:movie",
+    "fl": "movie_id,id,title,score,overview,year",
+    "rows": 20,
+    "wt": "json"
+  }
+}
