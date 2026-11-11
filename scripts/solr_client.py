@@ -2,8 +2,8 @@
 """Run Setup A/B queries against Solr, saving per-need JSON results and a TREC run file.
 
 Usage:
-    python3 queries/solr_client.py --queries queries/setup_a --setup A
-    python3 queries/solr_client.py --queries queries/setup_b --setup B
+    python3 scripts/solr_client.py --queries queries/setup_a --setup A
+    python3 scripts/solr_client.py --queries queries/setup_b --setup B
 """
 
 import argparse
@@ -43,7 +43,6 @@ def to_run_format(solr_response: dict, qid: str, overview_chars: int = 150) -> l
         results.append({
             "rank": rank,
             "movie_id": movie_id,
-            "id": doc.get("id"),
             "title": doc.get("title"),
             "score": doc.get("score"),
             "overview": doc.get("overview", "")[:overview_chars],

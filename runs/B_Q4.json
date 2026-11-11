@@ -55,7 +55,6 @@
     {
       "rank": 1,
       "movie_id": 339527,
-      "id": "movie-339527",
       "title": "Solace",
       "score": 27.083006,
       "overview": "",
@@ -64,7 +63,6 @@
     {
       "rank": 2,
       "movie_id": 1226578,
-      "id": "movie-1226578",
       "title": "Longlegs",
       "score": 18.032543,
       "overview": "",
@@ -73,7 +71,6 @@
     {
       "rank": 3,
       "movie_id": 9437,
-      "id": "movie-9437",
       "title": "Kiss the Girls",
       "score": 16.598343,
       "overview": "",
@@ -82,7 +79,6 @@
     {
       "rank": 4,
       "movie_id": 602269,
-      "id": "movie-602269",
       "title": "The Little Things",
       "score": 16.038662,
       "overview": "",
@@ -91,7 +87,6 @@
     {
       "rank": 5,
       "movie_id": 10871,
-      "id": "movie-10871",
       "title": "Switchback",
       "score": 15.00761,
       "overview": "",
@@ -100,7 +95,6 @@
     {
       "rank": 6,
       "movie_id": 12149,
-      "id": "movie-12149",
       "title": "Frailty",
       "score": 14.507671,
       "overview": "",
@@ -109,7 +103,6 @@
     {
       "rank": 7,
       "movie_id": 3489,
-      "id": "movie-3489",
       "title": "88 Minutes",
       "score": 13.309485,
       "overview": "",
@@ -118,7 +111,6 @@
     {
       "rank": 8,
       "movie_id": 1032823,
-      "id": "movie-1032823",
       "title": "Trap",
       "score": 13.05422,
       "overview": "",
@@ -127,7 +119,6 @@
     {
       "rank": 9,
       "movie_id": 9544,
-      "id": "movie-9544",
       "title": "FearDotCom",
       "score": 11.82409,
       "overview": "",
@@ -136,7 +127,6 @@
     {
       "rank": 10,
       "movie_id": 34314,
-      "id": "movie-34314",
       "title": "Turbulence",
       "score": 11.486637,
       "overview": "",
@@ -145,7 +135,6 @@
     {
       "rank": 11,
       "movie_id": 274,
-      "id": "movie-274",
       "title": "The Silence of the Lambs",
       "score": 11.254812,
       "overview": "",

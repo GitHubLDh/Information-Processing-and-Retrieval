@@ -55,7 +55,6 @@
     {
       "rank": 1,
       "movie_id": 398978,
-      "id": "movie-398978",
       "title": "The Irishman",
       "score": 30.611284,
       "overview": "",
@@ -64,7 +63,6 @@
     {
       "rank": 2,
       "movie_id": 240,
-      "id": "movie-240",
       "title": "The Godfather Part II",
       "score": 25.033148,
       "overview": "",
@@ -73,7 +71,6 @@
     {
       "rank": 3,
       "movie_id": 769,
-      "id": "movie-769",
       "title": "GoodFellas",
       "score": 24.448195,
       "overview": "",
@@ -82,7 +79,6 @@
     {
       "rank": 4,
       "movie_id": 8195,
-      "id": "movie-8195",
       "title": "Ronin",
       "score": 16.848173,
       "overview": "",
@@ -91,7 +87,6 @@
     {
       "rank": 5,
       "movie_id": 819,
-      "id": "movie-819",
       "title": "Sleepers",
       "score": 15.533096,
       "overview": "",
@@ -100,7 +95,6 @@
     {
       "rank": 6,
       "movie_id": 524,
-      "id": "movie-524",
       "title": "Casino",
       "score": 15.144063,
       "overview": "",
@@ -109,7 +103,6 @@
     {
       "rank": 7,
       "movie_id": 2142,
-      "id": "movie-2142",
       "title": "Cop Land",
       "score": 14.507645,
       "overview": "",
@@ -118,7 +111,6 @@
     {
       "rank": 8,
       "movie_id": 311,
-      "id": "movie-311",
       "title": "Once Upon a Time in America",
       "score": 12.600012,
       "overview": "",
@@ -127,7 +119,6 @@
     {
       "rank": 9,
       "movie_id": 112205,
-      "id": "movie-112205",
       "title": "The Family",
       "score": 11.557602,
       "overview": "",
@@ -136,7 +127,6 @@
     {
       "rank": 10,
       "movie_id": 1578,
-      "id": "movie-1578",
       "title": "Raging Bull",
       "score": 10.600399,
       "overview": "",
@@ -145,7 +135,6 @@
     {
       "rank": 11,
       "movie_id": 117,
-      "id": "movie-117",
       "title": "The Untouchables",
       "score": 9.986845,
       "overview": "",
@@ -154,7 +143,6 @@
     {
       "rank": 12,
       "movie_id": 1607,
-      "id": "movie-1607",
       "title": "A Bronx Tale",
       "score": 8.817346,
       "overview": "",
@@ -163,7 +151,6 @@
     {
       "rank": 13,
       "movie_id": 11371,
-      "id": "movie-11371",
       "title": "The Score",
       "score": 8.09178,
       "overview": "",
@@ -172,7 +159,6 @@
     {
       "rank": 14,
       "movie_id": 10555,
-      "id": "movie-10555",
       "title": "Shark Tale",
       "score": 6.9148445,
       "overview": "",

@@ -6,7 +6,7 @@
   "endpoint": "http://localhost:8983/solr/movies/select",
   "num_found": 91,
   "query_params": {
-    "q": "{!parent which=\"doc_type:movie\"}review_text:(predictable OR cliche OR heartwarming)",
+    "q": "{!parent which=\"doc_type:movie\" score=max}review_text:(predictable OR cliche OR heartwarming)",
     "fq": "genres:romance",
     "fl": "movie_id,id,title,score,overview,year",
     "rows": 20,
@@ -15,183 +15,163 @@
   "results": [
     {
       "rank": 1,
-      "movie_id": 114,
-      "id": "movie-114",
-      "title": "Pretty Woman",
-      "score": 0.0,
-      "overview": "While on a business trip in Los Angeles, Edward Lewis, a millionaire entrepreneur who makes a living buying and breaking up companies, picks up a pros",
-      "year": 1990
+      "movie_id": 10096,
+      "title": "13 Going on 30",
+      "score": 4.308391,
+      "overview": "After total humiliation at her thirteenth birthday party, Jenna Rink wants to just hide until she's thirty. Thanks to some magic wishing dust, Jenna's",
+      "year": 2004
     },
     {
       "rank": 2,
-      "movie_id": 137,
-      "id": "movie-137",
-      "title": "Groundhog Day",
-      "score": 0.0,
-      "overview": "A cynical TV weatherman, along with his idealistic producer and his sardonic cameraman, is sent to report on Groundhog Day in the small town of Punxsu",
-      "year": 1993
+      "movie_id": 987686,
+      "title": "A Family Affair",
+      "score": 4.303375,
+      "overview": "The only thing worse than being the assistant to a high-maintenance movie star who doesn't take you seriously? Finding out he's smitten with your mom.",
+      "year": 2024
     },
     {
       "rank": 3,
-      "movie_id": 509,
-      "id": "movie-509",
-      "title": "Notting Hill",
-      "score": 0.0,
-      "overview": "London bookstore owner William Thacker's quiet life turns upside down when a chance encounter with famous actress Anna Scott sparks an unlikely romanc",
-      "year": 1999
+      "movie_id": 152601,
+      "title": "Her",
+      "score": 3.9478512,
+      "overview": "In the not so distant future, Theodore, a lonely writer, purchases a newly developed operating system designed to meet the user's every need. To Theod",
+      "year": 2013
     },
     {
       "rank": 4,
-      "movie_id": 804,
-      "id": "movie-804",
-      "title": "Roman Holiday",
-      "score": 0.0,
-      "overview": "Overwhelmed by her suffocating schedule, touring European princess Ann takes off for a night while in Rome. When a sedative she took from her doctor k",
-      "year": 1953
+      "movie_id": 843527,
+      "title": "The Idea of You",
+      "score": 3.5483315,
+      "overview": "40-year-old single mom Solène begins an unexpected romance with 24-year-old Hayes Campbell, the lead singer of August Moon, the hottest boy band on th",
+      "year": 2024
     },
     {
       "rank": 5,
-      "movie_id": 812,
-      "id": "movie-812",
-      "title": "Aladdin",
-      "score": 0.0,
-      "overview": "In the boorish city of Agrabah, kind-hearted street urchin Aladdin and Princess Jasmine fall in love, although she can only marry a prince. He and pow",
-      "year": 1992
+      "movie_id": 25704,
+      "title": "Post Grad",
+      "score": 3.3120189,
+      "overview": "Ryden Malby has a master plan. Graduate college, get a great job, hang out with her best friend and find the perfect guy. But her plan spins hilarious",
+      "year": 2009
     },
     {
       "rank": 6,
-      "movie_id": 1587,
-      "id": "movie-1587",
-      "title": "What's Eating Gilbert Grape",
-      "score": 0.0,
-      "overview": "Gilbert Grape is a small-town young man with a lot of responsibility. Chief among his concerns are his mother, who is so overweight that she can't lea",
-      "year": 1993
+      "movie_id": 38317,
+      "title": "Zookeeper",
+      "score": 3.2761774,
+      "overview": "Kindhearted Griffin Keyes is one of the best-loved caretakers at the Franklin Park Zoo, but he's more comfortable with the animals than with females o",
+      "year": 2011
     },
     {
       "rank": 7,
-      "movie_id": 1824,
-      "id": "movie-1824",
-      "title": "50 First Dates",
-      "score": 0.0,
-      "overview": "Henry is a player skilled at seducing women. But when this veterinarian meets Lucy, a girl with a quirky problem when it comes to total recall, he rea",
-      "year": 2004
+      "movie_id": 1068452,
+      "title": "Hi Nanna",
+      "score": 3.1033897,
+      "overview": "Six-year-old Mahi, a spirited child with cystic fibrosis, shares a deep yet complex bond with her father, Viraj, a dedicated single parent and success",
+      "year": 2023
     },
     {
       "rank": 8,
-      "movie_id": 2124,
-      "id": "movie-2124",
-      "title": "Color of Night",
-      "score": 0.0,
-      "overview": "A color-blind psychiatrist is stalked by an unknown killer after taking over his murdered friend's therapy group and becomes embroiled in an intense a",
-      "year": 1994
-    },
-    {
-      "rank": 9,
-      "movie_id": 2288,
-      "id": "movie-2288",
-      "title": "Closer",
-      "score": 0.0,
-      "overview": "The relationships of two couples become complicated and deceitful when the man from one couple meets the woman of the other.",
-      "year": 2004
-    },
-    {
-      "rank": 10,
-      "movie_id": 4584,
-      "id": "movie-4584",
-      "title": "Sense and Sensibility",
-      "score": 0.0,
-      "overview": "The Dashwood sisters, sensible Elinor and passionate Marianne, learn that their prospects of marriage seem doomed by their family's sudden loss of for",
-      "year": 1995
-    },
-    {
-      "rank": 11,
-      "movie_id": 4951,
-      "id": "movie-4951",
-      "title": "10 Things I Hate About You",
-      "score": 0.0,
-      "overview": "On the first day at his new school, Cameron instantly falls for Bianca, the gorgeous girl of his dreams. The only problem is that Bianca is forbidden ",
-      "year": 1999
-    },
-    {
-      "rank": 12,
-      "movie_id": 6068,
-      "id": "movie-6068",
-      "title": "Six Days Seven Nights",
-      "score": 0.0,
-      "overview": "In the South Pacific island of Makatea, career-driven magazine editor Robin Monroe is on a week-long vacation getaway with her boyfriend, Frank Martin",
-      "year": 1998
-    },
-    {
-      "rank": 13,
-      "movie_id": 6282,
-      "id": "movie-6282",
-      "title": "Coyote Ugly",
-      "score": 0.0,
-      "overview": "Graced with a velvet voice, 21-year-old Violet Sanford heads to New York to pursue her dream of becoming a songwriter only to find her aspirations sid",
-      "year": 2000
-    },
-    {
-      "rank": 14,
-      "movie_id": 8856,
-      "id": "movie-8856",
-      "title": "The Karate Kid Part II",
-      "score": 0.0,
-      "overview": "Summoned by his dying father, Miyagi returns to his homeland of Okinawa, with Daniel, after a 40-year exile. There he must confront Yukie, the love of",
-      "year": 1986
-    },
-    {
-      "rank": 15,
-      "movie_id": 9326,
-      "id": "movie-9326",
-      "title": "Romancing the Stone",
-      "score": 0.0,
-      "overview": "Though she can spin wild tales of passionate romance, novelist Joan Wilder has no life of her own. Then one day adventure comes her way in the form of",
-      "year": 1984
-    },
-    {
-      "rank": 16,
-      "movie_id": 9522,
-      "id": "movie-9522",
-      "title": "Wedding Crashers",
-      "score": 0.0,
-      "overview": "John and his buddy Jeremy are emotional criminals who know how to use a woman's hopes and dreams for their own carnal gain. Their modus operandi: cras",
-      "year": 2005
-    },
-    {
-      "rank": 17,
-      "movie_id": 9587,
-      "id": "movie-9587",
-      "title": "Little Women",
-      "score": 0.0,
-      "overview": "Four sisters come of age in America in the aftermath of the Civil War.",
-      "year": 1994
-    },
-    {
-      "rank": 18,
       "movie_id": 9602,
-      "id": "movie-9602",
       "title": "Coming to America",
-      "score": 0.0,
+      "score": 3.060781,
       "overview": "An African prince decides it’s time for him to find a princess... and his mission leads him and his most loyal friend to Queens, New York. In disguise",
       "year": 1988
     },
     {
+      "rank": 9,
+      "movie_id": 16996,
+      "title": "17 Again",
+      "score": 2.8065333,
+      "overview": "On the brink of a midlife crisis, 30-something Mike O'Donnell wishes he could have a \"do-over.\" And that's exactly what he gets when he wakes up one m",
+      "year": 2009
+    },
+    {
+      "rank": 10,
+      "movie_id": 455207,
+      "title": "Crazy Rich Asians",
+      "score": 2.80174,
+      "overview": "An American-born Chinese economics professor accompanies her boyfriend to Singapore for his best friend's wedding, only to get thrust into the lives o",
+      "year": 2018
+    },
+    {
+      "rank": 11,
+      "movie_id": 509,
+      "title": "Notting Hill",
+      "score": 2.7578628,
+      "overview": "London bookstore owner William Thacker's quiet life turns upside down when a chance encounter with famous actress Anna Scott sparks an unlikely romanc",
+      "year": 1999
+    },
+    {
+      "rank": 12,
+      "movie_id": 1824,
+      "title": "50 First Dates",
+      "score": 2.7578628,
+      "overview": "Henry is a player skilled at seducing women. But when this veterinarian meets Lucy, a girl with a quirky problem when it comes to total recall, he rea",
+      "year": 2004
+    },
+    {
+      "rank": 13,
+      "movie_id": 804,
+      "title": "Roman Holiday",
+      "score": 2.5182762,
+      "overview": "Overwhelmed by her suffocating schedule, touring European princess Ann takes off for a night while in Rome. When a sedative she took from her doctor k",
+      "year": 1953
+    },
+    {
+      "rank": 14,
+      "movie_id": 11622,
+      "title": "Blast from the Past",
+      "score": 2.509503,
+      "overview": "Following a bomb scare in the 1960s that locked the Webers into their bomb shelter for 35 years, Adam now ventures forth into Los Angeles to obtain fo",
+      "year": 1999
+    },
+    {
+      "rank": 15,
+      "movie_id": 370663,
+      "title": "Below Her Mouth",
+      "score": 2.5062356,
+      "overview": "An unexpected affair quickly escalates into a heart-stopping reality for two women whose passionate connection changes their lives forever.",
+      "year": 2017
+    },
+    {
+      "rank": 16,
+      "movie_id": 956842,
+      "title": "Fly Me to the Moon",
+      "score": 2.4349132,
+      "overview": "Sparks fly in all directions as marketing maven Kelly Jones, brought in to fix NASA's public image, wreaks havoc on Apollo 11 launch director Cole Dav",
+      "year": 2024
+    },
+    {
+      "rank": 17,
+      "movie_id": 550205,
+      "title": "Wish Dragon",
+      "score": 2.401375,
+      "overview": "Determined teen Din is longing to reconnect with his childhood best friend when he meets a wish-granting dragon who shows him the magic of possibiliti",
+      "year": 2021
+    },
+    {
+      "rank": 18,
+      "movie_id": 222935,
+      "title": "The Fault in Our Stars",
+      "score": 2.3568928,
+      "overview": "Despite the tumor-shrinking medical miracle that has bought her a few years, Hazel has never been anything but terminal, her final chapter inscribed u",
+      "year": 2014
+    },
+    {
       "rank": 19,
-      "movie_id": 9603,
-      "id": "movie-9603",
-      "title": "Clueless",
-      "score": 0.0,
-      "overview": "Shallow, rich and socially successful Cher is at the top of her Beverly Hills high school's pecking scale. Seeing herself as a matchmaker, Cher first ",
-      "year": 1995
+      "movie_id": 9587,
+      "title": "Little Women",
+      "score": 2.30218,
+      "overview": "Four sisters come of age in America in the aftermath of the Civil War.",
+      "year": 1994
     },
     {
       "rank": 20,
-      "movie_id": 10096,
-      "id": "movie-10096",
-      "title": "13 Going on 30",
-      "score": 0.0,
-      "overview": "After total humiliation at her thirteenth birthday party, Jenna Rink wants to just hide until she's thirty. Thanks to some magic wishing dust, Jenna's",
-      "year": 2004
+      "movie_id": 1064213,
+      "title": "Anora",
+      "score": 2.2837167,
+      "overview": "A young sex worker from Brooklyn gets her chance at a Cinderella story when she meets and impulsively marries the son of an oligarch. Once the news re",
+      "year": 2024
     }
   ]
 }

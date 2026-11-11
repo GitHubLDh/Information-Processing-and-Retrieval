@@ -55,7 +55,6 @@
     {
       "rank": 1,
       "movie_id": 30863,
-      "id": "movie-30863",
       "title": "Mutant Aliens",
       "score": 25.782883,
       "overview": "",
@@ -64,7 +63,6 @@
     {
       "rank": 2,
       "movie_id": 286217,
-      "id": "movie-286217",
       "title": "The Martian",
       "score": 25.334942,
       "overview": "",
@@ -73,7 +71,6 @@
     {
       "rank": 3,
       "movie_id": 916728,
-      "id": "movie-916728",
       "title": "Slingshot",
       "score": 23.45816,
       "overview": "",
@@ -82,7 +79,6 @@
     {
       "rank": 4,
       "movie_id": 6795,
-      "id": "movie-6795",
       "title": "Zathura: A Space Adventure",
       "score": 22.924526,
       "overview": "",
@@ -91,7 +87,6 @@
     {
       "rank": 5,
       "movie_id": 167948,
-      "id": "movie-167948",
       "title": "Space Milkshake",
       "score": 21.099602,
       "overview": "",
@@ -100,7 +95,6 @@
     {
       "rank": 6,
       "movie_id": 8656,
-      "id": "movie-8656",
       "title": "Deep Impact",
       "score": 20.718586,
       "overview": "",
@@ -109,7 +103,6 @@
     {
       "rank": 7,
       "movie_id": 11802,
-      "id": "movie-11802",
       "title": "Space Chimps",
       "score": 20.50077,
       "overview": "",
@@ -118,7 +111,6 @@
     {
       "rank": 8,
       "movie_id": 636706,
-      "id": "movie-636706",
       "title": "Spaceman",
       "score": 17.427729,
       "overview": "",
@@ -127,7 +119,6 @@
     {
       "rank": 9,
       "movie_id": 369972,
-      "id": "movie-369972",
       "title": "First Man",
       "score": 16.8793,
       "overview": "",
@@ -136,7 +127,6 @@
     {
       "rank": 10,
       "movie_id": 614911,
-      "id": "movie-614911",
       "title": "The Midnight Sky",
       "score": 16.707558,
       "overview": "",
@@ -145,7 +135,6 @@
     {
       "rank": 11,
       "movie_id": 435,
-      "id": "movie-435",
       "title": "The Day After Tomorrow",
       "score": 16.361162,
       "overview": "",
@@ -154,7 +143,6 @@
     {
       "rank": 12,
       "movie_id": 419704,
-      "id": "movie-419704",
       "title": "Ad Astra",
       "score": 15.610833,
       "overview": "",
@@ -163,7 +151,6 @@
     {
       "rank": 13,
       "movie_id": 21605,
-      "id": "movie-21605",
       "title": "Thunderpants",
       "score": 15.596026,
       "overview": "",
@@ -172,7 +159,6 @@
     {
       "rank": 14,
       "movie_id": 188927,
-      "id": "movie-188927",
       "title": "Star Trek Beyond",
       "score": 15.221367,
       "overview": "",
@@ -181,7 +167,6 @@
     {
       "rank": 15,
       "movie_id": 8413,
-      "id": "movie-8413",
       "title": "Event Horizon",
       "score": 15.047763,
       "overview": "",
@@ -190,7 +175,6 @@
     {
       "rank": 16,
       "movie_id": 115290,
-      "id": "movie-115290",
       "title": "Blue Lagoon: The Awakening",
       "score": 14.998552,
       "overview": "",
@@ -199,7 +183,6 @@
     {
       "rank": 17,
       "movie_id": 36797,
-      "id": "movie-36797",
       "title": "RocketMan",
       "score": 14.826014,
       "overview": "",
@@ -208,7 +191,6 @@
     {
       "rank": 18,
       "movie_id": 869,
-      "id": "movie-869",
       "title": "Planet of the Apes",
       "score": 14.714558,
       "overview": "",
@@ -217,7 +199,6 @@
     {
       "rank": 19,
       "movie_id": 49047,
-      "id": "movie-49047",
       "title": "Gravity",
       "score": 14.502707,
       "overview": "",
@@ -226,7 +207,6 @@
     {
       "rank": 20,
       "movie_id": 568,
-      "id": "movie-568",
       "title": "Apollo 13",
       "score": 14.423506,
       "overview": "",

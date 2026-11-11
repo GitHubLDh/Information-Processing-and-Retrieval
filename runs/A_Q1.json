@@ -6,7 +6,7 @@
   "endpoint": "http://localhost:8983/solr/movies/select",
   "num_found": 162,
   "query_params": {
-    "q": "{!parent which=\"doc_type:movie\"}review_text:(clever OR witty OR \"intellectually sharp\")",
+    "q": "{!parent which=\"doc_type:movie\" score=max}review_text:(clever OR witty OR \"intellectually sharp\")",
     "fq": "genres:comedy",
     "fl": "movie_id,id,title,score,overview,year",
     "rows": 20,
@@ -15,183 +15,163 @@
   "results": [
     {
       "rank": 1,
-      "movie_id": 13,
-      "id": "movie-13",
-      "title": "Forrest Gump",
-      "score": 0.0,
-      "overview": "A man with a low IQ has accomplished great things in his life and been present during significant historic events—in each case, far exceeding what any",
-      "year": 1994
+      "movie_id": 5236,
+      "title": "Kiss Kiss Bang Bang",
+      "score": 4.281413,
+      "overview": "A petty thief posing as an actor is brought to Los Angeles for an unlikely audition and finds himself in the middle of a murder investigation along wi",
+      "year": 2005
     },
     {
       "rank": 2,
-      "movie_id": 105,
-      "id": "movie-105",
-      "title": "Back to the Future",
-      "score": 0.0,
-      "overview": "Eighties teenager Marty McFly is accidentally sent back in time to 1955, inadvertently disrupting his parents' first meeting and attracting his mother",
-      "year": 1985
+      "movie_id": 929204,
+      "title": "Wallace & Gromit: Vengeance Most Fowl",
+      "score": 4.281413,
+      "overview": "Gromit’s concern that Wallace is becoming too dependent on his inventions proves justified, when Wallace invents a “smart” gnome that seems to develop",
+      "year": 2024
     },
     {
       "rank": 3,
-      "movie_id": 115,
-      "id": "movie-115",
-      "title": "The Big Lebowski",
-      "score": 0.0,
-      "overview": "Jeffrey 'The Dude' Lebowski, a Los Angeles slacker who only wants to bowl and drink White Russians, is mistaken for another Jeffrey Lebowski, a wheelc",
-      "year": 1998
-    },
-    {
-      "rank": 4,
-      "movie_id": 137,
-      "id": "movie-137",
-      "title": "Groundhog Day",
-      "score": 0.0,
-      "overview": "A cynical TV weatherman, along with his idealistic producer and his sardonic cameraman, is sent to report on Groundhog Day in the small town of Punxsu",
-      "year": 1993
-    },
-    {
-      "rank": 5,
-      "movie_id": 153,
-      "id": "movie-153",
-      "title": "Lost in Translation",
-      "score": 0.0,
-      "overview": "Two lost souls visiting Tokyo -- the young, neglected wife of a photographer and a washed-up movie star shooting a TV commercial -- find an odd solace",
-      "year": 2003
-    },
-    {
-      "rank": 6,
-      "movie_id": 165,
-      "id": "movie-165",
-      "title": "Back to the Future Part II",
-      "score": 0.0,
-      "overview": "Marty and Doc are at it again as the time-traveling duo head to 2015 to nip some McFly family woes in the bud. But things go awry thanks to bully Biff",
-      "year": 1989
-    },
-    {
-      "rank": 7,
-      "movie_id": 196,
-      "id": "movie-196",
-      "title": "Back to the Future Part III",
-      "score": 0.0,
-      "overview": "The final installment finds Marty digging the trusty DeLorean out of a mineshaft and looking for Doc in the Wild West of 1885. But when their time mac",
-      "year": 1990
-    },
-    {
-      "rank": 8,
-      "movie_id": 243,
-      "id": "movie-243",
-      "title": "High Fidelity",
-      "score": 0.0,
-      "overview": "After his long-time girlfriend dumps him, a thirty-year-old record store owner seeks to understand why he is unlucky in love while recounting his \"top",
-      "year": 2000
-    },
-    {
-      "rank": 9,
-      "movie_id": 508,
-      "id": "movie-508",
-      "title": "Love Actually",
-      "score": 0.0,
-      "overview": "Eight very different couples deal with their love lives in various loosely interrelated tales all set during a frantic month before Christmas in Londo",
-      "year": 2003
-    },
-    {
-      "rank": 10,
-      "movie_id": 512,
-      "id": "movie-512",
-      "title": "Scoop",
-      "score": 0.0,
-      "overview": "An American journalism student in London scoops a big story, and begins an affair with an aristocrat as the incident unfurls.",
+      "movie_id": 7518,
+      "title": "Over the Hedge",
+      "score": 3.6624207,
+      "overview": "A scheming raccoon fools a mismatched family of forest creatures into helping him repay a debt of food, by invading the new suburban sprawl that poppe",
       "year": 2006
     },
     {
-      "rank": 11,
-      "movie_id": 585,
-      "id": "movie-585",
-      "title": "Monsters, Inc.",
-      "score": 0.0,
-      "overview": "Lovable Sulley and his wisecracking sidekick Mike Wazowski are the top scare team at Monsters, Inc., the scream-processing factory in Monstropolis. Wh",
-      "year": 2001
-    },
-    {
-      "rank": 12,
-      "movie_id": 634,
-      "id": "movie-634",
-      "title": "Bridget Jones's Diary",
-      "score": 0.0,
-      "overview": "Bridget Jones is an average woman struggling against expectations. As a New Year's resolution, Bridget decides to take control of her life, starting b",
-      "year": 2001
-    },
-    {
-      "rank": 13,
-      "movie_id": 639,
-      "id": "movie-639",
-      "title": "When Harry Met Sally...",
-      "score": 0.0,
-      "overview": "Sex always gets in the way of friendships between men and women. At least, that's what Harry Burns believes. So when Harry meets Sally Albright and a ",
-      "year": 1989
-    },
-    {
-      "rank": 14,
-      "movie_id": 680,
-      "id": "movie-680",
-      "title": "Pulp Fiction",
-      "score": 0.0,
-      "overview": "A burger-loving hit man, his philosophical partner, a drug-addled gangster's moll and a washed-up boxer converge in this sprawling, comedic crime cape",
-      "year": 1994
-    },
-    {
-      "rank": 15,
-      "movie_id": 747,
-      "id": "movie-747",
-      "title": "Shaun of the Dead",
-      "score": 0.0,
-      "overview": "Shaun lives a supremely uneventful life, which revolves around his girlfriend, his mother, and, above all, his local pub. This gentle routine is threa",
-      "year": 2004
-    },
-    {
-      "rank": 16,
-      "movie_id": 762,
-      "id": "movie-762",
-      "title": "Monty Python and the Holy Grail",
-      "score": 0.0,
-      "overview": "King Arthur, accompanied by his squire, recruits his Knights of the Round Table, including Sir Bedevere the Wise, Sir Lancelot the Brave, Sir Robin th",
-      "year": 1975
-    },
-    {
-      "rank": 17,
-      "movie_id": 766,
-      "id": "movie-766",
-      "title": "Army of Darkness",
-      "score": 0.0,
-      "overview": "Ash, a handsome, shotgun-toting, chainsaw-armed department store clerk, is time warped backwards into England's Dark Ages, where he romances a beauty ",
-      "year": 1992
-    },
-    {
-      "rank": 18,
+      "rank": 4,
       "movie_id": 810,
-      "id": "movie-810",
       "title": "Shrek the Third",
-      "score": 0.0,
+      "score": 3.517136,
       "overview": "The King of Far Far Away has died and Shrek and Fiona are to become King & Queen. However, Shrek wants to return to his cozy swamp and live in peace a",
       "year": 2007
     },
     {
+      "rank": 5,
+      "movie_id": 748783,
+      "title": "The Garfield Movie",
+      "score": 3.517136,
+      "overview": "Garfield, the world-famous, Monday-hating, lasagna-loving indoor cat, is about to have a wild outdoor adventure! After an unexpected reunion with his ",
+      "year": 2024
+    },
+    {
+      "rank": 6,
+      "movie_id": 539681,
+      "title": "DC League of Super-Pets",
+      "score": 3.2586052,
+      "overview": "When Superman and the rest of the Justice League are kidnapped, Krypto the Super-Dog must convince a rag-tag shelter pack - Ace the hound, PB the potb",
+      "year": 2022
+    },
+    {
+      "rank": 7,
+      "movie_id": 1934,
+      "title": "Shakespeare in Love",
+      "score": 3.1430871,
+      "overview": "Young William Shakespeare is forced to stage his latest comedy, 'Romeo and Ethel, the Pirate's Daughter', before it's even written. When lovely noblew",
+      "year": 1998
+    },
+    {
+      "rank": 8,
+      "movie_id": 496243,
+      "title": "Parasite",
+      "score": 2.9165,
+      "overview": "All unemployed, Ki-taek's family takes peculiar interest in the wealthy and glamorous Parks for their livelihood until they get entangled in an unexpe",
+      "year": 2019
+    },
+    {
+      "rank": 9,
+      "movie_id": 844185,
+      "title": "Unfrosted",
+      "score": 2.8157222,
+      "overview": "In a time when breakfast is ruled by milk and cereal, a fierce corporate battle begins over a revolutionary new pastry.",
+      "year": 2024
+    },
+    {
+      "rank": 10,
+      "movie_id": 535581,
+      "title": "The Dead Don't Die",
+      "score": 2.6992474,
+      "overview": "In the sleepy town of Centerville, the lives of a number of interconnected characters are disrupted by the undead.",
+      "year": 2019
+    },
+    {
+      "rank": 11,
+      "movie_id": 800939,
+      "title": "Ticket to Paradise",
+      "score": 2.6280596,
+      "overview": "Divorced couple Georgia and David find themselves on a shared mission: they team up and travel to Bali to stop their daughter Lily from making the sam",
+      "year": 2022
+    },
+    {
+      "rank": 12,
+      "movie_id": 955916,
+      "title": "Lift",
+      "score": 2.6280596,
+      "overview": "An international heist crew, led by Cyrus Whitaker, race to lift $500 million in gold from a passenger plane at 40,000 feet.",
+      "year": 2024
+    },
+    {
+      "rank": 13,
+      "movie_id": 762,
+      "title": "Monty Python and the Holy Grail",
+      "score": 2.569151,
+      "overview": "King Arthur, accompanied by his squire, recruits his Knights of the Round Table, including Sir Bedevere the Wise, Sir Lancelot the Brave, Sir Robin th",
+      "year": 1975
+    },
+    {
+      "rank": 14,
+      "movie_id": 256591,
+      "title": "Focus",
+      "score": 2.5404258,
+      "overview": "Nicky, an accomplished con artist, gets romantically involved with his disciple Jess but later ends their relationship. Years later, she returns as a ",
+      "year": 2015
+    },
+    {
+      "rank": 15,
+      "movie_id": 284053,
+      "title": "Thor: Ragnarok",
+      "score": 2.5280504,
+      "overview": "Thor is imprisoned on the other side of the universe and finds himself in a race against time to get back to Asgard to stop Ragnarok, the destruction ",
+      "year": 2017
+    },
+    {
+      "rank": 16,
+      "movie_id": 493529,
+      "title": "Dungeons & Dragons: Honor Among Thieves",
+      "score": 2.5212889,
+      "overview": "A charming thief and a band of unlikely adventurers undertake an epic heist to retrieve a lost relic, but things go dangerously awry when they run afo",
+      "year": 2023
+    },
+    {
+      "rank": 17,
+      "movie_id": 515248,
+      "title": "Someone Great",
+      "score": 2.5212889,
+      "overview": "An aspiring music journalist lands her dream job and is about to move to San Francisco when her boyfriend of nine years decides to call it quits. To n",
+      "year": 2019
+    },
+    {
+      "rank": 18,
+      "movie_id": 1581,
+      "title": "The Holiday",
+      "score": 2.4963841,
+      "overview": "Two women, one American and one British, swap homes at Christmastime following bad breakups. Each woman finds romance with a local man but realizes th",
+      "year": 2006
+    },
+    {
       "rank": 19,
-      "movie_id": 862,
-      "id": "movie-862",
-      "title": "Toy Story",
-      "score": 0.0,
-      "overview": "Led by Woody, Andy's toys live happily in his room until Andy's birthday brings Buzz Lightyear onto the scene. Afraid of losing his place in Andy's he",
-      "year": 1995
+      "movie_id": 1261825,
+      "title": "Oh. What. Fun.",
+      "score": 2.472386,
+      "overview": "Claire Clauster is the glue that holds her chaotic, lovable family together at the holidays. But this year, after planning a special outing for them, ",
+      "year": 2025
     },
     {
       "rank": 20,
-      "movie_id": 863,
-      "id": "movie-863",
-      "title": "Toy Story 2",
-      "score": 0.0,
-      "overview": "Andy heads off to Cowboy Camp, leaving his toys to their own devices. Things shift into high gear when an obsessive toy collector named Al McWhiggen, ",
-      "year": 1999
+      "movie_id": 337404,
+      "title": "Cruella",
+      "score": 2.4655015,
+      "overview": "In 1970s London amidst the punk rock revolution, a young grifter named Estella is determined to make a name for herself with her designs. She befriend",
+      "year": 2021
     }
   ]
 }
