@@ -2,20 +2,23 @@
   "setup": "B",
   "qid": "Q5",
   "need": "A Robert De Niro film about the Italian-American Mafia.",
-  "rationale": "Require Robert De Niro in the cast within the eDisMax query, boost cast-name matches, and search overview/plot text for Mafia-related wording. Phrase boosts reward close matches; the crime genre is a secondary boost.",
+  "rationale": "Require Robert De Niro through a cast-name filter that includes the common De Niro/Deniro spelling variant. Search overview and plot text for Mafia, organized-crime, Italian-American, and related wording. Phrase boosts reward close matches; the crime genre is a secondary boost.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 14,
+  "num_found": 10,
   "query_params": {
-    "q": "+cast.name:\"Robert De Niro\" +(mafia mob \"organized crime\" \"crime family\" gangster)",
+    "q": "mafia mafioso mobster mob \"organized crime\" \"crime family\" \"Cosa Nostra\" wiseguy gangster Italian \"Italian American\" \"Italian-American\"",
     "defType": "edismax",
-    "qf": "cast.name^4 overview^3 plot^2",
-    "pf": "cast.name^5 overview^2",
+    "qf": "overview^3 plot^2",
+    "pf": "overview^2",
     "ps": "3",
     "mm": "2",
-    "fq": "doc_type:movie",
+    "fq": [
+      "doc_type:movie",
+      "cast.name:(\"robert de niro\" OR \"robert deniro\")"
+    ],
     "bq": "genres:crime^1.5",
     "rows": "20",
-    "fl": "movie_id,id,title,score",
+    "fl": "movie_id,id,title,score,overview,year",
     "wt": "json"
   },
   "results": [
@@ -23,113 +26,81 @@
       "rank": 1,
       "movie_id": 398978,
       "title": "The Irishman",
-      "score": 30.611284,
-      "overview": "",
-      "year": null
+      "score": 49.792942,
+      "overview": "Pennsylvania, 1956. Frank Sheeran, a war veteran of Irish origin who works as a truck driver, accidentally meets mobster Russell Bufalino. Once Frank ",
+      "year": 2019
     },
     {
       "rank": 2,
-      "movie_id": 240,
-      "title": "The Godfather Part II",
-      "score": 25.033148,
-      "overview": "",
-      "year": null
+      "movie_id": 769,
+      "title": "GoodFellas",
+      "score": 33.11564,
+      "overview": "The true story of Henry Hill, a half-Irish, half-Sicilian Brooklyn kid who is adopted by neighbourhood gangsters at an early age and climbs the ranks ",
+      "year": 1990
     },
     {
       "rank": 3,
-      "movie_id": 769,
-      "title": "GoodFellas",
-      "score": 24.448195,
-      "overview": "",
-      "year": null
+      "movie_id": 240,
+      "title": "The Godfather Part II",
+      "score": 25.339968,
+      "overview": "In the continuing saga of the Corleone crime family, a young Vito Corleone grows up in Sicily and in 1910s New York. In the 1950s, Michael Corleone at",
+      "year": 1974
     },
     {
       "rank": 4,
-      "movie_id": 8195,
-      "title": "Ronin",
-      "score": 16.848173,
-      "overview": "",
-      "year": null
+      "movie_id": 1607,
+      "title": "A Bronx Tale",
+      "score": 24.174105,
+      "overview": "Set in the Bronx during the tumultuous 1960s, an adolescent boy is torn between his honest, working-class father and a violent yet charismatic crime b",
+      "year": 1993
     },
     {
       "rank": 5,
-      "movie_id": 819,
-      "title": "Sleepers",
-      "score": 15.533096,
-      "overview": "",
-      "year": null
+      "movie_id": 117,
+      "title": "The Untouchables",
+      "score": 16.589243,
+      "overview": "Elliot Ness, an ambitious prohibition agent, is determined to take down Al Capone. In order to achieve this goal, he forms a group given the nickname ",
+      "year": 1987
     },
     {
       "rank": 6,
-      "movie_id": 524,
-      "title": "Casino",
-      "score": 15.144063,
-      "overview": "",
-      "year": null
+      "movie_id": 8195,
+      "title": "Ronin",
+      "score": 16.45642,
+      "overview": "A briefcase with undisclosed contents – sought by Irish terrorists and the Russian mob – makes its way into criminals' hands. An Irish liaison assembl",
+      "year": 1998
     },
     {
       "rank": 7,
-      "movie_id": 2142,
-      "title": "Cop Land",
-      "score": 14.507645,
-      "overview": "",
-      "year": null
+      "movie_id": 112205,
+      "title": "The Family",
+      "score": 13.862118,
+      "overview": "After ratting out his Mafia cohorts, Giovanni Manzoni and his family enter the Witness Protection Program and relocate to a sleepy town in France. Des",
+      "year": 2013
     },
     {
       "rank": 8,
-      "movie_id": 311,
-      "title": "Once Upon a Time in America",
-      "score": 12.600012,
-      "overview": "",
-      "year": null
+      "movie_id": 819,
+      "title": "Sleepers",
+      "score": 11.39448,
+      "overview": "Two gangsters seek revenge on the state jail worker who during their stay at a youth prison sexually abused them. A sensational court hearing takes pl",
+      "year": 1996
     },
     {
       "rank": 9,
-      "movie_id": 112205,
-      "title": "The Family",
-      "score": 11.557602,
-      "overview": "",
-      "year": null
+      "movie_id": 2142,
+      "title": "Cop Land",
+      "score": 10.455135,
+      "overview": "Freddy Heflin is the sheriff of a place everyone calls “Cop Land” — a small and seemingly peaceful town populated by the big city police officers he’s",
+      "year": 1997
     },
     {
       "rank": 10,
       "movie_id": 1578,
       "title": "Raging Bull",
-      "score": 10.600399,
-      "overview": "",
-      "year": null
-    },
-    {
-      "rank": 11,
-      "movie_id": 117,
-      "title": "The Untouchables",
-      "score": 9.986845,
-      "overview": "",
-      "year": null
-    },
-    {
-      "rank": 12,
-      "movie_id": 1607,
-      "title": "A Bronx Tale",
-      "score": 8.817346,
-      "overview": "",
-      "year": null
-    },
-    {
-      "rank": 13,
-      "movie_id": 11371,
-      "title": "The Score",
-      "score": 8.09178,
-      "overview": "",
-      "year": null
-    },
-    {
-      "rank": 14,
-      "movie_id": 10555,
-      "title": "Shark Tale",
-      "score": 6.9148445,
-      "overview": "",
-      "year": null
+      "score": 6.54789,
+      "overview": "The life of boxer Jake LaMotta, whose violence and temper that led him to the top in the ring destroyed his life outside of it.",
+      "year": 1980
     }
   ]
 }

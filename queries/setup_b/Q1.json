@@ -1,13 +1,13 @@
 {
   "qid": "Q1",
   "need": "A comedy whose reviewers call its humor clever, witty, or intellectually sharp.",
-  "rationale": "Search nested review text with eDisMax; phrase proximity favors review wording where the descriptors occur together. Restrict parent results to comedy movies.",
+  "rationale": "Search nested review text with eDisMax using hand-curated wording variants for cleverness and humor. Phrase proximity boosts descriptive phrases when they occur together. Restrict parent results to comedy movies.",
   "params": {
     "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
-    "childq": "{!edismax qf=\"review_text\" pf=\"review_text^3\" ps=3 mm=2}clever witty intelligent sharp sophisticated comedy humor",
+    "childq": "{!edismax qf=review_text mm=1 pf=review_text^3 ps=2 qs=2}clever witty wit smart intelligent sophisticated satire satirical cerebral \"sharp writing\" \"sharp humor\" \"witty dialogue\"^2 \"clever writing\"^2 \"intelligent humor\"^2",
     "fq": "genres:comedy",
     "rows": "20",
-    "fl": "movie_id,id,title,score",
+    "fl": "movie_id,id,title,score,overview,year",
     "wt": "json"
   }
 }

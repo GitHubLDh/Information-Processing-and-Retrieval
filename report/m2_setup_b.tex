@@ -1,5 +1,4 @@
-% Person 2 report section for Milestone 2. Include in the final M2 report once
-% Person 1 supplies the exact Setup A parameters and run.
+% Person 2 report section for Milestone 2.
 
 \section{Solr Query Configuration: Setup B}
 
@@ -16,30 +15,35 @@ reviewer descriptors. The parent genre filter restricts Q1 to comedies and Q2 to
 romance movies. For Q3, the overview receives the strongest boost because it states
 the central plot, while the longer plot field provides supporting evidence; a
 science-fiction genre boost raises likely matches without imposing a hard genre
-filter. For Q4, the overview and plot fields are searched for FBI and serial-killer
-language, and crime/thriller genres receive a secondary boost. For Q5, a required
-cast-name clause identifies Robert De Niro while overview and plot text describe
-the Mafia subject; cast and phrase boosts reward close matches.
+filter. For Q4, a serial-killing concept is required while FBI/investigator terms
+are optional; crime/thriller genres receive a secondary boost. A local Solr check
+returned 86 matches with \texttt{mm=1} and 109 with \texttt{mm=0}, confirming that
+the minimum-match setting affects recall; the top 20 were identical. Setup B now
+uses \texttt{mm=0} so these terms can add evidence without being required. For Q5,
+a cast filter requires a Robert De Niro spelling variant, while
+the eDisMax query searches overview and plot for Mafia-related wording. The cast
+filter does not boost scores because every returned movie satisfies it; phrase
+boosting applies to the overview field.
 
-The adopted Setup B run returned 186, 185, 60, 11, and 13 documents for Q1--Q5,
-respectively. These are retrieval totals, not relevance counts. Manual inspection
-found several false positives among the broadened Q3--Q5 candidates; pooled judging
-will show whether the recall increase is useful. Full per-query results and parameters are saved in
+The previously saved Setup B runs returned 216, 205, 70, 11, and 14 documents for
+Q1--Q5, respectively. These counts and rankings predate the current query-file
+revision and are retrieval totals, not relevance counts; rerun Setup B before
+using them to pool or judge the current queries. Manual inspection of that earlier
+run found several false positives among the broadened Q3--Q5 candidates. Full per-query results and parameters are saved in
 \texttt{runs/B\_Q1.json} through \texttt{runs/B\_Q5.json}.
 
 \begin{table}[t]
 \centering
-\caption{Planned baseline and improved retrieval configurations. Setup A details
-must be confirmed against Person 1's implementation before final comparison.}
+\caption{Baseline and improved retrieval configurations from the saved query definitions.}
 \label{tab:setup-ab}
 \small
 \begin{tabular}{p{1.15cm}p{2.4cm}p{4.5cm}}
 \hline
 Dimension & Setup A (baseline) & Setup B (improved) \\
 \hline
-Parser & Planned standard parser; verify exact parser with Person 1. & eDisMax for all five needs; Q1--Q2 use eDisMax inside the child query and Solr's parent block-join parser outside. \\
-Fields & Planned single catch-all text field; verify indexed field with Person 1. & Q1--Q2: \texttt{review\_text}; Q3--Q4: overview (boost 3) and plot (boost 2); Q5: required \texttt{cast.name} clause plus cast, overview, and plot boosts. \\
-Boosting & Default BM25 ranking is planned; confirm against the actual baseline. & Query-field boosts, phrase-field boosts, phrase slop, genre boosts, and query-specific minimum-match settings. \\
+Parser & Standard query parser; Q1--Q2 wrap a plain review-text query in the parent block-join parser. & eDisMax for all five needs; Q1--Q2 use eDisMax inside the child query and the parent block-join parser outside. \\
+Fields & Q1--Q2 search \texttt{review\_text}; Q3--Q5 search \texttt{plot}. & Q1--Q2: \texttt{review\_text}; Q3--Q4: overview and plot; Q5: cast-name filter plus overview and plot query fields. \\
+Boosting & No explicit field or phrase boosts; default scoring within the queried field(s). & Query-field boosts, phrase-field boosts, phrase slop, genre boosts, and query-specific minimum-match settings. \\
 Returned unit & One movie per result. & One parent movie per result; review matches use maximum child score. \\
 Run identifier & Numeric \texttt{movie\_id}. & Numeric \texttt{movie\_id}; Solr key \texttt{movie-<movie\_id>} is retained separately. \\
 Depth & 20 results per query. & 20 results per query. \\
@@ -47,10 +51,11 @@ Depth & 20 results per query. & 20 results per query. \\
 \end{tabular}
 \end{table}
 
-The frozen parameters are stored in \texttt{queries/setup\_b/Q1.json} through
-\texttt{Q5.json}. Running \texttt{scripts/run\_setup\_b.py} writes one
+The current query parameters are stored in \texttt{queries/setup\_b/Q1.json} through
+\texttt{Q5.json}. Running \texttt{scripts/solr\_client.py --queries queries/setup\_b --setup B} writes one
 \texttt{runs/B\_Qn.json} file per need and a TREC-format \texttt{runs/B.run}.
 The JSON files retain the exact parameters, total number of matches, and the top
-20 ranked movies. No Setup A run or relevance judgments are included here, so this
-section makes no comparative performance claim and reports no evaluation metrics.
+20 ranked movies. Setup A runs are also saved in \texttt{runs/A\_Q1.json} through
+\texttt{runs/A\_Q5.json}. No relevance judgments are available yet, so this section
+makes no comparative performance claim and reports no evaluation metrics.
 

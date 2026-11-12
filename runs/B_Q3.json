@@ -2,11 +2,11 @@
   "setup": "B",
   "qid": "Q3",
   "need": "A science-fiction survival film about astronauts stranded away from Earth who need to survive or return home.",
-  "rationale": "Overview is weighted most because it states the central plot; the longer plot field and phrase proximity supply supporting evidence. Lowering minimum match to two and adding space-related wording broadens recall. A genre boost favors science fiction without making it a hard filter.",
+  "rationale": "Overview is weighted most because it states the central plot; the longer plot field and phrase proximity supply supporting evidence. Curated alternatives cover spacecraft types, being left behind, and survival or rescue wording. The science-fiction genre is a boost, not a hard filter.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 70,
+  "num_found": 22,
   "query_params": {
-    "q": "astronaut stranded space survival",
+    "q": "+(astronaut OR cosmonaut OR spacecraft OR spaceship OR \"space station\" OR Mars OR \"outer space\") +(stranded OR marooned OR abandoned OR \"left behind\" OR \"lost in space\" OR adrift) (survive OR survival OR rescue OR \"return home\" OR \"back to earth\")",
     "defType": "edismax",
     "qf": "overview^3 plot^2",
     "pf": "overview^3 plot^2",
@@ -15,169 +15,169 @@
     "fq": "doc_type:movie",
     "bq": "genres:\"science fiction\"^2",
     "rows": "20",
-    "fl": "movie_id,id,title,score",
+    "fl": "movie_id,id,title,score,overview,year",
     "wt": "json"
   },
   "results": [
     {
       "rank": 1,
-      "movie_id": 30863,
-      "title": "Mutant Aliens",
-      "score": 25.782883,
-      "overview": "",
-      "year": null
+      "movie_id": 286217,
+      "title": "The Martian",
+      "score": 45.930134,
+      "overview": "During a manned mission to Mars, Astronaut Mark Watney is presumed dead after a fierce storm and left behind by his crew. But Watney has survived and ",
+      "year": 2015
     },
     {
       "rank": 2,
-      "movie_id": 286217,
-      "title": "The Martian",
-      "score": 25.334942,
-      "overview": "",
-      "year": null
+      "movie_id": 339964,
+      "title": "Valerian and the City of a Thousand Planets",
+      "score": 34.226593,
+      "overview": "In the 28th century, Valerian and Laureline are special operatives charged with keeping order throughout the human territories. On assignment from the",
+      "year": 2017
     },
     {
       "rank": 3,
-      "movie_id": 916728,
-      "title": "Slingshot",
-      "score": 23.45816,
-      "overview": "",
-      "year": null
+      "movie_id": 6795,
+      "title": "Zathura: A Space Adventure",
+      "score": 31.429058,
+      "overview": "After their father is called into work, two young boys, Walter and Danny, are left in the care of their teenage sister, Lisa, and told they must stay ",
+      "year": 2005
     },
     {
       "rank": 4,
-      "movie_id": 6795,
-      "title": "Zathura: A Space Adventure",
-      "score": 22.924526,
-      "overview": "",
-      "year": null
+      "movie_id": 945961,
+      "title": "Alien: Romulus",
+      "score": 24.6724,
+      "overview": "While scavenging the deep ends of a derelict space station, a group of young space colonizers come face to face with the most terrifying life form in ",
+      "year": 2024
     },
     {
       "rank": 5,
-      "movie_id": 167948,
-      "title": "Space Milkshake",
-      "score": 21.099602,
-      "overview": "",
-      "year": null
+      "movie_id": 435,
+      "title": "The Day After Tomorrow",
+      "score": 23.566196,
+      "overview": "After paleoclimatologist Jack Hall is largely ignored by UN officials when presenting his environmental concerns about the beginning of a new Ice Age,",
+      "year": 2004
     },
     {
       "rank": 6,
-      "movie_id": 8656,
-      "title": "Deep Impact",
-      "score": 20.718586,
-      "overview": "",
-      "year": null
+      "movie_id": 299687,
+      "title": "The 5th Wave",
+      "score": 22.135662,
+      "overview": "16-year-old Cassie Sullivan tries to survive in a world devastated by the waves of an alien invasion that has already decimated the population and kno",
+      "year": 2016
     },
     {
       "rank": 7,
-      "movie_id": 11802,
-      "title": "Space Chimps",
-      "score": 20.50077,
-      "overview": "",
-      "year": null
+      "movie_id": 670292,
+      "title": "The Creator",
+      "score": 20.758127,
+      "overview": "Amid a future war between the human race and the forces of artificial intelligence, a hardened ex-special forces agent grieving the disappearance of h",
+      "year": 2023
     },
     {
       "rank": 8,
-      "movie_id": 636706,
-      "title": "Spaceman",
-      "score": 17.427729,
-      "overview": "",
-      "year": null
+      "movie_id": 982843,
+      "title": "The Great Flood",
+      "score": 20.188255,
+      "overview": "When a raging flood traps a researcher and her young son, a call to a crucial mission puts their escape — and the future of humanity — on the line.",
+      "year": 2025
     },
     {
       "rank": 9,
-      "movie_id": 369972,
-      "title": "First Man",
-      "score": 16.8793,
-      "overview": "",
-      "year": null
+      "movie_id": 588228,
+      "title": "The Tomorrow War",
+      "score": 18.790798,
+      "overview": "The world is stunned when a group of time travelers arrive from the year 2051 to deliver an urgent message: Thirty years in the future, mankind is los",
+      "year": 2021
     },
     {
       "rank": 10,
-      "movie_id": 614911,
-      "title": "The Midnight Sky",
-      "score": 16.707558,
-      "overview": "",
-      "year": null
+      "movie_id": 299536,
+      "title": "Avengers: Infinity War",
+      "score": 16.817873,
+      "overview": "As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from ",
+      "year": 2018
     },
     {
       "rank": 11,
-      "movie_id": 435,
-      "title": "The Day After Tomorrow",
-      "score": 16.361162,
-      "overview": "",
-      "year": null
+      "movie_id": 70981,
+      "title": "Prometheus",
+      "score": 16.025005,
+      "overview": "A team of explorers discover a clue to the origins of mankind on Earth, leading them on a journey to the darkest corners of the universe. There, they ",
+      "year": 2012
     },
     {
       "rank": 12,
-      "movie_id": 419704,
-      "title": "Ad Astra",
-      "score": 15.610833,
-      "overview": "",
-      "year": null
+      "movie_id": 10681,
+      "title": "WALL·E",
+      "score": 15.718249,
+      "overview": "After hundreds of years doing what he was built for, WALL•E— a robot designed to clean up the earth—discovers a new purpose in life when he meets a sl",
+      "year": 2008
     },
     {
       "rank": 13,
-      "movie_id": 21605,
-      "title": "Thunderpants",
-      "score": 15.596026,
-      "overview": "",
-      "year": null
+      "movie_id": 297222,
+      "title": "PK",
+      "score": 14.4896145,
+      "overview": "A stranger in the city asks questions no one has asked before. Known only by his initials, the man's innocent questions and childlike curiosity take h",
+      "year": 2014
     },
     {
       "rank": 14,
-      "movie_id": 188927,
-      "title": "Star Trek Beyond",
-      "score": 15.221367,
-      "overview": "",
-      "year": null
+      "movie_id": 154,
+      "title": "Star Trek II: The Wrath of Khan",
+      "score": 13.90217,
+      "overview": "The starship Enterprise and its crew is pulled back into action when old nemesis, Khan, steals a top secret device called Project Genesis.",
+      "year": 1982
     },
     {
       "rank": 15,
-      "movie_id": 8413,
-      "title": "Event Horizon",
-      "score": 15.047763,
-      "overview": "",
-      "year": null
+      "movie_id": 118340,
+      "title": "Guardians of the Galaxy",
+      "score": 13.543373,
+      "overview": "Light years from Earth, 26 years after being abducted, Peter Quill finds himself the prime target of a manhunt after discovering an orb wanted by Rona",
+      "year": 2014
     },
     {
       "rank": 16,
-      "movie_id": 115290,
-      "title": "Blue Lagoon: The Awakening",
-      "score": 14.998552,
-      "overview": "",
-      "year": null
+      "movie_id": 49521,
+      "title": "Man of Steel",
+      "score": 13.43427,
+      "overview": "A young boy learns that he has extraordinary powers and is not of this earth. As a young man, he journeys to discover where he came from and what he w",
+      "year": 2013
     },
     {
       "rank": 17,
-      "movie_id": 36797,
-      "title": "RocketMan",
-      "score": 14.826014,
-      "overview": "",
-      "year": null
+      "movie_id": 335988,
+      "title": "Transformers: The Last Knight",
+      "score": 13.026356,
+      "overview": "Humans and Transformers are at war. Optimus Prime is gone. The key to saving our future lies buried in the secrets of the past, in the hidden history ",
+      "year": 2017
     },
     {
       "rank": 18,
-      "movie_id": 869,
-      "title": "Planet of the Apes",
-      "score": 14.714558,
-      "overview": "",
-      "year": null
+      "movie_id": 44943,
+      "title": "Battle: Los Angeles",
+      "score": 12.778319,
+      "overview": "When once distant UFOs become a terrifying threat and an alien invasion force begins attacking Earths major costal and riverside cities, a U.S Marine ",
+      "year": 2011
     },
     {
       "rank": 19,
-      "movie_id": 49047,
-      "title": "Gravity",
-      "score": 14.502707,
-      "overview": "",
-      "year": null
+      "movie_id": 2157,
+      "title": "Lost in Space",
+      "score": 11.962916,
+      "overview": "The prospects for continuing life on Earth in the year 2058 are grim. So the Robinsons are launched into space to colonize Alpha Prime, the only other",
+      "year": 1998
     },
     {
       "rank": 20,
-      "movie_id": 568,
-      "title": "Apollo 13",
-      "score": 14.423506,
-      "overview": "",
-      "year": null
+      "movie_id": 14623,
+      "title": "Thunderbirds",
+      "score": 11.604375,
+      "overview": "Dangerous missions are the bread and butter of the Thunderbirds, a high-tech secret force employed by the government. Led by Jeff Tracy (Bill Paxton),",
+      "year": 2004
     }
   ]
 }

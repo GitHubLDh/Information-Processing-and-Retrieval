@@ -2,20 +2,20 @@
   "setup": "B",
   "qid": "Q4",
   "need": "A crime or thriller in which an FBI agent investigates serial killings.",
-  "rationale": "Search plot fields with an FBI/serial-killer phrase query, favor the overview and close phrase matches, and boost crime/thriller genres. Do not require FBI to appear in the short overview, since the plot may state the investigation details instead.",
+  "rationale": "Require a serial-killing concept. FBI and investigator wording is optional evidence, so a plot can match without naming an agency or investigator. Phrase boosts favor close wording, and crime/thriller genres provide secondary evidence.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 11,
+  "num_found": 109,
   "query_params": {
-    "q": "FBI \"serial killer\"",
+    "q": "+(\"serial killer\" OR \"serial murder\" OR \"serial killings\" OR \"series of murders\" OR \"string of murders\" OR \"multiple murders\") (FBI OR \"special agent\" OR \"federal agent\" OR \"federal bureau\" OR profiler OR detective OR investigator OR police)",
     "defType": "edismax",
     "qf": "overview^3 plot^2",
     "pf": "overview^2 plot^2",
     "ps": "4",
-    "mm": "2",
+    "mm": "0",
     "fq": "doc_type:movie",
     "bq": "genres:crime^1.5 genres:thriller^1.5",
     "rows": "20",
-    "fl": "movie_id,id,title,score",
+    "fl": "movie_id,id,title,score,overview,year",
     "wt": "json"
   },
   "results": [
@@ -23,89 +23,161 @@
       "rank": 1,
       "movie_id": 339527,
       "title": "Solace",
-      "score": 27.083006,
-      "overview": "",
-      "year": null
+      "score": 49.540947,
+      "overview": "A psychic doctor, John Clancy, works with an FBI special agent in search of a serial killer.",
+      "year": 2015
     },
     {
       "rank": 2,
-      "movie_id": 1226578,
-      "title": "Longlegs",
-      "score": 18.032543,
-      "overview": "",
-      "year": null
+      "movie_id": 602269,
+      "title": "The Little Things",
+      "score": 30.796652,
+      "overview": "Deputy Sheriff Joe \"Deke\" Deacon joins forces with Sgt. Jim Baxter to search for a serial killer who's terrorizing Los Angeles. As they track the culp",
+      "year": 2021
     },
     {
       "rank": 3,
-      "movie_id": 9437,
-      "title": "Kiss the Girls",
-      "score": 16.598343,
-      "overview": "",
-      "year": null
+      "movie_id": 9411,
+      "title": "Fallen",
+      "score": 29.73747,
+      "overview": "Homicide detective John Hobbes witnesses the execution of serial killer Edgar Reese. Soon after the execution the killings start again, and they are v",
+      "year": 1998
     },
     {
       "rank": 4,
-      "movie_id": 602269,
-      "title": "The Little Things",
-      "score": 16.038662,
-      "overview": "",
-      "year": null
+      "movie_id": 87462,
+      "title": "Relentless",
+      "score": 29.044855,
+      "overview": "Two Los Angeles police detectives hunt for a serial killer who randomly chooses his victims from a phone directory.",
+      "year": 1989
     },
     {
       "rank": 5,
-      "movie_id": 10871,
-      "title": "Switchback",
-      "score": 15.00761,
-      "overview": "",
-      "year": null
+      "movie_id": 55846,
+      "title": "Blitz",
+      "score": 28.900839,
+      "overview": "A tough cop is dispatched to take down a serial killer who has been targeting police officers.",
+      "year": 2011
     },
     {
       "rank": 6,
-      "movie_id": 12149,
-      "title": "Frailty",
-      "score": 14.507671,
-      "overview": "",
-      "year": null
+      "movie_id": 241,
+      "title": "Natural Born Killers",
+      "score": 26.085882,
+      "overview": "Two victims of traumatized childhoods become lovers and serial murderers irresponsibly glorified by the mass media.",
+      "year": 1994
     },
     {
       "rank": 7,
       "movie_id": 3489,
       "title": "88 Minutes",
-      "score": 13.309485,
-      "overview": "",
-      "year": null
+      "score": 25.946407,
+      "overview": "Famed forensic psychiatrist Dr. Jack Gramm enjoys a reputation as one of the most sought-after profilers around. His expert testimony has resulted in ",
+      "year": 2007
     },
     {
       "rank": 8,
-      "movie_id": 1032823,
-      "title": "Trap",
-      "score": 13.05422,
-      "overview": "",
-      "year": null
+      "movie_id": 6498,
+      "title": "Nightwatch",
+      "score": 25.539814,
+      "overview": "Martin, a law student, takes up a job as a nightwatchman at a mortuary to fund his studies. But the mortuary harbours a dark secret, and he has to fin",
+      "year": 1994
     },
     {
       "rank": 9,
-      "movie_id": 9544,
-      "title": "FearDotCom",
-      "score": 11.82409,
-      "overview": "",
-      "year": null
+      "movie_id": 9437,
+      "title": "Kiss the Girls",
+      "score": 24.745394,
+      "overview": "Forensic psychologist and detective Alex Cross travels to North Carolina and teams with escaped kidnap victim Kate McTiernan to hunt down \"Casanova,\" ",
+      "year": 1997
     },
     {
       "rank": 10,
-      "movie_id": 34314,
-      "title": "Turbulence",
-      "score": 11.486637,
-      "overview": "",
-      "year": null
+      "movie_id": 46342,
+      "title": "Evilenko",
+      "score": 24.717415,
+      "overview": "For years, Andrei Evilenko eluded the obsessive Detective Lesiev and the psychiatric profiler Aron Richter. Spurred on by his rabid fury at the gradua",
+      "year": 2004
     },
     {
       "rank": 11,
-      "movie_id": 274,
-      "title": "The Silence of the Lambs",
-      "score": 11.254812,
-      "overview": "",
-      "year": null
+      "movie_id": 1226578,
+      "title": "Longlegs",
+      "score": 24.445002,
+      "overview": "FBI Agent Lee Harker is a gifted new recruit assigned to the unsolved case of an elusive serial killer. As the case takes complex turns, unearthing ev",
+      "year": 2024
+    },
+    {
+      "rank": 12,
+      "movie_id": 995926,
+      "title": "I, the Executioner",
+      "score": 23.843237,
+      "overview": "The veteran detective Seo Do-cheol and his team at Major Crimes, relentless in their pursuit of criminals, join forces with rookie cop Park Sun-woo to",
+      "year": 2024
+    },
+    {
+      "rank": 13,
+      "movie_id": 580489,
+      "title": "Venom: Let There Be Carnage",
+      "score": 23.417385,
+      "overview": "After finding a host body in investigative reporter Eddie Brock, the alien symbiote must face a new enemy, Carnage, the alter ego of serial killer Cle",
+      "year": 2021
+    },
+    {
+      "rank": 14,
+      "movie_id": 181283,
+      "title": "Child 44",
+      "score": 23.150118,
+      "overview": "Set in Stalin-era Soviet Union, a disgraced MGB agent is dispatched to investigate a series of child murders -- a case that begins to connect with the",
+      "year": 2015
+    },
+    {
+      "rank": 15,
+      "movie_id": 31001,
+      "title": "Sanctimony",
+      "score": 22.617012,
+      "overview": "A handsome, brilliant stock trader, bored with his existence, becomes a serial killer.",
+      "year": 2000
+    },
+    {
+      "rank": 16,
+      "movie_id": 14937,
+      "title": "Stone",
+      "score": 22.166048,
+      "overview": "After one of its members witnesses a political assassination, an outlaw motorbike gang becomes the target of a string of murders, prompting a cop to j",
+      "year": 1974
+    },
+    {
+      "rank": 17,
+      "movie_id": 807,
+      "title": "Se7en",
+      "score": 21.471212,
+      "overview": "Two homicide detectives are on a desperate hunt for a serial killer whose crimes are based on the \"seven deadly sins\" in this dark and haunting film t",
+      "year": 1995
+    },
+    {
+      "rank": 18,
+      "movie_id": 70585,
+      "title": "Lucky",
+      "score": 21.35019,
+      "overview": "A wannabe serial killer wins the lottery and pursues his lifelong crush.",
+      "year": 2011
+    },
+    {
+      "rank": 19,
+      "movie_id": 51215,
+      "title": "The Breed",
+      "score": 20.872269,
+      "overview": "Vampires have come out of the shadows and are living as normal citizens. Two policemen, one a vampire, are assigned to track down a serial killer who ",
+      "year": 2001
+    },
+    {
+      "rank": 20,
+      "movie_id": 10871,
+      "title": "Switchback",
+      "score": 20.577442,
+      "overview": "After FBI agent Frank Lacrosse believes his son was kidnapped by a notorious serial killer, he travels to Amarillo, Texas, where he believes the murde",
+      "year": 1997
     }
   ]
 }

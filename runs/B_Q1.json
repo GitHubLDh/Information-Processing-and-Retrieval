@@ -2,177 +2,177 @@
   "setup": "B",
   "qid": "Q1",
   "need": "A comedy whose reviewers call its humor clever, witty, or intellectually sharp.",
-  "rationale": "Search nested review text with eDisMax; phrase proximity favors review wording where the descriptors occur together. Restrict parent results to comedy movies.",
+  "rationale": "Search nested review text with eDisMax using hand-curated wording variants for cleverness and humor. Phrase proximity boosts descriptive phrases when they occur together. Restrict parent results to comedy movies.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 216,
+  "num_found": 299,
   "query_params": {
     "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
-    "childq": "{!edismax qf=\"review_text\" pf=\"review_text^3\" ps=3 mm=2}clever witty intelligent sharp sophisticated comedy humor",
+    "childq": "{!edismax qf=review_text mm=1 pf=review_text^3 ps=2 qs=2}clever witty wit smart intelligent sophisticated satire satirical cerebral \"sharp writing\" \"sharp humor\" \"witty dialogue\"^2 \"clever writing\"^2 \"intelligent humor\"^2",
     "fq": "genres:comedy",
     "rows": "20",
-    "fl": "movie_id,id,title,score",
+    "fl": "movie_id,id,title,score,overview,year",
     "wt": "json"
   },
   "results": [
     {
       "rank": 1,
-      "movie_id": 34016,
-      "title": "She's Out of My League",
-      "score": 7.94421,
-      "overview": "",
-      "year": null
+      "movie_id": 766,
+      "title": "Army of Darkness",
+      "score": 9.399968,
+      "overview": "Ash, a handsome, shotgun-toting, chainsaw-armed department store clerk, is time warped backwards into England's Dark Ages, where he romances a beauty ",
+      "year": 1992
     },
     {
       "rank": 2,
-      "movie_id": 929204,
-      "title": "Wallace & Gromit: Vengeance Most Fowl",
-      "score": 6.9079895,
-      "overview": "",
-      "year": null
+      "movie_id": 115,
+      "title": "The Big Lebowski",
+      "score": 9.000698,
+      "overview": "Jeffrey 'The Dude' Lebowski, a Los Angeles slacker who only wants to bowl and drink White Russians, is mistaken for another Jeffrey Lebowski, a wheelc",
+      "year": 1998
     },
     {
       "rank": 3,
-      "movie_id": 739405,
-      "title": "Operation Fortune: Ruse de Guerre",
-      "score": 6.8249083,
-      "overview": "",
-      "year": null
+      "movie_id": 417859,
+      "title": "Puss in Boots",
+      "score": 8.98603,
+      "overview": "Long before he even met Shrek, the notorious fighter, lover and outlaw Puss in Boots becomes a hero when he sets off on an adventure with the tough an",
+      "year": 2011
     },
     {
       "rank": 4,
-      "movie_id": 493529,
-      "title": "Dungeons & Dragons: Honor Among Thieves",
-      "score": 6.6601715,
-      "overview": "",
-      "year": null
+      "movie_id": 98566,
+      "title": "Teenage Mutant Ninja Turtles",
+      "score": 8.094863,
+      "overview": "When a kingpin threatens New York City, a group of mutated turtle warriors must emerge from the shadows to protect their home.",
+      "year": 2014
     },
     {
       "rank": 5,
-      "movie_id": 746036,
-      "title": "The Fall Guy",
-      "score": 6.212111,
-      "overview": "",
-      "year": null
+      "movie_id": 508442,
+      "title": "Soul",
+      "score": 8.094863,
+      "overview": "Joe Gardner is a middle school teacher with a love for jazz music. After a successful audition at the Half Note Club, he suddenly gets into an acciden",
+      "year": 2020
     },
     {
       "rank": 6,
-      "movie_id": 137,
-      "title": "Groundhog Day",
-      "score": 6.1283016,
-      "overview": "",
-      "year": null
+      "movie_id": 620725,
+      "title": "Jexi",
+      "score": 7.4317656,
+      "overview": "Phil's new phone comes with an unexpected feature, Jexi...an A.I. determined to keep him all to herself in a comedy about what can happen when you lov",
+      "year": 2019
     },
     {
       "rank": 7,
-      "movie_id": 649609,
-      "title": "Renfield",
-      "score": 6.0054693,
-      "overview": "",
-      "year": null
+      "movie_id": 583,
+      "title": "Life of Brian",
+      "score": 7.2618785,
+      "overview": "Brian Cohen is an average young Jewish man, but through a series of ridiculous events, he gains a reputation as the Messiah. When he's not dodging his",
+      "year": 1979
     },
     {
       "rank": 8,
-      "movie_id": 587792,
-      "title": "Palm Springs",
-      "score": 5.872273,
-      "overview": "",
-      "year": null
+      "movie_id": 137,
+      "title": "Groundhog Day",
+      "score": 6.9863043,
+      "overview": "A cynical TV weatherman, along with his idealistic producer and his sardonic cameraman, is sent to report on Groundhog Day in the small town of Punxsu",
+      "year": 1993
     },
     {
       "rank": 9,
-      "movie_id": 5680,
-      "title": "Elvira: Mistress of the Dark",
-      "score": 5.7633276,
-      "overview": "",
-      "year": null
+      "movie_id": 929204,
+      "title": "Wallace & Gromit: Vengeance Most Fowl",
+      "score": 6.9079895,
+      "overview": "Gromit’s concern that Wallace is becoming too dependent on his inventions proves justified, when Wallace invents a “smart” gnome that seems to develop",
+      "year": 2024
     },
     {
       "rank": 10,
-      "movie_id": 419479,
-      "title": "The Babysitter",
-      "score": 5.7607613,
-      "overview": "",
-      "year": null
+      "movie_id": 515001,
+      "title": "Jojo Rabbit",
+      "score": 6.837611,
+      "overview": "Jojo, a lonely German boy during World War II has his world shaken when he learns that his single mother is hiding a Jewish girl in their home. Influe",
+      "year": 2019
     },
     {
       "rank": 11,
-      "movie_id": 522627,
-      "title": "The Gentlemen",
-      "score": 5.750251,
-      "overview": "",
-      "year": null
+      "movie_id": 1064213,
+      "title": "Anora",
+      "score": 6.5385895,
+      "overview": "A young sex worker from Brooklyn gets her chance at a Cinderella story when she meets and impulsively marries the son of an oligarch. Once the news re",
+      "year": 2024
     },
     {
       "rank": 12,
-      "movie_id": 533535,
-      "title": "Deadpool & Wolverine",
-      "score": 5.7430687,
-      "overview": "",
-      "year": null
+      "movie_id": 539681,
+      "title": "DC League of Super-Pets",
+      "score": 5.872897,
+      "overview": "When Superman and the rest of the Justice League are kidnapped, Krypto the Super-Dog must convince a rag-tag shelter pack - Ace the hound, PB the potb",
+      "year": 2022
     },
     {
       "rank": 13,
-      "movie_id": 748783,
-      "title": "The Garfield Movie",
-      "score": 5.4489813,
-      "overview": "",
-      "year": null
+      "movie_id": 522627,
+      "title": "The Gentlemen",
+      "score": 5.6488633,
+      "overview": "American expat Mickey Pearson has built a highly profitable marijuana empire in London. When word gets out that he’s looking to cash out of the busine",
+      "year": 2020
     },
     {
       "rank": 14,
-      "movie_id": 593643,
-      "title": "The Menu",
-      "score": 5.4033895,
-      "overview": "",
-      "year": null
+      "movie_id": 813,
+      "title": "Airplane!",
+      "score": 5.457657,
+      "overview": "An ex-fighter pilot forced to take over the controls of an airliner when the flight crew succumbs to food poisoning.",
+      "year": 1980
     },
     {
       "rank": 15,
-      "movie_id": 59436,
-      "title": "Midnight in Paris",
-      "score": 5.1962194,
-      "overview": "",
-      "year": null
+      "movie_id": 7518,
+      "title": "Over the Hedge",
+      "score": 5.378719,
+      "overview": "A scheming raccoon fools a mismatched family of forest creatures into helping him repay a debt of food, by invading the new suburban sprawl that poppe",
+      "year": 2006
     },
     {
       "rank": 16,
-      "movie_id": 505600,
-      "title": "Booksmart",
-      "score": 5.0906243,
-      "overview": "",
-      "year": null
+      "movie_id": 365177,
+      "title": "Borderlands",
+      "score": 5.377015,
+      "overview": "Returning to her home planet, an infamous bounty hunter forms an unexpected alliance with a team of unlikely heroes. Together, they battle monsters an",
+      "year": 2024
     },
     {
       "rank": 17,
-      "movie_id": 11665,
-      "title": "Get Smart",
-      "score": 4.986392,
-      "overview": "",
-      "year": null
+      "movie_id": 739405,
+      "title": "Operation Fortune: Ruse de Guerre",
+      "score": 5.1761127,
+      "overview": "Special agent Orson Fortune and his team of operatives recruit one of Hollywood's biggest movie stars to help them on an undercover mission when the s",
+      "year": 2023
     },
     {
       "rank": 18,
-      "movie_id": 437557,
-      "title": "Blockers",
-      "score": 4.753361,
-      "overview": "",
-      "year": null
+      "movie_id": 238713,
+      "title": "Spy",
+      "score": 5.162034,
+      "overview": "A desk-bound CIA analyst volunteers to go undercover to infiltrate the world of a deadly arms dealer, and prevent diabolical global disaster.",
+      "year": 2015
     },
     {
       "rank": 19,
-      "movie_id": 813,
-      "title": "Airplane!",
-      "score": 4.688039,
-      "overview": "",
-      "year": null
+      "movie_id": 505600,
+      "title": "Booksmart",
+      "score": 5.0906243,
+      "overview": "Two academic teenage superstars realize, on the eve of their high school graduation, that they should have worked less and played more. Determined to ",
+      "year": 2019
     },
     {
       "rank": 20,
-      "movie_id": 337404,
-      "title": "Cruella",
-      "score": 4.671429,
-      "overview": "",
-      "year": null
+      "movie_id": 2493,
+      "title": "The Princess Bride",
+      "score": 5.0020514,
+      "overview": "In this enchantingly cracked fairy tale, the beautiful Princess Buttercup and the dashing Westley must overcome staggering odds to find happiness amid",
+      "year": 1987
     }
   ]
 }

@@ -13,10 +13,10 @@ The goal is a document collection suitable for text-based search, where each doc
 ## Status
 
 - [x] Topic and data sources selected
-- [ ] Data collection pipeline (Kaggle + Wikipedia API join)
-- [ ] Exploratory data analysis / dataset characterization
-- [ ] Information needs defined
-- [ ] Solr indexing (Milestone 2)
+- [x] Data collection pipeline (Kaggle + Wikipedia API join)
+- [x] Exploratory data analysis / dataset characterization
+- [x] Information needs defined
+- [x] Solr indexing and Setup A/B retrieval runs (Milestone 2; relevance judging and metrics pending)
 - [ ] Semantic search (Milestone 3)
 
 ## Milestones
@@ -40,4 +40,5 @@ scripts/
   clean_movies.py   cleans movies.csv + reviews.csv -> data/interim/
   wiki_fetch.py     fetches Wikipedia articles by title, caches raw JSON in data/wikipedia/fetch/
   wiki_parse.py     extracts the plot from each article -> data/wikipedia/parse/parsed_log.csv
+  solr_client.py    runs Setup A or B query files and writes JSON and TREC runs
 ```

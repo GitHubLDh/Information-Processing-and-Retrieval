@@ -2,15 +2,15 @@
   "setup": "B",
   "qid": "Q2",
   "need": "A clich√©d romantic movie reviewers call predictable or heartwarming.",
-  "rationale": "Search nested review text for either formulaic/predictable or warm-response language; phrase proximity boosts reviewer descriptions. Restrict parent results to romance movies.",
+  "rationale": "Search nested review text for clich√©/predictability and warm-response wording, including common spacing variants. Phrase proximity boosts reviewer descriptions. Restrict parent results to romance movies.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 205,
+  "num_found": 141,
   "query_params": {
     "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
-    "childq": "{!edismax qf=\"review_text\" pf=\"review_text^3\" ps=3 mm=2}romance romantic clich√© predictable formulaic heartwarming feel-good",
+    "childq": "{!edismax qf=review_text mm=1 pf=review_text^3 ps=2 qs=2}cliche cliched formulaic predictable generic trope tropes cheesy corny sappy sentimental \"by the numbers\" heartwarming \"heart warming\" \"feel good\" \"feel-good\"",
     "fq": "genres:romance",
     "rows": "20",
-    "fl": "movie_id,id,title,score",
+    "fl": "movie_id,id,title,score,overview,year",
     "wt": "json"
   },
   "results": [
@@ -18,161 +18,161 @@
       "rank": 1,
       "movie_id": 843527,
       "title": "The Idea of You",
-      "score": 10.952972,
-      "overview": "",
-      "year": null
+      "score": 14.350008,
+      "overview": "40-year-old single mom SolËne begins an unexpected romance with 24-year-old Hayes Campbell, the lead singer of August Moon, the hottest boy band on th",
+      "year": 2024
     },
     {
       "rank": 2,
-      "movie_id": 10096,
-      "title": "13 Going on 30",
-      "score": 9.003539,
-      "overview": "",
-      "year": null
+      "movie_id": 987686,
+      "title": "A Family Affair",
+      "score": 11.902241,
+      "overview": "The only thing worse than being the assistant to a high-maintenance movie star who doesn't take you seriously? Finding out he's smitten with your mom.",
+      "year": 2024
     },
     {
       "rank": 3,
-      "movie_id": 455207,
-      "title": "Crazy Rich Asians",
-      "score": 7.8190136,
-      "overview": "",
-      "year": null
+      "movie_id": 370663,
+      "title": "Below Her Mouth",
+      "score": 11.715518,
+      "overview": "An unexpected affair quickly escalates into a heart-stopping reality for two women whose passionate connection changes their lives forever.",
+      "year": 2017
     },
     {
       "rank": 4,
-      "movie_id": 38317,
-      "title": "Zookeeper",
-      "score": 6.895799,
-      "overview": "",
-      "year": null
+      "movie_id": 884605,
+      "title": "No Hard Feelings",
+      "score": 8.528087,
+      "overview": "On the brink of losing her childhood home, Maddie discovers an intriguing job listing: wealthy helicopter parents looking for someone to ìdateî their ",
+      "year": 2023
     },
     {
       "rank": 5,
-      "movie_id": 370663,
-      "title": "Below Her Mouth",
-      "score": 6.4462633,
-      "overview": "",
-      "year": null
+      "movie_id": 956842,
+      "title": "Fly Me to the Moon",
+      "score": 8.479237,
+      "overview": "Sparks fly in all directions as marketing maven Kelly Jones, brought in to fix NASA's public image, wreaks havoc on Apollo 11 launch director Cole Dav",
+      "year": 2024
     },
     {
       "rank": 6,
-      "movie_id": 987686,
-      "title": "A Family Affair",
-      "score": 6.2397757,
-      "overview": "",
-      "year": null
+      "movie_id": 1259102,
+      "title": "Eternity",
+      "score": 7.45017,
+      "overview": "In an afterlife where souls have one week to decide where to spend eternity, Joan is faced with the impossible choice between the man she spent her li",
+      "year": 2025
     },
     {
       "rank": 7,
-      "movie_id": 956842,
-      "title": "Fly Me to the Moon",
-      "score": 6.221767,
-      "overview": "",
-      "year": null
+      "movie_id": 25704,
+      "title": "Post Grad",
+      "score": 7.235334,
+      "overview": "Ryden Malby has a master plan. Graduate college, get a great job, hang out with her best friend and find the perfect guy. But her plan spins hilarious",
+      "year": 2009
     },
     {
       "rank": 8,
-      "movie_id": 330483,
-      "title": "The Choice",
-      "score": 6.1503143,
-      "overview": "",
-      "year": null
+      "movie_id": 9880,
+      "title": "The Princess Diaries",
+      "score": 6.9867496,
+      "overview": "A socially awkward but very bright 15-year-old girl being raised by a single mom discovers that she is the princess of a small European country becaus",
+      "year": 2001
     },
     {
       "rank": 9,
-      "movie_id": 509,
-      "title": "Notting Hill",
-      "score": 5.6261787,
-      "overview": "",
-      "year": null
+      "movie_id": 746036,
+      "title": "The Fall Guy",
+      "score": 6.7308125,
+      "overview": "Fresh off an almost career-ending accident, stuntman Colt Seavers has to track down a missing movie star, solve a conspiracy and try to win back the l",
+      "year": 2024
     },
     {
       "rank": 10,
-      "movie_id": 152601,
-      "title": "Her",
-      "score": 5.5667715,
-      "overview": "",
-      "year": null
+      "movie_id": 455207,
+      "title": "Crazy Rich Asians",
+      "score": 6.616659,
+      "overview": "An American-born Chinese economics professor accompanies her boyfriend to Singapore for his best friend's wedding, only to get thrust into the lives o",
+      "year": 2018
     },
     {
       "rank": 11,
-      "movie_id": 930094,
-      "title": "Red, White & Royal Blue",
-      "score": 5.3147225,
-      "overview": "",
-      "year": null
+      "movie_id": 9602,
+      "title": "Coming to America",
+      "score": 6.359086,
+      "overview": "An African prince decides itís time for him to find a princess... and his mission leads him and his most loyal friend to Queens, New York. In disguise",
+      "year": 1988
     },
     {
       "rank": 12,
-      "movie_id": 818647,
-      "title": "Through My Window",
-      "score": 5.307829,
-      "overview": "",
-      "year": null
+      "movie_id": 10096,
+      "title": "13 Going on 30",
+      "score": 5.940368,
+      "overview": "After total humiliation at her thirteenth birthday party, Jenna Rink wants to just hide until she's thirty. Thanks to some magic wishing dust, Jenna's",
+      "year": 2004
     },
     {
       "rank": 13,
-      "movie_id": 82693,
-      "title": "Silver Linings Playbook",
-      "score": 5.12704,
-      "overview": "",
-      "year": null
+      "movie_id": 587792,
+      "title": "Palm Springs",
+      "score": 5.790477,
+      "overview": "When carefree Nyles and reluctant maid of honor Sarah have a chance encounter at a Palm Springs wedding, things get complicated when they find themsel",
+      "year": 2020
     },
     {
       "rank": 14,
-      "movie_id": 848187,
-      "title": "Role Play",
-      "score": 5.0694356,
-      "overview": "",
-      "year": null
+      "movie_id": 843543,
+      "title": "Meet Cute",
+      "score": 5.651511,
+      "overview": "A wildly inventive deconstruction of the romantic comedy built around the question: What would you do if you could travel to your loved onesí past, he",
+      "year": 2022
     },
     {
       "rank": 15,
-      "movie_id": 804,
-      "title": "Roman Holiday",
-      "score": 5.0239663,
-      "overview": "",
-      "year": null
+      "movie_id": 152601,
+      "title": "Her",
+      "score": 5.593522,
+      "overview": "In the not so distant future, Theodore, a lonely writer, purchases a newly developed operating system designed to meet the user's every need. To Theod",
+      "year": 2013
     },
     {
       "rank": 16,
-      "movie_id": 1136867,
-      "title": "Materialists",
-      "score": 4.9657416,
-      "overview": "",
-      "year": null
+      "movie_id": 25633,
+      "title": "Party Girl",
+      "score": 5.4035735,
+      "overview": "Slick lawyer Thomas Farrell has made a career of defending mobsters in trials. It's not until he meets a lovely showgirl at a mob party that he realiz",
+      "year": 1958
     },
     {
       "rank": 17,
-      "movie_id": 9304,
-      "title": "Multiplicity",
-      "score": 4.913478,
-      "overview": "",
-      "year": null
+      "movie_id": 9603,
+      "title": "Clueless",
+      "score": 5.3359165,
+      "overview": "Shallow, rich and socially successful Cher is at the top of her Beverly Hills high school's pecking scale. Seeing herself as a matchmaker, Cher first ",
+      "year": 1995
     },
     {
       "rank": 18,
-      "movie_id": 676,
-      "title": "Pearl Harbor",
-      "score": 4.859555,
-      "overview": "",
-      "year": null
+      "movie_id": 137,
+      "title": "Groundhog Day",
+      "score": 5.24253,
+      "overview": "A cynical TV weatherman, along with his idealistic producer and his sardonic cameraman, is sent to report on Groundhog Day in the small town of Punxsu",
+      "year": 1993
     },
     {
       "rank": 19,
-      "movie_id": 459992,
-      "title": "Long Shot",
-      "score": 4.7987714,
-      "overview": "",
-      "year": null
+      "movie_id": 11622,
+      "title": "Blast from the Past",
+      "score": 5.2276344,
+      "overview": "Following a bomb scare in the 1960s that locked the Webers into their bomb shelter for 35 years, Adam now ventures forth into Los Angeles to obtain fo",
+      "year": 1999
     },
     {
       "rank": 20,
-      "movie_id": 1068452,
-      "title": "Hi Nanna",
-      "score": 4.773521,
-      "overview": "",
-      "year": null
+      "movie_id": 868759,
+      "title": "Ghosted",
+      "score": 5.10242,
+      "overview": "Salt-of-the-earth Cole falls head over heels for enigmatic Sadieóbut then makes the shocking discovery that she's a secret agent. Before they can deci",
+      "year": 2023
     }
   ]
 }

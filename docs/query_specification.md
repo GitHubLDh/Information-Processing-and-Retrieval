@@ -1,4 +1,4 @@
-# Frozen Setup B movie queries
+# Setup B movie queries
 
 **Core:** `movies`  
 **Endpoint:** `http://localhost:8983/solr/movies/select`  
@@ -7,12 +7,14 @@
 **Output:** one parent movie per result; `fl=movie_id,id,title,score`  
 **Run/qrels identity:** numeric `movie_id`; Solr's unique `id` is `movie-<movie_id>`.
 
-The frozen query definitions are in [`queries/setup_b/`](../queries/setup_b/). The runner [`scripts/run_setup_b.py`](../scripts/run_setup_b.py) writes the per-query top-20 outputs to `runs/B_Q1.json` through `runs/B_Q5.json` and a TREC-style run to [`runs/B.run`](../runs/B.run). Each JSON preserves all request parameters, `num_found`, and movie results; `movie_id` is the run document ID.
+The query definitions have been revised since the saved run files were generated. The JSON query files are the current configuration; `runs/B_Q*.json` and `runs/B.run` are outputs from an earlier configuration and must be regenerated before comparing or judging this revision.
+
+The current query definitions are in [`queries/setup_b/`](../queries/setup_b/). The shared runner [`scripts/solr_client.py`](../scripts/solr_client.py) writes the per-query top-20 outputs to `runs/B_Q1.json` through `runs/B_Q5.json` and a TREC-style run to [`runs/B.run`](../runs/B.run). Each JSON preserves all request parameters, `num_found`, and movie results; `movie_id` is the run document ID.
 
 Re-run the saved Setup B configuration with:
 
 ```text
-python scripts/run_setup_b.py
+python scripts/solr_client.py --queries queries/setup_b --setup B
 ```
 
 ## Solr document and parent-ranking contract
@@ -23,24 +25,26 @@ Q1 and Q2 query review children with inner eDisMax and wrap that query in Solr's
 
 Indexed counts: **6,104 movies** and **12,057 review children**. The total index count is 18,161 documents including both parent and child documents.
 
-## Frozen parameters and observed retrieval
+## Query design and prior run output
 
-All queries used `rows=20` and `fl=movie_id,id,title,score`. Counts below are Solr's `numFound` before the top-20 result window. Each `runs/B_Qn.json` records every query parameter and returned row.
+All queries use `rows=20` and return movie identifiers, title, score, overview, and year. Prior counts below are Solr's `numFound` before the top-20 result window; saved run files record the parameters and results for the earlier configuration.
 
-| ID | Final query design | `numFound` | Sample top results (`movie_id`) |
+| ID | Current query design | Prior `numFound`* | Notes |
 |---|---|---:|---|
-| Q1 | Child eDisMax: `clever witty intelligent sharp sophisticated comedy humor`; `qf=review_text`, `pf=review_text^3`, `ps=3`, `mm=2`; parent filter `genres:comedy` | 186 | She's Out of My League (34016), Operation Fortune: Ruse de Guerre (739405), Wallace & Gromit: Vengeance Most Fowl (929204) |
-| Q2 | Child eDisMax: `romance romantic cliché predictable formulaic heartwarming feel-good`; `qf=review_text`, `pf=review_text^3`, `ps=3`, `mm=2`; parent filter `genres:romance` | 185 | The Idea of You (843527), 13 Going on 30 (10096), Crazy Rich Asians (455207) |
-| Q3 | eDisMax: `astronaut stranded space survival`; `qf=overview^3 plot^2 title^1 genres^1`, `pf=overview^3 plot^2`, `ps=4`, `mm=2`; parent filter `doc_type:movie`; `bq=genres:"science fiction"^2` | 60 | Mutant Aliens (30863), The Martian (286217), Zathura: A Space Adventure (6795) |
-| Q4 | eDisMax: `FBI "serial killer"`; `qf=overview^3 plot^2`, `pf=overview^2 plot^2`, `ps=4`, `mm=2`; parent filter `doc_type:movie`; `bq=genres:crime^1.5 genres:thriller^1.5` | 11 | Solace (339527), Longlegs (1226578), Kiss the Girls (9437) |
-| Q5 | eDisMax: `+cast.name:"Robert De Niro" +(mafia mob "organized crime" "crime family" gangster)`; `qf=cast.name^4 overview^3 plot^2`, `pf=cast.name^5 overview^2`, `ps=3`, `mm=2`; parent filter `doc_type:movie`; `bq=genres:crime^1.5` | 13 | The Irishman (398978), The Godfather Part II (240), GoodFellas (769) |
+| Q1 | Nested review search; broad OR matching over clever/witty/satirical wording and phrase boosts; comedy parent filter | 216 | Query variants include `wit`, `smart`, `satire`, `cerebral`, and descriptive phrases. |
+| Q2 | Nested review search; cliché/predictability and warm-response variants; romance parent filter | 205 | Includes `predictable`, `sappy`, `sentimental`, hyphenation and spacing variants. |
+| Q3 | Requires a space-travel concept and a stranded/left-behind concept; survival/rescue terms add evidence; science-fiction genre boost | 70 | Alternatives include `cosmonaut`, `spacecraft`, `marooned`, and `lost in space`. |
+| Q4 | Requires a serial-killing concept; FBI/investigator wording is optional; crime/thriller genre boosts | 11 | Broader investigator wording can match plots that omit “FBI.” |
+| Q5 | Requires a De Niro cast match (including `Deniro`); searches plot/overview for organized-crime variants; crime boost | 14 | Includes `Cosa Nostra`, `Italian-American`, and `Italian American`. |
 
-Manual inspection of the adopted variants found the expected recall/precision tradeoff. Q3 now returns 60 candidates: The Martian and Slingshot are strong matches, while Zathura and Deep Impact illustrate false positives. Q4 returns 11 candidates; Solace, Longlegs, and Switchback fit the FBI/serial-killer need, while Kiss the Girls and The Little Things need careful judgments against the FBI requirement. Q5 returns 13 candidates; The Irishman, The Godfather Part II, GoodFellas, and Casino fit, while Ronin (Russian mob) and Cop Land are likely false positives. Q1 manual checks found both clever/witty wording and criticism of lowbrow humor in She's Out of My League; Wallace & Gromit: Vengeance Most Fowl was described as clever, witty, and sophisticated. Q2 checks found explicit formula/cliché criticism for The Idea of You and a warm response for 13 Going on 30.
+\*These counts are from the earlier saved run files, not the current query definitions. Query-level alternatives are hand-curated and should be checked for precision as well as recall. The schema already folds accents, lowercases, removes English stopwords, and applies KStem; it does not provide synonym expansion. These query changes do not add lemmatization or non-English support.
+
+Prior manual inspection found the expected recall/precision tradeoff, but it does not evaluate the current revision. Rerun Setup B before treating result counts, ranks, or titles as current. Qrels and evaluation metrics are still needed to determine whether expansions improve retrieval quality.
 
 ## Judgment and evaluation status
 
-The query settings are frozen before pooling. Pool Setup A and Setup B at the same depth, deduplicate and judge by `movie_id`, then calculate metrics using the shared qrels. **No qrels or judgments exist yet, so no evaluation metrics are reported.** Treat the observed `numFound` and sample titles above as retrieval-run output, not relevance counts or judgments.
+For evaluation, rerun the current Setup B queries, pool Setup A and Setup B at the same depth, deduplicate and judge by `movie_id`, then calculate metrics using shared qrels. **No qrels or judgments exist yet, so no evaluation metrics are reported.** Treat `numFound` as candidate counts, not relevance counts or judgments.
 
 ## Archive note
 
-The supplied `PRI.zip` contains `PRI_WebScraper-main`, a plant database project; its schemas and example queries do not describe this movie index, and it does not provide this collection's Setup A contract. These movie queries use the movie project already present in this workspace. Confirm Setup A's run-file columns with its owner before comparing the two runs; keep the movie-level result and `movie_id` contract above for both.
+Setup A's definitions are in [`queries/setup_a/`](../queries/setup_a/), with saved results in [`runs/A_Q1.json`](../runs/A_Q1.json) through `runs/A_Q5.json` and a TREC-style run in [`runs/A.run`](../runs/A.run). Both setups use numeric `movie_id` as the run identifier and return parent movies, so they can be pooled by that field. The baseline uses plain field queries (review text for Q1–Q2 and plot for Q3–Q5); Q1–Q2 use the parent block-join parser, while Q3–Q5 filter to movie parents. See the query files for exact baseline clauses.

@@ -1,9 +1,9 @@
 {
   "qid": "Q3",
   "need": "A science-fiction survival film about astronauts stranded away from Earth who need to survive or return home.",
-  "rationale": "Overview is weighted most because it states the central plot; the longer plot field and phrase proximity supply supporting evidence. Lowering minimum match to two and adding space-related wording broadens recall. A genre boost favors science fiction without making it a hard filter.",
+  "rationale": "Overview is weighted most because it states the central plot; the longer plot field and phrase proximity supply supporting evidence. Curated alternatives cover spacecraft types, being left behind, and survival or rescue wording. The science-fiction genre is a boost, not a hard filter.",
   "params": {
-    "q": "astronaut stranded space survival",
+    "q": "+(astronaut OR cosmonaut OR spacecraft OR spaceship OR \"space station\" OR Mars OR \"outer space\") +(stranded OR marooned OR abandoned OR \"left behind\" OR \"lost in space\" OR adrift) (survive OR survival OR rescue OR \"return home\" OR \"back to earth\")",
     "defType": "edismax",
     "qf": "overview^3 plot^2",
     "pf": "overview^3 plot^2",
@@ -12,7 +12,7 @@
     "fq": "doc_type:movie",
     "bq": "genres:\"science fiction\"^2",
     "rows": "20",
-    "fl": "movie_id,id,title,score",
+    "fl": "movie_id,id,title,score,overview,year",
     "wt": "json"
   }
 }

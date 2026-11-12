@@ -1,18 +1,18 @@
 {
   "qid": "Q4",
   "need": "A crime or thriller in which an FBI agent investigates serial killings.",
-  "rationale": "Search plot fields with an FBI/serial-killer phrase query, favor the overview and close phrase matches, and boost crime/thriller genres. Do not require FBI to appear in the short overview, since the plot may state the investigation details instead.",
+  "rationale": "Require a serial-killing concept. FBI and investigator wording is optional evidence, so a plot can match without naming an agency or investigator. Phrase boosts favor close wording, and crime/thriller genres provide secondary evidence.",
   "params": {
-    "q": "FBI \"serial killer\"",
+    "q": "+(\"serial killer\" OR \"serial murder\" OR \"serial killings\" OR \"series of murders\" OR \"string of murders\" OR \"multiple murders\") (FBI OR \"special agent\" OR \"federal agent\" OR \"federal bureau\" OR profiler OR detective OR investigator OR police)",
     "defType": "edismax",
     "qf": "overview^3 plot^2",
     "pf": "overview^2 plot^2",
     "ps": "4",
-    "mm": "2",
+    "mm": "0",
     "fq": "doc_type:movie",
     "bq": "genres:crime^1.5 genres:thriller^1.5",
     "rows": "20",
-    "fl": "movie_id,id,title,score",
+    "fl": "movie_id,id,title,score,overview,year",
     "wt": "json"
   }
 }
