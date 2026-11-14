@@ -163,17 +163,14 @@ into a single final collection (Figure~\ref{fig:dfd}):
     merge cleaned movies, reviews, cast/crew, Wikidata links, and Wikipedia plots into
     one JSONL document per movie, validating every document against our JSON Schema.
     A movie is kept only if its article yielded a plot of at least 50 words: the join
-    writes \textbf{6{,}104} documents from the 9{,}709 movies (3{,}231 have no usable
+    writes \textbf{6{,}104} documents from the 9{,}710 movies (3{,}231 have no usable
     plot, 374 a plot under 50 words), carrying 12{,}057 reviews. 
 \end{enumerate}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\columnwidth]{figures/pipeline-pri.png}
-  \caption{Data flow diagram of the collection pipeline: external entities (squares),
-  processes (rounded rectangles), and data stores (open-ended rectangles), connected by
-  data flows. Cast and crew enter through a separate aggregation process, so each movie
-  appears in the join exactly once.}
+  \caption{Data flow diagram of the collection pipeline}
   \Description{A data flow diagram showing four sequential processing stages: cleaning
   and deduplicating movies and reviews, linking movies to Wikipedia articles via
   Wikidata, fetching and parsing Wikipedia plot sections, and a final join with cast
@@ -190,8 +187,7 @@ shows the model; \texttt{director} is not a separate class but a derivation from
 \begin{figure}[H]
   \centering
   \includegraphics[width=\columnwidth]{figures/uml-pri.png}
-  \caption{UML class diagram of the final collection schema; composition diamonds mark
-  the embedded sub-objects (reviews, cast, crew) inside each movie document.}
+  \caption{UML class diagram of the final collection schema}
   \Description{A UML class diagram showing a central Movie class with numeric, string,
   and list-typed attributes, connected to four related classes: Review, CastMember,
   CrewMember, and WikipediaArticle, each embedded within a movie's document.}
@@ -224,9 +220,6 @@ an average review (239 words). They are narrative rather than evaluative: they r
 events and characters, while reviews express opinions. They are also much longer than
 TMDB's own overview field, which is the main reason
 for adding Wikipedia: it supplies the long free text that the Kaggle data lacks.
-These plots are the field that the plot-based information
-needs will be matched against in Milestone 2, where their usefulness for retrieval
-will be measured.
 
 \subsection{Reviews}
 Of 9{,}710 cleaned movies, 6{,}013 (62\%) have zero reviews after cleaning; review
@@ -523,7 +516,7 @@ The JSON files retain the exact parameters, total number of matches, and the top
 makes no comparative performance claim and reports no evaluation metrics.
 
 
-\section{References}
+
 % See references.bib - TMDB/Kaggle dataset, Wikipedia, Wikidata, MediaWiki API.
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
