@@ -66,11 +66,9 @@ ID through Wikidata rather than matching titles and years. The resulting collect
 exceeding the length of TMDB's own overview field. This combination of structured
 fields, narrative plot summaries, and reviewer opinion produces a collection suited to
 retrieval by remembered plot details, themes, and reception, rather than by exact
-metadata alone. This report also describes the Milestone 2 Solr index, two retrieval
-configurations, and the evaluation protocol.
+metadata alone.
 \end{abstract}
 
-\ccsdesc[500]{Information systems~Information retrieval}
 \keywords{information retrieval, movie dataset, data collection, Wikipedia, Wikidata, text characterization}
 
 \maketitle
@@ -324,6 +322,7 @@ movie catalogs.
   \item A film starring Robert De Niro about italian-American maffia.
 \end{enumerate}
 
+
 % Person 3: document model and indexing.
 \input{m2_indexing}
 
@@ -333,6 +332,105 @@ movie catalogs.
 
 % Person 4: evaluation (draft placeholder; replace with final results).
 \input{m2_evaluation}
+
+
+
+\section{Solr Query Configuration: Setup A}
+
+Setup A is the baseline: plain field queries with the default Lucene parser, no
+field weighting, no phrase proximity, and no minimum-match tuning. Review-based
+needs (Q1, Q2) query the nested \texttt{review} children through Solr's block-join
+parent parser with \texttt{score=max}, exactly as in Setup B, so that query
+sophistication is the only variable between the two setups rather than the
+underlying document model. Plot-based needs (Q3--Q5) search the \texttt{plot} field
+directly. The output contract matches Setup B: one row per movie, numeric
+\texttt{movie\_id} as the run and qrels identifier, Solr's \texttt{id=movie-<movie\_id>}
+retained for traceability.
+
+For Q1 and Q2, the block-join query searches \texttt{review\_text} for a small,
+hand-picked set of terms (e.g.\ \textit{clever}, \textit{witty},
+\textit{intellectually sharp} for Q1) with plain \texttt{OR} matching; a hard genre
+filter restricts Q1 to comedies and Q2 to romance movies. For Q3, an early version
+matched \textit{astronaut} and \textit{stranded}/\textit{survive} as independent
+\texttt{OR} terms, which over-matched: the plot field alone returned more than
+1{,}000 candidates on either word in isolation, so the adopted query requires
+\textit{astronaut} \texttt{AND} at least one of \textit{stranded}/\textit{survive}
+together in the same document. Q4 similarly requires \textit{FBI} \texttt{AND}
+\textit{"serial killer"} jointly, since either concept alone matches many unrelated
+crime films. Q5 combines a hard cast-name filter for Robert De Niro with a plain
+\texttt{OR} search over mafia vocabulary in the plot field, with an explicit
+exclusion for \textit{"Russian mafia"}: an earlier version without this exclusion
+returned \textit{Ronin}, confirmed by manual review to be about Russian, not
+Italian-American, organized crime.
+
+Setup A returns 162, 91, 14, 7, and 8 documents for Q1--Q5, respectively ---
+smaller candidate pools than Setup B's broader, weighted matching, consistent with
+Setup A's role as the precision-oriented baseline. Full per-query results and
+parameters are saved in \texttt{runs/A\_Q1.json} through \texttt{runs/A\_Q5.json},
+and the configuration table and A/B comparison are presented in the following
+section.
+
+% Person 2 report section for Milestone 2.
+
+\section{Solr Query Configuration: Setup B}
+
+Setup B uses eDisMax to weight fields and close phrase matches according to each
+information need. Review-based needs query the nested \texttt{review} children and
+use Solr's block-join parent parser with \texttt{score=max}; the returned documents
+are parent movies ranked by their best matching review. Plot-based needs search the
+parent movie fields directly. The output contract is one row per movie, with the
+numeric TMDB \texttt{movie\_id} as the run and qrels identifier and Solr's
+\texttt{id=movie-<movie\_id>} retained for traceability.
+
+For Q1 and Q2, eDisMax searches \texttt{review\_text}; phrase boosts reward nearby
+reviewer descriptors. The parent genre filter restricts Q1 to comedies and Q2 to
+romance movies. For Q3, the overview receives the strongest boost because it states
+the central plot, while the longer plot field provides supporting evidence; a
+science-fiction genre boost raises likely matches without imposing a hard genre
+filter. For Q4, a serial-killing concept is required while FBI/investigator terms
+are optional; crime/thriller genres receive a secondary boost. A local Solr check
+returned 86 matches with \texttt{mm=1} and 109 with \texttt{mm=0}, confirming that
+the minimum-match setting affects recall; the top 20 were identical. Setup B now
+uses \texttt{mm=0} so these terms can add evidence without being required. For Q5,
+a cast filter requires a Robert De Niro spelling variant, while
+the eDisMax query searches overview and plot for Mafia-related wording. The cast
+filter does not boost scores because every returned movie satisfies it; phrase
+boosting applies to the overview field.
+
+The previously saved Setup B runs returned 216, 205, 70, 11, and 14 documents for
+Q1--Q5, respectively. These counts and rankings predate the current query-file
+revision and are retrieval totals, not relevance counts; rerun Setup B before
+using them to pool or judge the current queries. Manual inspection of that earlier
+run found several false positives among the broadened Q3--Q5 candidates. Full per-query results and parameters are saved in
+\texttt{runs/B\_Q1.json} through \texttt{runs/B\_Q5.json}.
+
+\begin{table}[t]
+\centering
+\caption{Baseline and improved retrieval configurations from the saved query definitions.}
+\label{tab:setup-ab}
+\small
+\begin{tabular}{p{1.15cm}p{2.4cm}p{4.5cm}}
+\hline
+Dimension & Setup A (baseline) & Setup B (improved) \\
+\hline
+Parser & Standard query parser; Q1--Q2 wrap a plain review-text query in the parent block-join parser. & eDisMax for all five needs; Q1--Q2 use eDisMax inside the child query and the parent block-join parser outside. \\
+Fields & Q1--Q2 search \texttt{review\_text}; Q3--Q5 search \texttt{plot}. & Q1--Q2: \texttt{review\_text}; Q3--Q4: overview and plot; Q5: cast-name filter plus overview and plot query fields. \\
+Boosting & No explicit field or phrase boosts; default scoring within the queried field(s). & Query-field boosts, phrase-field boosts, phrase slop, genre boosts, and query-specific minimum-match settings. \\
+Returned unit & One movie per result. & One parent movie per result; review matches use maximum child score. \\
+Run identifier & Numeric \texttt{movie\_id}. & Numeric \texttt{movie\_id}; Solr key \texttt{movie-<movie\_id>} is retained separately. \\
+Depth & 20 results per query. & 20 results per query. \\
+\hline
+\end{tabular}
+\end{table}
+
+The current query parameters are stored in \texttt{queries/setup\_b/Q1.json} through
+\texttt{Q5.json}. Running \texttt{scripts/solr\_client.py --queries queries/setup\_b --setup B} writes one
+\texttt{runs/B\_Qn.json} file per need and a TREC-format \texttt{runs/B.run}.
+The JSON files retain the exact parameters, total number of matches, and the top
+20 ranked movies. Setup A runs are also saved in \texttt{runs/A\_Q1.json} through
+\texttt{runs/A\_Q5.json}. No relevance judgments are available yet, so this section
+makes no comparative performance claim and reports no evaluation metrics.
+
 
 \section{References}
 % See references.bib - TMDB/Kaggle dataset, Wikipedia, Wikidata, MediaWiki API.
