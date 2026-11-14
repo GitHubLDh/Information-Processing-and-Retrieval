@@ -1,0 +1,18 @@
+% DRAFT placeholder for Person 4 (evaluation).
+% Replace this section with the final methodology, qrels description, results
+% tables/plots, and the per-need A/B discussion once judgments are complete.
+
+\section{Evaluation}
+\label{sec:evaluation}
+
+We evaluate both setups on the five information needs. Because no public qrels
+exist for this collection, we pool the top-20 results from Setup A and Setup B for
+each need, deduplicate by \texttt{movie\_id}, and judge every pooled movie on a
+three-point scale: 0 (not relevant), 1 (partially relevant), and 2 (highly
+relevant). Judgments are recorded in \texttt{eval/qrels.csv}. We report precision
+at 10 (P@10), average precision and mean average precision (AP/MAP), nDCG@10, and
+precision--recall curves, comparing Setup A and Setup B per information need and
+overall. The protocol is fixed before judging, and a second person spot-checks a
+sample of the judgments. Relevance judgments and final metrics are added once the
+pooled results have been judged; this section currently describes the protocol
+only.

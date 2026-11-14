@@ -1,13 +1,20 @@
-% M1 report skeleton — ACM sigconf template.
+% Milestone 2 report — ACM sigconf (max 8 pages).
+% Extends the Milestone 1 report: all M1 sections and figures are preserved.
 % Compile on Overleaf (search "ACM sigconf" template, or upload this + references.bib)
 
 \documentclass[sigconf]{acmart}
+
+% Local pdflatex install's Libertine fonts aren't flagged scalable, which makes
+% acmart's default font-expansion (via microtype) a fatal error. Disabling
+% expansion fixes compilation without switching engines or installing fonts.
+\microtypesetup{expansion=false}
 
 % Suppress the ACM copyright block / DOI / ISBN stamp — this is a course report,
 % not an actual ACM publication.
 \settopmatter{printacmref=false}
 \renewcommand\footnotetextcopyrightpermission[1]{}
 \pagestyle{plain}
+\setlength{\emergencystretch}{2em}
 \acmConference[PRI 2026/27]{Information Processing and Retrieval}{2026}{Porto, Portugal}
 
 \begin{document}
@@ -16,26 +23,55 @@
 \subtitle{Searching Movies by Vague Descriptions and Half-Remembered Plots}
 
 \author{Lara Dehandschutter}
-\author{Gabriela de Mattos Barboza da Silva}
-\author{Lara Funico Guerra}
-\author{Maria Luiza Vieira}
+\email{up202603432@up.pt}
 \affiliation{%
   \institution{FEUP, U.Porto}
   \city{Porto}
   \country{Portugal}
 }
 
+\author{Gabriela de Mattos Barboza da Silva}
+\email{upXXXXXXXXX@up.pt}
+\affiliation{%
+  \institution{FEUP, U.Porto}
+  \city{Porto}
+  \country{Portugal}
+}
+
+\author{Lara Funico Guerra}
+\email{upXXXXXXXXX@up.pt}
+\affiliation{%
+  \institution{FEUP, U.Porto}
+  \city{Porto}
+  \country{Portugal}
+}
+
+\author{Maria Luiza Vieira}
+\email{up202304306@up.pt}
+\affiliation{%
+  \institution{FEUP, U.Porto}
+  \city{Porto}
+  \country{Portugal}
+}
+\renewcommand{\shortauthors}{Dehandschutter et al.}
+
 \begin{abstract}
 Existing movie search tools let users filter by title, genre, cast, or year, but fail
 when a user remembers only a vague plot detail rather than exact metadata. We combine
 structured movie metadata and user reviews from \textit{The Movie Database (TMDB)
-Comprehensive Dataset} (Kaggle, by rishabhkumar2003) with plot text from English
-Wikipedia. We link records by TMDB ID through Wikidata, using its TMDB movie ID
-property (P4947), rather than matching titles and years. The resulting collection
-supports retrieval by remembered plot details and review opinions as well as structured
-fields. This report describes the sources, processing pipeline, dataset
-characterization, and prospective information needs for later milestones.
+Comprehensive Dataset} with plot text from English Wikipedia, linking records by TMDB
+ID through Wikidata rather than matching titles and years. The resulting collection of
+6{,}104 movies carries long, narrative plot text (511 words on average) alongside
+12{,}057 reviews, together contributing nearly 99{,}000 unique word forms --- far
+exceeding the length of TMDB's own overview field. This combination of structured
+fields, narrative plot summaries, and reviewer opinion produces a collection suited to
+retrieval by remembered plot details, themes, and reception, rather than by exact
+metadata alone. This report also describes the Milestone 2 Solr index, two retrieval
+configurations, and the evaluation protocol.
 \end{abstract}
+
+\ccsdesc[500]{Information systems~Information retrieval}
+\keywords{information retrieval, movie dataset, data collection, Wikipedia, Wikidata, text characterization}
 
 \maketitle
 
@@ -140,6 +176,10 @@ into a single final collection (Figure~\ref{fig:dfd}):
   processes (rounded rectangles), and data stores (open-ended rectangles), connected by
   data flows. Cast and crew enter through a separate aggregation process, so each movie
   appears in the join exactly once.}
+  \Description{A data flow diagram showing four sequential processing stages: cleaning
+  and deduplicating movies and reviews, linking movies to Wikipedia articles via
+  Wikidata, fetching and parsing Wikipedia plot sections, and a final join with cast
+  and crew aggregation that produces the final JSONL collection.}
   \label{fig:dfd}
 \end{figure}
 
@@ -154,6 +194,9 @@ shows the model; \texttt{director} is not a separate class but a derivation from
   \includegraphics[width=\columnwidth]{figures/uml-pri.png}
   \caption{UML class diagram of the final collection schema; composition diamonds mark
   the embedded sub-objects (reviews, cast, crew) inside each movie document.}
+  \Description{A UML class diagram showing a central Movie class with numeric, string,
+  and list-typed attributes, connected to four related classes: Review, CastMember,
+  CrewMember, and WikipediaArticle, each embedded within a movie's document.}
   \label{fig:uml}
 \end{figure}
 
@@ -203,6 +246,8 @@ all reviews, after stopword removal, are dominated by generic film-review vocabu
   \includegraphics[width=\columnwidth]{figures/review_length_hist.pdf}
   \caption{Distribution of review length in words (78 reviews over 1500 words omitted
   for readability).}
+  \Description{A histogram of review lengths in words, right-skewed with most reviews
+  under 250 words and a long tail extending past 1000 words.}
   \label{fig:review-length-hist}
 \end{figure}
 
@@ -211,6 +256,9 @@ all reviews, after stopword removal, are dominated by generic film-review vocabu
   \includegraphics[width=\columnwidth]{figures/review_length_vs_rating.pdf}
   \caption{A movie's average review length vs. its rating, with a linear fit
   ($r=0.115$).}
+  \Description{A scatter plot of each movie's average review length against its vote
+  average rating, showing a dense, largely flat cloud of points with a weak positive
+  linear trend line.}
   \label{fig:review-length-rating}
 \end{figure}
 
@@ -230,6 +278,9 @@ page), supporting identifier-based rather than title-only linking. Figures
   \includegraphics[width=0.9\columnwidth]{figures/wikidata_coverage_by_decade.pdf}
   \caption{English Wikipedia linking coverage by release period. Labels show linked
   and total movies for each period.}
+  \Description{A bar chart of Wikipedia linking coverage percentage by movie release
+  decade, ranging from roughly 65 percent to 80 percent with no clear monotonic trend
+  over time.}
   \label{fig:wikidata-decade}
 \end{figure}
 
@@ -239,6 +290,9 @@ page), supporting identifier-based rather than title-only linking. Figures
   \caption{English Wikipedia linking coverage for the two highest- and lowest-coverage
   genres. Movies with multiple genres contribute to each
   relevant category; labels show linked and total movies.}
+  \Description{A horizontal bar chart comparing Wikipedia linking coverage for the two
+  highest-coverage genres, Western and Adventure, against the two lowest-coverage
+  genres, Documentary and TV Movie.}
   \label{fig:wikidata-genre}
 \end{figure}
 
@@ -269,6 +323,16 @@ movie catalogs.
   \item A crime or thriller film in which an FBI agent investigates serial killings.
   \item A film starring Robert De Niro about italian-American maffia.
 \end{enumerate}
+
+% Person 3: document model and indexing.
+\input{m2_indexing}
+
+% Person 1 and Person 2: retrieval configurations.
+\input{m2_setup_a}
+\input{m2_setup_b}
+
+% Person 4: evaluation (draft placeholder; replace with final results).
+\input{m2_evaluation}
 
 \section{References}
 % See references.bib - TMDB/Kaggle dataset, Wikipedia, Wikidata, MediaWiki API.
