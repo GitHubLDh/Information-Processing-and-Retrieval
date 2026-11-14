@@ -39,7 +39,7 @@
 }
 
 \author{Lara Funico Guerra}
-\email{upXXXXXXXXX@up.pt}
+\email{up202602971@up.pt}
 \affiliation{%
   \institution{FEUP, U.Porto}
   \city{Porto}
@@ -481,11 +481,11 @@ the eDisMax query searches overview and plot for Mafia-related wording. The cast
 filter does not boost scores because every returned movie satisfies it; phrase
 boosting applies to the overview field.
 
-The previously saved Setup B runs returned 216, 205, 70, 11, and 14 documents for
-Q1--Q5, respectively. These counts and rankings predate the current query-file
-revision and are retrieval totals, not relevance counts; rerun Setup B before
-using them to pool or judge the current queries. Manual inspection of that earlier
-run found several false positives among the broadened Q3--Q5 candidates. Full per-query results and parameters are saved in
+The saved Setup B runs match the current query parameters and return 299, 141, 22,
+109, and 10 candidates for Q1--Q5, respectively. These are retrieval totals, not
+relevance counts. Earlier manual inspection found false positives among broadened
+Q3--Q5 candidates; pooled judging is needed to measure the precision/recall tradeoff.
+Full per-query results and parameters are saved in
 \texttt{runs/B\_Q1.json} through \texttt{runs/B\_Q5.json}.
 
 \begin{table}[t]

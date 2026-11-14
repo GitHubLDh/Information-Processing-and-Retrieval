@@ -2,12 +2,12 @@
 
 **Core:** `movies`  
 **Endpoint:** `http://localhost:8983/solr/movies/select`  
-**Run date:** 2026-11-09  
-**Result depth:** 20 per query  
-**Output:** one parent movie per result; `fl=movie_id,id,title,score`  
+**Run date:** 2026-11-12\
+**Result depth:** 20 per query\
+**Output:** one parent movie per result; `fl=movie_id,id,title,score,overview,year`
 **Run/qrels identity:** numeric `movie_id`; Solr's unique `id` is `movie-<movie_id>`.
 
-The query definitions have been revised since the saved run files were generated. The JSON query files are the current configuration; `runs/B_Q*.json` and `runs/B.run` are outputs from an earlier configuration and must be regenerated before comparing or judging this revision.
+The saved Setup B run files match the current query parameters. The query JSON files are the source configuration; each `runs/B_Q*.json` preserves the parameters, total matches, and returned movies, and `runs/B.run` contains the corresponding TREC ranking.
 
 The current query definitions are in [`queries/setup_b/`](../queries/setup_b/). The shared runner [`scripts/solr_client.py`](../scripts/solr_client.py) writes the per-query top-20 outputs to `runs/B_Q1.json` through `runs/B_Q5.json` and a TREC-style run to [`runs/B.run`](../runs/B.run). Each JSON preserves all request parameters, `num_found`, and movie results; `movie_id` is the run document ID.
 
@@ -25,21 +25,21 @@ Q1 and Q2 query review children with inner eDisMax and wrap that query in Solr's
 
 Indexed counts: **6,104 movies** and **12,057 review children**. The total index count is 18,161 documents including both parent and child documents.
 
-## Query design and prior run output
+## Query design and saved run output
 
-All queries use `rows=20` and return movie identifiers, title, score, overview, and year. Prior counts below are Solr's `numFound` before the top-20 result window; saved run files record the parameters and results for the earlier configuration.
+All queries use `rows=20` and return movie identifiers, title, score, overview, and year. Counts below are Solr's `numFound` before the top-20 result window.
 
-| ID | Current query design | Prior `numFound`* | Notes |
+| ID | Current query design | `numFound` | Notes |
 |---|---|---:|---|
-| Q1 | Nested review search; broad OR matching over clever/witty/satirical wording and phrase boosts; comedy parent filter | 216 | Query variants include `wit`, `smart`, `satire`, `cerebral`, and descriptive phrases. |
-| Q2 | Nested review search; cliché/predictability and warm-response variants; romance parent filter | 205 | Includes `predictable`, `sappy`, `sentimental`, hyphenation and spacing variants. |
-| Q3 | Requires a space-travel concept and a stranded/left-behind concept; survival/rescue terms add evidence; science-fiction genre boost | 70 | Alternatives include `cosmonaut`, `spacecraft`, `marooned`, and `lost in space`. |
-| Q4 | Requires a serial-killing concept; FBI/investigator wording is optional; crime/thriller genre boosts | 11 | Broader investigator wording can match plots that omit “FBI.” |
-| Q5 | Requires a De Niro cast match (including `Deniro`); searches plot/overview for organized-crime variants; crime boost | 14 | Includes `Cosa Nostra`, `Italian-American`, and `Italian American`. |
+| Q1 | Nested review search; broad OR matching over clever/witty/satirical wording and phrase boosts; comedy parent filter | 299 | Query variants include `wit`, `smart`, `satire`, `cerebral`, and descriptive phrases. |
+| Q2 | Nested review search; cliché/predictability and warm-response variants; romance parent filter | 141 | Includes `predictable`, `sappy`, `sentimental`, hyphenation and spacing variants. |
+| Q3 | Requires a space-travel concept and a stranded/left-behind concept; survival/rescue terms add evidence; science-fiction genre boost | 22 | Alternatives include `cosmonaut`, `spacecraft`, `marooned`, and `lost in space`. |
+| Q4 | Requires a serial-killing concept; FBI/investigator wording is optional; crime/thriller genre boosts | 109 | `mm=0` allows matches without investigator wording; the genre boosts still affect ranking. |
+| Q5 | Requires a De Niro cast match (including `Deniro`); searches plot/overview for organized-crime variants; crime boost | 10 | Includes `Cosa Nostra`, `Italian-American`, and `Italian American`. |
 
-\*These counts are from the earlier saved run files, not the current query definitions. Query-level alternatives are hand-curated and should be checked for precision as well as recall. The schema already folds accents, lowercases, removes English stopwords, and applies KStem; it does not provide synonym expansion. These query changes do not add lemmatization or non-English support.
+Query-level alternatives are hand-curated and should be checked for precision as well as recall. The schema already folds accents, lowercases, removes English stopwords, and applies KStem; it does not provide synonym expansion. These query changes do not add lemmatization or non-English support.
 
-Prior manual inspection found the expected recall/precision tradeoff, but it does not evaluate the current revision. Rerun Setup B before treating result counts, ranks, or titles as current. Qrels and evaluation metrics are still needed to determine whether expansions improve retrieval quality.
+Manual inspection is not a substitute for relevance judgments. Qrels and evaluation metrics are still needed to determine whether expansions improve retrieval quality.
 
 ## Judgment and evaluation status
 
