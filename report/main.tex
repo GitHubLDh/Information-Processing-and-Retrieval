@@ -1,4 +1,5 @@
-% M1 report skeleton — ACM sigconf template.
+% Milestone 2 report — ACM sigconf (max 8 pages).
+% Extends the Milestone 1 report: all M1 sections and figures are preserved.
 % Compile on Overleaf (search "ACM sigconf" template, or upload this + references.bib)
 
 \documentclass[sigconf]{acmart}
@@ -13,6 +14,7 @@
 \settopmatter{printacmref=false}
 \renewcommand\footnotetextcopyrightpermission[1]{}
 \pagestyle{plain}
+\setlength{\emergencystretch}{2em}
 \acmConference[PRI 2026/27]{Information Processing and Retrieval}{2026}{Porto, Portugal}
 
 \begin{document}
@@ -45,7 +47,7 @@
 }
 
 \author{Maria Luiza Vieira}
-\email{upXXXXXXXXX@up.pt}
+\email{up202304306@up.pt}
 \affiliation{%
   \institution{FEUP, U.Porto}
   \city{Porto}
@@ -161,17 +163,14 @@ into a single final collection (Figure~\ref{fig:dfd}):
     merge cleaned movies, reviews, cast/crew, Wikidata links, and Wikipedia plots into
     one JSONL document per movie, validating every document against our JSON Schema.
     A movie is kept only if its article yielded a plot of at least 50 words: the join
-    writes \textbf{6{,}104} documents from the 9{,}709 movies (3{,}231 have no usable
+    writes \textbf{6{,}104} documents from the 9{,}710 movies (3{,}231 have no usable
     plot, 374 a plot under 50 words), carrying 12{,}057 reviews. 
 \end{enumerate}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\columnwidth]{figures/pipeline-pri.png}
-  \caption{Data flow diagram of the collection pipeline: external entities (squares),
-  processes (rounded rectangles), and data stores (open-ended rectangles), connected by
-  data flows. Cast and crew enter through a separate aggregation process, so each movie
-  appears in the join exactly once.}
+  \caption{Data flow diagram of the collection pipeline}
   \Description{A data flow diagram showing four sequential processing stages: cleaning
   and deduplicating movies and reviews, linking movies to Wikipedia articles via
   Wikidata, fetching and parsing Wikipedia plot sections, and a final join with cast
@@ -188,8 +187,7 @@ shows the model; \texttt{director} is not a separate class but a derivation from
 \begin{figure}[H]
   \centering
   \includegraphics[width=\columnwidth]{figures/uml-pri.png}
-  \caption{UML class diagram of the final collection schema; composition diamonds mark
-  the embedded sub-objects (reviews, cast, crew) inside each movie document.}
+  \caption{UML class diagram of the final collection schema}
   \Description{A UML class diagram showing a central Movie class with numeric, string,
   and list-typed attributes, connected to four related classes: Review, CastMember,
   CrewMember, and WikipediaArticle, each embedded within a movie's document.}
@@ -222,9 +220,6 @@ an average review (239 words). They are narrative rather than evaluative: they r
 events and characters, while reviews express opinions. They are also much longer than
 TMDB's own overview field, which is the main reason
 for adding Wikipedia: it supplies the long free text that the Kaggle data lacks.
-These plots are the field that the plot-based information
-needs will be matched against in Milestone 2, where their usefulness for retrieval
-will be measured.
 
 \subsection{Reviews}
 Of 9{,}710 cleaned movies, 6{,}013 (62\%) have zero reviews after cleaning; review
@@ -319,6 +314,110 @@ movie catalogs.
   \item A crime or thriller film in which an FBI agent investigates serial killings.
   \item A film starring Robert De Niro about italian-American maffia.
 \end{enumerate}
+
+
+% Person 3 report section for Milestone 2.
+
+\section{Document Model and Indexing}
+\label{sec:indexing}
+
+The final collection contains 6{,}104 movies and 12{,}057 reviews. Each movie is
+one JSON Lines document; reviews are embedded in the source but indexed as child
+documents. In Solr, every movie is a parent with \texttt{doc\_type=movie} and an id
+of the form \texttt{movie-<movie\_id>}, and every review is a child with
+\texttt{doc\_type=review} and an id of the form \texttt{movie-<movie\_id>} plus
+\texttt{-review-<n>}. The index therefore holds 18{,}161
+documents. This parent/child model avoids duplicating movie text for every review
+and lets a review query return one movie ranked by its best matching review;
+concatenating all reviews into a single field would lose per-review scoring. Only
+3{,}544 movies (58.1\%) have at least one review, which limits the reach of
+review-based needs.
+
+\subsection{Indexing process}
+\label{sec:indexing-process}
+
+\texttt{scripts/build\_collection.py} joins the five interim sources using the
+numeric TMDB identifier (\texttt{movie\_id}), rejects non-numeric ids, requires a
+Wikipedia plot of at least 50 words, strips footnote markers, and validates every
+document against
+\texttt{docs/collection.schema.json}. The final run dropped 3{,}231 movies without
+a usable plot and 374 with fewer than 50 plot words, producing 6{,}104 documents
+and 12{,}057 reviews. The script writes \texttt{collection.jsonl}, a manifest with
+counts, filters, build date, and git commit, and \texttt{solr\_documents.json}.
+The converter flattens \texttt{cast}, \texttt{crew\_roles}, and \texttt{wikipedia}
+into Solr fields and normalizes review dates to full timestamps.
+\texttt{solr/startup.sh} recreates a \texttt{solr:10} container, applies
+\texttt{solr/schema.json}, uploads the documents with \texttt{commit=true}, and
+checks that the indexed parent and child counts match the collection.
+
+\subsection{Fields and analyzer}
+\label{sec:fields}
+
+Table~\ref{tab:index-fields} summarizes the indexing roles. Free-text fields use
+\texttt{textFoldLower}: StandardTokenizer, ASCIIFolding, LowerCase, English
+stopwords, and KStem. The analyzer makes search case- and accent-insensitive
+(\textit{Amélie} $\rightarrow$ \textit{amelie}), removes stopwords
+(\textit{the}, \textit{and}), and stems some variants
+(\textit{investigating} $\rightarrow$ \textit{investigate}). Language and status
+are exact \texttt{string} fields; year, runtime, ratings, budget, and revenue are
+numeric; release and review dates use \texttt{pdate}. \texttt{crew\_roles.job} is
+deliberately display-only: indexing job words would make ``a movie about a
+producer'' return films with the most producer credits. Exact docValues queries
+remain possible (\texttt{crew\_roles.job:Producer}), but the field contributes no
+full-text relevance. \texttt{cast.character} is searchable because users remember
+characters, not only actors.
+
+
+\begin{table}[t]
+\centering
+\setlength{\tabcolsep}{4pt}
+\caption{Indexing roles in the final Solr schema.}
+\label{tab:index-fields}
+\footnotesize
+\begin{tabular}{p{1.9cm}p{5.0cm}}
+\hline
+Role & Fields \\
+\hline
+Full text & \texttt{title}, \texttt{overview}, \texttt{tagline}, \texttt{plot},
+\texttt{genres}, \texttt{director}, \texttt{cast.name},
+\texttt{cast.character}, \texttt{crew\_names}, \texttt{wikipedia.title},
+\texttt{review\_text} \\
+Exact/numeric & \texttt{year}, \texttt{runtime},
+\texttt{original\_language}, \texttt{status}, \texttt{vote\_average},
+\texttt{vote\_count}, \texttt{popularity}, \texttt{budget}, \texttt{revenue},
+\texttt{release\_date}, \texttt{num\_reviews} \\
+Display only & \texttt{crew\_roles.name}, \texttt{crew\_roles.job},
+\texttt{cast.order}, \texttt{wikipedia.url}, \texttt{wikipedia.wikidata\_id},
+\texttt{wikipedia.imdb\_id}, \texttt{review\_author}, \texttt{review\_rating},
+\texttt{review\_created\_at} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Verification and demo}
+\label{sec:verification-demo}
+
+\texttt{scripts/verify\_index.py} checks the manifest and collection counts, a
+sample parent and its review children, a parent without children, the analyzer,
+sanity queries, and the display-only fields. It reports 25 passed checks and two
+documented docValues warnings. The live demo starts the index with
+\texttt{bash solr/startup.sh}, shows the counts, the Schema and Analysis screens,
+runs the verification, and compares the two retrieval setups on one plot need and
+one review need with \texttt{scripts/demo\_queries.py}. The full walkthrough, expected
+outputs, and troubleshooting are in \texttt{docs/demo.md}. The pipeline is
+reproducible from a clean checkout: \texttt{build\_collection.py} rebuilds the
+collection and Solr upload file, \texttt{startup.sh} recreates the index and checks
+the counts, and the manifest records the build date and git commit.
+
+\paragraph{Limitations.} Review-based needs can only reach the 3{,}544 movies with
+at least one review (58.1\%), so their recall is bounded by coverage rather than
+query quality. Plot-based needs depend on Wikipedia coverage and on the 50-word
+filter, which excluded 3{,}605 of 9{,}709 movies. The index is lexical: a query
+must share vocabulary with the plot or review text, which motivates the semantic
+retrieval planned for Milestone 3.
+
+
+% Person 1 report section for Milestone 2.
 
 \section{Solr Query Configuration: Setup A}
 
@@ -416,7 +515,8 @@ The JSON files retain the exact parameters, total number of matches, and the top
 \texttt{runs/A\_Q5.json}. No relevance judgments are available yet, so this section
 makes no comparative performance claim and reports no evaluation metrics.
 
-\section{References}
+
+
 % See references.bib - TMDB/Kaggle dataset, Wikipedia, Wikidata, MediaWiki API.
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
