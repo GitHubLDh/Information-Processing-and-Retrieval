@@ -1,5 +1,5 @@
-% Milestone 2 report — ACM sigconf (max 8 pages).
-% Extends the Milestone 1 report: all M1 sections and figures are preserved.
+% Course report — ACM sigconf (max 8 pages).
+% Extends the previous report: all earlier sections and figures are preserved.
 % Compile on Overleaf (search "ACM sigconf" template, or upload this + references.bib)
 
 \documentclass[sigconf]{acmart}
@@ -63,42 +63,75 @@ Comprehensive Dataset} with plot text from English Wikipedia, linking records by
 ID through Wikidata rather than matching titles and years. The resulting collection of
 6{,}104 movies carries long, narrative plot text (511 words on average) alongside
 12{,}057 reviews, together contributing nearly 99{,}000 unique word forms --- far
-exceeding the length of TMDB's own overview field. This combination of structured
-fields, narrative plot summaries, and reviewer opinion produces a collection suited to
-retrieval by remembered plot details, themes, and reception, rather than by exact
-metadata alone.
+exceeding the length of TMDB's own overview field. Characterization shows that plot
+coverage is broad but uneven (66.7\% of cleaned movies), while reviews are sparse
+(58.1\% of final documents have at least one) and dominated by generic film vocabulary.
+This combination of structured fields, narrative plot summaries, and reviewer opinion
+produces a collection suited to retrieval by remembered plot details, themes, and
+reception, and provides the basis for the indexing and query configurations studied
+later in the paper.
 \end{abstract}
 
 \keywords{information retrieval, movie dataset, data collection, Wikipedia, Wikidata, text characterization}
 
 \maketitle
 
-\section{Topic}
-Movies are a common dataset choice, so the retrieval goal deliberately does not center
-on metadata search (genre, year, cast) that any catalog already supports well. Instead,
-the goal is retrieval driven by \emph{what a user remembers about a movie} --- a plot
-detail, a theme or a narrative trope --- rather than what they can already filter for. 
-This motivates linking structured TMDB metadata with two
-free-text sources: Wikipedia plot summaries (narrative content) and TMDB user reviews
-(reception and opinion), so that information needs can be phrased the way people
-actually half-remember movies, not the way a database schema represents them. For
+\section{Introduction}
+Movie-centric search engines commonly support metadata filters such as genre, year, and
+cast, but they provide little support for plot information. This makes it difficult to
+retrieve a movie from a vague recollection --- a plot detail, a theme, or a narrative
+trope --- and forces users to translate what they remember into exact metadata. For
 example: \textit{``A story where the main character can't trust their own memories or
-perception of reality, and slowly uncovers a hidden truth about who they really
-are.''} No metadata field captures this, and no single keyword match is reliable
-either --- it requires matching the collection's free text to a vaguely-recalled theme.
+perception of reality, and slowly uncovers a hidden truth about who they really are.''}
+No metadata field captures this, and no single keyword match is reliable either: the
+system has to match the collection's free text to a vaguely recalled theme.
+
+To address this problem, we propose building a movie collection that combines structured
+TMDB metadata with two free-text sources: English Wikipedia plot summaries, which supply
+narrative content, and TMDB user reviews, which supply reception and opinion. Records are
+linked by TMDB identifier through Wikidata rather than by title and year, because title
+matching returns ambiguous pages for many films. The resulting collection is a set of
+JSON Lines documents, one per movie, each combining metadata, a Wikipedia plot, and the
+movie's reviews.
+
+This paper describes the complete data-collection and retrieval design. We detail the
+cleaning, linking, fetching, and joining pipeline; characterize the resulting collection;
+index it in Solr using a parent/child document model that keeps reviews as separate child
+documents; and compare a precision-oriented baseline (Setup A) with an eDisMax
+configuration (Setup B) on five prospective information needs. The characterization shows
+that Wikipedia plots are long and narrative (511 words on average) but cover 66.7\% of
+the cleaned movies, while reviews are sparse (58.1\% of final documents) and use generic
+film vocabulary. These properties shape the retrieval design: plot-based needs have
+broader reach, review-based needs are coverage-limited, and lexical matching motivates
+the phrase and field weighting in Setup B.
+
+We highlight the following main contributions:
+\begin{itemize}
+  \item a reproducible and expandable pipeline that cleans TMDB metadata and reviews,
+    links movies to Wikipedia through Wikidata, fetches and parses plot sections, and
+    validates the joined collection;
+  \item a collection of 6{,}104 movie documents with long plot summaries and 12{,}057
+    reviews, together contributing nearly 99{,}000 unique word forms;
+  \item a Solr parent/child index and two query configurations that provide a reusable
+    basis for pooling, relevance judgments, and later semantic retrieval.
+\end{itemize}
 
 \section{Data Sources}
+The collection draws on two complementary sources: a structured TMDB dataset and
+English Wikipedia plot summaries.
 
-\subsection{The Movie Database (TMDB) Comprehensive Dataset}
-Kaggle dataset by rishabhkumar2003~\cite{tmdb-kaggle}, sourced from the TMDB API. Five CSV files:
-\texttt{movies.csv} (9{,}771 rows --- one per movie; title, overview, release date,
-runtime, budget, revenue, rating, vote count, genres, language), \texttt{cast.csv}
-(\textasciitilde150{,}000 rows), \texttt{crew.csv} (\textasciitilde63{,}600 rows),
-\texttt{genres.csv} (a 20-row reference table, not a per-movie join table --- genres are
-already embedded in \texttt{movies.csv}), and \texttt{reviews.csv} (user reviews,
-13{,}073 rows after parsing). No IMDb ID field exists in this dataset. The dataset is
-licensed CC~BY-NC-SA~4.0 --- non-commercial use with attribution and share-alike, which
-is compatible with this (non-commercial, academic) project.
+\paragraph{The Movie Database (TMDB) Comprehensive Dataset.}
+The TMDB dataset~\cite{tmdb-kaggle,tmdb-api} provides 9{,}771 movies. For each movie it
+supplies a title, overview, release date, runtime, budget, revenue, rating, vote count,
+genres, and language. Cast and crew credits are provided separately (about 150{,}000 and
+63{,}600 rows), and 13{,}073 user reviews include an author, rating, text, and date. The
+20-row genre table is only a reference list; genres are already attached to each movie.
+The dataset contains no IMDb ID, which matters for linking (Section~3). It is licensed
+CC~BY-NC-SA~4.0, i.e.\ non-commercial use with attribution and share-alike, which is
+compatible with this academic project.\footnote{The dataset is distributed as
+\texttt{movies.csv} (9{,}771 rows), \texttt{cast.csv} (about 150{,}000 rows),
+\texttt{crew.csv} (about 63{,}600 rows), \texttt{genres.csv} (20 rows), and
+\texttt{reviews.csv} (13{,}073 rows after parsing).}
 
 \paragraph{Authority assessment.} The dataset is published by a third-party Kaggle
 contributor (rishabhkumar2003), not by TMDB itself, but its acquisition method is
@@ -108,10 +141,13 @@ production applications (e.g.\ Plex, Kodi), which lends indirect authority. Per-
 \texttt{created\_at}/\texttt{updated\_at} timestamps indicate a recent snapshot
 (February 2026). During cleaning we spot-checked several well-known entries (e.g.\
 \textit{Interstellar}, \textit{Star Wars}) and found their metadata plausible and
-accurate.
+accurate. This was a convenience sample chosen because those titles can be checked
+independently, not a random sample; it illustrates plausibility rather than
+establishing a systematic audit, and an API-based verification of all entries remains
+future work.
 
-\subsection{Wikipedia}
-Plot summaries are retrieved from English Wikipedia through the MediaWiki API's
+\paragraph{Wikipedia.}
+Plot summaries come from English Wikipedia through the MediaWiki API's
 \texttt{action=parse} endpoint~\cite{wikipedia,mediawiki-api}, which returns the
 rendered HTML of an article as JSON. Each article is linked to a TMDB movie through
 Wikidata~\cite{wikidata}, using the TMDB movie ID property (P4947), instead of by
@@ -121,7 +157,14 @@ was not reliable. Only the Plot section of each article is kept. Wikipedia text 
 available under the CC~BY-SA~4.0 license~\cite{wikimedia-terms}, which requires
 attribution and share-alike and is compatible with this non-commercial academic
 project. Requests are limited to one per second, following the API usage guidelines.
- 
+
+Coverage is substantial but not complete: of the 9{,}710 cleaned movie rows, 7{,}016
+(72.3\%) link to an English Wikipedia article, and 6{,}478 yield an extractable plot.
+The remaining linked articles either have no recognisable Plot section (536) or could
+not be fetched (2), while the other movie rows have no Wikidata item or no English
+Wikipedia sitelink. This is the source of the coverage limit discussed in
+Section~4.
+
 \paragraph{Authority assessment.} Wikipedia's authority is crowd-sourced rather than
 centrally verified: article quality depends on how actively a page is edited and
 cited. High-profile films tend to have well-maintained, citation-backed articles,
@@ -134,74 +177,110 @@ uniform across articles, although its completeness still depends on how well a p
 is maintained.
 
 \section{Collection \& Preparation}
+\subsection{Collection pipeline}
 The collection pipeline has four stages, run by different group members and merged
-into a single final collection (Figure~\ref{fig:dfd}):
+into a single final collection; Figure~\ref{fig:dfd} illustrates the data flow and the
+intermediate data stores.
 \begin{enumerate}
-  \item \textbf{Movies/reviews cleaning} --- deduplicate movies, drop movies with no
-    release date, clean review text (strip HTML/Markdown formatting), drop empty or
-    very short (\textless20 words) reviews, drop duplicate reviews. Result:
-    9{,}771 $\rightarrow$ 9{,}710 movies, 13{,}073 $\rightarrow$ 12{,}248 reviews.
-  \item \textbf{Wikidata linking} --- resolve each TMDB ID to an English Wikipedia
-    article title via Wikidata property P4947. 7{,}016 / 9{,}710 movies (72.3\%)
-    linked successfully. Of the 2{,}694 unmatched IDs, 1{,}614 had no Wikidata item
-    returned for the supplied TMDB ID, while 1{,}080 matched an item without an
-    English Wikipedia sitelink. The first count does not establish that no Wikidata
-    item exists; an item may lack the TMDB identifier. This Kaggle dataset has no
-    IMDb ID column, so an IMDb fallback was unavailable.
-  \item \textbf{Wikipedia fetching \& parsing} - each linked article is requested
-    through the MediaWiki API (redirects followed, one request per second, up to
-    three retries on failure) and the raw JSON response is cached unchanged, one
-    file per movie, so that parsing can be rerun without downloading anything
-    again. A separate script then extracts the Plot section from the cached HTML and every movie 
-    receives a status: plot extracted, \texttt{no\_plot} (the article was fetched but no
-    matching section was found), or not fetched. In the final run, 7{,}014 of the
-    7{,}016 linked titles were fetched (2 could not be fetched), and 6{,}478 plots
-    were extracted (92.3\% of the linked titles). The 536 \texttt{no\_plot}
-    articles are pages where the parser found no matching Plot section, not failed
-    downloads.
-    \item \textbf{Final join} --- aggregate cast and crew to one row per movie, then
-    merge cleaned movies, reviews, cast/crew, Wikidata links, and Wikipedia plots into
-    one JSONL document per movie, validating every document against our JSON Schema.
-    A movie is kept only if its article yielded a plot of at least 50 words: the join
-    writes \textbf{6{,}104} documents from the 9{,}710 movies (3{,}231 have no usable
-    plot, 374 a plot under 50 words), carrying 12{,}057 reviews. 
+  \item \textbf{Movies/reviews cleaning.} Movies are deduplicated by TMDB identifier,
+    and rows without a release date are dropped because release year is part of the
+    document model. Review text is cleaned by stripping HTML tags and Markdown
+    formatting (bullets, bold, italics). Empty reviews and reviews shorter than 20
+    words are removed because they rarely contain enough evaluative content to support
+    a review-based need. Duplicate reviews are removed by exact comparison of the movie
+    identifier and the cleaned review text; no similarity threshold such as Jaccard is
+    used, so near-duplicates can remain. Result: 9{,}771 $\rightarrow$ 9{,}710 movie
+    rows and 13{,}073 $\rightarrow$ 12{,}248 reviews. One of the 9{,}710 rows is a
+    non-numeric phantom record; the final join rejects it, leaving 9{,}709 valid TMDB
+    identifiers.
+  \item \textbf{Wikidata linking.} Each numeric TMDB ID is resolved to an English
+    Wikipedia article title through Wikidata property P4947. 7{,}016 of the 9{,}710
+    cleaned movie rows (72.3\%) linked successfully. Of the 2{,}694 unmatched IDs,
+    1{,}614 had no Wikidata item returned for the supplied TMDB ID, while 1{,}080
+    matched an item without an English Wikipedia sitelink. The first count does not
+    prove that no Wikidata item exists: an item may simply lack the TMDB identifier.
+    The dataset has no IMDb ID column, so an IMDb fallback was unavailable.
+  \item \textbf{Wikipedia fetching and parsing.} Each linked article is requested
+    through the MediaWiki API with \texttt{action=parse} (redirects followed, one
+    request per second, with retry and backoff on failure), and the raw JSON response
+    is cached unchanged in a single JSONL archive with one record per movie, so that
+    parsing can be rerun without downloading anything again. A separate script then
+    scans the cached HTML for \texttt{h2} or \texttt{h3} headings matching Plot,
+    Synopsis, Premise, or Plot Summary, extracts the paragraphs under the matching
+    heading, and assigns each movie a status: plot extracted, \texttt{no\_plot} (the
+    article was fetched but no matching section was found), or not fetched. In the
+    final run, 7{,}014 of the 7{,}016 linked titles were fetched (2 could not be
+    fetched), and 6{,}478 plots were extracted (92.3\% of the linked titles). The 536
+    \texttt{no\_plot} articles are pages where the parser found no matching Plot
+    section, not failed downloads.
+  \item \textbf{Final join.} Cast and crew are aggregated to one row per movie, and
+    the cleaned movies, reviews, cast/crew, Wikidata links, and Wikipedia plots are
+    merged into one JSONL document per movie. Every document is validated against our
+    JSON Schema. A movie is kept only if its article yielded a plot of at least 50
+    words: shorter plots rarely provide enough narrative context for thematic matching.
+    The join writes \textbf{6{,}104} documents from the 9{,}709 valid TMDB identifiers
+    (3{,}231 have no usable plot, 374 a plot under 50 words), carrying 12{,}057 reviews.
 \end{enumerate}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\columnwidth]{figures/pipeline-pri.png}
-  \caption{Data flow diagram of the collection pipeline}
+  \caption{Data flow diagram of the collection pipeline, including intermediate data
+  stores and the cached Wikipedia responses.}
   \Description{A data flow diagram showing four sequential processing stages: cleaning
   and deduplicating movies and reviews, linking movies to Wikipedia articles via
-  Wikidata, fetching and parsing Wikipedia plot sections, and a final join with cast
-  and crew aggregation that produces the final JSONL collection.}
+  Wikidata, fetching raw Wikipedia responses into a JSONL cache and parsing plot
+  sections, and a final join with cast and crew aggregation that produces the final
+  JSONL collection.}
   \label{fig:dfd}
 \end{figure}
 
-The conceptual data model is a UML class diagram rather than a relational schema: the
-collection is one JSONL document per movie, with sub-objects embedded, so the child
-classes exist only inside their movie's document (composition). Figure~\ref{fig:uml}
-shows the model; \texttt{director} is not a separate class but a derivation from
-\texttt{CrewMember} where \texttt{job} is \texttt{Director}.
+\subsection{Conceptual data model}
+The conceptual data model is a UML class diagram, shown in Figure~\ref{fig:uml}, not
+a relational schema, because the collection is stored as one nested JSON document per
+movie rather than as a set of normalized tables. Each movie document aggregates its
+reviews, cast, and crew: the number of these objects varies by movie, so they are
+aggregation relationships. The document is composed of exactly one Wikipedia article
+object, because the final join keeps only movies with a usable plot and therefore a
+linked article.
 
-\begin{figure}[H]
+The Movie class holds the identity and structured metadata (title, release date,
+runtime, language, genres, vote statistics, budget, revenue, plot, and review count).
+Review holds the author, rating, text, and creation date. CastMember holds the actor
+name, character, and billing order. CrewMember holds the name and job; a director is
+not a separate class but a derivation from CrewMember where \texttt{job} is
+\texttt{Director}. WikipediaArticle holds the article title, URL, Wikidata ID, IMDb ID,
+and match method. Reviews are embedded in the collection but indexed as child
+documents in Section~\ref{sec:indexing}, which is why they remain a separate class
+rather than a single concatenated text field.
+
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\columnwidth]{figures/uml-pri.png}
-  \caption{UML class diagram of the final collection schema}
+  \caption{UML class diagram of the conceptual data model}
   \Description{A UML class diagram showing a central Movie class with numeric, string,
-  and list-typed attributes, connected to four related classes: Review, CastMember,
-  CrewMember, and WikipediaArticle, each embedded within a movie's document.}
+  and list-typed attributes, connected to Review, CastMember, CrewMember, and
+  WikipediaArticle. Reviews, cast, and crew are aggregations; the Wikipedia article is
+  a composition of the movie document.}
   \label{fig:uml}
 \end{figure}
 
 \section{Characterization}
+The unit of retrieval is a movie document: one JSON object per movie, composed of
+structured metadata, a set of embedded reviews, and a plot description from Wikipedia.
+The following subsections characterize each of those parts and the joined collection.
 
 \subsection{Wikipedia plots}
-Of the 7{,}016 linked movies, 6{,}478 (92.3\%) have an extracted plot. Across all 9{,}710 cleaned movies this is 66.7\%,
-so plot-based retrieval can only reach movies that have an English Wikipedia article
-with a recognizable plot section.
- 
-\begin{table}[h]
+Of the 7{,}016 linked movies, 6{,}478 (92.3\%) have an extracted plot;
+Table~\ref{tab:plot-coverage} reports the outcomes. Across all 9{,}710 cleaned movie
+rows this is 66.7\%, so plot-based retrieval can only reach movies that have an English
+Wikipedia article with a recognizable plot section. The 536 \texttt{no\_plot} articles
+were fetched successfully but contain no section the parser recognizes, so this is a
+coverage limit of the source and the parser rather than a download failure. For future
+search scenarios, plot-based needs therefore have good but incomplete recall and favour
+well-documented, mainstream films.
+
+\begin{table}[t]
   \caption{Wikipedia plot extraction outcomes for the 7{,}016 linked movies.}
   \label{tab:plot-coverage}
   \begin{tabular}{lrr}
@@ -215,24 +294,33 @@ with a recognizable plot section.
   \end{tabular}
 \end{table}
  
-Plots average 511 words (median 580, range 10 to 3{,}253), about twice the length of
-an average review (239 words). They are narrative rather than evaluative: they retell
+Across all extracted plots, before the 50-word filter used in the final join, plots
+average 511 words (median 580, range 10 to 3{,}253), about twice the length of an
+average review (239 words). They are narrative rather than evaluative: they retell
 events and characters, while reviews express opinions. They are also much longer than
-TMDB's own overview field, which is the main reason
-for adding Wikipedia: it supplies the long free text that the Kaggle data lacks.
+TMDB's own overview field, which is the main reason for adding Wikipedia: it supplies
+the long free text that the Kaggle data lacks. The final collection applies a 50-word
+minimum, so its plot lengths have a higher floor than these figures suggest.
 
 \subsection{Reviews}
 Of 9{,}710 cleaned movies, 6{,}013 (62\%) have zero reviews after cleaning; review
-coverage is sparse and concentrated on popular titles. Movies with at least one review
-average 1.26 reviews (median 0 across all movies, since most have none); reviews
-average 239 words (median 181), with a right-skewed distribution
-(Figure~\ref{fig:review-length-hist}). Review length shows essentially no correlation
-with a movie's rating (Pearson $r = 0.115$, $n=3{,}697$), visible as a dense, largely
-flat scatter in Figure~\ref{fig:review-length-rating}. The most frequent words across
-all reviews, after stopword removal, are dominated by generic film-review vocabulary
-(\textit{story, character, cast, plot, scenes}) rather than genre-distinctive terms.
+coverage is sparse and concentrated on popular titles. Across all 9{,}710 movies, the
+mean is 1.26 reviews per movie (median 0); among the 3{,}697 movies with at least one
+review, the mean is about 3.3. Reviews average 239 words (median 181), with a
+right-skewed distribution shown in Figure~\ref{fig:review-length-hist}. Review length
+shows essentially no correlation with a movie's rating (Pearson $r = 0.115$,
+$n=3{,}697$), visible as a dense, largely flat scatter in
+Figure~\ref{fig:review-length-rating}. The most frequent words across all reviews,
+after stopword removal, are dominated by generic film-review vocabulary (\textit{story,
+character, cast, plot, scenes}) rather than genre-distinctive terms. This generic
+vocabulary limits the discriminative power of review-based queries: terms such as
+\textit{story} and \textit{character} occur in almost every review, so retrieval depends
+more on the smaller set of evaluative terms and on phrase and field weighting than on
+topic-specific vocabulary. This is a property of the source rather than a preprocessing
+artefact, and it motivates the phrase-boosted Setup B and the semantic retrieval
+planned as future work.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\columnwidth]{figures/review_length_hist.pdf}
   \caption{Distribution of review length in words (78 reviews over 1500 words omitted
@@ -242,7 +330,7 @@ all reviews, after stopword removal, are dominated by generic film-review vocabu
   \label{fig:review-length-hist}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\columnwidth]{figures/review_length_vs_rating.pdf}
   \caption{A movie's average review length vs. its rating, with a linear fit
@@ -258,13 +346,13 @@ Wikidata-linking coverage varied by release period and genre. It was 78.5\% for
 2000s films and 66.7\% for 2020s films (not a monotonic trend by age); by genre it
 was 90.9\% for Adventure and 92.1\% for Western, compared with 37.4\% for
 Documentary and 41.3\% for TV Movie. Genre counts overlap. In a manual check, eight
-successful sample links were confirmed against their movie pages. A 20-title
-unmatched-title spot check found collisions such as \emph{Rita} and \emph{Roxanna}
+successful sample links were confirmed against their movie pages. A spot check of 20
+unmatched titles found collisions such as \emph{Rita} and \emph{Roxanna}
 (disambiguation pages) and \emph{The Photographer} (redirecting to a disambiguation
 page), supporting identifier-based rather than title-only linking. Figures
 \ref{fig:wikidata-decade} and~\ref{fig:wikidata-genre} show the coverage differences.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=0.9\columnwidth]{figures/wikidata_coverage_by_decade.pdf}
   \caption{English Wikipedia linking coverage by release period. Labels show linked
@@ -275,7 +363,7 @@ page), supporting identifier-based rather than title-only linking. Figures
   \label{fig:wikidata-decade}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=0.9\columnwidth]{figures/wikidata_coverage_by_genre.pdf}
   \caption{English Wikipedia linking coverage for the two highest- and lowest-coverage
@@ -305,18 +393,47 @@ Information needs are deliberately phrased around themes, situations, and recept
 rather than metadata filters, since the latter is already well-served by existing
 movie catalogs.
 
+Each need below states a title and description, an example keyword query, and the
+criteria that make a movie relevant. Relevance is judged at the movie level: a movie is
+relevant when its plot, reviews, or both satisfy the narrative, not merely when a single
+field contains a keyword.
+
 \begin{enumerate}
-  \item A movie whose reviewers describe the comedy as clever, witty, or
-    intellectually sharp, rather than slapstick or lowbrow.
-  \item A cliché romantic movie that people call predictable or genuinely heartwarming.
-  \item A science-fiction survival film about astronauts stranded away from Earth who
-    need to survive or get home.
-  \item A crime or thriller film in which an FBI agent investigates serial killings.
-  \item A film starring Robert De Niro about italian-American maffia.
+  \item \textbf{Clever, witty comedies.} A movie whose reviewers describe the comedy as
+    clever, witty, or intellectually sharp, rather than slapstick or lowbrow.
+    \emph{Example query:} \texttt{clever OR witty OR "intellectually sharp"} in review
+    text, restricted to comedies. \emph{Relevance:} reviewers explicitly praise the
+    film's wit or intelligence; a comedy that is only mildly funny or relies on
+    slapstick is not relevant.
+  \item \textbf{Cliché romantic comedies.} A romantic comedy that reviewers call
+    predictable or formulaic, while others still find it genuinely heartwarming.
+    \emph{Example query:} \texttt{predictable OR formulaic OR cliché OR heartwarming OR
+    sentimental} in review text, restricted to romance. \emph{Relevance:} the review
+    text must show both sides of the reception --- recognition of cliché or formula and
+    a warm or affectionate response; a straightforward romance with no such commentary
+    is not relevant.
+  \item \textbf{Stranded astronauts.} A science-fiction survival film about astronauts
+    stranded away from Earth who need to survive or get home. \emph{Example query:}
+    \texttt{astronaut AND (stranded OR survive OR marooned)} in the plot.
+    \emph{Relevance:} the plot must involve space travel, a stranded or isolated crew,
+    and a survival or return objective; a film with only a brief space scene is not
+    relevant.
+  \item \textbf{FBI serial-killer investigation.} A crime or thriller film in which an
+    FBI agent investigates serial killings. \emph{Example query:} \texttt{FBI AND
+    "serial killer"} in the plot. \emph{Relevance:} the plot must centre on an FBI-led
+    investigation of serial killings; a crime film with an incidental murder or a
+    non-FBI investigator is not relevant.
+  \item \textbf{Italian-American organized crime.} A film about Italian-American
+    organized-crime families and the loyalties and conflicts within them, rather than
+    Russian or other organized crime. \emph{Example query:} \texttt{mafia OR "Cosa
+    Nostra" OR "Italian-American"} in the plot, with a Robert De Niro cast filter as a
+    query refinement. \emph{Relevance:} the film must depict Italian-American organized
+    crime as a central theme; films about Russian mafia or other criminal organizations
+    are not relevant even if the same actor appears.
 \end{enumerate}
 
 
-% Person 3 report section for Milestone 2.
+% Person 3 report section.
 
 \section{Document Model and Indexing}
 \label{sec:indexing}
@@ -412,12 +529,12 @@ the counts, and the manifest records the build date and git commit.
 \paragraph{Limitations.} Review-based needs can only reach the 3{,}544 movies with
 at least one review (58.1\%), so their recall is bounded by coverage rather than
 query quality. Plot-based needs depend on Wikipedia coverage and on the 50-word
-filter, which excluded 3{,}605 of 9{,}709 movies. The index is lexical: a query
-must share vocabulary with the plot or review text, which motivates the semantic
-retrieval planned for Milestone 3.
+filter, which excluded 3{,}605 of the 9{,}709 valid TMDB identifiers. The index is
+lexical: a query must share vocabulary with the plot or review text, which motivates
+the semantic retrieval planned as future work.
 
 
-% Person 1 report section for Milestone 2.
+% Person 1 report section.
 
 \section{Solr Query Configuration: Setup A}
 
@@ -450,11 +567,10 @@ Italian-American, organized crime.
 Setup A returns 162, 91, 14, 7, and 8 documents for Q1--Q5, respectively ---
 smaller candidate pools than Setup B's broader, weighted matching, consistent with
 Setup A's role as the precision-oriented baseline. Full per-query results and
-parameters are saved in \texttt{runs/A\_Q1.json} through \texttt{runs/A\_Q5.json},
-and the configuration table and A/B comparison are presented in the following
-section.
+parameters are saved in \texttt{runs/A\_Q1.json} through \texttt{runs/A\_Q5.json};
+Table~\ref{tab:setup-ab} summarizes the configuration comparison.
 
-% Person 2 report section for Milestone 2.
+% Person 2 report section.
 
 \section{Solr Query Configuration: Setup B}
 
@@ -490,10 +606,11 @@ run found several false positives among the broadened Q3--Q5 candidates. Full pe
 
 \begin{table}[t]
 \centering
+\setlength{\tabcolsep}{3pt}
 \caption{Baseline and improved retrieval configurations from the saved query definitions.}
 \label{tab:setup-ab}
 \small
-\begin{tabular}{p{1.15cm}p{2.4cm}p{4.5cm}}
+\begin{tabular}{p{1.3cm}p{2.3cm}p{4.2cm}}
 \hline
 Dimension & Setup A (baseline) & Setup B (improved) \\
 \hline
@@ -507,15 +624,46 @@ Depth & 20 results per query. & 20 results per query. \\
 \end{tabular}
 \end{table}
 
-The current query parameters are stored in \texttt{queries/setup\_b/Q1.json} through
-\texttt{Q5.json}. Running \texttt{scripts/solr\_client.py --queries queries/setup\_b --setup B} writes one
-\texttt{runs/B\_Qn.json} file per need and a TREC-format \texttt{runs/B.run}.
+The current query parameters are stored in the \path{queries/setup_b} directory
+(\texttt{Q1.json} through \texttt{Q5.json}). Running \path{scripts/solr_client.py}
+with \texttt{--queries queries/setup\_b --setup B} writes one \texttt{runs/B\_Qn.json}
+file per need and a TREC-format \texttt{runs/B.run}.
 The JSON files retain the exact parameters, total number of matches, and the top
 20 ranked movies. Setup A runs are also saved in \texttt{runs/A\_Q1.json} through
 \texttt{runs/A\_Q5.json}. No relevance judgments are available yet, so this section
 makes no comparative performance claim and reports no evaluation metrics.
 
+\section{Conclusions and Future Work}
+This paper described a reproducible pipeline for building a movie collection for vague,
+plot-oriented retrieval. The pipeline cleans TMDB metadata and reviews, links movies to
+English Wikipedia through Wikidata, fetches and parses Plot sections, and joins the
+sources into 6{,}104 validated JSON Lines documents carrying 12{,}057 reviews.
+Characterization showed that Wikipedia plots are long and narrative but cover only
+66.7\% of cleaned movies, while reviews are sparse and dominated by generic film
+vocabulary. The Solr index uses a parent/child model that keeps reviews as separate
+scored documents, and the Setup A and Setup B configurations provide a precision-oriented
+baseline and an eDisMax alternative for five information needs.
 
+The main limitations follow from the sources rather than the implementation. Review-based
+needs can reach only the 3{,}544 movies with at least one review (58.1\%), and plot-based
+needs depend on Wikipedia coverage and the 50-word filter, which excluded 3{,}605 of the
+9{,}709 valid TMDB identifiers. The index is lexical, so a query must share vocabulary
+with the plot or review text. No relevance judgments or evaluation metrics are available
+yet, and the saved Setup B runs predate the current query definitions.
+
+Future work corresponds to the third milestone, whose goal is the final
+version of the search system. We will iterate on the retrieval approach developed for the previous
+milestone, implement and evaluate a semantic retrieval approach, and compare it with the
+lexical configurations. Each group member will also explore and evaluate an additional
+approach motivated by the collection, the information needs, or limitations observed in
+the current results; these explorations are experimental and do not need to be combined
+into the final configuration. The extended evaluation will define a methodology for the
+selected needs, judge the quality of the retrieved results, compare different approaches
+and configurations, and analyze ranking order, scoring methods, and trade-offs across all
+information needs. This analysis will motivate the final system design, which may combine
+lexical and semantic retrieval, use query rewriting or relevance feedback, adopt new
+document representations or embedding models, explore dual-encoder or cross-encoder
+architectures, apply reranking, or link additional data.
 
 % See references.bib - TMDB/Kaggle dataset, Wikipedia, Wikidata, MediaWiki API.
 \bibliographystyle{ACM-Reference-Format}
