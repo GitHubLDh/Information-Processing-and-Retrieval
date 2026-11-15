@@ -747,10 +747,11 @@ Recall@20 from 0.444 to 0.778. The overview boost with a science-fiction genre b
 recovers relevant films that the strict conjunction excluded. Q4 (FBI serial-killer
 investigation) shows the same effect: Setup A returns only 7 candidates, while Setup
 B retrieves 20, raising P@10 from 0.600 to 0.800, AP from 0.323 to 0.648, and
-Recall@20 from 0.353 to 0.765. Its nDCG@10 drops from 0.693 to 0.514 because the
-additional relevant movies enter below the high-graded hits that A already ranked
-first. For both needs, the baseline's small candidate pool, not its ordering, bounds
-recall.
+Recall@20 from 0.353 to 0.765. Its nDCG@10 drops from 0.693 to 0.514 because Setup B
+ranks a grade-1 movie first and interleaves more grade-1 hits among the grade-2
+movies, so the added relevant documents do not compensate for the lower grades near
+the top. For both needs, the baseline's small candidate pool, not its ordering,
+bounds recall.
 
 Q1 (clever, witty comedies) is the exception: Setup B matches A on P@10 (0.900) but
 has lower AP (0.473 vs.\ 0.554) and Recall@20 (0.519 vs.\ 0.593). Both systems return
@@ -762,10 +763,10 @@ reliably isolate. Q2 (clich\'ed romantic comedies) improves on P@10 (0.800 to 0.
 AP (0.530 to 0.640), and Recall@20 (0.636 to 0.727) but loses nDCG@10 (0.760 to
 0.681), again showing that broader matching surfaces more relevant movies without
 always ordering the highest-graded ones first. Q5 (Italian-American organized crime)
-changes only in ordering: the cast filter fixes the candidate pool, so P@10 and
-Recall@20 are identical (0.600 and 0.857), while AP rises from 0.733 to 0.837 and
-nDCG@10 from 0.852 to 0.877 because the eDisMax plot query ranks the strongest
-matches higher.
+changes mainly in ordering: both setups retrieve six relevant movies with the same
+P@10 (0.600) and Recall@20 (0.857), while AP rises from 0.733 to 0.837 and nDCG@10
+from 0.852 to 0.877 because the eDisMax plot query places the strongest matches
+earlier.
 
 The precision-recall curves in Figure~\ref{fig:pr-curve} summarize the trade-off.
 Setup B is level with Setup A at the lowest recall levels, where both systems remain
