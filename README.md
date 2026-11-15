@@ -49,10 +49,9 @@ scripts/
 eval/
   pool.py           unions A/B top-20 runs into the pooled judgment set
   judge.py          interactive relevance-judging helper
-  make_judging_html.py  builds the browser-based manual judging sheet
-  metrics.py        P@10, MAP, nDCG@10, recall, PR curves, LaTeX tables
+  metrics.py        computes P@k, MAP, nDCG, recall, PR curves, and tables
   qrels.csv         pooled graded relevance judgments
-  results.md        generated evaluation results and discussion notes
+  results.md        generated evaluation results
 ```
 
 ## Requirements
@@ -113,24 +112,20 @@ comparison without writing files.
 
 ### 4. Evaluate
 
+Build the shared pool from the top 20 results of both setups, then judge the
+pooled candidates. Judgments are saved to `eval/qrels.csv` as you go, so you can
+resume later without re-entering grades:
+
 ```bash
 python3 eval/pool.py
 python3 eval/judge.py --judge "Your Name"
 python3 eval/metrics.py
 ```
 
-Open <http://localhost:8000/>, grade every pooled result, and export `qrels.csv`
-into `eval/`. Then run:
-
-```bash
-python3 eval/test_metrics.py
-python3 eval/metrics.py
-```
-
-`metrics.py` writes `eval/results.*`, the LaTeX tables, and
-`report/figures/pr_curve.pdf`. It prints a warning until every judgment is
-`judge=manual`. The committed `eval/qrels.csv` is a preliminary first pass;
-replace it with the manual export before submitting.
+The judge accepts grades `0` (not relevant), `1` (partially relevant), and `2`
+(highly relevant). It skips candidates already judged; use `--review` to revisit
+existing grades. See [eval/README.md](eval/README.md) for the full judging
+workflow and options.
 
 ### 5. Build the report
 
