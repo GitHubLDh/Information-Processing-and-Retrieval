@@ -1,0 +1,27 @@
+\documentclass[border=4pt]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  width=8.5cm, height=6.2cm,
+  xlabel={Recall}, ylabel={Precision},
+  xmin=0, xmax=1, ymin=0, ymax=1,
+  grid=major,
+  legend pos=south west,
+  legend style={font=\tiny},
+  title={Precision-Recall Curve (Setup B)},
+]
+\addplot+[const plot, mark=*, thick] coordinates {(0.0,1.0000) (0.1,1.0000) (0.2,1.0000) (0.3,0.9167) (0.4,0.9167) (0.5,0.7000) (0.6,0.0000) (0.7,0.0000) (0.8,0.0000) (0.9,0.0000) (1.0,0.0000)};
+\addlegendentry{Q1: AP=0.473, AUC=0.503, P@10=0.900}
+\addplot+[const plot, mark=*, thick] coordinates {(0.0,1.0000) (0.1,1.0000) (0.2,0.9286) (0.3,0.9286) (0.4,0.9286) (0.5,0.9286) (0.6,0.9286) (0.7,0.8421) (0.8,0.0000) (0.9,0.0000) (1.0,0.0000)};
+\addlegendentry{Q2: AP=0.640, AUC=0.680, P@10=0.900}
+\addplot+[const plot, mark=*, thick] coordinates {(0.0,1.0000) (0.1,1.0000) (0.2,0.7500) (0.3,0.7500) (0.4,0.4615) (0.5,0.4615) (0.6,0.4615) (0.7,0.4615) (0.8,0.3684) (0.9,0.0000) (1.0,0.0000)};
+\addlegendentry{Q3: AP=0.456, AUC=0.519, P@10=0.400}
+\addplot+[const plot, mark=*, thick] coordinates {(0.0,1.0000) (0.1,1.0000) (0.2,1.0000) (0.3,1.0000) (0.4,0.8182) (0.5,0.8182) (0.6,0.7143) (0.7,0.7059) (0.8,0.0000) (0.9,0.0000) (1.0,0.0000)};
+\addlegendentry{Q4: AP=0.648, AUC=0.641, P@10=0.800}
+\addplot+[const plot, mark=*, thick] coordinates {(0.0,1.0000) (0.1,1.0000) (0.2,1.0000) (0.3,1.0000) (0.4,1.0000) (0.5,1.0000) (0.6,1.0000) (0.7,1.0000) (0.8,0.8571) (0.9,0.8571) (1.0,0.0000)};
+\addlegendentry{Q5: AP=0.837, AUC=0.883, P@10=0.600}
+\end{axis}
+\end{tikzpicture}
+\end{document}

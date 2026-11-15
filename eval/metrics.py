@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
-"""Compute standard IR metrics for Setup A and Setup B from the pooled qrels.
+"""Compute official IR metrics for Setup A and Setup B with trec_eval.
 
-Metrics are implemented in pure Python so the evaluation has no third-party
-dependencies:
+The script converts the graded qrels to the TREC qrels format, converts each
+run with its raw Solr scores (matching the tutorial's solr_to_trec.py), and
+calls trec_eval for:
 
     P@5, P@10          binary precision at cutoff (rel >= threshold)
     AP, MAP            average precision / mean average precision
-    nDCG@10            graded normalised discounted cumulative gain
+    nDCG@10            graded normalised discounted cumulative gain (trec_eval
+                       gain = qrel grade)
     Recall@20          pooled recall at the run depth
     MRR@10             mean reciprocal rank of the first relevant result
+    PR curve           trec_eval iprec_at_recall_* and 11pt_avg
+
+trec_eval must be installed and available on PATH.
 
 Usage:
     python eval/metrics.py
@@ -20,10 +25,10 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import math
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 try:
@@ -33,75 +38,65 @@ except ImportError:  # allows "python -m eval.metrics"
 
 
 # ---------------------------------------------------------------------------
-# Metric primitives
+# Helpers for the trec_eval engine
 # ---------------------------------------------------------------------------
+
+PR_LEVELS = [index / 10 for index in range(11)]
+PR_MEASURES = [f"iprec_at_recall_{level:.2f}" for level in PR_LEVELS]
+
 
 def is_relevant(rel: int, threshold: int) -> int:
     return 1 if rel >= threshold else 0
 
 
-def precision_at_k(grades: list[int], k: int, threshold: int) -> float:
-    if k <= 0:
-        return 0.0
-    top = grades[:k]
-    return sum(is_relevant(rel, threshold) for rel in top) / k
+def write_trec_qrels(qrels: dict[str, dict[str, int]], path: Path) -> None:
+    """Write the graded qrels in the TREC format: qid 0 docid rel."""
+    with path.open("w", encoding="utf-8") as handle:
+        for qid in common.QIDS:
+            for docid, rel in sorted(qrels.get(qid, {}).items()):
+                handle.write(f"{qid} 0 {docid} {rel}\n")
 
 
-def average_precision(grades: list[int], total_relevant: int, threshold: int) -> float | None:
-    if total_relevant == 0:
-        return None
-    hits = 0
-    precision_sum = 0.0
-    for rank, rel in enumerate(grades, start=1):
-        if is_relevant(rel, threshold):
-            hits += 1
-            precision_sum += hits / rank
-    return precision_sum / total_relevant
+def write_trec_run(rankings: dict[str, list[dict]], setup: str, path: Path) -> None:
+    """Write a run in TREC format, matching the tutorial's solr_to_trec.py."""
+    with path.open("w", encoding="utf-8") as handle:
+        for qid in common.QIDS:
+            entries = sorted(rankings.get(qid, []), key=lambda item: item["rank"])
+            for rank, entry in enumerate(entries, start=1):
+                handle.write(
+                    f"{qid} Q0 {entry['docid']} {rank} {entry['score']} {setup}\n"
+                )
 
 
-def dcg(grades: list[int], k: int) -> float:
-    return sum((2 ** rel - 1) / math.log2(rank + 1) for rank, rel in enumerate(grades[:k], start=1))
+def parse_trec_eval(output: str) -> dict[str, dict[str, float]]:
+    """Parse trec_eval's ``measure qid value`` lines into a nested dict."""
+    parsed: dict[str, dict[str, float]] = {}
+    for line in output.splitlines():
+        parts = line.split()
+        if len(parts) < 3:
+            continue
+        measure, qid, value = parts[0], parts[1], parts[2]
+        try:
+            parsed.setdefault(measure, {})[qid] = float(value)
+        except ValueError:
+            continue
+    return parsed
 
 
-def ndcg_at_k(grades: list[int], ideal_grades: list[int], k: int) -> float | None:
-    if not any(ideal_grades):
-        return None
-    ideal = dcg(ideal_grades, k)
-    if ideal == 0:
-        return None
-    return dcg(grades, k) / ideal
-
-
-def recall_at_k(grades: list[int], total_relevant: int, k: int, threshold: int) -> float | None:
-    if total_relevant == 0:
-        return None
-    hits = sum(is_relevant(rel, threshold) for rel in grades[:k])
-    return hits / total_relevant
-
-
-def reciprocal_rank_at_k(grades: list[int], k: int, threshold: int) -> float | None:
-    for rank, rel in enumerate(grades[:k], start=1):
-        if is_relevant(rel, threshold):
-            return 1.0 / rank
-    return 0.0
-
-
-def pr_points(grades: list[int], total_relevant: int, threshold: int, cutoff: int) -> list[tuple[float, float]]:
-    """Precision/recall after each rank, for precision-recall curves."""
-    if total_relevant == 0:
-        return []
-    points: list[tuple[float, float]] = []
-    hits = 0
-    for rank, rel in enumerate(grades[:cutoff], start=1):
-        if is_relevant(rel, threshold):
-            hits += 1
-        points.append((hits / total_relevant, hits / rank))
-    return points
-
-
-def interpolated_precision(points: list[tuple[float, float]], level: float) -> float:
-    """Standard 11-point interpolated precision at a recall level."""
-    return max((precision for recall, precision in points if recall >= level), default=0.0)
+def call_trec_eval(
+    trec_eval: str,
+    qrels_path: Path,
+    run_path: Path,
+    measure_args: list[str],
+) -> dict[str, dict[str, float]]:
+    """Run trec_eval with per-query output and return the parsed measures."""
+    command = [trec_eval, "-q", *measure_args, str(qrels_path), str(run_path)]
+    process = subprocess.run(command, capture_output=True, text=True)
+    if process.returncode != 0:
+        raise SystemExit(
+            "trec_eval failed:\n" + (process.stderr or process.stdout).strip()
+        )
+    return parse_trec_eval(process.stdout)
 
 
 # ---------------------------------------------------------------------------
@@ -111,30 +106,62 @@ def interpolated_precision(points: list[tuple[float, float]], level: float) -> f
 def evaluate_setup(
     rankings: dict[str, list[dict]],
     qrels: dict[str, dict[str, int]],
+    trec_eval: str,
+    qrels_path: Path,
+    run_path: Path,
     threshold: int = 1,
     cutoff: int = 20,
 ) -> dict[str, dict]:
+    binary = call_trec_eval(
+        trec_eval,
+        qrels_path,
+        run_path,
+        [
+            "-l", str(threshold),
+            "-m", "map",
+            "-m", "P.5,10",
+            "-m", "recall.20",
+            "-m", "iprec_at_recall",
+            "-m", "11pt_avg",
+        ],
+    )
+    graded = call_trec_eval(
+        trec_eval,
+        qrels_path,
+        run_path,
+        ["-m", "ndcg_cut.10"],
+    )
+    mrr = call_trec_eval(
+        trec_eval,
+        qrels_path,
+        run_path,
+        ["-l", str(threshold), "-M", "10", "-m", "recip_rank"],
+    )
+
     results: dict[str, dict] = {}
     for qid in common.QIDS:
         entries = rankings.get(qid, [])
         judged = qrels.get(qid, {})
         grades = [judged.get(entry["docid"], 0) for entry in entries]
-        ideal_grades = sorted(judged.values(), reverse=True)
         total_relevant = sum(is_relevant(rel, threshold) for rel in judged.values())
         unjudged = sum(1 for entry in entries[:cutoff] if entry["docid"] not in judged)
 
         results[qid] = {
             "num_retrieved": len(entries[:cutoff]),
+            "num_relevant_retrieved": sum(
+                is_relevant(rel, threshold) for rel in grades[:cutoff]
+            ),
             "num_judged_relevant": total_relevant,
             "num_judged": len(judged),
             "unjudged_retrieved": unjudged,
-            "P@5": precision_at_k(grades, 5, threshold),
-            "P@10": precision_at_k(grades, 10, threshold),
-            "AP": average_precision(grades, total_relevant, threshold),
-            "nDCG@10": ndcg_at_k(grades, ideal_grades, 10),
-            "Recall@20": recall_at_k(grades, total_relevant, cutoff, threshold),
-            "MRR@10": reciprocal_rank_at_k(grades, 10, threshold),
-            "_pr_points": pr_points(grades, total_relevant, threshold, cutoff),
+            "P@5": binary.get("P_5", {}).get(qid, 0.0),
+            "P@10": binary.get("P_10", {}).get(qid, 0.0),
+            "AP": binary.get("map", {}).get(qid) if total_relevant else None,
+            "nDCG@10": graded.get("ndcg_cut_10", {}).get(qid) if any(judged.values()) else None,
+            "Recall@20": binary.get("recall_20", {}).get(qid) if total_relevant else None,
+            "MRR@10": mrr.get("recip_rank", {}).get(qid),
+            "_auc": binary.get("11pt_avg", {}).get(qid),
+            "_iprec": [binary.get(measure, {}).get(qid, 0.0) for measure in PR_MEASURES],
         }
 
     if not any(results[qid]["num_judged_relevant"] for qid in common.QIDS):
@@ -257,14 +284,15 @@ def write_results(
         "",
         "## Per-query metrics",
         "",
-        "| Qid | Setup | Ret. | Judged rel. | P@10 | AP | nDCG@10 | Recall@20 | Unjudged |",
+        "| Qid | Setup | Ret. | Relevant retrieved / pooled relevant | P@10 | AP | nDCG@10 | Recall@20 | Unjudged |",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|",
     ])
     for qid in common.QIDS:
         for setup in common.SETUPS:
             item = all_results[setup][qid]
             lines.append(
-                f"| {qid} | {setup} | {item['num_retrieved']} | {item['num_judged_relevant']} | "
+                f"| {qid} | {setup} | {item['num_retrieved']} | "
+                f"{item['num_relevant_retrieved']} / {item['num_judged_relevant']} | "
                 f"{fmt(item['P@10'])} | {fmt(item['AP'])} | {fmt(item['nDCG@10'])} | "
                 f"{fmt(item['Recall@20'])} | {item['unjudged_retrieved']} |"
             )
@@ -280,13 +308,80 @@ def write_results(
 
     lines.extend([
         "",
+        "## Metric definitions and how the values were obtained",
+        "",
+        "All values are computed with `trec_eval` by `eval/metrics.py`. The script",
+        "converts the graded judgments in `eval/qrels.csv` to the TREC qrels format",
+        "(`qid 0 docid rel`) and the saved runs (`runs/A_Q1.json`--`runs/A_Q5.json`",
+        "and `runs/B_Q1.json`--`runs/B_Q5.json`) to the TREC run format, using the",
+        "numeric `movie_id` as the document id. Following the tutorial's",
+        "`solr_to_trec.py`, the converted runs keep each Solr score; trec_eval sorts",
+        "by score, so equal scores are resolved by trec_eval's own tie-breaking and",
+        "not by the saved rank column. The script then calls trec_eval with `-q` to get",
+        f"per-query and aggregate values. Binary metrics use `-l {threshold}`, so a",
+        "movie counts as relevant when its grade is at least that value; the nDCG",
+        "measure uses the full 0/1/2 grades. Aggregate rows are unweighted means over",
+        "the five queries, so each information need contributes equally regardless of",
+        "how many candidates it has. Per-query rows show the same values before",
+        "averaging; delta rows are Setup B minus Setup A.",
+        "",
+        f"- **P@5 / P@10 (precision at 5 and 10).** The fraction of the first 5 or 10",
+        f"  results that are relevant: `(relevant results in the top k) / k`. The",
+        "  divisor is always `k`, so if a setup returned fewer than `k` movies (for",
+        "  example, Setup A returns only 7 for Q4), the missing positions count as",
+        "  non-relevant. Obtained from trec_eval's `P.5` and `P.10` measures, then",
+        "  averaged over queries in the aggregate table.",
+        f"- **AP / MAP (average precision and mean average precision).** AP walks the",
+        "  ranked list and averages the precision at every rank where a relevant movie",
+        "  occurs, divided by the total number of judged-relevant movies for that query:",
+        "  `AP = (1 / R) * sum over relevant ranks i of (hits_i / rank_i)`, where",
+        "  `hits_i` is the number of relevant movies seen up to rank `i` and `R` is the",
+        "  per-query pooled relevant count shown in the judgment summary and in the",
+        "  `Relevant retrieved / pooled relevant` column. Relevant movies that were",
+        "  not retrieved within the run depth remain in `R`, so they lower AP. MAP is",
+        "  the unweighted mean of AP over the five queries. Obtained from trec_eval's",
+        "  `map` measure; AP and MAP are undefined for a query with no relevant judged",
+        "  movie and are excluded from that mean.",
+        "- **nDCG@10 (normalised discounted cumulative gain at 10).** Uses the graded",
+        "  labels, so a grade-2 movie contributes more than a grade-1 movie. trec_eval's",
+        "  `ndcg_cut` uses the qrel grade directly as the gain:",
+        "  `DCG@10 = sum over the first 10 ranks of rel / log2(rank + 1)`.",
+        "  The ideal DCG (`IDCG@10`) is computed by sorting all judged grades for that",
+        "  query in descending order and applying the same formula to the top 10;",
+        "  `nDCG@10 = DCG@10 / IDCG@10`. The value is 1 when the top 10 follows the",
+        "  best possible graded ordering. Obtained from trec_eval's `ndcg_cut.10`, then",
+        "  averaged over queries in the aggregate table.",
+        "- **Recall@20 (pooled recall at 20).** The fraction of the pooled relevant",
+        "  movies found in the top 20: `(relevant movies in the top 20) / (total",
+        "  judged-relevant movies in the pool)`. The denominator is the pooled",
+        "  judged-relevant set, not every relevant movie in the 6,104-document",
+        "  collection, so this is pooled recall rather than absolute collection",
+        "  recall. Obtained from trec_eval's `recall.20` measure, then averaged over",
+        "  queries in the aggregate table.",
+        "- **MRR@10 (mean reciprocal rank at 10).** The reciprocal of the rank of the",
+        "  first relevant movie within the top 10 (`1 / rank`), or 0 if no relevant",
+        "  movie occurs in the top 10. MRR@10 is the mean of this value over the five",
+        "  queries. It measures how early the first relevant hit appears and ignores",
+        "  the rest of the ranking. Obtained from trec_eval's `recip_rank` measure run",
+        "  with `-M 10`, which truncates each ranking before evaluation.",
+        "",
         "## Notes",
         "",
-        f"- `P@10` uses binary relevance (rel >= {threshold}); `nDCG@10` uses the graded 0/1/2 scale.",
+        "- Reported values are trec_eval measures (`map`, `P.5,10`, `ndcg_cut.10`, "
+        "`recall.20`, and `recip_rank` with `-M 10`).",
+        f"- `P@5`, `P@10`, `AP`, `Recall@20` and `MRR@10` use binary relevance",
+        f"  (rel >= {threshold}); `nDCG@10` uses the graded 0/1/2 scale.",
         "- AP, nDCG, recall and MRR are undefined for a query with no relevant judged document; "
         "those queries are excluded from the corresponding mean.",
         "- Judgments cover the pooled top-20 of both systems. Any retrieved but unjudged document is "
-        "treated as non-relevant, as in standard pooled IR evaluation.",
+        "treated as non-relevant, as in standard pooled IR evaluation; the `Unjudged` column is 0 "
+        "for every query and setup here.",
+        "- The precision-recall values are trec_eval's `iprec_at_recall_0.00` through "
+        "`iprec_at_recall_1.00` measures, with `11pt_avg` as the area under the curve (AUC). "
+        "The mean curve averages each of the 11 recall levels across the five queries.",
+        "- `pr_curve_A.pdf` and `pr_curve_B.pdf` plot the five per-query curves for each setup "
+        "in the style of the tutorial's `plot_pr_curve.py`; `pr_curve.pdf` is the mean curve "
+        "used in the report.",
         "- Five queries are a small sample: differences are descriptive, not statistically tested.",
         "",
     ])
@@ -294,7 +389,7 @@ def write_results(
     print(f"wrote {out_dir / 'results.md'}")
 
     write_latex_tables(aggregate, all_results, needs, out_dir, threshold)
-    write_pr_curve(all_results, qrels, out_dir, threshold, cutoff)
+    write_pr_curve(all_results, out_dir)
     return payload
 
 
@@ -379,48 +474,62 @@ def write_latex_tables(
     (out_dir / "results_compact_table.tex").write_text("\n".join(lines), encoding="utf-8")
 
 
+def compile_standalone(tex_path: Path, out_dir: Path) -> Path | None:
+    """Compile a standalone pgfplots document and return the PDF path."""
+    if not shutil.which("pdflatex"):
+        return None
+    process = subprocess.run(
+        ["pdflatex", "-interaction=nonstopmode", "-halt-on-error", tex_path.name],
+        cwd=out_dir,
+        capture_output=True,
+        text=True,
+    )
+    if process.returncode != 0:
+        print(f"warning: could not compile {tex_path.name} with pdflatex")
+        print(process.stdout[-1200:])
+        return None
+    for suffix in (".aux", ".log"):
+        aux = out_dir / f"{tex_path.stem}{suffix}"
+        if aux.exists():
+            aux.unlink()
+    return tex_path.with_suffix(".pdf")
+
+
 def write_pr_curve(
     all_results: dict[str, dict[str, dict]],
-    qrels: dict[str, dict[str, int]],
     out_dir: Path,
-    threshold: int,
-    cutoff: int,
 ) -> None:
     import csv
 
+    # Per-query values come directly from trec_eval's iprec_at_recall_* measures,
+    # matching the tutorial's plot_pr_curve.py.
     rows = []
     for setup in common.SETUPS:
         for qid in common.QIDS:
-            points = all_results[setup][qid]["_pr_points"]
-            for index, (recall, precision) in enumerate(points, start=1):
+            for level, precision in zip(PR_LEVELS, all_results[setup][qid]["_iprec"]):
                 rows.append({
                     "setup": setup,
                     "qid": qid,
-                    "rank": index,
-                    "recall": f"{recall:.6f}",
+                    "recall": f"{level:.1f}",
                     "precision": f"{precision:.6f}",
                 })
     pr_csv = out_dir / "pr_curve.csv"
     with pr_csv.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["setup", "qid", "rank", "recall", "precision"])
+        writer = csv.DictWriter(handle, fieldnames=["setup", "qid", "recall", "precision"])
         writer.writeheader()
         writer.writerows(rows)
     print(f"wrote {pr_csv}")
 
-    levels = [index / 10 for index in range(11)]
-    mean_curves = {}
+    mean_curves: dict[str, list[float]] = {}
     mean_rows = []
     for setup in common.SETUPS:
-        precisions = []
-        for level in levels:
-            query_values = []
-            for qid in common.QIDS:
-                points = all_results[setup][qid]["_pr_points"]
-                if points:
-                    query_values.append(interpolated_precision(points, level))
-            precisions.append(sum(query_values) / len(query_values) if query_values else 0.0)
+        precisions = [
+            sum(all_results[setup][qid]["_iprec"][index] for qid in common.QIDS)
+            / len(common.QIDS)
+            for index in range(len(PR_LEVELS))
+        ]
         mean_curves[setup] = precisions
-        for level, precision in zip(levels, precisions):
+        for level, precision in zip(PR_LEVELS, precisions):
             mean_rows.append({"setup": setup, "recall": f"{level:.1f}", "precision": f"{precision:.6f}"})
 
     mean_csv = out_dir / "pr_curve_mean.csv"
@@ -447,8 +556,8 @@ def write_pr_curve(
         "]",
     ]
     for setup in common.SETUPS:
-        coords = " ".join(f"({level:.1f},{value:.4f})" for level, value in zip(levels, mean_curves[setup]))
-        lines.append(f"\\addplot+[mark=*, thick, color={colors[setup]}] coordinates {{{coords}}};")
+        coords = " ".join(f"({level:.1f},{value:.4f})" for level, value in zip(PR_LEVELS, mean_curves[setup]))
+        lines.append(f"\\addplot+[const plot, mark=*, thick, color={colors[setup]}] coordinates {{{coords}}};")
         lines.append(f"\\addlegendentry{{Setup {setup}}}")
     lines.extend([
         "\\end{axis}",
@@ -458,28 +567,58 @@ def write_pr_curve(
     ])
     tex_path = out_dir / "pr_curve.tex"
     tex_path.write_text("\n".join(lines), encoding="utf-8")
+    pdf_path = compile_standalone(tex_path, out_dir)
+    figures = common.ROOT / "report" / "figures"
+    if pdf_path:
+        print(f"wrote {pdf_path}")
+        if figures.exists():
+            shutil.copyfile(pdf_path, figures / "pr_curve.pdf")
+            print(f"wrote {figures / 'pr_curve.pdf'}")
 
-    if shutil.which("pdflatex"):
-        process = subprocess.run(
-            ["pdflatex", "-interaction=nonstopmode", "-halt-on-error", tex_path.name],
-            cwd=out_dir,
-            capture_output=True,
-            text=True,
-        )
-        if process.returncode != 0:
-            print("warning: could not compile pr_curve.tex with pdflatex")
-            print(process.stdout[-1200:])
-        else:
-            pdf_path = out_dir / "pr_curve.pdf"
-            print(f"wrote {pdf_path}")
-            figures = common.ROOT / "report" / "figures"
+    # Per-query plots in the same style as the tutorial's plot_pr_curve.py.
+    for setup in common.SETUPS:
+        lines = [
+            "\\documentclass[border=4pt]{standalone}",
+            "\\usepackage{pgfplots}",
+            "\\pgfplotsset{compat=1.18}",
+            "\\begin{document}",
+            "\\begin{tikzpicture}",
+            "\\begin{axis}[",
+            "  width=8.5cm, height=6.2cm,",
+            "  xlabel={Recall}, ylabel={Precision},",
+            "  xmin=0, xmax=1, ymin=0, ymax=1,",
+            "  grid=major,",
+            "  legend pos=south west,",
+            "  legend style={font=\\tiny},",
+            f"  title={{Precision-Recall Curve (Setup {setup})}},",
+            "]",
+        ]
+        for qid in common.QIDS:
+            item = all_results[setup][qid]
+            coords = " ".join(
+                f"({level:.1f},{value:.4f})"
+                for level, value in zip(PR_LEVELS, item["_iprec"])
+            )
+            label = (
+                f"Q{int(qid[1:])}: AP={fmt(item['AP'])}, "
+                f"AUC={fmt(item['_auc'])}, P@10={fmt(item['P@10'])}"
+            )
+            lines.append(f"\\addplot+[const plot, mark=*, thick] coordinates {{{coords}}};")
+            lines.append(f"\\addlegendentry{{{label}}}")
+        lines.extend([
+            "\\end{axis}",
+            "\\end{tikzpicture}",
+            "\\end{document}",
+            "",
+        ])
+        query_tex = out_dir / f"pr_curve_{setup}.tex"
+        query_tex.write_text("\n".join(lines), encoding="utf-8")
+        query_pdf = compile_standalone(query_tex, out_dir)
+        if query_pdf:
+            print(f"wrote {query_pdf}")
             if figures.exists():
-                shutil.copyfile(pdf_path, figures / "pr_curve.pdf")
-                print(f"wrote {figures / 'pr_curve.pdf'}")
-            for suffix in (".aux", ".log"):
-                aux = out_dir / f"pr_curve{suffix}"
-                if aux.exists():
-                    aux.unlink()
+                shutil.copyfile(query_pdf, figures / query_pdf.name)
+                print(f"wrote {figures / query_pdf.name}")
 
 
 def warn_if_not_manual(path: Path) -> None:
@@ -521,10 +660,32 @@ def main() -> None:
         raise SystemExit(f"{args.qrels} contains no judgments")
     warn_if_not_manual(args.qrels)
 
-    all_results = {
-        setup: evaluate_setup(common.load_run(setup, args.runs_dir), qrels, args.threshold, args.cutoff)
-        for setup in common.SETUPS
-    }
+    trec_eval = shutil.which("trec_eval")
+    if not trec_eval:
+        raise SystemExit(
+            "trec_eval not found. Install it (e.g. 'brew install trec_eval') "
+            "and make sure it is on PATH; PRI evaluations are expected to use trec_eval."
+        )
+
+    all_results: dict[str, dict[str, dict]] = {}
+    with tempfile.TemporaryDirectory(prefix="pri-trec-eval-") as tmp_dir:
+        tmp_path = Path(tmp_dir)
+        qrels_path = tmp_path / "qrels.trec"
+        write_trec_qrels(qrels, qrels_path)
+        for setup in common.SETUPS:
+            rankings = common.load_run(setup, args.runs_dir)
+            run_path = tmp_path / f"{setup}.run"
+            write_trec_run(rankings, setup, run_path)
+            all_results[setup] = evaluate_setup(
+                rankings,
+                qrels,
+                trec_eval,
+                qrels_path,
+                run_path,
+                args.threshold,
+                args.cutoff,
+            )
+
     write_results(all_results, qrels, args.out_dir, args.threshold, args.cutoff)
 
 

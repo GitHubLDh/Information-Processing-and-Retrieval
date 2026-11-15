@@ -70,8 +70,8 @@ This combination of structured fields, narrative plot summaries, and reviewer op
 produces a collection suited to retrieval by remembered plot details, themes, and
 reception, and provides the basis for the indexing and query configurations studied
 later in the paper. Evaluation on a pooled set of 135 judged candidates shows that the
-eDisMax configuration improves MAP from 0.488 to 0.611 and Recall@20 from 0.577 to
-0.729 over the baseline, with a small nDCG@10 trade-off.
+eDisMax configuration improves MAP from 0.488 to 0.611, Recall@20 from 0.577 to
+0.729, and nDCG@10 from 0.683 to 0.698 over the baseline.
 \end{abstract}
 
 \keywords{information retrieval, movie dataset, data collection, Wikipedia, Wikidata, text characterization}
@@ -652,30 +652,33 @@ the lexical notion of a stranded astronaut also matches films with only incident
 space content.
 
 We report precision at 5 and 10, mean average precision (MAP), nDCG@10, recall at
-20, and MRR@10. Binary metrics count rel~$\geq$~1 as relevant, while nDCG@10 uses
-the full graded scale. Every retrieved document was judged, so no retrieved item
-had to be treated as unjudged. Recall@20 is measured against the pooled
-judged-relevant candidates rather than every relevant movie in the document
-collection; it therefore measures how much of the pooled relevant set a system
-places in its top 20, not absolute collection recall. 
+20, and MRR@10. Metrics are computed with the official \texttt{trec\_eval} tool
+from TREC-format qrels and run files, with one run per setup; the run files keep
+the raw Solr scores, as in the tutorial conversion. The precision-recall curves
+use \texttt{trec\_eval}'s \texttt{iprec\_at\_recall} measures. Binary metrics count
+rel~$\geq$~1 as relevant, while nDCG@10 uses the full graded scale, with the qrel
+grade as gain. Every retrieved document was judged, so no retrieved item had to
+be treated as unjudged. Recall@20 is measured against the pooled judged-relevant
+candidates rather than every relevant movie in the document collection; it
+therefore measures how much of the pooled relevant set a system places in its top
+20, not absolute collection recall. 
 
 \subsection{Aggregate results}
 Table~\ref{tab:evaluation-aggregate} reports the aggregate metrics and
 Table~\ref{tab:evaluation-per-query} the per-need comparison; the interpolated
 precision-recall curves are shown in Figure~\ref{fig:pr-curve}. Setup B improves on
-the baseline for every binary and recall-oriented metric: P@5 rises from 0.760 to
-0.880, P@10 from 0.640 to 0.720, MAP from 0.488 to 0.611, and Recall@20 from 0.577
-to 0.729. The only regression is nDCG@10, which falls slightly from 0.669 to 0.658.
-MRR@10 is 1.0 for both setups and for every need, meaning that the first returned
-movie is relevant in all ten query/setup combinations; the two configurations
-therefore differ in how they order and extend the list, not in their top hit.
+the baseline for every aggregate metric: P@5 rises from 0.760 to 0.880, P@10 from
+0.640 to 0.720, MAP from 0.488 to 0.611, nDCG@10 from 0.683 to 0.698, and Recall@20
+from 0.577 to 0.729. MRR@10 is 1.0 for both setups and for every need, meaning that
+the first returned movie is relevant in all ten query/setup combinations; the two
+configurations therefore differ in how they order and extend the list, not in their
+top hit.
 
 The pattern is consistent with the design of Setup B: broader eDisMax matching and
 field and phrase boosts put more relevant movies into the retrieved lists and raise
-average precision, but they can also place a grade-1 result above a grade-2 result
-that Setup A ranks first. Because nDCG@10 rewards graded relevance near the top,
-Setup B can have higher precision and recall while scoring marginally lower on
-nDCG. 
+average precision. Individual needs can still lose nDCG (Q2 and Q4) when a grade-1
+result moves above a grade-2 result that Setup A ranks first, but these losses are
+offset by the gains on Q1, Q3, and Q5, so aggregate nDCG@10 improves as well. 
 
 \begin{table}[t]
 \centering
@@ -688,10 +691,10 @@ use rel~$\geq$~1; nDCG@10 uses grades 0--2.}
 \hline
 Setup & P@5 & P@10 & MAP & nDCG@10 & Recall@20 & MRR@10 \\
 \hline
-A & 0.760 & 0.640 & 0.488 & 0.669 & 0.577 & 1.000 \\
-B & 0.880 & 0.720 & 0.611 & 0.658 & 0.729 & 1.000 \\
+A & 0.760 & 0.640 & 0.488 & 0.683 & 0.577 & 1.000 \\
+B & 0.880 & 0.720 & 0.611 & 0.698 & 0.729 & 1.000 \\
 \hline
-$\Delta$ (B$-$A) & $+0.120$ & $+0.080$ & $+0.123$ & $-0.011$ & $+0.152$ & $0.000$ \\
+$\Delta$ (B$-$A) & $+0.120$ & $+0.080$ & $+0.123$ & $+0.015$ & $+0.152$ & $0.000$ \\
 \hline
 \end{tabular}
 \end{table}
@@ -707,20 +710,20 @@ Recall@20).}
 \hline
 Qid & Setup & P@5 & P@10 & MAP & nDCG@10 & R@20 & MRR@10 \\
 \hline
-Q1 & A & 1.000 & 0.900 & 0.554 & 0.592 & 0.593 & 1.000 \\
-Q1 & B & 1.000 & 0.900 & 0.473 & 0.606 & 0.519 & 1.000 \\
+Q1 & A & 1.000 & 0.900 & 0.552 & 0.636 & 0.593 & 1.000 \\
+Q1 & B & 1.000 & 0.900 & 0.473 & 0.685 & 0.518 & 1.000 \\
 \hline
-Q2 & A & 0.800 & 0.800 & 0.530 & 0.760 & 0.636 & 1.000 \\
-Q2 & B & 0.800 & 0.900 & 0.640 & 0.681 & 0.727 & 1.000 \\
+Q2 & A & 0.800 & 0.800 & 0.530 & 0.774 & 0.636 & 1.000 \\
+Q2 & B & 0.800 & 0.900 & 0.640 & 0.734 & 0.727 & 1.000 \\
 \hline
-Q3 & A & 0.400 & 0.300 & 0.298 & 0.451 & 0.444 & 1.000 \\
-Q3 & B & 0.600 & 0.400 & 0.456 & 0.613 & 0.778 & 1.000 \\
+Q3 & A & 0.400 & 0.300 & 0.301 & 0.453 & 0.444 & 1.000 \\
+Q3 & B & 0.600 & 0.400 & 0.456 & 0.583 & 0.778 & 1.000 \\
 \hline
-Q4 & A & 0.800 & 0.600 & 0.323 & 0.693 & 0.353 & 1.000 \\
-Q4 & B & 1.000 & 0.800 & 0.648 & 0.514 & 0.765 & 1.000 \\
+Q4 & A & 0.800 & 0.600 & 0.323 & 0.696 & 0.353 & 1.000 \\
+Q4 & B & 1.000 & 0.800 & 0.648 & 0.605 & 0.765 & 1.000 \\
 \hline
-Q5 & A & 0.800 & 0.600 & 0.733 & 0.852 & 0.857 & 1.000 \\
-Q5 & B & 1.000 & 0.600 & 0.837 & 0.877 & 0.857 & 1.000 \\
+Q5 & A & 0.800 & 0.600 & 0.733 & 0.853 & 0.857 & 1.000 \\
+Q5 & B & 1.000 & 0.600 & 0.837 & 0.883 & 0.857 & 1.000 \\
 \hline
 \end{tabular}
 \end{table}
@@ -728,52 +731,78 @@ Q5 & B & 1.000 & 0.600 & 0.837 & 0.877 & 0.857 & 1.000 \\
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/pr_curve.pdf}
-  \caption{Interpolated precision-recall curves for Setup A and Setup B, averaged
-  over the five needs at 11 recall levels.}
+  \caption{Interpolated precision-recall curves computed with trec\_eval
+  (\texttt{iprec\_at\_recall}), averaged over the five needs at 11 recall levels.}
   \Description{A precision-recall chart with recall on the horizontal axis and
-  interpolated precision on the vertical axis. Setup B is comparable to Setup A at
-  the lowest recall levels and clearly above it from recall 0.3 onward, with the
-  largest gap in the middle of the curve.}
+  interpolated precision on the vertical axis. Setup B is level with Setup A at
+  recall 0.0 and 0.1, slightly below it at recall 0.2, and clearly above it from
+  recall 0.3 onward, with the largest gap in the middle of the curve.}
   \label{fig:pr-curve}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/pr_curve_A.pdf}
+  \caption{Per-query precision-recall curves for Setup A, computed from
+  trec\_eval's \texttt{iprec\_at\_recall} values. Each curve is labelled with AP,
+  11-point average precision (AUC), and P@10.}
+  \Description{A precision-recall chart for Setup A containing five stepped curves
+  labelled Q1 through Q5 with AP, AUC, and P@10.}
+  \label{fig:pr-curve-A}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/pr_curve_B.pdf}
+  \caption{Per-query precision-recall curves for Setup B, computed from
+  trec\_eval's \texttt{iprec\_at\_recall} values. Each curve is labelled with AP,
+  11-point average precision (AUC), and P@10.}
+  \Description{A precision-recall chart for Setup B containing five stepped curves
+  labelled Q1 through Q5 with AP, AUC, and P@10.}
+  \label{fig:pr-curve-B}
 \end{figure}
 
 \subsection{Per-need analysis}
 The plot-based needs gain the most. For Q3 (stranded astronauts), Setup A's strict
 \textit{astronaut} \texttt{AND} (\textit{stranded} \texttt{OR} \textit{survive})
 query returns only 14 candidates, whereas Setup B retrieves a full top 20 and raises
-P@10 from 0.300 to 0.400, AP from 0.298 to 0.456, nDCG@10 from 0.451 to 0.613, and
+P@10 from 0.300 to 0.400, AP from 0.301 to 0.456, nDCG@10 from 0.453 to 0.583, and
 Recall@20 from 0.444 to 0.778. The overview boost with a science-fiction genre boost
 recovers relevant films that the strict conjunction excluded. Q4 (FBI serial-killer
 investigation) shows the same effect: Setup A returns only 7 candidates, while Setup
 B retrieves 20, raising P@10 from 0.600 to 0.800, AP from 0.323 to 0.648, and
-Recall@20 from 0.353 to 0.765. Its nDCG@10 drops from 0.693 to 0.514 because Setup B
+Recall@20 from 0.353 to 0.765. Its nDCG@10 drops from 0.696 to 0.605 because Setup B
 ranks a grade-1 movie first and interleaves more grade-1 hits among the grade-2
 movies, so the added relevant documents do not compensate for the lower grades near
 the top. For both needs, the baseline's small candidate pool, not its ordering,
 bounds recall.
 
-Q1 (clever, witty comedies) is the exception: Setup B matches A on P@10 (0.900) but
-has lower AP (0.473 vs.\ 0.554) and Recall@20 (0.519 vs.\ 0.593). Both systems return
+Q1 (clever, witty comedies) is the exception for AP and recall: Setup B matches A
+on P@10 (0.900) but has lower AP (0.473 vs.\ 0.552) and Recall@20 (0.518 vs.\
+0.593), although its nDCG@10 rises from 0.636 to 0.685. Both systems return
 a relevant comedy first, but Setup A's narrower plain-term review query keeps more of
 the pooled relevant comedies within the top 20. This is consistent with the generic
 review vocabulary noted in Section~4: distinguishing a witty comedy from other
 comedies depends on sparse evaluative wording, which phrase and field boosts do not
 reliably isolate. Q2 (clich\'ed romantic comedies) improves on P@10 (0.800 to 0.900),
-AP (0.530 to 0.640), and Recall@20 (0.636 to 0.727) but loses nDCG@10 (0.760 to
-0.681), again showing that broader matching surfaces more relevant movies without
+AP (0.530 to 0.640), and Recall@20 (0.636 to 0.727) but loses nDCG@10 (0.774 to
+0.734), again showing that broader matching surfaces more relevant movies without
 always ordering the highest-graded ones first. Q5 (Italian-American organized crime)
 changes mainly in ordering: both setups retrieve six relevant movies with the same
 P@10 (0.600) and Recall@20 (0.857), while AP rises from 0.733 to 0.837 and nDCG@10
-from 0.852 to 0.877 because the eDisMax plot query places the strongest matches
+from 0.853 to 0.883 because the eDisMax plot query places the strongest matches
 earlier.
 
-The precision-recall curves in Figure~\ref{fig:pr-curve} summarize the trade-off.
-Setup B is level with Setup A at the lowest recall levels, where both systems remain
-above 0.91, dips slightly below it at recall 0.2, and is clearly above it from recall
-0.3 onward. The advantage is largest between recall 0.4 and 0.7, where Setup B keeps
-interpolated precision between 0.58 and 0.83 while Setup A falls to between 0.17 and
-0.58. Setup B is thus the better choice when users need the relevant movies found,
-whereas Setup A remains competitive when only the very top of the ranking is used.
+The precision-recall curves in Figure~\ref{fig:pr-curve}, computed from trec\_eval's
+11-point interpolated precision, summarize the same trade-off. Setup B is level with
+Setup A at recall 0.0 and 0.1, where both reach 1.00, is slightly below at recall 0.2
+(0.94 vs.\ 0.97), and is clearly above from recall 0.3 onward. The advantage is
+largest between recall 0.4 and 0.7, where Setup B keeps interpolated precision
+between 0.60 and 0.83 while Setup A falls to between 0.17 and 0.59. The corresponding
+11-point average precision (AUC) is 0.530 for Setup A and 0.646 for Setup B. The
+per-query breakdown is shown in Figures~\ref{fig:pr-curve-A} and~\ref{fig:pr-curve-B}. Setup B is thus
+the better choice when users need the relevant movies found, whereas Setup A remains
+competitive when only the very top of the ranking is used.
 
 
 \section{Conclusions and Future Work}
@@ -792,11 +821,10 @@ needs can reach only the 3{,}544 movies with at least one review (58.1\%), and p
 needs depend on Wikipedia coverage and the 50-word filter, which excluded 3{,}605 of the
 9{,}709 valid TMDB identifiers. The index is lexical, so a query must share vocabulary
 with the plot or review text. Evaluation on the 135 pooled candidates shows that the
-eDisMax Setup B improves P@10 (0.640 to 0.720), MAP (0.488 to 0.611), and Recall@20
-(0.577 to 0.729) over the baseline, at the cost of a marginally lower nDCG@10 (0.669 to
-0.658). The gain is concentrated in the plot-based needs Q3 and Q4, while the
-review-based Q1 does not benefit, consistent with the coverage and vocabulary limits
-of the review source.
+eDisMax Setup B improves P@10 (0.640 to 0.720), MAP (0.488 to 0.611), nDCG@10 (0.683
+to 0.698), and Recall@20 (0.577 to 0.729) over the baseline. The gain is concentrated
+in the plot-based needs Q3 and Q4, while the review-based Q1 does not improve in AP
+or recall, consistent with the coverage and vocabulary limits of the review source.
 
 Future work corresponds to the third milestone, whose goal is the final
 version of the search system. We will extend the evaluation to additional needs and a
