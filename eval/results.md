@@ -6,7 +6,7 @@ Relevance threshold: rel >= 1. Run depth: 20. Unjudged retrieved documents count
 
 | Qid | Need | Judged | Relevant (rel>=1) | rel=2 | rel=1 | rel=0 |
 |---|---|---:|---:|---:|---:|---:|
-| Q1 | Clever, witty comedies | 37 | 27 | 15 | 12 | 10 |
+| Q1 | Clever, witty comedies | 37 | 27 | 14 | 13 | 10 |
 | Q2 | Clichéd romantic movies | 30 | 22 | 14 | 8 | 8 |
 | Q3 | Stranded astronauts | 31 | 9 | 3 | 6 | 22 |
 | Q4 | FBI serial-killer investigation | 25 | 17 | 8 | 9 | 8 |
@@ -16,20 +16,20 @@ Relevance threshold: rel >= 1. Run depth: 20. Unjudged retrieved documents count
 
 | Setup | P@5 | P@10 | MAP | nDCG@10 | Recall@20 | MRR@10 |
 |---|---:|---:|---:|---:|---:|---:|
-| A | 0.760 | 0.640 | 0.488 | 0.697 | 0.577 | 1.000 |
-| B | 0.880 | 0.720 | 0.611 | 0.636 | 0.729 | 1.000 |
+| A | 0.760 | 0.640 | 0.488 | 0.669 | 0.577 | 1.000 |
+| B | 0.880 | 0.720 | 0.611 | 0.658 | 0.729 | 1.000 |
 
 | Delta (B - A) | P@5 | P@10 | MAP | nDCG@10 | Recall@20 | MRR@10 |
 |---:|---:|---:|---:|---:|---:|---:|
-| Delta | +0.120 | +0.080 | +0.123 | -0.061 | +0.152 | +0.000 |
+| Delta | +0.120 | +0.080 | +0.123 | -0.011 | +0.152 | +0.000 |
 
 ## Per-query metrics
 
 | Qid | Setup | Ret. | Judged rel. | P@10 | AP | nDCG@10 | Recall@20 | Unjudged |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
-| Q1 | A | 20 | 27 | 0.900 | 0.554 | 0.729 | 0.593 | 0 |
-| Q1 | B | 20 | 27 | 0.900 | 0.473 | 0.495 | 0.519 | 0 |
-| Q1 | Delta B-A | | | +0.000 | -0.081 | -0.234 | -0.074 | |
+| Q1 | A | 20 | 27 | 0.900 | 0.554 | 0.592 | 0.593 | 0 |
+| Q1 | B | 20 | 27 | 0.900 | 0.473 | 0.606 | 0.519 | 0 |
+| Q1 | Delta B-A | | | +0.000 | -0.081 | +0.013 | -0.074 | |
 | Q2 | A | 20 | 22 | 0.800 | 0.530 | 0.760 | 0.636 | 0 |
 | Q2 | B | 20 | 22 | 0.900 | 0.640 | 0.681 | 0.727 | 0 |
 | Q2 | Delta B-A | | | +0.100 | +0.110 | -0.078 | +0.091 | |
