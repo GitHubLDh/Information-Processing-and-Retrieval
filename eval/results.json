@@ -1,0 +1,185 @@
+{
+  "threshold": 1,
+  "cutoff": 20,
+  "aggregate": {
+    "A": {
+      "P@5": 0.6,
+      "P@10": 0.48,
+      "AP": 0.47706549667763976,
+      "nDCG@10": 0.6810361952832764,
+      "Recall@20": 0.5617802676626206,
+      "MRR@10": 0.8
+    },
+    "B": {
+      "P@5": 0.72,
+      "P@10": 0.54,
+      "AP": 0.6032744892801518,
+      "nDCG@10": 0.6247083406022615,
+      "Recall@20": 0.7295362589480237,
+      "MRR@10": 0.8
+    }
+  },
+  "per_query": {
+    "A": {
+      "Q1": {
+        "num_retrieved": 20,
+        "num_judged_relevant": 27,
+        "num_judged": 37,
+        "unjudged_retrieved": 0,
+        "P@5": 1.0,
+        "P@10": 0.9,
+        "AP": 0.5538825426252326,
+        "nDCG@10": 0.7289662244006555,
+        "Recall@20": 0.5925925925925926,
+        "MRR@10": 1.0
+      },
+      "Q2": {
+        "num_retrieved": 20,
+        "num_judged_relevant": 0,
+        "num_judged": 0,
+        "unjudged_retrieved": 20,
+        "P@5": 0.0,
+        "P@10": 0.0,
+        "AP": null,
+        "nDCG@10": null,
+        "Recall@20": null,
+        "MRR@10": 0.0
+      },
+      "Q3": {
+        "num_retrieved": 14,
+        "num_judged_relevant": 9,
+        "num_judged": 31,
+        "unjudged_retrieved": 0,
+        "P@5": 0.4,
+        "P@10": 0.3,
+        "AP": 0.2980769230769231,
+        "nDCG@10": 0.4508013502662507,
+        "Recall@20": 0.4444444444444444,
+        "MRR@10": 1.0
+      },
+      "Q4": {
+        "num_retrieved": 7,
+        "num_judged_relevant": 17,
+        "num_judged": 25,
+        "unjudged_retrieved": 0,
+        "P@5": 0.8,
+        "P@10": 0.6,
+        "AP": 0.32296918767507,
+        "nDCG@10": 0.6925004857085308,
+        "Recall@20": 0.35294117647058826,
+        "MRR@10": 1.0
+      },
+      "Q5": {
+        "num_retrieved": 8,
+        "num_judged_relevant": 7,
+        "num_judged": 12,
+        "unjudged_retrieved": 0,
+        "P@5": 0.8,
+        "P@10": 0.6,
+        "AP": 0.7333333333333333,
+        "nDCG@10": 0.8518767207576684,
+        "Recall@20": 0.8571428571428571,
+        "MRR@10": 1.0
+      }
+    },
+    "B": {
+      "Q1": {
+        "num_retrieved": 20,
+        "num_judged_relevant": 27,
+        "num_judged": 37,
+        "unjudged_retrieved": 0,
+        "P@5": 1.0,
+        "P@10": 0.9,
+        "AP": 0.47298514242958684,
+        "nDCG@10": 0.49497230228023614,
+        "Recall@20": 0.5185185185185185,
+        "MRR@10": 1.0
+      },
+      "Q2": {
+        "num_retrieved": 20,
+        "num_judged_relevant": 0,
+        "num_judged": 0,
+        "unjudged_retrieved": 20,
+        "P@5": 0.0,
+        "P@10": 0.0,
+        "AP": null,
+        "nDCG@10": null,
+        "Recall@20": null,
+        "MRR@10": 0.0
+      },
+      "Q3": {
+        "num_retrieved": 20,
+        "num_judged_relevant": 9,
+        "num_judged": 31,
+        "unjudged_retrieved": 0,
+        "P@5": 0.6,
+        "P@10": 0.4,
+        "AP": 0.45568573726468464,
+        "nDCG@10": 0.6129079853654655,
+        "Recall@20": 0.7777777777777778,
+        "MRR@10": 1.0
+      },
+      "Q4": {
+        "num_retrieved": 20,
+        "num_judged_relevant": 17,
+        "num_judged": 25,
+        "unjudged_retrieved": 0,
+        "P@5": 1.0,
+        "P@10": 0.8,
+        "AP": 0.6476923835487848,
+        "nDCG@10": 0.5142347230815654,
+        "Recall@20": 0.7647058823529411,
+        "MRR@10": 1.0
+      },
+      "Q5": {
+        "num_retrieved": 10,
+        "num_judged_relevant": 7,
+        "num_judged": 12,
+        "unjudged_retrieved": 0,
+        "P@5": 1.0,
+        "P@10": 0.6,
+        "AP": 0.836734693877551,
+        "nDCG@10": 0.8767183516817789,
+        "Recall@20": 0.8571428571428571,
+        "MRR@10": 1.0
+      }
+    }
+  },
+  "qrels_summary": {
+    "Q1": {
+      "judged": 37,
+      "relevant": 27,
+      "grade_0": 10,
+      "grade_1": 12,
+      "grade_2": 15
+    },
+    "Q2": {
+      "judged": 0,
+      "relevant": 0,
+      "grade_0": 0,
+      "grade_1": 0,
+      "grade_2": 0
+    },
+    "Q3": {
+      "judged": 31,
+      "relevant": 9,
+      "grade_0": 22,
+      "grade_1": 6,
+      "grade_2": 3
+    },
+    "Q4": {
+      "judged": 25,
+      "relevant": 17,
+      "grade_0": 8,
+      "grade_1": 9,
+      "grade_2": 8
+    },
+    "Q5": {
+      "judged": 12,
+      "relevant": 7,
+      "grade_0": 5,
+      "grade_1": 1,
+      "grade_2": 6
+    }
+  }
+}
