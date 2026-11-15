@@ -1,0 +1,136 @@
+qid,docid,title,year,rel,judge,notes
+Q1,766,Army of Darkness,1992,2,preliminary,review: 'quick witty dialogue ... hilarious'
+Q1,5236,Kiss Kiss Bang Bang,2005,2,preliminary,"review: 'clever ... brilliant writing, dialogue'"
+Q1,115,The Big Lebowski,1998,1,preliminary,witty dialogue mixed with borderline slapstick
+Q1,929204,Wallace & Gromit: Vengeance Most Fowl,2024,2,preliminary,review: 'clever ... entertainment'
+Q1,7518,Over the Hedge,2006,2,preliminary,review: 'story ... so clever'
+Q1,417859,Puss in Boots,2011,2,preliminary,review: 'quite witty dialogue'
+Q1,810,Shrek the Third,2007,0,preliminary,"cleverly describes plot, not humour"
+Q1,98566,Teenage Mutant Ninja Turtles,2014,1,preliminary,only 'odd bit of witty dialogue'; otherwise negative
+Q1,508442,Soul,2020,2,preliminary,review: 'cleverly developed and very well-written'
+Q1,748783,The Garfield Movie,2024,1,preliminary,only 'quite witty one-liners now and again'
+Q1,539681,DC League of Super-Pets,2022,0,preliminary,"clever describes a character, not the humour"
+Q1,620725,Jexi,2019,0,preliminary,no wit/intelligence evidence
+Q1,583,Life of Brian,1979,1,preliminary,"satire/absurdity implied, not explicit wit praise"
+Q1,1934,Shakespeare in Love,1998,2,preliminary,review: 'witty and stimulating' writing
+Q1,137,Groundhog Day,1993,1,preliminary,"excellent/creative writing, not explicit wit"
+Q1,496243,Parasite,2019,1,preliminary,"funny social satire, no explicit wit praise"
+Q1,844185,Unfrosted,2024,2,preliminary,review: 'clever joke' (repeated)
+Q1,515001,Jojo Rabbit,2019,2,preliminary,satire praised as hilarious and sharp
+Q1,535581,The Dead Don't Die,2019,2,preliminary,review: 'wittily gory zombie comedy'
+Q1,1064213,Anora,2024,2,preliminary,review: 'quite witty dialogue'
+Q1,800939,Ticket to Paradise,2022,2,preliminary,"review: 'witty, light, fun rom-com'"
+Q1,955916,Lift,2024,1,preliminary,witty dialogue but mixed/negative reviews
+Q1,762,Monty Python and the Holy Grail,1975,2,preliminary,celebrated satire/wit of British humour
+Q1,522627,The Gentlemen,2020,0,preliminary,no wit/cleverness evidence
+Q1,813,Airplane!,1980,2,preliminary,satirical humour explicitly praised
+Q1,256591,Focus,2015,1,preliminary,"clever describes cons/plot, not humour"
+Q1,284053,Thor: Ragnarok,2017,2,preliminary,review: 'witty comedy'
+Q1,365177,Borderlands,2024,0,preliminary,no evidence; negative reviews
+Q1,493529,Dungeons & Dragons: Honor Among Thieves,2023,0,preliminary,hilarious but no wit/intelligence evidence
+Q1,739405,Operation Fortune: Ruse de Guerre,2023,0,preliminary,no evidence; generic
+Q1,515248,Someone Great,2019,2,preliminary,review: 'witty leads'
+Q1,238713,Spy,2015,0,preliminary,"clever describes a character, not humour"
+Q1,1581,The Holiday,2006,2,preliminary,review: 'script is witty'
+Q1,505600,Booksmart,2019,0,preliminary,no explicit wit/cleverness evidence
+Q1,1261825,Oh. What. Fun.,2025,2,preliminary,"review: 'funny, clever'"
+Q1,337404,Cruella,2021,1,preliminary,"clever twist is plot, not humour"
+Q1,2493,The Princess Bride,1987,2,preliminary,"review: 'wit and humour'; 'clever, hilarious'"
+Q2,10096,13 Going on 30,2004,2,preliminary,'heartwarming' + 'despite predictable plot'
+Q2,843527,The Idea of You,2024,1,preliminary,formulaic/predictable; warmth only indirect
+Q2,987686,A Family Affair,2024,2,preliminary,cheesy/corny + guilty pleasure/enjoyable
+Q2,370663,Below Her Mouth,2017,0,preliminary,formulaic/cliches but warmth describes another film
+Q2,152601,Her,2013,0,preliminary,heartwarming but explicitly avoids cliche
+Q2,884605,No Hard Feelings,2023,2,preliminary,heartwarming + 'far too predictable'
+Q2,956842,Fly Me to the Moon,2024,0,preliminary,cliches/predictable but no warm response
+Q2,25704,Post Grad,2009,0,preliminary,predictable but no warm response
+Q2,1259102,Eternity,2025,1,preliminary,sentimental/cheesy but subverted; poignant
+Q2,38317,Zookeeper,2011,2,preliminary,heartwarming + 'incredibly predictable'
+Q2,1068452,Hi Nanna,2023,0,preliminary,heartwarming but no cliche/formula evidence
+Q2,9602,Coming to America,1988,2,preliminary,not original/unpredictable + heartwarming
+Q2,9880,The Princess Diaries,2001,1,preliminary,trope/sub-trope; only mild positive response
+Q2,16996,17 Again,2009,2,preliminary,"'cliched' + 'you'll laugh, you'll cry'/has heart"
+Q2,746036,The Fall Guy,2024,0,preliminary,"generic romance/tropes, but subverts and no warmth"
+Q2,455207,Crazy Rich Asians,2018,1,preliminary,predictable but warmth only indirect
+Q2,509,Notting Hill,1999,0,preliminary,heartwarming but no cliche/formula evidence
+Q2,1824,50 First Dates,2004,1,preliminary,heartwarming + far-fetched/ridiculous premise
+Q2,587792,Palm Springs,2020,1,preliminary,formula/cliche and tropes mentioned; warmth indirect
+Q2,804,Roman Holiday,1953,1,preliminary,'Predictable? Cliche? Of course' + mild reward
+Q2,11622,Blast from the Past,1999,0,preliminary,heart warming but no cliche/formula evidence
+Q2,843543,Meet Cute,2022,2,preliminary,cheesy/cliche plotline + emotionally authentic
+Q2,25633,Party Girl,1958,0,preliminary,formulaic but no warm response
+Q2,9603,Clueless,1995,0,preliminary,explicitly avoids lazy tropes; only feel-good
+Q2,550205,Wish Dragon,2021,0,preliminary,heartwarming but no cliche/formula evidence
+Q2,137,Groundhog Day,1993,1,preliminary,trope/cheesy + heartwarming climax
+Q2,222935,The Fault in Our Stars,2014,2,preliminary,predictable/sentimental + touching
+Q2,9587,Little Women,1994,0,preliminary,heartwarming ending but no cliche/formula evidence
+Q2,1064213,Anora,2024,1,preliminary,predictable/cliched + emotional but not heartwarming
+Q2,868759,Ghosted,2023,0,preliminary,tropes but no warm response
+Q3,30863,Mutant Aliens,2002,2,preliminary,astronaut stranded in space; returns to Earth
+Q3,286217,The Martian,2015,2,preliminary,stranded on Mars; survival and rescue
+Q3,339964,Valerian and the City of a Thousand Planets,2017,0,preliminary,stranded princess but not survival/return premise
+Q3,6795,Zathura: A Space Adventure,2005,1,preliminary,"space + return home, but not stranded astronauts"
+Q3,435,The Day After Tomorrow,2004,0,preliminary,astronauts incidental; disaster film on Earth
+Q3,945961,Alien: Romulus,2024,1,preliminary,"space + survival, not stranded crew returning home"
+Q3,365942,The Space Between Us,2017,1,preliminary,"space + return to Earth, not stranded/survival"
+Q3,369972,First Man,2018,0,preliminary,astronaut biopic; no stranded/survival objective
+Q3,8536,Superman II,1980,0,preliminary,brief astronaut scene; no stranded/survival
+Q3,299687,The 5th Wave,2016,0,preliminary,"survival/left behind, but no astronaut space travel"
+Q3,75612,Oblivion,2013,0,preliminary,astronaut clones on Earth; not stranded away from Earth
+Q3,670292,The Creator,2023,0,preliminary,"space station, but no stranded astronauts"
+Q3,982843,The Great Flood,2025,0,preliminary,"space station/survival, but not stranded astronauts"
+Q3,698,Moonraker,1979,0,preliminary,"astronaut/space station, no stranded/survival"
+Q3,588228,The Tomorrow War,2021,0,preliminary,"alien spaceship/survival, not astronauts stranded"
+Q3,299536,Avengers: Infinity War,2018,1,preliminary,"space + stranded on Titan, but incidental/no survival objective"
+Q3,436969,The Suicide Squad,2021,0,preliminary,astronauts only in backstory
+Q3,320288,Dark Phoenix,2019,0,preliminary,"space rescue, no stranded/survival"
+Q3,70981,Prometheus,2012,2,preliminary,crew isolated on distant moon; survival central
+Q3,11802,Space Chimps,2008,2,preliminary,astronaut chimps stranded; must return
+Q3,10681,WALL·E,2008,0,preliminary,"space, but not stranded astronauts"
+Q3,297222,PK,2014,1,preliminary,"alien stranded on Earth; needs return, not astronaut away"
+Q3,535167,The Wandering Earth,2019,1,preliminary,"astronaut/space station + survival, not stranded"
+Q3,154,Star Trek II: The Wrath of Khan,1982,0,preliminary,"starship rescue, no stranded/survival"
+Q3,667,You Only Live Twice,1967,0,preliminary,"astronauts captured, no stranded/survival"
+Q3,118340,Guardians of the Galaxy,2014,0,preliminary,"space, but no stranded astronaut survival"
+Q3,49521,Man of Steel,2013,0,preliminary,"spacecraft/survival of Kryptonians, not astronauts"
+Q3,335988,Transformers: The Last Knight,2017,0,preliminary,"spacecraft, no stranded astronauts"
+Q3,44943,Battle: Los Angeles,2011,0,preliminary,"alien invasion, not astronauts"
+Q3,2157,Lost in Space,1998,2,preliminary,space travellers stranded; survive and find way home
+Q3,14623,Thunderbirds,2004,0,preliminary,"space station peril, not stranded astronauts"
+Q4,339527,Solace,2015,2,preliminary,FBI agent + serial killer investigation central
+Q4,1032823,Trap,2024,2,preliminary,FBI profiler/manhunt for serial killer central
+Q4,10871,Switchback,1997,2,preliminary,FBI agent pursues serial killer central
+Q4,602269,The Little Things,2021,1,preliminary,serial killer investigation led by sheriff/detective; FBI later
+Q4,9411,Fallen,1998,1,preliminary,homicide detective investigates serial killer; no FBI
+Q4,9544,FearDotCom,2002,1,preliminary,NYPD detective + FBI chase serial killer; not FBI-led
+Q4,87462,Relentless,1989,1,preliminary,LAPD detectives hunt serial killer; no FBI
+Q4,34314,Turbulence,1997,0,preliminary,serial killer on plane; not an investigation
+Q4,55846,Blitz,2011,1,preliminary,UK police hunt serial killer; no FBI
+Q4,12149,Frailty,2002,2,preliminary,FBI agent investigates 'God's Hand' serial killings
+Q4,241,Natural Born Killers,1994,0,preliminary,serial murderers; no FBI investigation
+Q4,274,The Silence of the Lambs,1991,2,preliminary,FBI trainee investigates Buffalo Bill serial killer
+Q4,3489,88 Minutes,2007,1,preliminary,psychiatrist leads; FBI agent secondary
+Q4,6498,Nightwatch,1994,1,preliminary,serial murder case/police; no FBI
+Q4,9437,Kiss the Girls,1997,1,preliminary,detective leads; FBI agents collaborate
+Q4,46342,Evilenko,2004,1,preliminary,detective/profiler hunt serial killer; no FBI
+Q4,1226578,Longlegs,2024,2,preliminary,FBI agent assigned serial killer case central
+Q4,995926,"I, the Executioner",2024,1,preliminary,Korean detectives hunt serial killer; no FBI
+Q4,580489,Venom: Let There Be Carnage,2021,0,preliminary,serial killer but no FBI investigation
+Q4,181283,Child 44,2015,1,preliminary,MGB agent investigates serial killer; no FBI
+Q4,31001,Sanctimony,2000,1,preliminary,police investigate serial killer; no FBI
+Q4,14937,Stone,1974,1,preliminary,Sydney detective investigates murders; no FBI
+Q4,807,Se7en,1995,1,preliminary,homicide detectives hunt serial killer; no FBI
+Q4,70585,Lucky,2011,0,preliminary,serial killer; no investigation
+Q4,51215,The Breed,2001,1,preliminary,detectives track serial killer; no FBI
+Q5,769,GoodFellas,1990,2,preliminary,Italian-American Mafia central; De Niro
+Q5,398978,The Irishman,2019,2,preliminary,Italian-American Mafia central; De Niro lead
+Q5,1578,Raging Bull,1980,1,preliminary,"Mafia controls boxing, but film is a boxing biopic"
+Q5,240,The Godfather Part II,1974,2,preliminary,Corleone Italian-American crime family central; De Niro
+Q5,1607,A Bronx Tale,1993,2,preliminary,Italian-American Mafia presence central; De Niro
+Q5,524,Casino,1995,2,preliminary,Italian-American Mafia central; De Niro lead
+Q5,117,The Untouchables,1987,2,preliminary,Capone's Italian-American crime organization central; De Niro
+Q5,8195,Ronin,1998,0,preliminary,Russian mafia; explicit false positive
+Q5,112205,The Family,2013,2,preliminary,Italian-American Mafia family central; De Niro lead
+Q5,11371,The Score,2001,0,preliminary,"heist film; mob debt incidental, not Italian-American mafia"
+Q5,819,Sleepers,1996,0,preliminary,Irish Mob; not Italian-American
+Q5,2142,Cop Land,1997,0,preliminary,police corruption; not Italian-American mafia central

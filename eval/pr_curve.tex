@@ -1,0 +1,20 @@
+\documentclass[border=4pt]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  width=8.5cm, height=6.2cm,
+  xlabel={Recall}, ylabel={Interpolated precision},
+  xmin=0, xmax=1, ymin=0, ymax=1,
+  grid=major,
+  legend pos=south west,
+  legend style={font=\small},
+]
+\addplot+[mark=*, thick, color=blue] coordinates {(0.0,1.0000) (0.1,0.9714) (0.2,0.9429) (0.3,0.7691) (0.4,0.5842) (0.5,0.5131) (0.6,0.3222) (0.7,0.1667) (0.8,0.1500) (0.9,0.0000) (1.0,0.0000)};
+\addlegendentry{Setup A}
+\addplot+[mark=*, thick, color=red] coordinates {(0.0,1.0000) (0.1,0.9857) (0.2,0.9190) (0.3,0.8905) (0.4,0.8250) (0.5,0.7817) (0.6,0.6019) (0.7,0.5833) (0.8,0.1714) (0.9,0.0000) (1.0,0.0000)};
+\addlegendentry{Setup B}
+\end{axis}
+\end{tikzpicture}
+\end{document}
