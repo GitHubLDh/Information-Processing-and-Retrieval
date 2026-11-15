@@ -115,8 +115,8 @@ comparison without writing files.
 
 ```bash
 python3 eval/pool.py
-python3 eval/make_judging_html.py
-python3 -m http.server 8000 --directory eval/judging
+python3 eval/judge.py --judge "Your Name"
+python3 eval/metrics.py
 ```
 
 Open <http://localhost:8000/>, grade every pooled result, and export `qrels.csv`
