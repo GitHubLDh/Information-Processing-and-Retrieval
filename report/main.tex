@@ -684,33 +684,44 @@ nDCG.
 use rel~$\geq$~1; nDCG@10 uses grades 0--2.}
 \label{tab:evaluation-aggregate}
 \small
-\begin{tabular}{lrrrrr}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrrrrr}
 \hline
-Setup & P@5 & P@10 & MAP & nDCG@10 & Recall@20 \\
+Setup & P@5 & P@10 & MAP & nDCG@10 & Recall@20 & MRR@10 \\
 \hline
-A & 0.760 & 0.640 & 0.488 & 0.669 & 0.577 \\
-B & 0.880 & 0.720 & 0.611 & 0.658 & 0.729 \\
+A & 0.760 & 0.640 & 0.488 & 0.669 & 0.577 & 1.000 \\
+B & 0.880 & 0.720 & 0.611 & 0.658 & 0.729 & 1.000 \\
 \hline
-$\Delta$ (B$-$A) & $+0.120$ & $+0.080$ & $+0.123$ & $-0.011$ & $+0.152$ \\
+$\Delta$ (B$-$A) & $+0.120$ & $+0.080$ & $+0.123$ & $-0.011$ & $+0.152$ & $0.000$ \\
 \hline
 \end{tabular}
 \end{table}
 
 \begin{table}[t]
 \centering
-\caption{Per-need comparison of Setup A and Setup B.}
+\caption{Per-need comparison of Setup A and Setup B across all metrics (R@20 denotes
+Recall@20).}
 \label{tab:evaluation-per-query}
-\small
-\begin{tabular}{lrrrrrr}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llrrrrrr}
 \hline
- & \multicolumn{2}{c}{P@10} & \multicolumn{2}{c}{nDCG@10} & \multicolumn{2}{c}{Recall@20} \\
-Qid & A & B & A & B & A & B \\
+Qid & Setup & P@5 & P@10 & MAP & nDCG@10 & R@20 & MRR@10 \\
 \hline
-Q1 & 0.900 & 0.900 & 0.592 & 0.606 & 0.593 & 0.519 \\
-Q2 & 0.800 & 0.900 & 0.760 & 0.681 & 0.636 & 0.727 \\
-Q3 & 0.300 & 0.400 & 0.451 & 0.613 & 0.444 & 0.778 \\
-Q4 & 0.600 & 0.800 & 0.693 & 0.514 & 0.353 & 0.765 \\
-Q5 & 0.600 & 0.600 & 0.852 & 0.877 & 0.857 & 0.857 \\
+Q1 & A & 1.000 & 0.900 & 0.554 & 0.592 & 0.593 & 1.000 \\
+Q1 & B & 1.000 & 0.900 & 0.473 & 0.606 & 0.519 & 1.000 \\
+\hline
+Q2 & A & 0.800 & 0.800 & 0.530 & 0.760 & 0.636 & 1.000 \\
+Q2 & B & 0.800 & 0.900 & 0.640 & 0.681 & 0.727 & 1.000 \\
+\hline
+Q3 & A & 0.400 & 0.300 & 0.298 & 0.451 & 0.444 & 1.000 \\
+Q3 & B & 0.600 & 0.400 & 0.456 & 0.613 & 0.778 & 1.000 \\
+\hline
+Q4 & A & 0.800 & 0.600 & 0.323 & 0.693 & 0.353 & 1.000 \\
+Q4 & B & 1.000 & 0.800 & 0.648 & 0.514 & 0.765 & 1.000 \\
+\hline
+Q5 & A & 0.800 & 0.600 & 0.733 & 0.852 & 0.857 & 1.000 \\
+Q5 & B & 1.000 & 0.600 & 0.837 & 0.877 & 0.857 & 1.000 \\
 \hline
 \end{tabular}
 \end{table}
