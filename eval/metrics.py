@@ -17,7 +17,7 @@ trec_eval must be installed and available on PATH.
 
 Usage:
     python eval/metrics.py
-    python eval/metrics.py --qrels eval/qrels.csv --threshold 1
+    python eval/metrics.py --qrels eval/data/qrels.csv --threshold 1
 """
 
 from __future__ import annotations
@@ -311,7 +311,7 @@ def write_results(
         "## Metric definitions and how the values were obtained",
         "",
         "All values are computed with `trec_eval` by `eval/metrics.py`. The script",
-        "converts the graded judgments in `eval/qrels.csv` to the TREC qrels format",
+        "converts the graded judgments in `eval/data/qrels.csv` to the TREC qrels format",
         "(`qid 0 docid rel`) and the saved runs (`runs/A_Q1.json`--`runs/A_Q5.json`",
         "and `runs/B_Q1.json`--`runs/B_Q5.json`) to the TREC run format, using the",
         "numeric `movie_id` as the document id. Following the tutorial's",
@@ -644,7 +644,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--qrels", type=Path, default=common.DEFAULT_QRELS)
     parser.add_argument("--runs-dir", type=Path, default=common.RUNS_DIR)
-    parser.add_argument("--out-dir", type=Path, default=common.EVAL_DIR)
+    parser.add_argument("--out-dir", type=Path, default=common.REPORTS_DIR)
     parser.add_argument("--threshold", type=int, default=1, choices=[1, 2],
                         help="minimum grade counted as relevant for binary metrics")
     parser.add_argument("--cutoff", type=int, default=20)

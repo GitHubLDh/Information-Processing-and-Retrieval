@@ -5,10 +5,10 @@ Pooling is the standard IR evaluation step that prevents judging only the result
 of one system. We take the union of the two top-20 runs per information need,
 deduplicate by numeric movie_id, and write:
 
-    eval/pool.csv              machine-readable pooled candidates
-    eval/qrels_template.csv    blank relevance sheet (qid, docid, rel, judge, notes)
-    eval/evidence.csv          overview + plot/review evidence used for judging
-    eval/judging/Q*.md         human-readable evidence sheets
+    eval/data/pool.csv        machine-readable pooled candidates
+    eval/data/qrels_template.csv  blank relevance sheet (qid, docid, rel, judge, notes)
+    eval/data/evidence.csv     overview + plot/review evidence used for judging
+    eval/judging/Q*.md        human-readable evidence sheets
 
 Usage:
     python eval/pool.py
@@ -174,7 +174,7 @@ def main() -> None:
         ],
     )
 
-    qrels_template = common.EVAL_DIR / "qrels_template.csv"
+    qrels_template = common.DATA_DIR / "qrels_template.csv"
     write_csv(
         qrels_template,
         [dict(row, rel="", judge="", notes="") for row in rows],

@@ -2,6 +2,13 @@
 
 This directory contains the workflow for building a shared candidate pool,
 assigning relevance judgments, and comparing Setup A and Setup B.
+The workflow is organized into separate sections:
+
+- `eval/data/` stores pooled candidates and qrels/ground-truth files.
+- `eval/judging/` stores the human-readable evidence sheets for manual judging.
+- `eval/output/` stores the generated metrics tables and PR-curve outputs.
+- the top-level scripts remain in `eval/` for the everyday workflow.
+
 Run commands from the repository root.
 
 ## Evaluation flow
@@ -16,7 +23,7 @@ Run commands from the repository root.
 
 ## Build the pool
 
-If `eval/pool.csv` is missing or the retrieval runs have changed, build or rebuild
+If `eval/data/pool.csv` is missing or the retrieval runs have changed, build or rebuild
 the pool and its evidence files:
 
 ```bash
@@ -24,8 +31,9 @@ python3 eval/pool.py
 ```
 
 This requires the A/B run files under `runs/` and
-`data/final/collection.jsonl`. It writes `pool.csv`, `qrels_template.csv`,
-`evidence.csv`, and human-readable evidence sheets under `eval/judging/`.
+`data/final/collection.jsonl`. It writes `eval/data/pool.csv`,
+`eval/data/qrels_template.csv`, `eval/data/evidence.csv`, and human-readable
+judging sheets under `eval/judging/`.
 Rebuilding the pool may add candidates; those need judgments before final
 evaluation.
 
@@ -51,8 +59,8 @@ ranks in Setup A and B. Grade each candidate:
 - `0` — not relevant: no supporting evidence, or the evidence contradicts the need.
 
 Use `s` to skip, `p` to go to the previous candidate, `q` to save and quit, and
-`?` to show help. Each grade is saved to `eval/qrels.csv` immediately. Already
-graded candidates are skipped by default, so you can resume a session.
+`?` to show help. Each grade is saved to `eval/data/qrels.csv` immediately.
+Already graded candidates are skipped by default, so you can resume a session.
 
 To review existing grades:
 
@@ -65,7 +73,7 @@ to change it. The `judge` column records the name supplied with `--judge`.
 
 The `seed_qrels.py` script can create predefined **preliminary** judgments, but
 these are not a substitute for manual review. Do not use `--force` unless you
-intend to replace the existing `qrels.csv`.
+intend to replace the existing `eval/data/qrels.csv`.
 
 ## Calculate and interpret metrics
 
@@ -76,7 +84,7 @@ python3 eval/metrics.py
 ```
 
 The script requires `trec_eval` on `PATH` (on macOS: `brew install trec_eval`).
-It reads the A/B rankings and `eval/qrels.csv`, writes temporary TREC qrels and
+It reads the A/B rankings and `eval/data/qrels.csv`, writes temporary TREC qrels and
 run files, and calls `trec_eval` with `-q` for per-query and aggregate values.
 Following the tutorial's `solr_to_trec.py`, the run files keep each Solr score
 and use the position in the saved ranking as the TREC rank; `trec_eval` sorts
@@ -121,7 +129,7 @@ better retrieval.
 
 ## Generated files
 
-By default, `metrics.py` writes its outputs to `eval/`:
+By default, `metrics.py` writes its outputs to `eval/output/`:
 
 - `results.csv`, `results.json`, and `results.md`: per-query and aggregate
   metrics, including the Setup B minus Setup A differences.

@@ -47,11 +47,18 @@ scripts/
   verify_index.py         checks the indexed collection against the source documents
 
 eval/
+  README.md         evaluation workflow and directory layout
   pool.py           unions A/B top-20 runs into the pooled judgment set
   judge.py          interactive relevance-judging helper
   metrics.py        computes P@k, MAP, nDCG, recall, PR curves, and tables
-  qrels.csv         pooled graded relevance judgments
-  results.md        generated evaluation results
+  data/
+    pool.csv        pooled candidate set
+    qrels.csv       pooled graded relevance judgments
+    qrels_template.csv  blank judgment sheet
+    evidence.csv    pooled evidence used in manual judging
+  judging/          human-readable movie evidence sheets used during manual grading
+  reports/
+    results.md      generated evaluation results
 ```
 
 ## Requirements
@@ -113,8 +120,8 @@ comparison without writing files.
 ### 4. Evaluate
 
 Build the shared pool from the top 20 results of both setups, then judge the
-pooled candidates. Judgments are saved to `eval/qrels.csv` as you go, so you can
-resume later without re-entering grades:
+pooled candidates. Judgments are saved to `eval/data/qrels.csv` as you go, so you
+can resume later without re-entering grades:
 
 ```bash
 python3 eval/pool.py

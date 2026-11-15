@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Seed eval/qrels.csv with an explicit, evidence-based first-pass judgment.
+"""Seed eval/data/qrels.csv with an explicit, evidence-based first-pass judgment.
 
 These judgments apply the per-need rubric in common.INFORMATION_NEEDS to the
 pooled candidates:

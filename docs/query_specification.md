@@ -40,7 +40,7 @@ All queries use `rows=20` and return movie identifiers, title, score, overview, 
 Query-level alternatives are hand-curated and should be checked for precision as well as recall. The schema already folds accents, lowercases, removes English stopwords, and applies KStem; it does not provide synonym expansion. These query changes do not add lemmatization or non-English support.
 
 All 135 query–movie pairs in the pooled top-20 results have relevance
-judgments in eval/qrels.csv. Metrics are available in eval/results.md.
+judgments in `eval/data/qrels.csv`. Metrics are available in `eval/reports/results.md`.
 The saved A/B runs match the current query parameters. Treat numFound
 as the number of matching candidates, not the number of relevant movies.
 

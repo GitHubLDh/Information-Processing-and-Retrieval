@@ -46,7 +46,7 @@ Relevance threshold: rel >= 1. Run depth: 20. Unjudged retrieved documents count
 ## Metric definitions and how the values were obtained
 
 All values are computed with `trec_eval` by `eval/metrics.py`. The script
-converts the graded judgments in `eval/qrels.csv` to the TREC qrels format
+converts the graded judgments in `eval/data/qrels.csv` to the TREC qrels format
 (`qid 0 docid rel`) and the saved runs (`runs/A_Q1.json`--`runs/A_Q5.json`
 and `runs/B_Q1.json`--`runs/B_Q5.json`) to the TREC run format, using the
 numeric `movie_id` as the document id. Following the tutorial's

@@ -13,8 +13,10 @@ RUNS_DIR = ROOT / "runs"
 QUERIES_DIR = ROOT / "queries"
 COLLECTION_PATH = ROOT / "data" / "final" / "collection.jsonl"
 EVAL_DIR = ROOT / "eval"
-DEFAULT_POOL = EVAL_DIR / "pool.csv"
-DEFAULT_QRELS = EVAL_DIR / "qrels.csv"
+DATA_DIR = EVAL_DIR / "data"
+REPORTS_DIR = EVAL_DIR / "output"
+DEFAULT_POOL = DATA_DIR / "pool.csv"
+DEFAULT_QRELS = DATA_DIR / "qrels.csv"
 
 QIDS = ["Q1", "Q2", "Q3", "Q4", "Q5"]
 SETUPS = ["A", "B"]
