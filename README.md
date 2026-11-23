@@ -17,7 +17,7 @@ The goal is a document collection suitable for text-based search, where each doc
 - [x] Exploratory data analysis / dataset characterization
 - [x] Information needs defined
 - [x] Solr indexing, Setup A/B retrieval runs, pooled judgments, and evaluation metrics (Milestone 2)
-- The natural-language A/B runs use the same needs and constraints. See the [retrieval experiments](docs/query_specification.md) and [current judgment coverage and results](eval/results.md).
+- The natural-language A/B runs use the same needs and constraints. See the [retrieval experiments](docs/query_specification.md) and [current judgment coverage and results](eval/output/results.md).
 - [ ] Semantic search (Milestone 3)
 
 ## Milestones
@@ -58,13 +58,14 @@ eval/
     qrels_template.csv  blank judgment sheet
     evidence.csv    pooled evidence used in manual judging
   judging/          human-readable movie evidence sheets used during manual grading
-  reports/
+  output/
     results.md      generated evaluation results
 ```
 
 ## Requirements
 
 - Python 3.10+
+- `trec_eval` on PATH for final evaluation
 - Docker Desktop / Docker Engine (for Solr)
 - `curl`, `jq` (Solr startup/verification)
 - `latexmk` with `pdflatex` (report build)

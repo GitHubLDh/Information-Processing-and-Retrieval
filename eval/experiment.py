@@ -5,6 +5,7 @@ described in docs/query_specification.md. Only --prepare modifies the scratch co
 """
 
 import argparse
+import math
 import re
 import sys
 
@@ -76,6 +77,27 @@ def prepare_empty_core(uri, collection):
     response.raise_for_status()
 
 
+def score_fixed_pool(docids, judged):
+    """Reproduce the original diagnostic with Solr ranks and exponential nDCG gain."""
+    grades = [judged[docid] for docid in docids[:20]]
+    relevant = sum(grade >= 1 for grade in judged.values())
+    hits = [rank for rank, grade in enumerate(grades, 1) if grade >= 1]
+
+    def dcg(values):
+        return sum((2 ** grade - 1) / math.log2(rank + 1)
+                   for rank, grade in enumerate(values[:10], 1))
+
+    ideal_dcg = dcg(sorted(judged.values(), reverse=True))
+    return {
+        "P@5": sum(rank <= 5 for rank in hits) / 5,
+        "P@10": sum(rank <= 10 for rank in hits) / 10,
+        "AP": sum(n / rank for n, rank in enumerate(hits, 1)) / relevant if relevant else None,
+        "nDCG@10": dcg(grades) / ideal_dcg if ideal_dcg else None,
+        "Recall@20": len(hits) / relevant if relevant else None,
+        "MRR@10": next((1 / rank for rank in hits if rank <= 10), 0.0) if relevant else None,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--uri", default="http://127.0.0.1:18983/solr")
@@ -89,7 +111,7 @@ def main():
     queries = [common.load_json(p) for p in sorted((common.QUERIES_DIR / "setup_a").glob("Q*.json"))]
     print("trial qid P@5 P@10 AP nDCG@10 Recall@20 RR@10")
     for name, flags in TRIALS.items():
-        rankings = {}
+        results = {}
         for query in queries:
             qid = query["qid"]
             params = variant(query, **flags)
@@ -97,8 +119,8 @@ def main():
             # candidates assessed before the experiment, with corpus-wide IDF.
             params["fq"].append("{!terms f=id}" + ",".join("movie-" + i for i in qrels[qid]))
             response = fetch_solr_results(params, args.uri, args.collection)
-            rankings[qid] = [{"docid": str(r["movie_id"])} for r in to_run_format(response, qid)]
-        results = metrics.evaluate_setup(rankings, qrels)
+            docids = [str(r["movie_id"]) for r in to_run_format(response, qid)]
+            results[qid] = score_fixed_pool(docids, qrels[qid])
         for qid, row in results.items():
             print(name, qid, *(metrics.fmt(row[m]) for m in MEASURES))
         print(name, "mean", *(metrics.fmt(metrics.mean_metric(results, m)) for m in MEASURES))

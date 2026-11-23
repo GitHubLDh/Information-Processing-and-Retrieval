@@ -1,54 +1,54 @@
 # Evaluation results
 
-Relevance threshold: rel >= 1. Run depth: 20. Unjudged retrieved documents count as non-relevant.
+Relevance threshold: rel >= 1. Run depth: 20. All retrieved movies at this depth have manual judgments.
 
 ## Judgment summary
 
 | Qid | Need | Judged | Relevant (rel>=1) | rel=2 | rel=1 | rel=0 |
 |---|---|---:|---:|---:|---:|---:|
-| Q1 | Clever, witty comedies | 37 | 27 | 14 | 13 | 10 |
-| Q2 | Clichéd romantic movies | 30 | 22 | 14 | 8 | 8 |
-| Q3 | Stranded astronauts | 31 | 9 | 3 | 6 | 22 |
-| Q4 | FBI serial-killer investigation | 25 | 17 | 8 | 9 | 8 |
-| Q5 | Italian-American organized crime | 12 | 7 | 6 | 1 | 5 |
+| Q1 | Clever, witty comedies | 50 | 33 | 16 | 17 | 17 |
+| Q2 | Clichéd romantic movies | 40 | 27 | 16 | 11 | 13 |
+| Q3 | Stranded astronauts | 57 | 18 | 9 | 9 | 39 |
+| Q4 | FBI serial-killer investigation | 44 | 28 | 9 | 19 | 16 |
+| Q5 | Italian-American organized crime | 28 | 7 | 6 | 1 | 21 |
 
 ## Aggregate metrics
 
 | Setup | P@5 | P@10 | MAP | nDCG@10 | Recall@20 | MRR@10 |
 |---|---:|---:|---:|---:|---:|---:|
-| A | 0.760 | 0.640 | 0.488 | 0.683 | 0.577 | 1.000 |
-| B | 0.880 | 0.720 | 0.611 | 0.698 | 0.729 | 1.000 |
+| A | 0.800 | 0.740 | 0.465 | 0.688 | 0.588 | 0.900 |
+| B | 0.880 | 0.780 | 0.497 | 0.737 | 0.588 | 1.000 |
 
 | Delta (B - A) | P@5 | P@10 | MAP | nDCG@10 | Recall@20 | MRR@10 |
 |---:|---:|---:|---:|---:|---:|---:|
-| Delta | +0.120 | +0.080 | +0.123 | +0.015 | +0.152 | +0.000 |
+| Delta | +0.080 | +0.040 | +0.032 | +0.050 | +0.000 | +0.100 |
 
 ## Per-query metrics
 
-| Qid | Setup | Ret. | Relevant retrieved / pooled relevant | P@10 | AP | nDCG@10 | Recall@20 | Unjudged |
-|---|---|---:|---:|---:|---:|---:|---:|---:|
-| Q1 | A | 20 | 16 / 27 | 0.900 | 0.552 | 0.636 | 0.593 | 0 |
-| Q1 | B | 20 | 14 / 27 | 0.900 | 0.473 | 0.685 | 0.518 | 0 |
-| Q1 | Delta B-A | | | +0.000 | -0.079 | +0.048 | -0.074 | |
-| Q2 | A | 20 | 14 / 22 | 0.800 | 0.530 | 0.774 | 0.636 | 0 |
-| Q2 | B | 20 | 16 / 22 | 0.900 | 0.640 | 0.734 | 0.727 | 0 |
-| Q2 | Delta B-A | | | +0.100 | +0.110 | -0.040 | +0.091 | |
-| Q3 | A | 14 | 4 / 9 | 0.300 | 0.301 | 0.453 | 0.444 | 0 |
-| Q3 | B | 20 | 7 / 9 | 0.400 | 0.456 | 0.583 | 0.778 | 0 |
-| Q3 | Delta B-A | | | +0.100 | +0.155 | +0.130 | +0.333 | |
-| Q4 | A | 7 | 6 / 17 | 0.600 | 0.323 | 0.696 | 0.353 | 0 |
-| Q4 | B | 20 | 13 / 17 | 0.800 | 0.648 | 0.605 | 0.765 | 0 |
-| Q4 | Delta B-A | | | +0.200 | +0.325 | -0.092 | +0.412 | |
-| Q5 | A | 8 | 6 / 7 | 0.600 | 0.733 | 0.853 | 0.857 | 0 |
-| Q5 | B | 10 | 6 / 7 | 0.600 | 0.837 | 0.883 | 0.857 | 0 |
-| Q5 | Delta B-A | | | +0.000 | +0.103 | +0.030 | +0.000 | |
+| Qid | Setup | Ret. | Relevant retrieved / pooled relevant | P@5 | P@10 | AP | nDCG@10 | Recall@20 | RR@10 |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Q1 | A | 20 | 12 / 33 | 0.800 | 0.800 | 0.326 | 0.697 | 0.364 | 1.000 |
+| Q1 | B | 20 | 12 / 33 | 0.800 | 0.800 | 0.326 | 0.697 | 0.364 | 1.000 |
+| Q1 | Delta B-A | | | +0.000 | +0.000 | +0.000 | +0.000 | +0.000 | +0.000 |
+| Q2 | A | 20 | 14 / 27 | 1.000 | 0.900 | 0.486 | 0.891 | 0.518 | 1.000 |
+| Q2 | B | 20 | 14 / 27 | 1.000 | 0.900 | 0.486 | 0.891 | 0.518 | 1.000 |
+| Q2 | Delta B-A | | | +0.000 | +0.000 | +0.000 | +0.000 | +0.000 | +0.000 |
+| Q3 | A | 20 | 10 / 18 | 0.600 | 0.500 | 0.378 | 0.569 | 0.556 | 1.000 |
+| Q3 | B | 20 | 10 / 18 | 0.800 | 0.700 | 0.452 | 0.679 | 0.556 | 1.000 |
+| Q3 | Delta B-A | | | +0.200 | +0.200 | +0.074 | +0.110 | +0.000 | +0.000 |
+| Q4 | A | 20 | 14 / 28 | 0.800 | 0.900 | 0.445 | 0.592 | 0.500 | 1.000 |
+| Q4 | B | 20 | 14 / 28 | 1.000 | 0.900 | 0.460 | 0.603 | 0.500 | 1.000 |
+| Q4 | Delta B-A | | | +0.200 | +0.000 | +0.015 | +0.010 | +0.000 | +0.000 |
+| Q5 | A | 20 | 7 / 7 | 0.800 | 0.600 | 0.693 | 0.689 | 1.000 | 0.500 |
+| Q5 | B | 20 | 7 / 7 | 0.800 | 0.600 | 0.763 | 0.816 | 1.000 | 1.000 |
+| Q5 | Delta B-A | | | +0.000 | +0.000 | +0.069 | +0.127 | +0.000 | +0.500 |
 
 ## Metric definitions and how the values were obtained
 
 All values are computed with `trec_eval` by `eval/metrics.py`. The script
 converts the graded judgments in `eval/data/qrels.csv` to the TREC qrels format
-(`qid 0 docid rel`) and the saved runs (`runs/A_Q1.json`--`runs/A_Q5.json`
-and `runs/B_Q1.json`--`runs/B_Q5.json`) to the TREC run format, using the
+(`qid 0 docid rel`) and the saved runs (`runs/A.run`
+and `runs/B.run`) to the TREC run format, using the
 numeric `movie_id` as the document id. Following the tutorial's
 `solr_to_trec.py`, the converted runs keep each Solr score; trec_eval sorts
 by score, so equal scores are resolved by trec_eval's own tie-breaking and
@@ -62,8 +62,7 @@ averaging; delta rows are Setup B minus Setup A.
 
 - **P@5 / P@10 (precision at 5 and 10).** The fraction of the first 5 or 10
   results that are relevant: `(relevant results in the top k) / k`. The
-  divisor is always `k`, so if a setup returned fewer than `k` movies (for
-  example, Setup A returns only 7 for Q4), the missing positions count as
+  divisor is always `k`; if a setup returns fewer than `k` movies, missing positions count as
   non-relevant. Obtained from trec_eval's `P.5` and `P.10` measures, then
   averaged over queries in the aggregate table.
 - **AP / MAP (average precision and mean average precision).** AP walks the
@@ -106,7 +105,7 @@ averaging; delta rows are Setup B minus Setup A.
 - `P@5`, `P@10`, `AP`, `Recall@20` and `MRR@10` use binary relevance
   (rel >= 1); `nDCG@10` uses the graded 0/1/2 scale.
 - AP, nDCG, recall and MRR are undefined for a query with no relevant judged document; those queries are excluded from the corresponding mean.
-- Judgments cover the pooled top-20 of both systems. Any retrieved but unjudged document is treated as non-relevant, as in standard pooled IR evaluation; the `Unjudged` column is 0 for every query and setup here.
+- Recall uses all known relevant manual judgments, including earlier pools.
 - The precision-recall values are trec_eval's `iprec_at_recall_0.00` through `iprec_at_recall_1.00` measures, with `11pt_avg` as the area under the curve (AUC). The mean curve averages each of the 11 recall levels across the five queries.
 - `pr_curve_A.pdf` and `pr_curve_B.pdf` plot the five per-query curves for each setup in the style of the tutorial's `plot_pr_curve.py`; `pr_curve.pdf` is the mean curve used in the report.
 - Five queries are a small sample: differences are descriptive, not statistically tested.

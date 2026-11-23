@@ -96,7 +96,7 @@ The script prints the index counts and the top five results for:
 
 Q1 demonstrates the identical review join in both systems. Q3 demonstrates
 how B reranks the top 20 plot matches using overview scores. The [query specification](query_specification.md)
-records the fixed-pool experiments, and [current results](../eval/results.md)
+records the fixed-pool experiments, and [current results](../eval/output/results.md)
 track the full-collection comparison.
 
 It reads the current query definitions from `queries/setup_a/` and

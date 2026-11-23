@@ -156,7 +156,7 @@ def write_evidence(rows: list[dict], collection: dict[str, dict], out_dir: Path)
         print(f"wrote {out_dir / (qid + '.md')} ({len(qid_rows)} candidates)")
 
     write_csv(
-        out_dir.parent / "evidence.csv",
+        common.DATA_DIR / "evidence.csv",
         evidence_rows,
         [
             "qid", "docid", "title", "year", "genres", "rank_A", "rank_B",
