@@ -2,8 +2,8 @@
 """Interactive relevance-judging helper for the pooled evaluation set.
 
 The tool shows one pooled movie at a time with the overview, plot context, and
-matching review snippets. Judgments are written to eval/qrels.csv immediately, so
-the session can be stopped and resumed.
+matching review snippets. Judgments are written to eval/data/qrels.csv immediately,
+so the session can be stopped and resumed.
 
 Usage:
     python eval/judge.py --judge "Your name"

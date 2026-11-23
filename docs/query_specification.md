@@ -21,22 +21,22 @@ The Q3 and Q4 genre constraints apply equally to A and B. They can exclude relev
 
 ## Full-collection results
 
-All 84 newly retrieved pairs received manual grades. Together with 135 prior grades, the qrels contain 219 assessed pairs. The initial unrestricted A/weighted-overview trial pooled 130 pairs. The final A/B pool contains 100 distinct pairs, all judged. All systems below use the same 219 grades, binary threshold 1 and depth 20.
+All 84 newly retrieved pairs received manual grades. Together with 135 prior grades, the qrels contain 219 assessed pairs. The initial unrestricted A/weighted-overview trial pooled 130 pairs. The final A/B pool contains 100 distinct pairs, all judged. The unrestricted comparisons use trec_eval, the same 219 grades, binary threshold 1 and depth 20. nDCG uses the grade as its gain.
 
 | Unrestricted system | P@5 | P@10 | MAP | nDCG@10 | Recall@20 | MRR@10 |
 |---|---:|---:|---:|---:|---:|---:|
-| A, single field | .800 | .740 | .465 | .647 | .588 | .900 |
-| Direct weighted overview trial | .800 | .740 | .456 | .636 | .572 | .900 |
-| Equal-weight rank fusion of A and the direct trial | .880 | .740 | .467 | .651 | .561 | .900 |
-| **B, rerank the top 20** | **.880** | **.780** | **.497** | **.694** | **.588** | **1.000** |
+| A, single field | .800 | .740 | .465 | .688 | .588 | .900 |
+| Direct weighted overview trial | .800 | .740 | .456 | .680 | .572 | .900 |
+| Equal-weight rank fusion of A and the direct trial | .880 | .740 | .467 | .693 | .561 | .900 |
+| **B, rerank the top 20** | **.880** | **.780** | **.497** | **.737** | **.588** | **1.000** |
 
 Direct overview matching displaced relevant Q3 candidates. Its Q3 AP fell from .378 to .228. Rank fusion scored each candidate by summing 1/(60 + rank) across the two top-20 lists, breaking ties by ascending movie ID. It lost pooled recall. Reranking improved early precision while retaining all baseline candidates. The direct trial ranking is saved in [B_overview_trial.run](../runs/B_overview_trial.run).
 
-Q1 and Q2 kept identical review rankings. Q3 gained two relevant movies in the top ten. Q4 gained one in the top five. Q5 moved its first relevant movie from second to first. Recall@20 is equal by design. These results describe the five needs used for system selection. [Per-query metrics and deltas](../eval/results.md)
+Q1 and Q2 kept identical review rankings. Q3 gained two relevant movies in the top ten. Q4 gained one in the top five. Q5 moved its first relevant movie from second to first. Recall@20 is equal by design. These results describe the five needs used for system selection. [Per-query metrics and deltas](../eval/output/results.md)
 
 ## Controlled experiments, 23 November 2026
 
-The 135 manually graded query–movie pairs from Milestone 2 form a **fixed candidate set** selected by the historical runs. For each need a Solr filter admits its previously judged IDs. Scoring still uses the complete index statistics, the same structured constraints and depth 20. Binary relevance is grade ≥1, nDCG uses 0/1/2 and recall uses all judged positives for the need. This diagnostic measures ranking among known candidates. It cannot establish recall of newly discovered movies. These five needs were used for system selection.
+The 135 manually graded query–movie pairs from Milestone 2 form a **fixed candidate set** selected by the historical runs. For each need a Solr filter admits its previously judged IDs. Scoring still uses the complete index statistics, the same structured constraints and depth 20. The diagnostic preserves the original Solr rank order and exponential nDCG gain (2^grade − 1). Binary relevance is grade ≥1 and recall uses all judged positives for the need. Compare values within this table. This diagnostic measures ranking among known candidates. It cannot establish recall of newly discovered movies. These five needs were used for system selection.
 
 | Trial | P@5 | P@10 | MAP | nDCG@10 | Recall@20 | MRR@10 |
 |---|---:|---:|---:|---:|---:|---:|
@@ -80,4 +80,4 @@ python eval/experiment.py --prepare
 docker stop pri-typo-lab
 ```
 
-The script prints per-need and aggregate results for every trial and uses the frozen qrels under `eval/milestone2/`. The [current evaluation](../eval/results.md) reports all six metrics for the unrestricted runs. The [Milestone 2 scores](../eval/milestone2/results.md) belong to the earlier hand-written queries at commit `f06387f`.
+The script prints per-need and aggregate results for every trial and uses the frozen qrels under `eval/milestone2/`. The [current evaluation](../eval/output/results.md) reports all six metrics for the unrestricted runs. The [Milestone 2 scores](../eval/milestone2/results.md) belong to the earlier hand-written queries at commit `f06387f`.

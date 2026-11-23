@@ -2,6 +2,13 @@
 
 This directory contains the workflow for building a shared candidate pool,
 assigning relevance judgments, and comparing Setup A and Setup B.
+The workflow is organized into separate sections:
+
+- `eval/data/` stores pooled candidates and qrels/ground-truth files.
+- `eval/judging/` stores the human-readable evidence sheets for manual judging.
+- `eval/output/` stores the generated metrics tables and PR-curve outputs.
+- the top-level scripts remain in `eval/` for the everyday workflow.
+
 Run commands from the repository root.
 
 ## Evaluation flow
@@ -10,13 +17,13 @@ Run commands from the repository root.
 2. Build the pooled candidates with `pool.py`. It combines each setup's top 20
    results for every query and deduplicates movies by `movie_id`.
 3. Judge each pooled candidate, assigning a relevance grade of 0, 1, or 2.
-4. Calculate metrics with `metrics.py`, which compares the rankings with the
-   judgments in `qrels.csv`.
-5. The generated tables and precision-recall chart are used in the report.
+4. Calculate metrics with `metrics.py`, which converts the rankings and
+   judgments to TREC format and calls `trec_eval`.
+5. Current tables and precision-recall charts are written to `eval/output/`. The report retains its historical figures.
 
 ## Build the pool
 
-If `eval/pool.csv` is missing or the retrieval runs have changed, build or rebuild
+If `eval/data/pool.csv` is missing or the retrieval runs have changed, build or rebuild
 the pool and its evidence files:
 
 ```bash
@@ -24,8 +31,9 @@ python3 eval/pool.py
 ```
 
 This requires the A/B run files under `runs/` and
-`data/final/collection.jsonl`. It writes `pool.csv`, `qrels_template.csv`,
-`evidence.csv`, and human-readable evidence sheets under `eval/judging/`.
+`data/final/collection.jsonl`. It writes `eval/data/pool.csv`,
+`eval/data/qrels_template.csv`, `eval/data/evidence.csv`, and human-readable
+judging sheets under `eval/judging/`.
 Rebuilding the pool may add candidates; those need judgments before final
 evaluation.
 The offline judging page in `eval/judging/index.html` includes the rebuilt
@@ -55,8 +63,8 @@ ranks in Setup A and B. Grade each candidate:
 - `0` — not relevant: no supporting evidence, or the evidence contradicts the need.
 
 Use `s` to skip, `p` to go to the previous candidate, `q` to save and quit, and
-`?` to show help. Each grade is saved to `eval/qrels.csv` immediately. Already
-graded candidates are skipped by default, so you can resume a session.
+`?` to show help. Each grade is saved to `eval/data/qrels.csv` immediately.
+Already graded candidates are skipped by default, so you can resume a session.
 
 To review existing grades:
 
@@ -69,7 +77,7 @@ to change it. The `judge` column records the name supplied with `--judge`.
 
 The `seed_qrels.py` script can create predefined **preliminary** judgments, but
 these are not a substitute for manual review. Do not use `--force` unless you
-intend to replace the existing `qrels.csv`.
+intend to replace the existing `eval/data/qrels.csv`.
 
 ## Calculate and interpret metrics
 
@@ -79,55 +87,68 @@ After judging, calculate the results:
 python3 eval/metrics.py
 ```
 
-The script reads the A/B rankings and `eval/qrels.csv`. By default, grades 1 and
-2 count as relevant for binary metrics (`--threshold 1`); `--threshold 2` counts
-only grade 2 as relevant. With missing grades, the script writes coverage and
-paired precision bounds to `results.md/csv/json` and exits before computing
-final metrics. The bounds allow every unknown grade to vary.
-The default ranking depth is 20 (`--cutoff 20`).
+The script requires `trec_eval` on `PATH` (on macOS: `brew install trec_eval`).
+It reads the A/B rankings and `eval/data/qrels.csv`, writes temporary TREC qrels and
+run files, and calls `trec_eval` with `-q` for per-query and aggregate values.
+Following the tutorial's `solr_to_trec.py`, the run files keep each Solr score
+and use the position in the saved ranking as the TREC rank; `trec_eval` sorts
+by score, so equal scores are resolved by its own tie-breaking.
 
-It reports these metrics for each query and as averages across queries:
+By default, grades 1 and 2 count as relevant for binary metrics
+(`--threshold 1`); `--threshold 2` counts only grade 2 as relevant. If grades are missing, the script writes coverage and paired precision bounds to
+`eval/output/results.md/csv/json` and stops before computing final metrics. The default ranking depth is 20
+(`--cutoff 20`).
+
+It reports the corresponding `trec_eval` measures for each query and as
+averages across queries:
 
 - **P@5 / P@10 (precision):** proportion of the first 5 or 10 results that are
-  relevant under the selected threshold.
+  relevant under the selected threshold (`trec_eval -m P.5,10`).
 - **AP / MAP (average precision / mean average precision):** rewards relevant
   results that appear early in the ranking. AP is per query; MAP is its mean
-  across queries.
+  across queries (`trec_eval -m map`).
 - **nDCG@10:** measures ranking quality in the top 10 using graded judgments.
-  Grade 2 receives more gain than grade 1, and relevant results near the top
-  contribute more.
+  `trec_eval` uses the qrel grade as the gain, so grade 2 contributes twice as
+  much as grade 1, and relevant results near the top contribute more
+  (`trec_eval -m ndcg_cut.10`).
 - **Recall@20:** proportion of all judged-relevant pooled candidates found in
-  the top 20.
+  the top 20 (`trec_eval -m recall.20`).
 - **MRR@10 (mean reciprocal rank at 10):** based on the rank of the first
-  relevant result in the top 10; earlier is better.
+  relevant result in the top 10; earlier is better (`trec_eval -M 10 -m
+  recip_rank`).
 
 Queries with no relevant judged candidates have undefined AP, nDCG, and recall
 and are omitted from the corresponding averages.
 
 ### Precision-recall curve
 
-The precision-recall data measures precision as recall increases down each
-ranked list. For the mean curve, the script interpolates precision at 11 recall
-levels (0.0 through 1.0, in steps of 0.1), then averages each level across
-queries, separately for Setup A and B. At a given recall level, higher
-interpolated precision generally indicates better retrieval.
+The precision-recall data comes directly from `trec_eval`'s
+`iprec_at_recall_0.00` through `iprec_at_recall_1.00` measures, as in the
+tutorial's `plot_pr_curve.py`. `11pt_avg` is reported as the area under the
+curve (AUC). For the mean curve, the script averages each of the 11 recall
+levels across queries, separately for Setup A and B. It also writes
+tutorial-style per-query plots for each setup, labelled with AP, AUC, and P@10.
+At a given recall level, higher interpolated precision generally indicates
+better retrieval.
 
 ## Generated files
 
-By default, `metrics.py` writes its outputs to `eval/`:
+By default, `metrics.py` writes its outputs to `eval/output/`:
 
 - `results.csv`, `results.json`, and `results.md`: per-query and aggregate
   metrics, including the Setup B minus Setup A differences.
 - `results_table.tex`, `results_per_query_table.tex`, and
   `results_compact_table.tex`: LaTeX tables for the report.
 - `pr_curve.csv` and `pr_curve_mean.csv`: per-query precision-recall points and
-  the 11-point mean curve.
-- `pr_curve.tex` and, when `pdflatex` is installed, `pr_curve.pdf`: chart source
-  and compiled chart.
+  the 11-point mean curve, both from `trec_eval`.
+- `pr_curve.tex` and, when `pdflatex` is installed, `pr_curve.pdf`: mean chart
+  source and compiled chart.
+- `pr_curve_A.tex`/`pr_curve_A.pdf` and `pr_curve_B.tex`/`pr_curve_B.pdf`:
+  per-query plots in the tutorial's `plot_pr_curve.py` style.
 
-The original Milestone 2 report, chart and historical results describe the
-hand-written queries at commit `f06387f`. Their tables, curves and frozen qrels
-are archived in [milestone2/](milestone2/). New charts stay in the evaluation
+The Milestone 2 report uses the hand-written queries and historical trec_eval
+figures from `74e164f`. The earlier Python tables, curves and frozen qrels
+from `f06387f` are archived in [milestone2/](milestone2/). New charts stay in the evaluation
 output directory. The [natural-language query experiments](../docs/query_specification.md)
 use the frozen judgments for controlled comparisons. The main evaluation
 uses the current unrestricted runs and all accumulated manual grades.
