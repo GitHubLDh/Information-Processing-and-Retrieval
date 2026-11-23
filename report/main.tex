@@ -69,7 +69,7 @@ coverage is broad but uneven (66.7\% of cleaned movies), while reviews are spars
 This combination of structured fields, narrative plot summaries, and reviewer opinion
 produces a collection suited to retrieval by remembered plot details, themes, and
 reception, and provides the basis for the indexing and query configurations studied
-later in the paper. Evaluation on a pooled set of 135 judged candidates shows that the
+later in the paper. The original Milestone 2 evaluation on 135 judged candidates shows that the
 eDisMax configuration improves MAP from 0.488 to 0.611 and Recall@20 from 0.577 to
 0.729 over the baseline, with a small nDCG@10 trade-off.
 \end{abstract}
@@ -539,6 +539,15 @@ the semantic retrieval planned as future work.
 % Person 1 report section.
 
 \section{Solr Query Configuration: Setup A}
+
+Sections on query design and evaluation below describe the Milestone 2 snapshot
+at commit \texttt{f06387f}. Its results are archived in \path{eval/milestone2}.
+The subsequent natural-language runs share the same five query texts and filters.
+Setup A searches review text or plot. Setup B uses the overview score to rerank
+the top 20 plot matches. Across the five needs, with all final results graded,
+P@5 rose from 0.800 to 0.880 and MAP from 0.465 to 0.497. Pooled Recall@20
+was 0.588 in both systems. See \path{docs/query_specification.md} for the controlled experiments and
+\path{eval/results.md} for the evaluation of the new runs.
 
 Setup A is the baseline: plain field queries with the default Lucene parser, no
 field weighting, no phrase proximity, and no minimum-match tuning. Review-based

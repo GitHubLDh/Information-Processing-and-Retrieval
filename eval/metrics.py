@@ -23,7 +23,6 @@ import json
 import math
 import shutil
 import subprocess
-import sys
 from pathlib import Path
 
 try:
@@ -116,9 +115,9 @@ def evaluate_setup(
 ) -> dict[str, dict]:
     results: dict[str, dict] = {}
     for qid in common.QIDS:
-        entries = rankings.get(qid, [])
+        entries = rankings.get(qid, [])[:cutoff]
         judged = qrels.get(qid, {})
-        grades = [judged.get(entry["docid"], 0) for entry in entries]
+        grades = [judged[entry["docid"]] for entry in entries]
         ideal_grades = sorted(judged.values(), reverse=True)
         total_relevant = sum(is_relevant(rel, threshold) for rel in judged.values())
         unjudged = sum(1 for entry in entries[:cutoff] if entry["docid"] not in judged)
@@ -133,7 +132,7 @@ def evaluate_setup(
             "AP": average_precision(grades, total_relevant, threshold),
             "nDCG@10": ndcg_at_k(grades, ideal_grades, 10),
             "Recall@20": recall_at_k(grades, total_relevant, cutoff, threshold),
-            "MRR@10": reciprocal_rank_at_k(grades, 10, threshold),
+            "MRR@10": reciprocal_rank_at_k(grades, 10, threshold) if total_relevant else None,
             "_pr_points": pr_points(grades, total_relevant, threshold, cutoff),
         }
 
@@ -218,7 +217,7 @@ def write_results(
         "# Evaluation results",
         "",
         f"Relevance threshold: rel >= {threshold}. Run depth: {cutoff}. "
-        "Unjudged retrieved documents count as non-relevant.",
+        "All retrieved movies at this depth have judgments.",
         "",
         "## Judgment summary",
         "",
@@ -257,26 +256,21 @@ def write_results(
         "",
         "## Per-query metrics",
         "",
-        "| Qid | Setup | Ret. | Judged rel. | P@10 | AP | nDCG@10 | Recall@20 | Unjudged |",
-        "|---|---|---:|---:|---:|---:|---:|---:|---:|",
+        "| Qid | Setup | Ret. | Judged rel. | P@5 | P@10 | AP | nDCG@10 | Recall@20 | RR@10 |",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ])
     for qid in common.QIDS:
         for setup in common.SETUPS:
             item = all_results[setup][qid]
             lines.append(
                 f"| {qid} | {setup} | {item['num_retrieved']} | {item['num_judged_relevant']} | "
-                f"{fmt(item['P@10'])} | {fmt(item['AP'])} | {fmt(item['nDCG@10'])} | "
-                f"{fmt(item['Recall@20'])} | {item['unjudged_retrieved']} |"
+                + " | ".join(fmt(item[m]) for m in aggregate[setup]) + " |"
             )
         a = all_results["A"][qid]
         b = all_results["B"][qid]
-        lines.append(
-            f"| {qid} | Delta B-A | | | "
-            f"{fmt_delta(b['P@10'] - a['P@10'])} | "
-            f"{fmt_delta(b['AP'] - a['AP']) if b['AP'] is not None and a['AP'] is not None else 'n/a'} | "
-            f"{fmt_delta(b['nDCG@10'] - a['nDCG@10']) if b['nDCG@10'] is not None and a['nDCG@10'] is not None else 'n/a'} | "
-            f"{fmt_delta(b['Recall@20'] - a['Recall@20']) if b['Recall@20'] is not None and a['Recall@20'] is not None else 'n/a'} | |"
-        )
+        deltas = [fmt_delta(b[m] - a[m]) if None not in (a[m], b[m]) else "n/a"
+                  for m in aggregate["A"]]
+        lines.append(f"| {qid} | Delta B-A | | | " + " | ".join(deltas) + " |")
 
     lines.extend([
         "",
@@ -285,8 +279,7 @@ def write_results(
         f"- `P@10` uses binary relevance (rel >= {threshold}); `nDCG@10` uses the graded 0/1/2 scale.",
         "- AP, nDCG, recall and MRR are undefined for a query with no relevant judged document; "
         "those queries are excluded from the corresponding mean.",
-        "- Judgments cover the pooled top-20 of both systems. Any retrieved but unjudged document is "
-        "treated as non-relevant, as in standard pooled IR evaluation.",
+        "- Recall uses all known relevant judgments for each need, including earlier pools.",
         "- Five queries are a small sample: differences are descriptive, not statistically tested.",
         "",
     ])
@@ -472,18 +465,14 @@ def write_pr_curve(
         else:
             pdf_path = out_dir / "pr_curve.pdf"
             print(f"wrote {pdf_path}")
-            figures = common.ROOT / "report" / "figures"
-            if figures.exists():
-                shutil.copyfile(pdf_path, figures / "pr_curve.pdf")
-                print(f"wrote {figures / 'pr_curve.pdf'}")
             for suffix in (".aux", ".log"):
                 aux = out_dir / f"pr_curve{suffix}"
                 if aux.exists():
                     aux.unlink()
 
 
-def warn_if_not_manual(path: Path) -> None:
-    """Warn when the qrels still contain non-manual (e.g. seeded) judgments."""
+def require_manual_judgments(path: Path) -> None:
+    """Accept named graders and manual grades, keeping seeds out of final reports."""
     non_manual = 0
     total = 0
     with Path(path).open(newline="", encoding="utf-8") as handle:
@@ -491,14 +480,60 @@ def warn_if_not_manual(path: Path) -> None:
             if not (row.get("rel") or "").strip():
                 continue
             total += 1
-            if (row.get("judge") or "").strip().lower() != "manual":
+            judge = (row.get("judge") or "").strip().lower()
+            if not judge or judge.startswith(("preliminary", "seed")):
                 non_manual += 1
     if non_manual:
-        print(
-            f"warning: {non_manual}/{total} judgments in {path} are not marked judge=manual; "
-            "the results are preliminary until the pool is manually verified.",
-            file=sys.stderr,
-        )
+        raise SystemExit(f"{non_manual}/{total} judgments in {path} are preliminary or unattributed. "
+                         "Verify them manually before scoring.")
+
+
+def pending_coverage(runs, qrels, cutoff, threshold):
+    rows = []
+    for qid in common.QIDS:
+        judged = qrels.get(qid, {})
+        ids = {s: [e["docid"] for e in run.get(qid, [])[:cutoff]] for s, run in runs.items()}
+        pool = set(ids["A"]) | set(ids["B"])
+        row = {"qid": qid, "pooled": len(pool), "unjudged": len(pool - judged.keys())}
+        for setup, docs in ids.items():
+            row["unjudged_" + setup] = len(set(docs) - judged.keys())
+        for k in (5, 10):
+            a, b = set(ids["A"][:k]), set(ids["B"][:k])
+            # Shared movies cancel. Only unknown grades exclusive to one top-k
+            # can change the paired precision difference.
+            only_a, only_b = a - b, b - a
+            delta = (sum(judged[d] >= threshold for d in only_b & judged.keys())
+                     - sum(judged[d] >= threshold for d in only_a & judged.keys()))
+            row[f"delta_P@{k}_min"] = (delta - len(only_a - judged.keys())) / k
+            row[f"delta_P@{k}_max"] = (delta + len(only_b - judged.keys())) / k
+        rows.append(row)
+    return rows
+
+
+def write_pending(rows, out_dir, cutoff, threshold):
+    out_dir.mkdir(parents=True, exist_ok=True)
+    total = sum(r["unjudged"] for r in rows)
+    payload = dict(status="pending_manual_judgments", cutoff=cutoff, threshold=threshold, coverage=rows)
+    (out_dir / "results.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    with (out_dir / "results.csv").open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    lines = ["# Full-collection evaluation", "",
+             f"**{total} query–movie pairs need manual judgments.** Depth {cutoff}, binary threshold {threshold}.",
+             "The bounds below allow every outstanding grade to take any valid value. Shared movies cancel in B minus A.",
+             "", "| Need | Pooled | Missing | Missing A | Missing B | Δ P@5 range | Δ P@10 range |",
+             "|---|---:|---:|---:|---:|---|---|"]
+    for r in rows:
+        bounds = [f"{r[f'delta_P@{k}_min']:+.2f} to {r[f'delta_P@{k}_max']:+.2f}" for k in (5, 10)]
+        lines.append(f"| {r['qid']} | {r['pooled']} | {r['unjudged']} | {r['unjudged_A']} | "
+                     f"{r['unjudged_B']} | {' | '.join(bounds)} |")
+    means = [sum(r[f"delta_P@{k}_{side}"] for r in rows) / len(rows)
+             for k in (5, 10) for side in ("min", "max")]
+    lines += ["", "Mean precision differences range from %+.2f to %+.2f at 5 and %+.2f to %+.2f at 10." % tuple(means),
+              "Final P@5, P@10, MAP, nDCG@10, Recall@20 and MRR@10 await manual grading.",
+              "The [query experiments](../docs/query_specification.md) report the six metrics on the fixed historical pool.", ""]
+    (out_dir / "results.md").write_text("\n".join(lines), encoding="utf-8")
 
 
 def main() -> None:
@@ -519,11 +554,14 @@ def main() -> None:
     qrels = common.load_qrels(args.qrels)
     if not qrels:
         raise SystemExit(f"{args.qrels} contains no judgments")
-    warn_if_not_manual(args.qrels)
-
+    require_manual_judgments(args.qrels)
+    runs = {setup: common.load_run(setup, args.runs_dir) for setup in common.SETUPS}
+    coverage = pending_coverage(runs, qrels, args.cutoff, args.threshold)
+    if any(row["unjudged"] for row in coverage):
+        write_pending(coverage, args.out_dir, args.cutoff, args.threshold)
+        raise SystemExit("Pending manual judgments. Wrote coverage and precision bounds to results.md/csv/json.")
     all_results = {
-        setup: evaluate_setup(common.load_run(setup, args.runs_dir), qrels, args.threshold, args.cutoff)
-        for setup in common.SETUPS
+        setup: evaluate_setup(run, qrels, args.threshold, args.cutoff) for setup, run in runs.items()
     }
     write_results(all_results, qrels, args.out_dir, args.threshold, args.cutoff)
 

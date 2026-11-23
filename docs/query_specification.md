@@ -1,49 +1,83 @@
-# Setup B movie queries
+# Movie retrieval with natural-language queries
 
-**Core:** `movies`  
-**Endpoint:** `http://localhost:8983/solr/movies/select`  
-**Run date:** 2026-11-12\
-**Result depth:** 20 per query\
-**Output:** one parent movie per result; `fl=movie_id,id,title,score,overview,year`
-**Run/qrels identity:** numeric `movie_id`; Solr's unique `id` is `movie-<movie_id>`.
+Each Q1–Q5 JSON file contains the sentence sent to Solr, its evidence source, and its structured constraints. The A and B copies are identical. The shared query builder in `scripts/solr_client.py` contains the ranking rules. No rule looks up a query ID. Evaluation checks that both sets of definitions agree.
 
-The saved Setup B run files match the current query parameters. The query JSON files are the source configuration; each `runs/B_Q*.json` preserves the parameters, total matches, and returned movies, and `runs/B.run` contains the corresponding TREC ranking.
+| Need | Evidence | Structured constraints in both setups |
+|---|---|---|
+| Q1 · Clever comedy | Best matching review | Comedy. The judging rubric requires praise for wit or sharp writing. |
+| Q2 · Predictable yet heartwarming romance | Best matching review | Romance. Judges consider both the predictability and the warm reception across reviews. |
+| Q3 · Stranded astronauts trying to survive or get home | Story | Science Fiction |
+| Q4 · FBI investigation of serial killings | Story | Crime or Thriller |
+| Q5 · De Niro and an Italian-American Mafia family | Story | Cast phrase De Niro or Deniro, excluding plots containing the phrase “Russian mafia” |
 
-The current query definitions are in [`queries/setup_b/`](../queries/setup_b/). The shared runner [`scripts/solr_client.py`](../scripts/solr_client.py) writes the per-query top-20 outputs to `runs/B_Q1.json` through `runs/B_Q5.json` and a TREC-style run to [`runs/B.run`](../runs/B.run). Each JSON preserves all request parameters, `num_found`, and movie results; `movie_id` is the run document ID.
+The Q3 and Q4 genre constraints apply equally to A and B. They can exclude relevant films with incomplete genre tags. The inherited Q5 exclusion can also exclude a story that mentions multiple organizations. The review join takes the maximum child score, so it cannot directly combine two different reviewers’ opinions on Q2.
 
-Re-run the saved Setup B configuration with:
+## Saved systems
 
-```text
+- **A** uses eDisMax as a single-field bag-of-words baseline. It searches `review_text` or `plot` with `q.op=OR` and `mm=1`.
+- **B** takes A’s top 20 plot matches and reranks them by adding the overview match score with weight 1. Both stages use the same sentence. The Solr rerank parser uses `reRankDocs=20` and `reRankWeight=1`. Review rankings are identical in A and B.
+- Both send the complete sentence as the dereferenced `text` parameter in a form POST to the same `movies/select` endpoint. Review searches use `{!parent which="doc_type:movie" score=max v=$childq}`. All final results are filtered to movie parents.
+- Both request 20 movies and save numeric `movie_id`, rank and score in TREC format. The runner checks the Solr key `movie-<movie_id>` and records the full request in the per-query JSON. Accent folding, lowercasing, Solr English stopwords and KStem apply in both systems.
+
+## Full-collection results
+
+All 84 newly retrieved pairs received manual grades. Together with 135 prior grades, the qrels contain 219 assessed pairs. The initial unrestricted A/weighted-overview trial pooled 130 pairs. The final A/B pool contains 100 distinct pairs, all judged. All systems below use the same 219 grades, binary threshold 1 and depth 20.
+
+| Unrestricted system | P@5 | P@10 | MAP | nDCG@10 | Recall@20 | MRR@10 |
+|---|---:|---:|---:|---:|---:|---:|
+| A, single field | .800 | .740 | .465 | .647 | .588 | .900 |
+| Direct weighted overview trial | .800 | .740 | .456 | .636 | .572 | .900 |
+| Equal-weight rank fusion of A and the direct trial | .880 | .740 | .467 | .651 | .561 | .900 |
+| **B, rerank the top 20** | **.880** | **.780** | **.497** | **.694** | **.588** | **1.000** |
+
+Direct overview matching displaced relevant Q3 candidates. Its Q3 AP fell from .378 to .228. Rank fusion scored each candidate by summing 1/(60 + rank) across the two top-20 lists, breaking ties by ascending movie ID. It lost pooled recall. Reranking improved early precision while retaining all baseline candidates. The direct trial ranking is saved in [B_overview_trial.run](../runs/B_overview_trial.run).
+
+Q1 and Q2 kept identical review rankings. Q3 gained two relevant movies in the top ten. Q4 gained one in the top five. Q5 moved its first relevant movie from second to first. Recall@20 is equal by design. These results describe the five needs used for system selection. [Per-query metrics and deltas](../eval/results.md)
+
+## Controlled experiments, 23 November 2026
+
+The 135 manually graded query–movie pairs from Milestone 2 form a **fixed candidate set** selected by the historical runs. For each need a Solr filter admits its previously judged IDs. Scoring still uses the complete index statistics, the same structured constraints and depth 20. Binary relevance is grade ≥1, nDCG uses 0/1/2 and recall uses all judged positives for the need. This diagnostic measures ranking among known candidates. It cannot establish recall of newly discovered movies. These five needs were used for system selection.
+
+| Trial | P@5 | P@10 | MAP | nDCG@10 | Recall@20 | MRR@10 |
+|---|---:|---:|---:|---:|---:|---:|
+| A, single field | .840 | .760 | .717 | .757 | .815 | 1.000 |
+| Direct weighted overview | .880 | .760 | .719 | .763 | .826 | 1.000 |
+| A + adjacent word-pair boosts | .840 | .760 | .724 | .736 | .823 | 1.000 |
+| Direct overview + word-pair boosts | .840 | .760 | .712 | .739 | .811 | 1.000 |
+| Direct overview + extra query stopwords | .840 | .740 | .708 | .751 | .818 | 1.000 |
+| Direct overview + selected plot synonyms | .840 | .720 | .702 | .723 | .826 | 1.000 |
+| Direct overview + trigrams, clean text | .880 | .740 | .712 | .753 | .826 | 1.000 |
+| Direct overview, one misspelling per need | .880 | .700 | .683 | .723 | .814 | .900 |
+| Direct overview + trigrams, same misspellings | .840 | .680 | .664 | .674 | .814 | .900 |
+| B, rerank the top 20 | .920 | .760 | .727 | .781 | .815 | 1.000 |
+
+Word-pair boosts (`pf2=qf`, `ps2=1`) reduced graded ranking quality, particularly in combination with direct overview weighting. The direct field boost gave a small gain on this restricted set, which reversed in the unrestricted trial above.
+
+**N-grams.** An isolated Solr core indexed copies of the review, overview and plot fields using token-internal character trigrams at both index and query time. These fields used standard tokenization, folding, lowercasing and the stock stop list, with trigrams in place of stemming. The ordinary fields kept their original analyzers. Each auxiliary field received one tenth of its ordinary query weight. Each query contained one substitution, deletion or transposition: `wity`, `heartwaming`, `astronatus`, `kiler`, or `Maifa`. The typo runs found the same proportion of known positives at 20, but trigrams pushed a judged nonrelevant Q3 film, *Guardians of the Galaxy*, to rank two. On Q5 the number of judged nonrelevant films in the top ten rose from two to four. The shared schema retains its original analyzer.
+
+**Stopwords.** Removing the generic request terms `want`, `film(s)`, `movie(s)` and `reviewer(s)` at query time lowered aggregate precision, MAP and nDCG relative to direct overview matching. The existing English list was sufficient for this comparison.
+
+**Synonyms.** The English thesaurus is a WordNet extraction in JSON Lines, with a record per sense, part of speech, gloss and synonym list. Multiword lemmas use underscores. Its README refers to the Princeton WordNet license, which permits reuse subject to retaining its copyright, conditions and disclaimer. The experiment tested two reviewed plot senses: astronaut → cosmonaut/spaceman and serial killer → serial murderer. It added alternatives only to story text, preserving the multiword alternative as a phrase. Unqualified *agent* also has broker and substance senses. The selected expansions improved Q3 AP (.594 to .631) but lowered Q4 nDCG@10 (.631 to .426) and aggregate MAP. No synonym resource is distributed with the retrieval system. [English thesaurus](https://github.com/zaibacu/thesaurus) · [WordNet license](https://wordnet.princeton.edu/license-and-commercial-use)
+
+## Reproduce
+
+Run the two normal retrieval commands from the repository root. The JSON and TREC artifacts under `runs/` are unrestricted by judgment ID.
+
+```shell
+python scripts/solr_client.py --queries queries/setup_a --setup A
 python scripts/solr_client.py --queries queries/setup_b --setup B
+python eval/pool.py
+python -X utf8 eval/judge.py --judge "Your Name"
+python eval/metrics.py
 ```
 
-## Solr document and parent-ranking contract
+For the fixed-pool experiments use a fresh disposable Solr 10.0.0 core on a separate port. The preparation step loads the same nested collection and adds the auxiliary fields there. On subsequent runs omit `--prepare`. The scratch and project cores produced identical fixed-pool rankings for the baseline and the direct overview trial.
 
-`scripts/build_collection.py` writes nested review children with `doc_type=review` and `review_text`, `review_author`, `review_rating`, `review_created_at`. `solr/schema.json` defines those same field names and appropriate single-value field types; `doc_type` is a single-valued `text_general` field. The collection keeps review dates as `YYYY-MM-DD`; the Solr converter writes `YYYY-MM-DDT00:00:00Z` for its `pdate` field. Parents use `doc_type=movie`, preserve `movie_id`, and use Solr `id=movie-<movie_id>`.
+```shell
+docker run --rm -d --name pri-typo-lab -p 127.0.0.1:18983:8983 -e SOLR_HEAP=768m solr:10.0.0 solr-precreate typo_eval
+# Once the core is serving requests:
+python eval/experiment.py --prepare
+docker stop pri-typo-lab
+```
 
-Q1 and Q2 query review children with inner eDisMax and wrap that query in Solr's `{!parent which="doc_type:movie" score=max ...}` parser. Solr returns the parent movie once, with the maximum matching child-review score. Q3–Q5 search parent fields and use `fq=doc_type:movie`. Use this same movie-level output contract for Setup A and Setup B: one row per movie, `movie_id` for pooling/qrels, and the stable Solr `id` retained for traceability.
-
-Indexed counts: **6,104 movies** and **12,057 review children**. The total index count is 18,161 documents including both parent and child documents.
-
-## Query design and saved run output
-
-All queries use `rows=20` and return movie identifiers, title, score, overview, and year. Counts below are Solr's `numFound` before the top-20 result window.
-
-| ID | Current query design | `numFound` | Notes |
-|---|---|---:|---|
-| Q1 | Nested review search; broad OR matching over clever/witty/satirical wording and phrase boosts; comedy parent filter | 299 | Query variants include `wit`, `smart`, `satire`, `cerebral`, and descriptive phrases. |
-| Q2 | Nested review search; cliché/predictability and warm-response variants; romance parent filter | 141 | Includes `predictable`, `sappy`, `sentimental`, hyphenation and spacing variants. |
-| Q3 | Requires a space-travel concept and a stranded/left-behind concept; survival/rescue terms add evidence; science-fiction genre boost | 22 | Alternatives include `cosmonaut`, `spacecraft`, `marooned`, and `lost in space`. |
-| Q4 | Requires a serial-killing concept; FBI/investigator wording is optional; crime/thriller genre boosts | 109 | `mm=0` allows matches without investigator wording; the genre boosts still affect ranking. |
-| Q5 | Requires a De Niro cast match (including `Deniro`); searches plot/overview for organized-crime variants; crime boost | 10 | Includes `Cosa Nostra`, `Italian-American`, and `Italian American`. |
-
-Query-level alternatives are hand-curated and should be checked for precision as well as recall. The schema already folds accents, lowercases, removes English stopwords, and applies KStem; it does not provide synonym expansion. These query changes do not add lemmatization or non-English support.
-
-
-## Judgment and evaluation status
-
-All 135 query–movie pairs in the pooled top-20 results have relevance judgments in eval/qrels.csv. Metrics are available in eval/results.md.The saved A/B runs match the current query parameters. Treat numFound as the number of matching candidates, not the number of relevant movies.
-
-## Archive note
-
-Setup A's definitions are in [`queries/setup_a/`](../queries/setup_a/), with saved results in [`runs/A_Q1.json`](../runs/A_Q1.json) through `runs/A_Q5.json` and a TREC-style run in [`runs/A.run`](../runs/A.run). Both setups use numeric `movie_id` as the run identifier and return parent movies, so they can be pooled by that field. The baseline uses plain field queries (review text for Q1–Q2 and plot for Q3–Q5); Q1–Q2 use the parent block-join parser, while Q3–Q5 filter to movie parents. See the query files for exact baseline clauses.
+The script prints per-need and aggregate results for every trial and uses the frozen qrels under `eval/milestone2/`. The [current evaluation](../eval/results.md) reports all six metrics for the unrestricted runs. The [Milestone 2 scores](../eval/milestone2/results.md) belong to the earlier hand-written queries at commit `f06387f`.

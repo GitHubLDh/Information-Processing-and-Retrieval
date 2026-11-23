@@ -13,13 +13,42 @@ from pathlib import Path
 import requests
 
 
+def query_params(query: dict, setup: str) -> dict:
+    """Use the same need and structured constraints in both retrieval systems."""
+    if "params" in query:  # Older saved query definitions already contain Solr parameters.
+        return query["params"]
+    if setup not in {"A", "B"} or query["source"] not in {"reviews", "story"}:
+        raise ValueError("Expected setup A/B and source reviews/story")
+    reviews = query["source"] == "reviews"
+    fields = "review_text" if reviews else "plot"
+    params = {
+        "q": "{!edismax v=$text}",
+        "text": query["need"],
+        "qf": fields,
+        "mm": "1",
+        "q.op": "OR",
+        "fq": ["doc_type:movie", *query["filters"]],
+        "rows": 20,
+        "fl": "movie_id,id,title,score,overview,year",
+        "wt": "json",
+    }
+    if reviews:
+        params["childq"] = params["q"]
+        params["q"] = '{!parent which="doc_type:movie" score=max v=$childq}'
+    elif setup == "B":
+        params["overviewq"] = "{!edismax qf=overview v=$text}"
+        params["rq"] = "{!rerank reRankQuery=$overviewq reRankDocs=20 reRankWeight=1}"
+    return params
+
+
 def fetch_solr_results(params: dict, solr_uri: str, collection: str) -> dict:
     # Sent as a classic form-encoded POST, not Solr's JSON Request API --
     # queries using "v=$paramname" parameter dereferencing (e.g. Setup B's
     # nested parent/child queries) silently return nothing under the JSON
     # transport, even though the same params succeed here.
-    response = requests.post(f"{solr_uri}/{collection}/select", data=params)
+    response = requests.post(f"{solr_uri}/{collection}/select", data=params, timeout=60)
     response.raise_for_status()
+    response.encoding = "utf-8"
     payload = response.json()
     status = payload.get("responseHeader", {}).get("status", 0)
     if status != 0:
@@ -56,22 +85,22 @@ def main(queries_dir: Path, runs_dir: Path, setup: str, solr_uri: str, collectio
     trec_rows = []
     for query_file in sorted(queries_dir.glob("Q*.json")):
         need_id = query_file.stem  # "Q1.json" -> "Q1"
-        query_file_contents = json.loads(query_file.read_text())
-        solr_response = fetch_solr_results(query_file_contents["params"], solr_uri, collection)
+        query_file_contents = json.loads(query_file.read_text(encoding="utf-8"))
+        params = query_params(query_file_contents, setup)
+        solr_response = fetch_solr_results(params, solr_uri, collection)
         results = to_run_format(solr_response, need_id)
 
         output = {
             "setup": setup,
             "qid": need_id,
             "need": query_file_contents.get("need"),
-            "rationale": query_file_contents.get("rationale"),
             "endpoint": f"{solr_uri}/{collection}/select",
             "num_found": solr_response["response"]["numFound"],
-            "query_params": query_file_contents["params"],
+            "query_params": params,
             "results": results,
         }
         out_path = runs_dir / f"{setup}_{need_id}.json"
-        out_path.write_text(json.dumps(output, indent=2, ensure_ascii=False))
+        out_path.write_text(json.dumps(output, indent=2, ensure_ascii=False), encoding="utf-8")
         print(f"wrote {out_path} ({len(results)} results)")
 
         for item in results:

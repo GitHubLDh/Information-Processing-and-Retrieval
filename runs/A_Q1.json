@@ -1,177 +1,184 @@
 {
   "setup": "A",
   "qid": "Q1",
-  "need": "A movie whose reviewers describe the comedy as clever, witty, or intellectually sharp, rather than slapstick or lowbrow.",
-  "rationale": "Plain field search on review text, no phrase boosting or weighting — this is the baseline Setup B improves on.",
+  "need": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 162,
+  "num_found": 987,
   "query_params": {
-    "q": "{!parent which=\"doc_type:movie\" score=max}review_text:(clever OR witty OR \"intellectually sharp\")",
-    "fq": "genres:comedy",
-    "fl": "movie_id,id,title,score,overview,year",
+    "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
+    "text": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+    "qf": "review_text",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:comedy"
+    ],
     "rows": 20,
-    "wt": "json"
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text}"
   },
   "results": [
     {
       "rank": 1,
+      "movie_id": 137,
+      "title": "Groundhog Day",
+      "score": 10.139492,
+      "overview": "A cynical TV weatherman, along with his idealistic producer and his sardonic cameraman, is sent to report on Groundhog Day in the small town of Punxsu",
+      "year": 1993
+    },
+    {
+      "rank": 2,
       "movie_id": 5236,
       "title": "Kiss Kiss Bang Bang",
-      "score": 4.281413,
+      "score": 9.837476,
       "overview": "A petty thief posing as an actor is brought to Los Angeles for an unlikely audition and finds himself in the middle of a murder investigation along wi",
       "year": 2005
     },
     {
-      "rank": 2,
-      "movie_id": 929204,
-      "title": "Wallace & Gromit: Vengeance Most Fowl",
-      "score": 4.281413,
-      "overview": "Gromit’s concern that Wallace is becoming too dependent on his inventions proves justified, when Wallace invents a “smart” gnome that seems to develop",
-      "year": 2024
-    },
-    {
       "rank": 3,
-      "movie_id": 7518,
-      "title": "Over the Hedge",
-      "score": 3.6624207,
-      "overview": "A scheming raccoon fools a mismatched family of forest creatures into helping him repay a debt of food, by invading the new suburban sprawl that poppe",
-      "year": 2006
+      "movie_id": 346698,
+      "title": "Barbie",
+      "score": 9.815824,
+      "overview": "Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land. However, when they get a chance to go to",
+      "year": 2023
     },
     {
       "rank": 4,
-      "movie_id": 810,
-      "title": "Shrek the Third",
-      "score": 3.517136,
-      "overview": "The King of Far Far Away has died and Shrek and Fiona are to become King & Queen. However, Shrek wants to return to his cozy swamp and live in peace a",
-      "year": 2007
+      "movie_id": 533535,
+      "title": "Deadpool & Wolverine",
+      "score": 9.192543,
+      "overview": "A listless Wade Wilson toils away in civilian life with his days as the morally flexible mercenary, Deadpool, behind him. But when his homeworld faces",
+      "year": 2024
     },
     {
       "rank": 5,
-      "movie_id": 748783,
-      "title": "The Garfield Movie",
-      "score": 3.517136,
-      "overview": "Garfield, the world-famous, Monday-hating, lasagna-loving indoor cat, is about to have a wild outdoor adventure! After an unexpected reunion with his ",
-      "year": 2024
+      "movie_id": 522627,
+      "title": "The Gentlemen",
+      "score": 8.963051,
+      "overview": "American expat Mickey Pearson has built a highly profitable marijuana empire in London. When word gets out that he’s looking to cash out of the busine",
+      "year": 2020
     },
     {
       "rank": 6,
-      "movie_id": 539681,
-      "title": "DC League of Super-Pets",
-      "score": 3.2586052,
-      "overview": "When Superman and the rest of the Justice League are kidnapped, Krypto the Super-Dog must convince a rag-tag shelter pack - Ace the hound, PB the potb",
-      "year": 2022
-    },
-    {
-      "rank": 7,
-      "movie_id": 1934,
-      "title": "Shakespeare in Love",
-      "score": 3.1430871,
-      "overview": "Young William Shakespeare is forced to stage his latest comedy, 'Romeo and Ethel, the Pirate's Daughter', before it's even written. When lovely noblew",
-      "year": 1998
-    },
-    {
-      "rank": 8,
-      "movie_id": 496243,
-      "title": "Parasite",
-      "score": 2.9165,
-      "overview": "All unemployed, Ki-taek's family takes peculiar interest in the wealthy and glamorous Parks for their livelihood until they get entangled in an unexpe",
-      "year": 2019
-    },
-    {
-      "rank": 9,
-      "movie_id": 844185,
-      "title": "Unfrosted",
-      "score": 2.8157222,
-      "overview": "In a time when breakfast is ruled by milk and cereal, a fierce corporate battle begins over a revolutionary new pastry.",
-      "year": 2024
-    },
-    {
-      "rank": 10,
-      "movie_id": 535581,
-      "title": "The Dead Don't Die",
-      "score": 2.6992474,
-      "overview": "In the sleepy town of Centerville, the lives of a number of interconnected characters are disrupted by the undead.",
-      "year": 2019
-    },
-    {
-      "rank": 11,
-      "movie_id": 800939,
-      "title": "Ticket to Paradise",
-      "score": 2.6280596,
-      "overview": "Divorced couple Georgia and David find themselves on a shared mission: they team up and travel to Bali to stop their daughter Lily from making the sam",
-      "year": 2022
-    },
-    {
-      "rank": 12,
-      "movie_id": 955916,
-      "title": "Lift",
-      "score": 2.6280596,
-      "overview": "An international heist crew, led by Cyrus Whitaker, race to lift $500 million in gold from a passenger plane at 40,000 feet.",
-      "year": 2024
-    },
-    {
-      "rank": 13,
-      "movie_id": 762,
-      "title": "Monty Python and the Holy Grail",
-      "score": 2.569151,
-      "overview": "King Arthur, accompanied by his squire, recruits his Knights of the Round Table, including Sir Bedevere the Wise, Sir Lancelot the Brave, Sir Robin th",
-      "year": 1975
-    },
-    {
-      "rank": 14,
-      "movie_id": 256591,
-      "title": "Focus",
-      "score": 2.5404258,
-      "overview": "Nicky, an accomplished con artist, gets romantically involved with his disciple Jess but later ends their relationship. Years later, she returns as a ",
-      "year": 2015
-    },
-    {
-      "rank": 15,
-      "movie_id": 284053,
-      "title": "Thor: Ragnarok",
-      "score": 2.5280504,
-      "overview": "Thor is imprisoned on the other side of the universe and finds himself in a race against time to get back to Asgard to stop Ragnarok, the destruction ",
-      "year": 2017
-    },
-    {
-      "rank": 16,
       "movie_id": 493529,
       "title": "Dungeons & Dragons: Honor Among Thieves",
-      "score": 2.5212889,
+      "score": 8.953368,
       "overview": "A charming thief and a band of unlikely adventurers undertake an epic heist to retrieve a lost relic, but things go dangerously awry when they run afo",
       "year": 2023
     },
     {
-      "rank": 17,
-      "movie_id": 515248,
-      "title": "Someone Great",
-      "score": 2.5212889,
-      "overview": "An aspiring music journalist lands her dream job and is about to move to San Francisco when her boyfriend of nine years decides to call it quits. To n",
+      "rank": 7,
+      "movie_id": 419479,
+      "title": "The Babysitter",
+      "score": 8.793292,
+      "overview": "When Cole stays up past his bedtime, he discovers that his hot babysitter is part of a Satanic cult that will stop at nothing to keep him quiet.",
+      "year": 2017
+    },
+    {
+      "rank": 8,
+      "movie_id": 593643,
+      "title": "The Menu",
+      "score": 8.456525,
+      "overview": "A young couple travels to a remote island to eat at an exclusive restaurant where the chef has prepared a lavish menu, with some shocking surprises.",
+      "year": 2022
+    },
+    {
+      "rank": 9,
+      "movie_id": 546554,
+      "title": "Knives Out",
+      "score": 8.439745,
+      "overview": "When renowned crime novelist Harlan Thrombey is found dead at his estate just after his 85th birthday, the inquisitive and debonair Detective Benoit B",
       "year": 2019
     },
     {
-      "rank": 18,
-      "movie_id": 1581,
-      "title": "The Holiday",
-      "score": 2.4963841,
-      "overview": "Two women, one American and one British, swap homes at Christmastime following bad breakups. Each woman finds romance with a local man but realizes th",
+      "rank": 10,
+      "movie_id": 350,
+      "title": "The Devil Wears Prada",
+      "score": 8.346288,
+      "overview": "A young woman from the Midwest gets more than she bargained for when she moves to New York to become a writer and ends up as the assistant to the tyra",
       "year": 2006
     },
     {
+      "rank": 11,
+      "movie_id": 748783,
+      "title": "The Garfield Movie",
+      "score": 8.035619,
+      "overview": "Garfield, the world-famous, Monday-hating, lasagna-loving indoor cat, is about to have a wild outdoor adventure! After an unexpected reunion with his ",
+      "year": 2024
+    },
+    {
+      "rank": 12,
+      "movie_id": 583,
+      "title": "Life of Brian",
+      "score": 8.010942,
+      "overview": "Brian Cohen is an average young Jewish man, but through a series of ridiculous events, he gains a reputation as the Messiah. When he's not dodging his",
+      "year": 1979
+    },
+    {
+      "rank": 13,
+      "movie_id": 706693,
+      "title": "Timestalker",
+      "score": 7.8581166,
+      "overview": "Hapless Agnes repeatedly falls for the wrong guy, dies a grim death, and is reincarnated a century later. As she experiences romantic misfortune spann",
+      "year": 2024
+    },
+    {
+      "rank": 14,
+      "movie_id": 43347,
+      "title": "Love & Other Drugs",
+      "score": 7.744266,
+      "overview": "Maggie is an alluring free spirit who won't let anyone – or anything – tie her down. But she meets her match in Jamie, whose relentless and nearly inf",
+      "year": 2010
+    },
+    {
+      "rank": 15,
+      "movie_id": 762,
+      "title": "Monty Python and the Holy Grail",
+      "score": 7.601056,
+      "overview": "King Arthur, accompanied by his squire, recruits his Knights of the Round Table, including Sir Bedevere the Wise, Sir Lancelot the Brave, Sir Robin th",
+      "year": 1975
+    },
+    {
+      "rank": 16,
+      "movie_id": 818,
+      "title": "Austin Powers in Goldmember",
+      "score": 7.568876,
+      "overview": "The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—",
+      "year": 2002
+    },
+    {
+      "rank": 17,
+      "movie_id": 522931,
+      "title": "Hitman's Wife's Bodyguard",
+      "score": 7.2546268,
+      "overview": "The world’s most lethal odd couple – bodyguard Michael Bryce and hitman Darius Kincaid – are back on another life-threatening mission. Still unlicense",
+      "year": 2021
+    },
+    {
+      "rank": 18,
+      "movie_id": 587792,
+      "title": "Palm Springs",
+      "score": 7.2466288,
+      "overview": "When carefree Nyles and reluctant maid of honor Sarah have a chance encounter at a Palm Springs wedding, things get complicated when they find themsel",
+      "year": 2020
+    },
+    {
       "rank": 19,
-      "movie_id": 1261825,
-      "title": "Oh. What. Fun.",
-      "score": 2.472386,
-      "overview": "Claire Clauster is the glue that holds her chaotic, lovable family together at the holidays. But this year, after planning a special outing for them, ",
-      "year": 2025
+      "movie_id": 37137,
+      "title": "The Naked Gun 2½: The Smell of Fear",
+      "score": 7.037832,
+      "overview": "Bumbling lieutenant Frank Drebin is out to foil the big boys in the energy industry, who intend to suppress technology that will put them out of busin",
+      "year": 1991
     },
     {
       "rank": 20,
-      "movie_id": 337404,
-      "title": "Cruella",
-      "score": 2.4655015,
-      "overview": "In 1970s London amidst the punk rock revolution, a young grifter named Estella is determined to make a name for herself with her designs. She befriend",
-      "year": 2021
+      "movie_id": 816,
+      "title": "Austin Powers: International Man of Mystery",
+      "score": 6.996981,
+      "overview": "As a swinging fashion photographer by day and a groovy British superagent by night, Austin Powers is the '60s' most shagadelic spy. But can he stop me",
+      "year": 1997
     }
   ]
 }

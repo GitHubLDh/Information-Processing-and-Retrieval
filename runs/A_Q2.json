@@ -1,177 +1,184 @@
 {
   "setup": "A",
   "qid": "Q2",
-  "need": "A cliché romantic movie that people call predictable or genuinely heartwarming.",
-  "rationale": "Plain field search on review text, no phrase boosting or weighting — this is the baseline Setup B improves on.",
+  "need": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 91,
+  "num_found": 388,
   "query_params": {
-    "q": "{!parent which=\"doc_type:movie\" score=max}review_text:(predictable OR cliche OR heartwarming)",
-    "fq": "genres:romance",
-    "fl": "movie_id,id,title,score,overview,year",
+    "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
+    "text": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+    "qf": "review_text",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:romance"
+    ],
     "rows": 20,
-    "wt": "json"
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text}"
   },
   "results": [
     {
       "rank": 1,
       "movie_id": 10096,
       "title": "13 Going on 30",
-      "score": 4.308391,
+      "score": 9.394094,
       "overview": "After total humiliation at her thirteenth birthday party, Jenna Rink wants to just hide until she's thirty. Thanks to some magic wishing dust, Jenna's",
       "year": 2004
     },
     {
       "rank": 2,
-      "movie_id": 987686,
-      "title": "A Family Affair",
-      "score": 4.303375,
-      "overview": "The only thing worse than being the assistant to a high-maintenance movie star who doesn't take you seriously? Finding out he's smitten with your mom.",
-      "year": 2024
-    },
-    {
-      "rank": 3,
-      "movie_id": 152601,
-      "title": "Her",
-      "score": 3.9478512,
-      "overview": "In the not so distant future, Theodore, a lonely writer, purchases a newly developed operating system designed to meet the user's every need. To Theod",
-      "year": 2013
-    },
-    {
-      "rank": 4,
       "movie_id": 843527,
       "title": "The Idea of You",
-      "score": 3.5483315,
+      "score": 8.86609,
       "overview": "40-year-old single mom Solène begins an unexpected romance with 24-year-old Hayes Campbell, the lead singer of August Moon, the hottest boy band on th",
       "year": 2024
     },
     {
-      "rank": 5,
-      "movie_id": 25704,
-      "title": "Post Grad",
-      "score": 3.3120189,
-      "overview": "Ryden Malby has a master plan. Graduate college, get a great job, hang out with her best friend and find the perfect guy. But her plan spins hilarious",
-      "year": 2009
-    },
-    {
-      "rank": 6,
-      "movie_id": 38317,
-      "title": "Zookeeper",
-      "score": 3.2761774,
-      "overview": "Kindhearted Griffin Keyes is one of the best-loved caretakers at the Franklin Park Zoo, but he's more comfortable with the animals than with females o",
-      "year": 2011
-    },
-    {
-      "rank": 7,
-      "movie_id": 1068452,
-      "title": "Hi Nanna",
-      "score": 3.1033897,
-      "overview": "Six-year-old Mahi, a spirited child with cystic fibrosis, shares a deep yet complex bond with her father, Viraj, a dedicated single parent and success",
-      "year": 2023
-    },
-    {
-      "rank": 8,
-      "movie_id": 9602,
-      "title": "Coming to America",
-      "score": 3.060781,
-      "overview": "An African prince decides it’s time for him to find a princess... and his mission leads him and his most loyal friend to Queens, New York. In disguise",
-      "year": 1988
-    },
-    {
-      "rank": 9,
-      "movie_id": 16996,
-      "title": "17 Again",
-      "score": 2.8065333,
-      "overview": "On the brink of a midlife crisis, 30-something Mike O'Donnell wishes he could have a \"do-over.\" And that's exactly what he gets when he wakes up one m",
-      "year": 2009
-    },
-    {
-      "rank": 10,
+      "rank": 3,
       "movie_id": 455207,
       "title": "Crazy Rich Asians",
-      "score": 2.80174,
+      "score": 7.7924027,
       "overview": "An American-born Chinese economics professor accompanies her boyfriend to Singapore for his best friend's wedding, only to get thrust into the lives o",
       "year": 2018
     },
     {
-      "rank": 11,
-      "movie_id": 509,
-      "title": "Notting Hill",
-      "score": 2.7578628,
-      "overview": "London bookstore owner William Thacker's quiet life turns upside down when a chance encounter with famous actress Anna Scott sparks an unlikely romanc",
-      "year": 1999
+      "rank": 4,
+      "movie_id": 987686,
+      "title": "A Family Affair",
+      "score": 7.68893,
+      "overview": "The only thing worse than being the assistant to a high-maintenance movie star who doesn't take you seriously? Finding out he's smitten with your mom.",
+      "year": 2024
     },
     {
-      "rank": 12,
-      "movie_id": 1824,
-      "title": "50 First Dates",
-      "score": 2.7578628,
-      "overview": "Henry is a player skilled at seducing women. But when this veterinarian meets Lucy, a girl with a quirky problem when it comes to total recall, he rea",
-      "year": 2004
+      "rank": 5,
+      "movie_id": 884605,
+      "title": "No Hard Feelings",
+      "score": 7.2620754,
+      "overview": "On the brink of losing her childhood home, Maddie discovers an intriguing job listing: wealthy helicopter parents looking for someone to “date” their ",
+      "year": 2023
     },
     {
-      "rank": 13,
-      "movie_id": 804,
-      "title": "Roman Holiday",
-      "score": 2.5182762,
-      "overview": "Overwhelmed by her suffocating schedule, touring European princess Ann takes off for a night while in Rome. When a sedative she took from her doctor k",
-      "year": 1953
+      "rank": 6,
+      "movie_id": 758009,
+      "title": "Shotgun Wedding",
+      "score": 7.167388,
+      "overview": "Darcy and Tom gather their families for the ultimate destination wedding but when the entire party is taken hostage, “’Til Death Do Us Part” takes on ",
+      "year": 2022
     },
     {
-      "rank": 14,
-      "movie_id": 11622,
-      "title": "Blast from the Past",
-      "score": 2.509503,
-      "overview": "Following a bomb scare in the 1960s that locked the Webers into their bomb shelter for 35 years, Adam now ventures forth into Los Angeles to obtain fo",
-      "year": 1999
-    },
-    {
-      "rank": 15,
-      "movie_id": 370663,
-      "title": "Below Her Mouth",
-      "score": 2.5062356,
-      "overview": "An unexpected affair quickly escalates into a heart-stopping reality for two women whose passionate connection changes their lives forever.",
-      "year": 2017
-    },
-    {
-      "rank": 16,
+      "rank": 7,
       "movie_id": 956842,
       "title": "Fly Me to the Moon",
-      "score": 2.4349132,
+      "score": 6.783579,
       "overview": "Sparks fly in all directions as marketing maven Kelly Jones, brought in to fix NASA's public image, wreaks havoc on Apollo 11 launch director Cole Dav",
       "year": 2024
     },
     {
+      "rank": 8,
+      "movie_id": 843543,
+      "title": "Meet Cute",
+      "score": 6.67715,
+      "overview": "A wildly inventive deconstruction of the romantic comedy built around the question: What would you do if you could travel to your loved ones’ past, he",
+      "year": 2022
+    },
+    {
+      "rank": 9,
+      "movie_id": 521007,
+      "title": "Superintelligence",
+      "score": 6.622751,
+      "overview": "When an all-powerful Superintelligence chooses to study the most average person on Earth, Carol Peters, the fate of the world hangs in the balance. As",
+      "year": 2020
+    },
+    {
+      "rank": 10,
+      "movie_id": 114,
+      "title": "Pretty Woman",
+      "score": 6.4777145,
+      "overview": "While on a business trip in Los Angeles, Edward Lewis, a millionaire entrepreneur who makes a living buying and breaking up companies, picks up a pros",
+      "year": 1990
+    },
+    {
+      "rank": 11,
+      "movie_id": 930094,
+      "title": "Red, White & Royal Blue",
+      "score": 6.2276907,
+      "overview": "After an altercation between Alex, the president's son, and Britain's Prince Henry at a royal event becomes tabloid fodder, their long-running feud no",
+      "year": 2023
+    },
+    {
+      "rank": 12,
+      "movie_id": 10642,
+      "title": "Loser",
+      "score": 5.9681544,
+      "overview": "On a university scholarship, a good natured student from the midwest gets a crash course in city life while dealing with three evil roommates. He befr",
+      "year": 2000
+    },
+    {
+      "rank": 13,
+      "movie_id": 137,
+      "title": "Groundhog Day",
+      "score": 5.9100347,
+      "overview": "A cynical TV weatherman, along with his idealistic producer and his sardonic cameraman, is sent to report on Groundhog Day in the small town of Punxsu",
+      "year": 1993
+    },
+    {
+      "rank": 14,
+      "movie_id": 82693,
+      "title": "Silver Linings Playbook",
+      "score": 5.8585024,
+      "overview": "After losing his job and wife, and spending time in an institution, a former teacher winds up living with his parents. He wants to rebuild his life an",
+      "year": 2012
+    },
+    {
+      "rank": 15,
+      "movie_id": 9602,
+      "title": "Coming to America",
+      "score": 5.460905,
+      "overview": "An African prince decides it’s time for him to find a princess... and his mission leads him and his most loyal friend to Queens, New York. In disguise",
+      "year": 1988
+    },
+    {
+      "rank": 16,
+      "movie_id": 11529,
+      "title": "Sweet Home Alabama",
+      "score": 5.4265904,
+      "overview": "New York fashion designer, Melanie Carmichael suddenly finds herself engaged to the city's most eligible bachelor. But her past holds many secrets—inc",
+      "year": 2002
+    },
+    {
       "rank": 17,
-      "movie_id": 550205,
-      "title": "Wish Dragon",
-      "score": 2.401375,
-      "overview": "Determined teen Din is longing to reconnect with his childhood best friend when he meets a wish-granting dragon who shows him the magic of possibiliti",
-      "year": 2021
+      "movie_id": 1064213,
+      "title": "Anora",
+      "score": 5.2547317,
+      "overview": "A young sex worker from Brooklyn gets her chance at a Cinderella story when she meets and impulsively marries the son of an oligarch. Once the news re",
+      "year": 2024
     },
     {
       "rank": 18,
-      "movie_id": 222935,
-      "title": "The Fault in Our Stars",
-      "score": 2.3568928,
-      "overview": "Despite the tumor-shrinking medical miracle that has bought her a few years, Hazel has never been anything but terminal, her final chapter inscribed u",
-      "year": 2014
+      "movie_id": 114150,
+      "title": "Pitch Perfect",
+      "score": 5.1957526,
+      "overview": "College student Beca knows she does not want to be part of a clique, but that's exactly where she finds herself after arriving at her new school. Thru",
+      "year": 2012
     },
     {
       "rank": 19,
-      "movie_id": 9587,
-      "title": "Little Women",
-      "score": 2.30218,
-      "overview": "Four sisters come of age in America in the aftermath of the Civil War.",
-      "year": 1994
+      "movie_id": 549053,
+      "title": "Last Christmas",
+      "score": 5.193506,
+      "overview": "Kate is a young woman who has a habit of making bad decisions, and her last date with disaster occurs after she accepts work as Santa's elf for a depa",
+      "year": 2019
     },
     {
       "rank": 20,
-      "movie_id": 1064213,
-      "title": "Anora",
-      "score": 2.2837167,
-      "overview": "A young sex worker from Brooklyn gets her chance at a Cinderella story when she meets and impulsively marries the son of an oligarch. Once the news re",
-      "year": 2024
+      "movie_id": 330483,
+      "title": "The Choice",
+      "score": 5.1718245,
+      "overview": "Travis and Gabby first meet as neighbors in a small coastal town and wind up in a relationship that is tested by life's most defining events.",
+      "year": 2016
     }
   ]
 }

@@ -111,11 +111,12 @@ def main() -> None:
     qrels = load_qrels_rows(args.qrels)
     collection = common.load_collection()
     qids = [args.qid] if args.qid else common.QIDS
+    needs = common.load_all_needs()
 
     print(HELP)
     for qid in qids:
         rows = [row for row in pool_rows if row["qid"] == qid]
-        need = common.INFORMATION_NEEDS[qid]
+        need = needs[qid]
         print("\n" + "=" * 78)
         print(f"{qid} — {need['title']}")
         print(f"Need: {need['need']}")

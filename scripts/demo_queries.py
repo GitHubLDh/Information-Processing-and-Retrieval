@@ -16,6 +16,7 @@ import sys
 from pathlib import Path
 
 import requests
+from solr_client import query_params
 
 ROOT = Path(__file__).resolve().parent.parent
 SETUP_DIRS = {
@@ -79,7 +80,7 @@ def run_need(solr: str, core: str, qid: str, top: int) -> None:
     print(f"\n=== {qid}: {query_b.get('need', '')} ===")
     for setup in ("A", "B"):
         query = load_query(setup, qid)
-        payload = post(solr, core, query["params"])
+        payload = post(solr, core, query_params(query, setup))
         print_results(f"Setup {setup}", payload, top)
 
 

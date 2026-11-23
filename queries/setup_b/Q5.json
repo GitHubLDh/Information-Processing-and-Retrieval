@@ -1,21 +1,9 @@
 {
   "qid": "Q5",
-  "need": "A Robert De Niro film about the Italian-American Mafia.",
-  "rationale": "Require Robert De Niro through a cast-name filter that includes the common De Niro/Deniro spelling variant. Search overview and plot text for Mafia, organized-crime, Italian-American, and related wording. Phrase boosts reward close matches; the crime genre is a secondary boost.",
-  "params": {
-    "q": "mafia mafioso mobster mob \"organized crime\" \"crime family\" \"Cosa Nostra\" wiseguy gangster Italian \"Italian American\" \"Italian-American\"",
-    "defType": "edismax",
-    "qf": "overview^3 plot^2",
-    "pf": "overview^2",
-    "ps": "3",
-    "mm": "2",
-    "fq": [
-      "doc_type:movie",
-      "cast.name:(\"robert de niro\" OR \"robert deniro\")"
-    ],
-    "bq": "genres:crime^1.5",
-    "rows": "20",
-    "fl": "movie_id,id,title,score,overview,year",
-    "wt": "json"
-  }
+  "need": "Robert De Niro stars in a film about the loyalties and conflicts within an Italian-American Mafia family.",
+  "source": "story",
+  "filters": [
+    "cast.name:(\"Robert De Niro\" OR \"Robert Deniro\")",
+    "-plot:\"Russian mafia\""
+  ]
 }

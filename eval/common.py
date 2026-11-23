@@ -224,12 +224,13 @@ def load_qrels(path: Path = DEFAULT_QRELS) -> dict[str, dict[str, int]]:
 def load_all_needs() -> dict[str, dict]:
     """Merge curated criteria with the need text stored in the query files."""
     needs = {qid: dict(value) for qid, value in INFORMATION_NEEDS.items()}
-    for setup in ("setup_a", "setup_b"):
-        for path in sorted((QUERIES_DIR / setup).glob("Q*.json")):
-            payload = load_json(path)
-            qid = payload["qid"]
-            if qid in needs and payload.get("need"):
-                needs[qid]["query_need"] = payload["need"]
+    for path in sorted((QUERIES_DIR / "setup_a").glob("Q*.json")):
+        payload = load_json(path)
+        other = load_json(QUERIES_DIR / "setup_b" / path.name)
+        for key in ("qid", "source", "need", "filters"):
+            if payload[key] != other[key]:
+                raise ValueError(f"Setups disagree on {key} for {path.name}")
+        needs[payload["qid"]]["need"] = payload["need"]
     return needs
 
 

@@ -1,4 +1,4 @@
-# Evaluation (Milestone 2)
+# Movie retrieval evaluation
 
 This directory contains the workflow for building a shared candidate pool,
 assigning relevance judgments, and comparing Setup A and Setup B.
@@ -28,6 +28,10 @@ This requires the A/B run files under `runs/` and
 `evidence.csv`, and human-readable evidence sheets under `eval/judging/`.
 Rebuilding the pool may add candidates; those need judgments before final
 evaluation.
+The offline judging page in `eval/judging/index.html` includes the rebuilt
+pool and the grades already in `qrels.csv` at generation time. Its export
+keeps historical judgments outside the current pool. Use one grading session
+at a time when saving to the same qrels file.
 
 ## Judge candidates in the terminal
 
@@ -77,7 +81,9 @@ python3 eval/metrics.py
 
 The script reads the A/B rankings and `eval/qrels.csv`. By default, grades 1 and
 2 count as relevant for binary metrics (`--threshold 1`); `--threshold 2` counts
-only grade 2 as relevant. Retrieved but unjudged documents count as non-relevant.
+only grade 2 as relevant. With missing grades, the script writes coverage and
+paired precision bounds to `results.md/csv/json` and exits before computing
+final metrics. The bounds allow every unknown grade to vary.
 The default ranking depth is 20 (`--cutoff 20`).
 
 It reports these metrics for each query and as averages across queries:
@@ -119,7 +125,9 @@ By default, `metrics.py` writes its outputs to `eval/`:
 - `pr_curve.tex` and, when `pdflatex` is installed, `pr_curve.pdf`: chart source
   and compiled chart.
 
-When the report's `figures/` directory exists and the PDF compiles successfully,
-the chart is also copied to `report/figures/pr_curve.pdf`. The script does not
-edit the report's main LaTeX file. It warns if qrels rows are not marked
-`judge=manual`; inspect the judgments before treating those results as final.
+The original Milestone 2 report, chart and historical results describe the
+hand-written queries at commit `f06387f`. Their tables, curves and frozen qrels
+are archived in [milestone2/](milestone2/). New charts stay in the evaluation
+output directory. The [natural-language query experiments](../docs/query_specification.md)
+use the frozen judgments for controlled comparisons. The main evaluation
+uses the current unrestricted runs and all accumulated manual grades.

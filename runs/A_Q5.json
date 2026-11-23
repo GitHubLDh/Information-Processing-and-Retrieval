@@ -1,84 +1,184 @@
 {
   "setup": "A",
   "qid": "Q5",
-  "need": "A film starring Robert De Niro about Italian-American mafia.",
-  "rationale": "Hard filter on cast name; plain field search on plot text for mafia vocabulary. Russian mafia explicitly excluded — confirmed false positive (Ronin) found during manual review earlier.",
+  "need": "Robert De Niro stars in a film about the loyalties and conflicts within an Italian-American Mafia family.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 8,
+  "num_found": 42,
   "query_params": {
-    "q": "plot:(mafia OR \"crime family\" OR \"mob boss\" OR godfather OR \"made man\" OR \"cosa nostra\") AND -plot:\"Russian mafia\"",
+    "q": "{!edismax v=$text}",
+    "text": "Robert De Niro stars in a film about the loyalties and conflicts within an Italian-American Mafia family.",
+    "qf": "plot",
+    "mm": "1",
+    "q.op": "OR",
     "fq": [
-      "cast.name:\"Robert De Niro\"",
-      "doc_type:movie"
+      "doc_type:movie",
+      "cast.name:(\"Robert De Niro\" OR \"Robert Deniro\")",
+      "-plot:\"Russian mafia\""
     ],
-    "fl": "movie_id,id,title,score,overview,year",
     "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
     "wt": "json"
   },
   "results": [
     {
       "rank": 1,
-      "movie_id": 769,
-      "title": "GoodFellas",
-      "score": 5.652671,
-      "overview": "The true story of Henry Hill, a half-Irish, half-Sicilian Brooklyn kid who is adopted by neighbourhood gangsters at an early age and climbs the ranks ",
-      "year": 1990
+      "movie_id": 977294,
+      "title": "Tin Soldier",
+      "score": 10.168826,
+      "overview": "An ex-special forces operative seeks revenge against a cult leader who has corrupted his former comrades, the Shinjas. This leader, known as The Bokus",
+      "year": 2025
     },
     {
       "rank": 2,
-      "movie_id": 398978,
-      "title": "The Irishman",
-      "score": 5.2265463,
-      "overview": "Pennsylvania, 1956. Frank Sheeran, a war veteran of Irish origin who works as a truck driver, accidentally meets mobster Russell Bufalino. Once Frank ",
-      "year": 2019
-    },
-    {
-      "rank": 3,
-      "movie_id": 1578,
-      "title": "Raging Bull",
-      "score": 4.363032,
-      "overview": "The life of boxer Jake LaMotta, whose violence and temper that led him to the top in the ring destroyed his life outside of it.",
-      "year": 1980
-    },
-    {
-      "rank": 4,
-      "movie_id": 240,
-      "title": "The Godfather Part II",
-      "score": 3.7522824,
-      "overview": "In the continuing saga of the Corleone crime family, a young Vito Corleone grows up in Sicily and in 1910s New York. In the 1950s, Michael Corleone at",
-      "year": 1974
-    },
-    {
-      "rank": 5,
-      "movie_id": 524,
-      "title": "Casino",
-      "score": 3.0834975,
-      "overview": "In Las Vegas, two best friends--a casino executive and a Mafia enforcer--compete for a gambling empire and a fast-living, fast-loving socialite.",
-      "year": 1995
-    },
-    {
-      "rank": 6,
       "movie_id": 112205,
       "title": "The Family",
-      "score": 3.0399928,
+      "score": 9.213199,
       "overview": "After ratting out his Mafia cohorts, Giovanni Manzoni and his family enter the Witness Protection Program and relocate to a sleepy town in France. Des",
       "year": 2013
     },
     {
+      "rank": 3,
+      "movie_id": 398978,
+      "title": "The Irishman",
+      "score": 8.372606,
+      "overview": "Pennsylvania, 1956. Frank Sheeran, a war veteran of Irish origin who works as a truck driver, accidentally meets mobster Russell Bufalino. Once Frank ",
+      "year": 2019
+    },
+    {
+      "rank": 4,
+      "movie_id": 1607,
+      "title": "A Bronx Tale",
+      "score": 6.0269933,
+      "overview": "Set in the Bronx during the tumultuous 1960s, an adolescent boy is torn between his honest, working-class father and a violent yet charismatic crime b",
+      "year": 1993
+    },
+    {
+      "rank": 5,
+      "movie_id": 769,
+      "title": "GoodFellas",
+      "score": 5.8864627,
+      "overview": "The true story of Henry Hill, a half-Irish, half-Sicilian Brooklyn kid who is adopted by neighbourhood gangsters at an early age and climbs the ranks ",
+      "year": 1990
+    },
+    {
+      "rank": 6,
+      "movie_id": 240,
+      "title": "The Godfather Part II",
+      "score": 4.6146636,
+      "overview": "In the continuing saga of the Corleone crime family, a young Vito Corleone grows up in Sicily and in 1910s New York. In the 1950s, Michael Corleone at",
+      "year": 1974
+    },
+    {
       "rank": 7,
-      "movie_id": 11371,
-      "title": "The Score",
-      "score": 2.6972945,
-      "overview": "An aging thief hopes to retire and live off his ill-gotten wealth when a young kid convinces him into doing one last heist.",
-      "year": 2001
+      "movie_id": 1597,
+      "title": "Meet the Parents",
+      "score": 3.7925327,
+      "overview": "Greg Focker is ready to marry his girlfriend, Pam, but before he pops the question, he must win over her formidable father, humorless former CIA agent",
+      "year": 2000
     },
     {
       "rank": 8,
-      "movie_id": 1607,
-      "title": "A Bronx Tale",
-      "score": 1.6463544,
-      "overview": "Set in the Bronx during the tumultuous 1960s, an adolescent boy is torn between his honest, working-class father and a violent yet charismatic crime b",
-      "year": 1993
+      "movie_id": 2749,
+      "title": "15 Minutes",
+      "score": 3.5113893,
+      "overview": "When Eastern European criminals Oleg and Emil come to New York City to pick up their share of a heist score, Oleg steals a video camera and starts fil",
+      "year": 2001
+    },
+    {
+      "rank": 9,
+      "movie_id": 524,
+      "title": "Casino",
+      "score": 3.3685284,
+      "overview": "In Las Vegas, two best friends--a casino executive and a Mafia enforcer--compete for a gambling empire and a fast-living, fast-loving socialite.",
+      "year": 1995
+    },
+    {
+      "rank": 10,
+      "movie_id": 2270,
+      "title": "Stardust",
+      "score": 2.9397867,
+      "overview": "In a countryside town bordering on a magical land, a young man makes a promise to his beloved that he'll retrieve a fallen star by venturing into the ",
+      "year": 2007
+    },
+    {
+      "rank": 11,
+      "movie_id": 117,
+      "title": "The Untouchables",
+      "score": 2.8002968,
+      "overview": "Elliot Ness, an ambitious prohibition agent, is determined to take down Al Capone. In order to achieve this goal, he forms a group given the nickname ",
+      "year": 1987
+    },
+    {
+      "rank": 12,
+      "movie_id": 1578,
+      "title": "Raging Bull",
+      "score": 2.5084302,
+      "overview": "The life of boxer Jake LaMotta, whose violence and temper that led him to the top in the ring destroyed his life outside of it.",
+      "year": 1980
+    },
+    {
+      "rank": 13,
+      "movie_id": 64807,
+      "title": "Grudge Match",
+      "score": 2.4598637,
+      "overview": "A pair of aging boxing rivals are coaxed out of retirement to fight one final bout -- 30 years after their last match.",
+      "year": 2013
+    },
+    {
+      "rank": 14,
+      "movie_id": 11778,
+      "title": "The Deer Hunter",
+      "score": 1.8316995,
+      "overview": "Three steelworkers enlist in the army and are sent to Vietnam, one leaving behind a rushed marriage, the others a shared love. What they encounter dur",
+      "year": 1978
+    },
+    {
+      "rank": 15,
+      "movie_id": 466420,
+      "title": "Killers of the Flower Moon",
+      "score": 1.7725238,
+      "overview": "When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the myste",
+      "year": 2023
+    },
+    {
+      "rank": 16,
+      "movie_id": 62838,
+      "title": "New Year's Eve",
+      "score": 1.7570469,
+      "overview": "The lives of several couples and singles in New York intertwine over the course of New Year's Eve.",
+      "year": 2011
+    },
+    {
+      "rank": 17,
+      "movie_id": 819,
+      "title": "Sleepers",
+      "score": 1.6723689,
+      "overview": "Two gangsters seek revenge on the state jail worker who during their stay at a youth prison sexually abused them. A sensational court hearing takes pl",
+      "year": 1996
+    },
+    {
+      "rank": 18,
+      "movie_id": 77663,
+      "title": "Killing Season",
+      "score": 1.6322986,
+      "overview": "Two veterans of the Bosnian War, one American, one Serbian, clash in the remote Smoky Mountain wilderness.",
+      "year": 2013
+    },
+    {
+      "rank": 19,
+      "movie_id": 664469,
+      "title": "Amsterdam",
+      "score": 1.631502,
+      "overview": "In the 1930s, three friends—a doctor, a nurse, and an attorney—witness a murder, become suspects themselves and uncover one of the most outrageous plo",
+      "year": 2022
+    },
+    {
+      "rank": 20,
+      "movie_id": 425001,
+      "title": "The War with Grandpa",
+      "score": 1.3562449,
+      "overview": "Peter is thrilled that his Grandpa is coming to live with his family. That is, until Grandpa moves into Peter's room, forcing him upstairs into the cr",
+      "year": 2020
     }
   ]
 }

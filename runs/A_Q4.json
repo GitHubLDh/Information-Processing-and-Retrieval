@@ -1,73 +1,183 @@
 {
   "setup": "A",
   "qid": "Q4",
-  "need": "A crime or thriller film in which an FBI agent investigates serial killings.",
-  "rationale": "Plain field search on the plot text, requiring both concepts present together — an FBI story with no serial killer, or vice versa, isn't a real match.",
+  "need": "An FBI agent investigates a series of murders by a serial killer in a crime film or thriller.",
   "endpoint": "http://localhost:8983/solr/movies/select",
-  "num_found": 7,
+  "num_found": 1518,
   "query_params": {
-    "q": "plot:(FBI AND \"serial killer\")",
-    "fq": "doc_type:movie",
-    "fl": "movie_id,id,title,score,overview,year",
+    "q": "{!edismax v=$text}",
+    "text": "An FBI agent investigates a series of murders by a serial killer in a crime film or thriller.",
+    "qf": "plot",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:(crime OR thriller)"
+    ],
     "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
     "wt": "json"
   },
   "results": [
     {
       "rank": 1,
-      "movie_id": 1032823,
-      "title": "Trap",
-      "score": 5.460661,
-      "overview": "A father and teen daughter attend a pop concert, where they realize they're at the center of a dark and sinister event.",
-      "year": 2024
+      "movie_id": 181283,
+      "title": "Child 44",
+      "score": 11.331847,
+      "overview": "Set in Stalin-era Soviet Union, a disgraced MGB agent is dispatched to investigate a series of child murders -- a case that begins to connect with the",
+      "year": 2015
     },
     {
       "rank": 2,
-      "movie_id": 10871,
-      "title": "Switchback",
-      "score": 5.0058765,
-      "overview": "After FBI agent Frank Lacrosse believes his son was kidnapped by a notorious serial killer, he travels to Amarillo, Texas, where he believes the murde",
-      "year": 1997
+      "movie_id": 542130,
+      "title": "Waikiki",
+      "score": 10.713172,
+      "overview": "A couple of private eyes, a laid-back Californian and a streetwise New Yorker, team up to track down a killer in Hawaii known as \"The Cane Field Murde",
+      "year": 1980
     },
     {
       "rank": 3,
-      "movie_id": 9544,
-      "title": "FearDotCom",
-      "score": 4.845596,
-      "overview": "When four bodies are discovered among the industrial decay and urban grime of New York City, brash young detective Mike Reilly teams with ambitious De",
-      "year": 2002
+      "movie_id": 9411,
+      "title": "Fallen",
+      "score": 9.5635805,
+      "overview": "Homicide detective John Hobbes witnesses the execution of serial killer Edgar Reese. Soon after the execution the killings start again, and they are v",
+      "year": 1998
     },
     {
       "rank": 4,
-      "movie_id": 34314,
-      "title": "Turbulence",
-      "score": 4.6768694,
-      "overview": "On a flight transporting dangerous convicts, murderer Ryan Weaver manages to break free and cause complete chaos throughout the plane. As various peop",
-      "year": 1997
-    },
-    {
-      "rank": 5,
       "movie_id": 12149,
       "title": "Frailty",
-      "score": 4.6651587,
+      "score": 9.478109,
       "overview": "A mysterious man arrives at the offices of an FBI agent and recounts his childhood: how his religious fanatic father received visions telling him to k",
       "year": 2002
     },
     {
+      "rank": 5,
+      "movie_id": 6498,
+      "title": "Nightwatch",
+      "score": 9.403611,
+      "overview": "Martin, a law student, takes up a job as a nightwatchman at a mortuary to fund his studies. But the mortuary harbours a dark secret, and he has to fin",
+      "year": 1994
+    },
+    {
       "rank": 6,
-      "movie_id": 274,
-      "title": "The Silence of the Lambs",
-      "score": 4.560957,
-      "overview": "Clarice Starling is a top student at the FBI's training academy.  Jack Crawford wants Clarice to interview Dr. Hannibal Lecter, a brilliant psychiatri",
-      "year": 1991
+      "movie_id": 3432,
+      "title": "Mr. Brooks",
+      "score": 9.368179,
+      "overview": "A psychological thriller about a man who is sometimes controlled by his murder-and-mayhem-loving alter ego.",
+      "year": 2007
     },
     {
       "rank": 7,
+      "movie_id": 10871,
+      "title": "Switchback",
+      "score": 8.7402,
+      "overview": "After FBI agent Frank Lacrosse believes his son was kidnapped by a notorious serial killer, he travels to Amarillo, Texas, where he believes the murde",
+      "year": 1997
+    },
+    {
+      "rank": 8,
+      "movie_id": 339527,
+      "title": "Solace",
+      "score": 8.4677925,
+      "overview": "A psychic doctor, John Clancy, works with an FBI special agent in search of a serial killer.",
+      "year": 2015
+    },
+    {
+      "rank": 9,
+      "movie_id": 581528,
+      "title": "The Gangster, the Cop, the Devil",
+      "score": 8.294018,
+      "overview": "After barely surviving a brutal attack by a sadistic serial killer, crime boss Jang Dong-su is left humiliated. Determined to catch the killer known a",
+      "year": 2019
+    },
+    {
+      "rank": 10,
       "movie_id": 3489,
       "title": "88 Minutes",
-      "score": 4.2345243,
+      "score": 8.177109,
       "overview": "Famed forensic psychiatrist Dr. Jack Gramm enjoys a reputation as one of the most sought-after profilers around. His expert testimony has resulted in ",
       "year": 2007
+    },
+    {
+      "rank": 11,
+      "movie_id": 12395,
+      "title": "Thunderheart",
+      "score": 8.099586,
+      "overview": "A young mixed-blood FBI agent is assigned to work with a cynical veteran investigator on a murder on a poverty-stricken Sioux reservation.",
+      "year": 1992
+    },
+    {
+      "rank": 12,
+      "movie_id": 11322,
+      "title": "Public Enemies",
+      "score": 7.874096,
+      "overview": "Depression-era bank robber John Dillinger's charm and audacity endear him to much of America's downtrodden public, but he's also a thorn in the side o",
+      "year": 2009
+    },
+    {
+      "rank": 13,
+      "movie_id": 881164,
+      "title": "Boston Strangler",
+      "score": 7.8382897,
+      "overview": "Reporters Loretta McLaughlin and Jean Cole bravely pursue the story of the Boston Strangler at great personal risk, putting their own lives on the lin",
+      "year": 2023
+    },
+    {
+      "rank": 14,
+      "movie_id": 995926,
+      "title": "I, the Executioner",
+      "score": 7.774569,
+      "overview": "The veteran detective Seo Do-cheol and his team at Major Crimes, relentless in their pursuit of criminals, join forces with rookie cop Park Sun-woo to",
+      "year": 2024
+    },
+    {
+      "rank": 15,
+      "movie_id": 13572,
+      "title": "Twisted",
+      "score": 7.644095,
+      "overview": "Recently promoted and transferred to the homicide division, Inspector Jessica Shepard feels pressure to prove herself -- and what better way than by s",
+      "year": 2004
+    },
+    {
+      "rank": 16,
+      "movie_id": 261023,
+      "title": "Black Mass",
+      "score": 7.3792295,
+      "overview": "The true story of Whitey Bulger, the brother of a state senator and the most infamous violent criminal in the history of South Boston, who became an F",
+      "year": 2015
+    },
+    {
+      "rank": 17,
+      "movie_id": 62835,
+      "title": "Colombiana",
+      "score": 7.3202453,
+      "overview": "After witnessing her parents’ murder as a child in Bogota, Cataleya Restrepo grows up to be a stone-cold assassin. She works for her uncle as a hitman",
+      "year": 2011
+    },
+    {
+      "rank": 18,
+      "movie_id": 9437,
+      "title": "Kiss the Girls",
+      "score": 7.3101387,
+      "overview": "Forensic psychologist and detective Alex Cross travels to North Carolina and teams with escaped kidnap victim Kate McTiernan to hunt down \"Casanova,\" ",
+      "year": 1997
+    },
+    {
+      "rank": 19,
+      "movie_id": 112205,
+      "title": "The Family",
+      "score": 7.2367387,
+      "overview": "After ratting out his Mafia cohorts, Giovanni Manzoni and his family enter the Witness Protection Program and relocate to a sleepy town in France. Des",
+      "year": 2013
+    },
+    {
+      "rank": 20,
+      "movie_id": 15472,
+      "title": "The Girl with the Dragon Tattoo",
+      "score": 7.2314453,
+      "overview": "Swedish thriller based on Stieg Larsson's novel about a male journalist and a young female hacker. In the opening of the movie, Mikael Blomkvist, a mi",
+      "year": 2009
     }
   ]
 }

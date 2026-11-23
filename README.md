@@ -17,6 +17,7 @@ The goal is a document collection suitable for text-based search, where each doc
 - [x] Exploratory data analysis / dataset characterization
 - [x] Information needs defined
 - [x] Solr indexing, Setup A/B retrieval runs, pooled judgments, and evaluation metrics (Milestone 2)
+- The natural-language A/B runs use the same needs and constraints. See the [retrieval experiments](docs/query_specification.md) and [current judgment coverage and results](eval/results.md).
 - [ ] Semantic search (Milestone 3)
 
 ## Milestones
@@ -109,6 +110,7 @@ python3 scripts/demo_queries.py
 The two `solr_client.py` calls write `runs/A_Q*.json`, `runs/B_Q*.json`,
 `runs/A.run`, and `runs/B.run`. `demo_queries.py` prints a side-by-side A/B
 comparison without writing files.
+B reranks the top 20 plot matches using their overviews. Review searches are identical in both setups.
 
 ### 4. Evaluate
 
@@ -138,13 +140,14 @@ The PDF is written to `report/main.pdf`.
 
 ### Shortest end-to-end path
 
-If `data/final/` and `runs/` are already present:
+With the indexed `movies` core running and `data/final/` available:
 
 ```bash
-bash solr/startup.sh
+python3 scripts/verify_index.py
 python3 scripts/solr_client.py --queries queries/setup_a --setup A
 python3 scripts/solr_client.py --queries queries/setup_b --setup B
 python3 eval/pool.py
+python3 eval/judge.py --judge "Your Name"
 python3 eval/metrics.py
 cd report && latexmk -pdf main.tex
 ```

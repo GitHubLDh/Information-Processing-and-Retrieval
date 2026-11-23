@@ -17,6 +17,7 @@ Usage:
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 
 import common
@@ -30,7 +31,7 @@ def build_pool() -> list[dict]:
     for qid in common.QIDS:
         by_doc: dict[str, dict] = {}
         for setup in common.SETUPS:
-            for entry in rankings.get(setup, {}).get(qid, []):
+            for entry in rankings.get(setup, {}).get(qid, [])[:20]:
                 docid = entry["docid"]
                 row = by_doc.setdefault(docid, {
                     "qid": qid,
@@ -88,6 +89,7 @@ def write_evidence(rows: list[dict], collection: dict[str, dict], out_dir: Path)
     out_dir.mkdir(parents=True, exist_ok=True)
     evidence_rows: list[dict] = []
     needs = common.load_all_needs()
+    candidates = []
 
     for qid in common.QIDS:
         need = needs[qid]
@@ -109,6 +111,7 @@ def write_evidence(rows: list[dict], collection: dict[str, dict], out_dir: Path)
         for row in qid_rows:
             record = collection.get(row["docid"], {})
             evidence = common.document_evidence(record, qid)
+            candidates.append({**row, **evidence})
             ranks = []
             if row["rank_A"]:
                 ranks.append(f"A #{row['rank_A']}")
@@ -161,6 +164,19 @@ def write_evidence(rows: list[dict], collection: dict[str, dict], out_dir: Path)
             "review_evidence", "overview",
         ],
     )
+    # Refresh the offline judging page alongside the Markdown evidence sheets.
+    page = out_dir / "index.html"
+    if page.exists():
+        judgments = []
+        if common.DEFAULT_QRELS.exists():
+            with common.DEFAULT_QRELS.open(encoding="utf-8", newline="") as handle:
+                judgments = [r for r in csv.DictReader(handle) if r["rel"].strip()]
+        data = json.dumps({"needs": needs, "candidates": candidates, "judgments": judgments},
+                          ensure_ascii=False).replace("<", "\\u003c")
+        before, after = page.read_text(encoding="utf-8").split('<script id="payload" type="application/json">')
+        _, after = after.split("</script>", 1)
+        page.write_text(before + '<script id="payload" type="application/json">' + data
+                        + "</script>" + after, encoding="utf-8")
 
 
 def main() -> None:

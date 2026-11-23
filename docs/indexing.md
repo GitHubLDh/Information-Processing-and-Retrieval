@@ -562,8 +562,7 @@ Q2 can only reach review-bearing movies.
   contains movies linked through Wikidata's TMDB property).
 
 The plot field dominates the free text and is the main retrieval signal. The
-overview is much shorter but more focused; that is why Setup B boosts it above the
-longer plot for plot-based needs.
+overview is much shorter but more focused; Setup B uses it to rerank the top 20 matches from the longer plot.
 
 ## 9. Deviations from the M1 schema proposal
 
@@ -621,7 +620,7 @@ The index layout directly shapes the Setup A and Setup B queries:
 3. **No populated catch-all field.**
    - Pro: explicit field choice; display-only fields cannot leak into general
      relevance. `_text_` exists but receives no `copyField` content.
-   - Con: every query must name its fields; Setup B needs `qf`/`pf`.
+   - Each system names its search fields with `qf`. Setup B uses the overview field in a second scoring pass over the top 20 plot matches.
 4. **`crew_names` searchable, `crew_roles.job` display-only.**
    - Pro: people search by name, not by credit type; avoids "producer" false
      positives.
@@ -636,8 +635,7 @@ The index layout directly shapes the Setup A and Setup B queries:
 7. **Full plots, no truncation.**
    - Pro: long narrative text is the project's main asset.
    - Con: long fields are length-normalized by BM25, so a single matching term in
-     a very long plot contributes less than in a short overview; Setup B's field
-     boosts account for this.
+     a very long plot contributes less than in a short overview; Setup B uses overview evidence to rerank the top plot matches.
 
 ## 12. Open items
 

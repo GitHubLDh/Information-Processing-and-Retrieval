@@ -1,12 +1,8 @@
 {
   "qid": "Q1",
-  "need": "A movie whose reviewers describe the comedy as clever, witty, or intellectually sharp, rather than slapstick or lowbrow.",
-  "rationale": "Plain field search on review text, no phrase boosting or weighting — this is the baseline Setup B improves on.",
-  "params": {
-    "q": "{!parent which=\"doc_type:movie\" score=max}review_text:(clever OR witty OR \"intellectually sharp\")",
-    "fq": "genres:comedy",
-    "fl": "movie_id,id,title,score,overview,year",
-    "rows": 20,
-    "wt": "json"
-  }
+  "need": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+  "source": "reviews",
+  "filters": [
+    "genres:comedy"
+  ]
 }
