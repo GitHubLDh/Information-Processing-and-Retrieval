@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Seed eval/data/qrels.csv with an explicit, evidence-based first-pass judgment.
+"""Reproduce eval/data/qrels_preliminary.csv for the historical Milestone 2 pool.
 
 These judgments apply the per-need rubric in common.INFORMATION_NEEDS to the
 pooled candidates:
@@ -8,10 +8,8 @@ pooled candidates:
     1 = partial / weak / indirect evidence
     0 = no evidence, or the evidence contradicts the need
 
-The judgments are a reproducible starting point for the evaluation owner. They are
-not a substitute for the team's verification: run `python eval/judge.py --review`
-to inspect every candidate and change any grade. `judge` is recorded as
-"preliminary" so it is easy to see which rows still need sign-off.
+Only candidate IDs and display metadata come from the frozen pool. Grades and
+notes come from the preliminary rubric below. The live qrels are separate.
 
 Usage:
     python eval/seed_qrels.py            # refuses to overwrite an existing qrels
@@ -183,13 +181,13 @@ def main() -> None:
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
 
-    if common.DEFAULT_QRELS.exists() and not args.force:
+    output = common.DATA_DIR / "qrels_preliminary.csv"
+    if output.exists() and not args.force:
         raise SystemExit(
-            f"{common.DEFAULT_QRELS} already exists; use --force to regenerate "
-            "(this overwrites any manual edits)"
+            f"{output} already exists; use --force to regenerate the preliminary sheet"
         )
 
-    with common.DEFAULT_POOL.open(newline="", encoding="utf-8") as handle:
+    with common.MILESTONE2_QRELS.open(newline="", encoding="utf-8") as handle:
         pool_rows = list(csv.DictReader(handle))
 
     missing = []
@@ -200,7 +198,7 @@ def main() -> None:
         raise SystemExit("unjudged pooled documents: " + ", ".join(missing))
 
     fields = ["qid", "docid", "title", "year", "rel", "judge", "notes"]
-    with common.DEFAULT_QRELS.open("w", newline="", encoding="utf-8") as handle:
+    with output.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
         for row in pool_rows:
@@ -215,7 +213,7 @@ def main() -> None:
                 "notes": note,
             })
 
-    print(f"wrote {common.DEFAULT_QRELS} ({len(pool_rows)} judgments)")
+    print(f"wrote {output} ({len(pool_rows)} judgments)")
     counts: dict[str, dict[int, int]] = {}
     for row in pool_rows:
         rel, _ = JUDGMENTS[row["qid"]][row["docid"]]

@@ -71,7 +71,9 @@ produces a collection suited to retrieval by remembered plot details, themes, an
 reception, and provides the basis for the indexing and query configurations studied
 later in the paper. The original Milestone 2 evaluation on 135 judged candidates shows that the
 eDisMax configuration improves MAP from 0.488 to 0.611, Recall@20 from 0.577 to
-0.729, and nDCG@10 from 0.683 to 0.698 over the baseline.
+0.729, and nDCG@10 from 0.683 to 0.698 over the baseline. With the subsequent
+natural-language queries, reranking the top 20 plot matches improved MAP from
+0.465 to 0.497 across the same five needs. Pooled recall was 0.588 for both runs.
 \end{abstract}
 
 \keywords{information retrieval, movie dataset, data collection, Wikipedia, Wikidata, text characterization}
@@ -99,13 +101,14 @@ movie's reviews.
 This paper describes the complete data-collection and retrieval design. We detail the
 cleaning, linking, fetching, and joining pipeline; characterize the resulting collection;
 index it in Solr using a parent/child document model that keeps reviews as separate child
-documents; and compare a precision-oriented baseline (Setup A) with an eDisMax
-configuration (Setup B) on five prospective information needs. The characterization shows
+documents; and compare lexical retrieval configurations on five information
+needs, first with hand-written queries and then with natural-language queries.
+The characterization shows
 that Wikipedia plots are long and narrative (511 words on average) but cover 66.7\% of
 the cleaned movies, while reviews are sparse (58.1\% of final documents) and use generic
 film vocabulary. These properties shape the retrieval design: plot-based needs have
 broader reach, review-based needs are coverage-limited, and lexical matching motivates
-the phrase and field weighting in Setup B.
+the tests of phrase weighting and overview reranking.
 
 We highlight the following main contributions:
 \begin{itemize}
@@ -226,7 +229,7 @@ intermediate data stores.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\columnwidth]{figures/pipeline-pri.png}
+  \includegraphics[width=\columnwidth,height=.9\textheight,keepaspectratio]{figures/pipeline-pri.png}
   \caption{Data flow diagram of the collection pipeline}
   \Description{A data flow diagram showing four sequential processing stages: cleaning
   and deduplicating movies and reviews, linking movies to Wikipedia articles via
@@ -318,7 +321,7 @@ vocabulary limits the discriminative power of review-based queries: terms such a
 \textit{story} and \textit{character} occur in almost every review, so retrieval depends
 more on the smaller set of evaluative terms and on phrase and field weighting than on
 topic-specific vocabulary. This is a property of the source rather than a preprocessing
-artefact, and it motivates the phrase-boosted Setup B and the semantic retrieval
+artefact, and it motivates the Milestone 2 phrase-boosting experiment and the semantic retrieval
 planned as future work.
 
 \begin{figure}[htbp]
@@ -465,7 +468,7 @@ and 12{,}057 reviews. The script writes \texttt{collection.jsonl}, a manifest wi
 counts, filters, build date, and git commit, and \texttt{solr\_documents.json}.
 The converter flattens \texttt{cast}, \texttt{crew\_roles}, and \texttt{wikipedia}
 into Solr fields and normalizes review dates to full timestamps.
-\texttt{solr/startup.sh} recreates a \texttt{solr:10} container, applies
+\texttt{solr/startup.sh} recreates a \texttt{solr:10.0.0} container, applies
 \texttt{solr/schema.json}, uploads the documents with \texttt{commit=true}, and
 checks that the indexed parent and child counts match the collection.
 
@@ -538,17 +541,61 @@ the semantic retrieval planned as future work.
 
 % Person 1 report section.
 
-\section{Solr Query Configuration: Setup A}
+\section{Natural-language retrieval}
 
-Sections on query design and evaluation below describe the Milestone 2 snapshot
-using the historical runs and the trec\_eval results from commit \texttt{74e164f}.
-The earlier Python evaluation is archived in \path{eval/milestone2}.
-The subsequent natural-language runs share the same five query texts and filters.
-Setup A searches review text or plot. Setup B uses the overview score to rerank
-the top 20 plot matches. Across the five needs, with all final results graded,
-P@5 rose from 0.800 to 0.880 and MAP from 0.465 to 0.497. Pooled Recall@20
-was 0.588 in both systems. See \path{docs/query_specification.md} for the controlled experiments and
-\path{eval/output/results.md} for the evaluation of the new runs.
+The current configurations share five natural-language query texts and their
+structured filters. Setup A uses eDisMax to search a single field. Review
+queries return movies by their best matching review. For story queries, Setup B
+adds the overview score to each of the top 20 plot matches. Q1 and Q2 therefore
+have identical rankings, and both systems retrieve the same 20 movies per need.
+All 100 query--movie pairs have manual grades. Using the 219 accumulated grades,
+P@10 rose from 0.740 to 0.780 and MAP from 0.465 to 0.497. Pooled Recall@20 was
+0.588 in both systems. These five needs were also used to select the reranker.
+See \path{docs/query_specification.md} and \path{eval/output/results.md}.
+
+Figure~\ref{fig:pr-curve} shows the mean interpolated precision at each of the
+11 recall levels. Figures~\ref{fig:pr-curve-A} and~\ref{fig:pr-curve-B} show
+the five individual needs for each setup.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{../eval/output/pr_curve.pdf}
+  \caption{Natural-language runs. Interpolated precision-recall curves computed with trec\_eval
+  (\texttt{iprec\_at\_recall}), averaged over the five needs at 11 recall levels.}
+  \Description{A precision-recall chart with recall on the horizontal axis and
+  interpolated precision on the vertical axis. At recall 0.2, mean precision
+  is 0.978 for B and 0.843 for A. At recall 1.0, it is 0.108 for B and 0.127
+  for A.}
+  \label{fig:pr-curve}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{../eval/output/pr_curve_A.pdf}
+  \caption{Natural-language precision-recall curves for Setup A, computed from
+  trec\_eval's \texttt{iprec\_at\_recall} values. Each curve is labelled with AP,
+  11-point average precision (AUC), and P@10.}
+  \Description{A precision-recall chart for Setup A containing five stepped curves
+  labelled Q1 through Q5 with AP, AUC, and P@10.}
+  \label{fig:pr-curve-A}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{../eval/output/pr_curve_B.pdf}
+  \caption{Natural-language precision-recall curves for Setup B, computed from
+  trec\_eval's \texttt{iprec\_at\_recall} values. Each curve is labelled with AP,
+  11-point average precision (AUC), and P@10.}
+  \Description{A precision-recall chart for Setup B containing five stepped curves
+  labelled Q1 through Q5 with AP, AUC, and P@10.}
+  \label{fig:pr-curve-B}
+\end{figure}
+
+\section{Milestone 2 snapshot: Setup A}
+
+The following two configuration sections and their evaluation describe the
+hand-written queries, runs and trec\_eval results at commit \texttt{74e164f}.
+Paths in those sections refer to that revision unless otherwise specified.
 
 Setup A is the baseline: plain field queries with the default Lucene parser, no
 field weighting, no phrase proximity, and no minimum-match tuning. Review-based
@@ -584,7 +631,7 @@ Table~\ref{tab:setup-ab} summarizes the configuration comparison.
 
 % Person 2 report section.
 
-\section{Solr Query Configuration: Setup B}
+\section{Milestone 2 snapshot: Setup B}
 
 Setup B uses eDisMax to weight fields and close phrase matches according to each
 information need. Review-based needs query the nested \texttt{review} children and
@@ -636,7 +683,7 @@ Depth & 20 results per query. & 20 results per query. \\
 \end{tabular}
 \end{table}
 
-The current query parameters are stored in the \path{queries/setup_b} directory
+The historical query parameters were stored in the \path{queries/setup_b} directory
 (\texttt{Q1.json} through \texttt{Q5.json}). Running \path{scripts/solr_client.py}
 with \texttt{--queries queries/setup\_b --setup B} writes one \texttt{runs/B\_Qn.json}
 file per need and a TREC-format \texttt{runs/B.run}.
@@ -645,7 +692,7 @@ The JSON files retain the exact parameters, total number of matches, and the top
 \texttt{runs/A\_Q5.json}. Comparative performance on the five needs is reported in
 Section~\ref{sec:evaluation}.
 
-\section{Evaluation}
+\section{Milestone 2 snapshot: Evaluation}
 \label{sec:evaluation}
 
 \subsection{Methodology}
@@ -675,9 +722,8 @@ therefore measures how much of the pooled relevant set a system places in its to
 
 \subsection{Aggregate results}
 Table~\ref{tab:evaluation-aggregate} reports the aggregate metrics and
-Table~\ref{tab:evaluation-per-query} the per-need comparison; the interpolated
-precision-recall curves are shown in Figure~\ref{fig:pr-curve}. Setup B improves on
-the baseline for every aggregate metric: P@5 rises from 0.760 to 0.880, P@10 from
+Table~\ref{tab:evaluation-per-query} the per-need comparison. In this snapshot,
+P@5 rises from 0.760 to 0.880, P@10 from
 0.640 to 0.720, MAP from 0.488 to 0.611, nDCG@10 from 0.683 to 0.698, and Recall@20
 from 0.577 to 0.729. MRR@10 is 1.0 for both setups and for every need, meaning that
 the first returned movie is relevant in all ten query/setup combinations; the two
@@ -738,40 +784,6 @@ Q5 & B & 1.000 & 0.600 & 0.837 & 0.883 & 0.857 & 1.000 \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/pr_curve.pdf}
-  \caption{Interpolated precision-recall curves computed with trec\_eval
-  (\texttt{iprec\_at\_recall}), averaged over the five needs at 11 recall levels.}
-  \Description{A precision-recall chart with recall on the horizontal axis and
-  interpolated precision on the vertical axis. Setup B is level with Setup A at
-  recall 0.0 and 0.1, slightly below it at recall 0.2, and clearly above it from
-  recall 0.3 onward, with the largest gap in the middle of the curve.}
-  \label{fig:pr-curve}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/pr_curve_A.pdf}
-  \caption{Per-query precision-recall curves for Setup A, computed from
-  trec\_eval's \texttt{iprec\_at\_recall} values. Each curve is labelled with AP,
-  11-point average precision (AUC), and P@10.}
-  \Description{A precision-recall chart for Setup A containing five stepped curves
-  labelled Q1 through Q5 with AP, AUC, and P@10.}
-  \label{fig:pr-curve-A}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\columnwidth]{figures/pr_curve_B.pdf}
-  \caption{Per-query precision-recall curves for Setup B, computed from
-  trec\_eval's \texttt{iprec\_at\_recall} values. Each curve is labelled with AP,
-  11-point average precision (AUC), and P@10.}
-  \Description{A precision-recall chart for Setup B containing five stepped curves
-  labelled Q1 through Q5 with AP, AUC, and P@10.}
-  \label{fig:pr-curve-B}
-\end{figure}
-
 \subsection{Per-need analysis}
 The plot-based needs gain the most. For Q3 (stranded astronauts), Setup A's strict
 \textit{astronaut} \texttt{AND} (\textit{stranded} \texttt{OR} \textit{survive})
@@ -803,16 +815,8 @@ P@10 (0.600) and Recall@20 (0.857), while AP rises from 0.733 to 0.837 and nDCG@
 from 0.853 to 0.883 because the eDisMax plot query places the strongest matches
 earlier.
 
-The precision-recall curves in Figure~\ref{fig:pr-curve}, computed from trec\_eval's
-11-point interpolated precision, summarize the same trade-off. Setup B is level with
-Setup A at recall 0.0 and 0.1, where both reach 1.00, is slightly below at recall 0.2
-(0.94 vs.\ 0.97), and is clearly above from recall 0.3 onward. The advantage is
-largest between recall 0.4 and 0.7, where Setup B keeps interpolated precision
-between 0.60 and 0.83 while Setup A falls to between 0.17 and 0.59. The corresponding
-11-point average precision (AUC) is 0.530 for Setup A and 0.646 for Setup B. The
-per-query breakdown is shown in Figures~\ref{fig:pr-curve-A} and~\ref{fig:pr-curve-B}. Setup B is thus
-the better choice when users need the relevant movies found, whereas Setup A remains
-competitive when only the very top of the ranking is used.
+On these five historical needs, B retrieved a larger fraction of the judged
+relevant movies and both systems returned a relevant movie first for every need.
 
 
 \section{Conclusions and Future Work}
@@ -823,14 +827,14 @@ sources into 6{,}104 validated JSON Lines documents carrying 12{,}057 reviews.
 Characterization showed that Wikipedia plots are long and narrative but cover only
 66.7\% of cleaned movies, while reviews are sparse and dominated by generic film
 vocabulary. The Solr index uses a parent/child model that keeps reviews as separate
-scored documents, and the Setup A and Setup B configurations provide a precision-oriented
-baseline and an eDisMax alternative for five information needs.
+scored documents. The current baseline searches one text field and the reranker
+adds overview evidence for story queries.
 
 The main limitations follow from the sources rather than the implementation. Review-based
 needs can reach only the 3{,}544 movies with at least one review (58.1\%), and plot-based
 needs depend on Wikipedia coverage and the 50-word filter, which excluded 3{,}605 of the
 9{,}709 valid TMDB identifiers. The index is lexical, so a query must share vocabulary
-with the plot or review text. Evaluation on the 135 pooled candidates shows that the
+with the plot or review text. The Milestone 2 evaluation on 135 pooled candidates showed that the
 eDisMax Setup B improves P@10 (0.640 to 0.720), MAP (0.488 to 0.611), nDCG@10 (0.683
 to 0.698), and Recall@20 (0.577 to 0.729) over the baseline. The gain is concentrated
 in the plot-based needs Q3 and Q4, while the review-based Q1 does not improve in AP

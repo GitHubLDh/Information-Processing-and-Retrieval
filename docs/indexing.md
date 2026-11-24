@@ -132,7 +132,7 @@ scripts/build_collection.py
         │
         ▼
 solr/startup.sh
-  ├── start Docker container solr_pri (solr:10)
+  ├── start Docker container solr_pri (solr:10.0.0)
   ├── create core "movies"
   ├── POST solr/schema.json to /schema
   ├── POST solr_documents.json to /update?commit=true
@@ -224,7 +224,7 @@ remains empty for these documents; do not use it as the parent link.
 `solr/startup.sh` is destructive and reproducible:
 
 1. removes any old `solr_pri` container;
-2. starts `solr:10` and pre-creates the `movies` core;
+2. starts `solr:10.0.0` and pre-creates the `movies` core;
 3. applies `solr/schema.json` through the Solr Schema API;
 4. uploads `data/final/solr_documents.json` with `commit=true`;
 5. compares the indexed counts with the collection counts and fails on a mismatch.

@@ -1,5 +1,7 @@
 # Evaluation results
 
+Computed with trec_eval version 10.0.
+
 Relevance threshold: rel >= 1. Run depth: 20. All retrieved movies at this depth have manual judgments.
 
 ## Judgment summary
@@ -107,5 +109,5 @@ averaging; delta rows are Setup B minus Setup A.
 - AP, nDCG, recall and MRR are undefined for a query with no relevant judged document; those queries are excluded from the corresponding mean.
 - Recall uses all known relevant manual judgments, including earlier pools.
 - The precision-recall values are trec_eval's `iprec_at_recall_0.00` through `iprec_at_recall_1.00` measures, with `11pt_avg` as the area under the curve (AUC). The mean curve averages each of the 11 recall levels across the five queries.
-- `pr_curve_A.pdf` and `pr_curve_B.pdf` plot the five per-query curves for each setup in the style of the tutorial's `plot_pr_curve.py`; `pr_curve.pdf` is the mean curve used in the report.
+- `pr_curve_A.pdf` and `pr_curve_B.pdf` plot the five per-query curves for each setup and `pr_curve.pdf` shows their mean curves for the current runs.
 - Five queries are a small sample: differences are descriptive, not statistically tested.

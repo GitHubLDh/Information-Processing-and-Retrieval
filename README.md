@@ -54,18 +54,20 @@ eval/
   metrics.py        computes P@k, MAP, nDCG, recall, PR curves, and tables
   data/
     pool.csv        pooled candidate set
-    qrels.csv       pooled graded relevance judgments
+    qrels.csv       cumulative manual grades (including earlier pools)
+    qrels_milestone2.csv  frozen manual grades for fixed-candidate experiments
     qrels_template.csv  blank judgment sheet
     evidence.csv    pooled evidence used in manual judging
   judging/          human-readable movie evidence sheets used during manual grading
   output/
-    results.md      generated evaluation results
+    results.md      current metrics or pending judgment coverage
+    pr_curve.pdf    current mean precision–recall chart used in the report
 ```
 
 ## Requirements
 
 - Python 3.10+
-- `trec_eval` on PATH for final evaluation
+- `trec_eval` v10.0 on PATH to reproduce the current evaluation
 - Docker Desktop / Docker Engine (for Solr)
 - `curl`, `jq` (Solr startup/verification)
 - `latexmk` with `pdflatex` (report build)
@@ -144,7 +146,8 @@ cd report
 latexmk -pdf main.tex
 ```
 
-The PDF is written to `report/main.pdf`.
+The PDF is written to `report/main.pdf`. Run `latexmk -c main.tex` from
+`report/` to clear intermediate build files while keeping the PDF.
 
 ### Shortest end-to-end path
 
@@ -160,4 +163,6 @@ python3 eval/metrics.py
 cd report && latexmk -pdf main.tex
 ```
 
-Rebuild the judging sheet and repeat the manual export whenever the pool changes.
+After changing a run, rebuild the pool and judge any new candidates. The terminal
+judge saves directly. When using the offline judging page, save its CSV export
+as `eval/data/qrels.csv` before computing metrics.

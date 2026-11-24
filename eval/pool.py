@@ -23,9 +23,10 @@ from pathlib import Path
 import common
 
 
-def build_pool() -> list[dict]:
+def build_pool(collection: dict[str, dict] | None = None) -> list[dict]:
     rankings = {setup: common.load_run(setup) for setup in common.SETUPS}
-    collection = common.load_collection()
+    if collection is None:
+        collection = common.load_collection()
 
     rows: list[dict] = []
     for qid in common.QIDS:
@@ -54,14 +55,7 @@ def build_pool() -> list[dict]:
             row["overview"] = common.clean_text(record.get("overview") or "")
             rows.append(row)
 
-    rows.sort(key=lambda row: (
-        row["qid"],
-        min(
-            int(row["rank_A"]) if row["rank_A"] else 10**6,
-            int(row["rank_B"]) if row["rank_B"] else 10**6,
-        ),
-        row["title"],
-    ))
+    rows.sort(key=default_pool_sort)
     return rows
 
 
@@ -180,7 +174,8 @@ def write_evidence(rows: list[dict], collection: dict[str, dict], out_dir: Path)
 
 
 def main() -> None:
-    rows = build_pool()
+    collection = common.load_collection()
+    rows = build_pool(collection)
     write_csv(
         common.DEFAULT_POOL,
         rows,
@@ -197,7 +192,7 @@ def main() -> None:
         ["qid", "docid", "title", "year", "rel", "judge", "notes"],
     )
 
-    write_evidence(rows, common.load_collection(), common.EVAL_DIR / "judging")
+    write_evidence(rows, collection, common.EVAL_DIR / "judging")
 
     counts: dict[str, int] = {}
     for row in rows:

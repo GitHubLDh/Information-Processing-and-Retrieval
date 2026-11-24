@@ -23,10 +23,10 @@ need.
 | Port 8983 free | `lsof -i :8983` (or `curl localhost:8983`) |
 | Repository root as working directory | `pwd` |
 
-The `solr:10` image is normally already present. To pre-pull it:
+To pre-pull the Solr version used for the saved runs:
 
 ```bash
-docker pull solr:10
+docker pull solr:10.0.0
 ```
 
 ## 1. Start and index
@@ -157,7 +157,7 @@ nested review query returns parent movies; `movie-11` has 7 children.
 |---|---|---|
 | `Cannot connect to the Docker daemon` | Docker not running | start Docker Desktop / `sudo systemctl start docker` |
 | `port is already allocated` | another process on 8983 | `docker rm -f solr_pri`; check `lsof -i :8983` |
-| `docker: error pulling image` | network/registry issue | use the existing `solr:10` image or retry `docker pull solr:10` |
+| `docker: error pulling image` | network/registry issue | retry `docker pull solr:10.0.0` |
 | `Solr core did not become ready` | container failed or slow start | `docker logs solr_pri`; wait and rerun |
 | `404` / unknown core | wrong core name or stale container | use `movies`; rerun `bash solr/startup.sh` |
 | `400 undefined field` | typo or field not in schema | check the Schema screen; use the exact field names |
@@ -186,9 +186,9 @@ Capture these for the presentation (`demo-gg`):
 
 ## Notes for the speaker
 
-- Do not claim that Setup B is better before the qrels are complete; the demo
-  shows **configuration differences and candidate results**, not measured
-  improvements.
+- All 100 current top-20 pairs have manual grades. On these five needs, B raised
+  P@10 from 0.740 to 0.780. Pooled recall stayed at 0.588 because B reranks
+  the same movies. [Per-need results](../eval/output/results.md)
 - The index is the artifact being demonstrated; the evaluation numbers belong to
   the evaluation section.
 - If time is short, skip the manual `curl` block and run

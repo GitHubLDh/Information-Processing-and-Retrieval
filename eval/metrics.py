@@ -188,6 +188,7 @@ def write_results(
     out_dir: Path,
     threshold: int,
     cutoff: int,
+    engine_version: str,
 ) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     needs = common.load_all_needs()
@@ -216,6 +217,7 @@ def write_results(
 
     # JSON summary, also useful for the report and for later milestones.
     payload = {
+        "trec_eval_version": engine_version,
         "threshold": threshold,
         "cutoff": cutoff,
         "aggregate": aggregate,
@@ -242,6 +244,8 @@ def write_results(
     # Markdown report.
     lines = [
         "# Evaluation results",
+        "",
+        f"Computed with {engine_version}.",
         "",
         f"Relevance threshold: rel >= {threshold}. Run depth: {cutoff}. "
         "All retrieved movies at this depth have manual judgments.",
@@ -370,8 +374,7 @@ def write_results(
         "`iprec_at_recall_1.00` measures, with `11pt_avg` as the area under the curve (AUC). "
         "The mean curve averages each of the 11 recall levels across the five queries.",
         "- `pr_curve_A.pdf` and `pr_curve_B.pdf` plot the five per-query curves for each setup "
-        "in the style of the tutorial's `plot_pr_curve.py`; `pr_curve.pdf` is the mean curve "
-        "used in the report.",
+        "and `pr_curve.pdf` shows their mean curves for the current runs.",
         "- Five queries are a small sample: differences are descriptive, not statistically tested.",
         "",
     ])
@@ -466,6 +469,8 @@ def write_latex_tables(
 
 def compile_standalone(tex_path: Path, out_dir: Path) -> Path | None:
     """Compile a standalone pgfplots document and return the PDF path."""
+    pdf = tex_path.with_suffix(".pdf")
+    pdf.unlink(missing_ok=True)
     if not shutil.which("pdflatex"):
         return None
     process = subprocess.run(
@@ -473,8 +478,10 @@ def compile_standalone(tex_path: Path, out_dir: Path) -> Path | None:
         cwd=out_dir,
         capture_output=True,
         text=True,
+        errors="replace",
     )
     if process.returncode != 0:
+        pdf.unlink(missing_ok=True)
         print(f"warning: could not compile {tex_path.name} with pdflatex")
         print(process.stdout[-1200:])
         return None
@@ -625,7 +632,12 @@ def pending_coverage(runs, qrels, cutoff, threshold):
     rows = []
     for qid in common.QIDS:
         judged = qrels.get(qid, {})
-        ids = {s: [e["docid"] for e in run.get(qid, [])[:cutoff]] for s, run in runs.items()}
+        # trec_eval v10 sorts the submitted prefix by score and then descending docno.
+        ids = {}
+        for setup, run in runs.items():
+            entries = sorted(run.get(qid, [])[:cutoff], reverse=True,
+                             key=lambda e: (e["score"], e["docid"]))
+            ids[setup] = [entry["docid"] for entry in entries]
         pool = set(ids["A"]) | set(ids["B"])
         row = {"qid": qid, "pooled": len(pool), "unjudged": len(pool - judged.keys())}
         for setup, docs in ids.items():
@@ -645,6 +657,13 @@ def pending_coverage(runs, qrels, cutoff, threshold):
 
 def write_pending(rows, out_dir, cutoff, threshold):
     out_dir.mkdir(parents=True, exist_ok=True)
+    # Withdraw final products from a previous run when the pool needs new grades.
+    for name in ("results_table.tex", "results_per_query_table.tex", "results_compact_table.tex",
+                 "pr_curve.csv", "pr_curve_mean.csv"):
+        (out_dir / name).unlink(missing_ok=True)
+    for stem in ("pr_curve", "pr_curve_A", "pr_curve_B"):
+        for suffix in (".tex", ".pdf"):
+            (out_dir / (stem + suffix)).unlink(missing_ok=True)
     total = sum(r["unjudged"] for r in rows)
     payload = dict(status="pending_manual_judgments", cutoff=cutoff, threshold=threshold, coverage=rows)
     (out_dir / "results.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
@@ -678,6 +697,8 @@ def main() -> None:
                         help="minimum grade counted as relevant for binary metrics")
     parser.add_argument("--cutoff", type=int, default=20)
     args = parser.parse_args()
+    if args.cutoff < 1:
+        parser.error("--cutoff must be positive")
 
     if not args.qrels.exists():
         raise SystemExit(
@@ -685,8 +706,6 @@ def main() -> None:
         )
 
     qrels = common.load_qrels(args.qrels)
-    if not qrels:
-        raise SystemExit(f"{args.qrels} contains no judgments")
     require_manual_judgments(args.qrels)
     runs = {setup: common.load_run(setup, args.runs_dir) for setup in common.SETUPS}
     coverage = pending_coverage(runs, qrels, args.cutoff, args.threshold)
@@ -720,7 +739,9 @@ def main() -> None:
                 args.cutoff,
             )
 
-    write_results(all_results, qrels, args.out_dir, args.threshold, args.cutoff)
+    version = subprocess.run([trec_eval, "-v"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                             text=True, check=True).stdout.strip()
+    write_results(all_results, qrels, args.out_dir, args.threshold, args.cutoff, version)
 
 
 if __name__ == "__main__":

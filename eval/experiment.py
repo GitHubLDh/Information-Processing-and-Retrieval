@@ -102,7 +102,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--uri", default="http://127.0.0.1:18983/solr")
     parser.add_argument("--collection", default="typo_eval")
-    parser.add_argument("--qrels", default=common.EVAL_DIR / "milestone2/qrels.csv")
+    parser.add_argument("--qrels", default=common.MILESTONE2_QRELS)
     parser.add_argument("--prepare", action="store_true", help="initialize an empty disposable typo_eval core first")
     args = parser.parse_args()
     if args.prepare:

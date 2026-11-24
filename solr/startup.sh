@@ -32,7 +32,7 @@ done
 
 # Start the Solr service and create the core if needed.
 docker rm -f solr_pri >/dev/null 2>&1 || true
-docker run -p 8983:8983 --name solr_pri -d solr:10 solr-precreate "$CORE" >/dev/null
+docker run -p 8983:8983 --name solr_pri -d solr:10.0.0 solr-precreate "$CORE" >/dev/null
 
 echo "Waiting for Solr core '$CORE'..."
 ready=false

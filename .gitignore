@@ -19,3 +19,4 @@ report/main.pdf
 __pycache__/
 *.pyc
 data/interim/wikipedia_responses.jsonl
+/eval/data/qrels_preliminary.csv

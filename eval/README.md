@@ -4,7 +4,8 @@ This directory contains the workflow for building a shared candidate pool,
 assigning relevance judgments, and comparing Setup A and Setup B.
 The workflow is organized into separate sections:
 
-- `eval/data/` stores pooled candidates and qrels/ground-truth files.
+- `eval/data/qrels.csv` is the authoritative, cumulative manual judgment file. The fixed-pool experiment reads the separate 135-grade snapshot in `eval/data/qrels_milestone2.csv`.
+- `eval/data/pool.csv`, `evidence.csv` and `qrels_template.csv` are regenerated from the current rankings and collection.
 - `eval/judging/` stores the human-readable evidence sheets for manual judging.
 - `eval/output/` stores the generated metrics tables and PR-curve outputs.
 - the top-level scripts remain in `eval/` for the everyday workflow.
@@ -14,12 +15,14 @@ Run commands from the repository root.
 ## Evaluation flow
 
 1. Run Setup A and Setup B retrieval to produce ranked run files under `runs/`.
+   Every need must have a saved ranking. For a query with zero hits, keep its
+   empty per-query JSON as the TREC format has no row for it.
 2. Build the pooled candidates with `pool.py`. It combines each setup's top 20
    results for every query and deduplicates movies by `movie_id`.
 3. Judge each pooled candidate, assigning a relevance grade of 0, 1, or 2.
 4. Calculate metrics with `metrics.py`, which converts the rankings and
    judgments to TREC format and calls `trec_eval`.
-5. Current tables and precision-recall charts are written to `eval/output/`. The report retains its historical figures.
+5. Current tables and precision-recall charts are written to `eval/output/`. The report loads its natural-language A/B charts directly from this directory.
 
 ## Build the pool
 
@@ -38,8 +41,8 @@ Rebuilding the pool may add candidates; those need judgments before final
 evaluation.
 The offline judging page in `eval/judging/index.html` includes the rebuilt
 pool and the grades already in `qrels.csv` at generation time. Its export
-keeps historical judgments outside the current pool. Use one grading session
-at a time when saving to the same qrels file.
+keeps historical judgments outside the current pool. Save the exported CSV as
+`eval/data/qrels.csv` before running metrics. Use one grading session at a time.
 
 ## Judge candidates in the terminal
 
@@ -75,9 +78,8 @@ python3 eval/judge.py --judge "Your Name" --review
 When reviewing, press Enter to keep the current grade or enter `0`, `1`, or `2`
 to change it. The `judge` column records the name supplied with `--judge`.
 
-The `seed_qrels.py` script can create predefined **preliminary** judgments, but
-these are not a substitute for manual review. Do not use `--force` unless you
-intend to replace the existing `eval/data/qrels.csv`.
+For historical comparisons, `python3 eval/seed_qrels.py` can regenerate the
+preliminary sheet locally. Manual grading superseded those seed grades.
 
 ## Calculate and interpret metrics
 
@@ -87,7 +89,10 @@ After judging, calculate the results:
 python3 eval/metrics.py
 ```
 
-The script requires `trec_eval` on `PATH` (on macOS: `brew install trec_eval`).
+Use the [trec_eval v10.0 release](https://github.com/usnistgov/trec_eval/tree/v10.0)
+on `PATH` to reproduce the current curves. Version 10 rounds recall cutoffs to
+the nearest document count. Version 9 can give different interpolated precision
+and 11-point average values for the same rankings and grades.
 It reads the A/B rankings and `eval/data/qrels.csv`, writes temporary TREC qrels and
 run files, and calls `trec_eval` with `-q` for per-query and aggregate values.
 Following the tutorial's `solr_to_trec.py`, the run files keep each Solr score
@@ -96,7 +101,8 @@ by score, so equal scores are resolved by its own tie-breaking.
 
 By default, grades 1 and 2 count as relevant for binary metrics
 (`--threshold 1`); `--threshold 2` counts only grade 2 as relevant. If grades are missing, the script writes coverage and paired precision bounds to
-`eval/output/results.md/csv/json` and stops before computing final metrics. The default ranking depth is 20
+`results.md`, `results.csv` and `results.json` under `eval/output/` and removes
+stale final tables and charts from that directory. The default ranking depth is 20
 (`--cutoff 20`).
 
 It reports the corresponding `trec_eval` measures for each query and as
@@ -146,9 +152,11 @@ By default, `metrics.py` writes its outputs to `eval/output/`:
 - `pr_curve_A.tex`/`pr_curve_A.pdf` and `pr_curve_B.tex`/`pr_curve_B.pdf`:
   per-query plots in the tutorial's `plot_pr_curve.py` style.
 
-The Milestone 2 report uses the hand-written queries and historical trec_eval
-figures from `74e164f`. The earlier Python tables, curves and frozen qrels
-from `f06387f` are archived in [milestone2/](milestone2/). New charts stay in the evaluation
-output directory. The [natural-language query experiments](../docs/query_specification.md)
-use the frozen judgments for controlled comparisons. The main evaluation
-uses the current unrestricted runs and all accumulated manual grades.
+The [current mean curve](output/pr_curve.pdf) and the per-query charts for
+[Setup A](output/pr_curve_A.pdf) and [Setup B](output/pr_curve_B.pdf) use the
+natural-language runs. The hand-written query charts are preserved at Git
+revision `74e164f` under `report/figures/`. The earlier Python tables and curves
+are available in the [original evaluation snapshot](https://github.com/GitHubLDh/Information-Processing-and-Retrieval/tree/f06387fe46592d9c44279da862e73639a4100915/eval).
+The [controlled experiments](../docs/query_specification.md) use the frozen
+judgments. The [current results](output/results.md) use the unrestricted A/B runs
+and all 219 manual grades. All 100 pairs in the current top-20 pool are judged.

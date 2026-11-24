@@ -21,7 +21,7 @@ The Q3 and Q4 genre constraints apply equally to A and B. They can exclude relev
 
 ## Full-collection results
 
-All 84 newly retrieved pairs received manual grades. Together with 135 prior grades, the qrels contain 219 assessed pairs. The initial unrestricted A/weighted-overview trial pooled 130 pairs. The final A/B pool contains 100 distinct pairs, all judged. The unrestricted comparisons use trec_eval, the same 219 grades, binary threshold 1 and depth 20. nDCG uses the grade as its gain.
+All 84 newly retrieved pairs received manual grades. Together with 135 prior grades, the qrels contain 219 assessed pairs. The initial unrestricted A/weighted-overview trial pooled 130 pairs. The final A/B pool contains 100 distinct pairs, all judged. The unrestricted comparisons use trec_eval, the same 219 grades, binary threshold 1 and depth 20. nDCG uses the grade as its gain. The checked-in precision–recall curves use trec_eval v10.0.
 
 | Unrestricted system | P@5 | P@10 | MAP | nDCG@10 | Recall@20 | MRR@10 |
 |---|---:|---:|---:|---:|---:|---:|
@@ -80,4 +80,4 @@ python eval/experiment.py --prepare
 docker stop pri-typo-lab
 ```
 
-The script prints per-need and aggregate results for every trial and uses the frozen qrels under `eval/milestone2/`. The [current evaluation](../eval/output/results.md) reports all six metrics for the unrestricted runs. The [Milestone 2 scores](../eval/milestone2/results.md) belong to the earlier hand-written queries at commit `f06387f`.
+The script prints per-need and aggregate results using the [135 frozen manual grades](../eval/data/qrels_milestone2.csv). The [current evaluation](../eval/output/results.md) reports all six metrics for the unrestricted runs. The [original Python scores](https://github.com/GitHubLDh/Information-Processing-and-Retrieval/blob/f06387fe46592d9c44279da862e73639a4100915/eval/results.md) and the [historical trec_eval report charts](https://github.com/GitHubLDh/Information-Processing-and-Retrieval/tree/74e164fd2054d32c0b4a6dd3e41cb3ec6f46bf34/report/figures) describe the earlier hand-written queries.

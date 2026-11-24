@@ -83,7 +83,11 @@ def to_run_format(solr_response: dict, qid: str, overview_chars: int = 150) -> l
 def main(queries_dir: Path, runs_dir: Path, setup: str, solr_uri: str, collection: str, run_id: str):
     runs_dir.mkdir(parents=True, exist_ok=True)
     trec_rows = []
-    for query_file in sorted(queries_dir.glob("Q*.json")):
+    query_files = sorted(queries_dir.glob("Q*.json"))
+    if not query_files:
+        raise ValueError(f"No Q*.json query definitions in {queries_dir}")
+    outputs = {}
+    for query_file in query_files:
         need_id = query_file.stem  # "Q1.json" -> "Q1"
         query_file_contents = json.loads(query_file.read_text(encoding="utf-8"))
         params = query_params(query_file_contents, setup)
@@ -100,12 +104,14 @@ def main(queries_dir: Path, runs_dir: Path, setup: str, solr_uri: str, collectio
             "results": results,
         }
         out_path = runs_dir / f"{setup}_{need_id}.json"
-        out_path.write_text(json.dumps(output, indent=2, ensure_ascii=False), encoding="utf-8")
-        print(f"wrote {out_path} ({len(results)} results)")
+        outputs[out_path] = output
 
         for item in results:
             trec_rows.append(f"{need_id} Q0 {item['movie_id']} {item['rank']} {item['score']} {run_id}")
 
+    for out_path, output in outputs.items():
+        out_path.write_text(json.dumps(output, indent=2, ensure_ascii=False), encoding="utf-8")
+        print(f"wrote {out_path} ({len(output['results'])} results)")
     trec_path = runs_dir / f"{setup}.run"
     trec_path.write_text("\n".join(trec_rows) + "\n")
     print(f"TREC run: {trec_path}")

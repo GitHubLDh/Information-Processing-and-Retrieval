@@ -1,4 +1,5 @@
 {
+  "trec_eval_version": "trec_eval version 10.0",
   "threshold": 1,
   "cutoff": 20,
   "aggregate": {

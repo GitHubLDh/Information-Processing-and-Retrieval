@@ -17,6 +17,7 @@ DATA_DIR = EVAL_DIR / "data"
 REPORTS_DIR = EVAL_DIR / "output"
 DEFAULT_POOL = DATA_DIR / "pool.csv"
 DEFAULT_QRELS = DATA_DIR / "qrels.csv"
+MILESTONE2_QRELS = DATA_DIR / "qrels_milestone2.csv"
 
 QIDS = ["Q1", "Q2", "Q3", "Q4", "Q5"]
 SETUPS = ["A", "B"]
@@ -194,13 +195,18 @@ def load_json_run(path: Path) -> dict[str, list[dict]]:
 def load_run(setup: str, runs_dir: Path = RUNS_DIR) -> dict[str, list[dict]]:
     """Load a setup's ranking, preferring the TREC file then per-query JSON."""
     trec_path = Path(runs_dir) / f"{setup}.run"
-    if trec_path.exists():
-        return load_trec_run(trec_path)
-    rankings: dict[str, list[dict]] = {}
-    for path in sorted(Path(runs_dir).glob(f"{setup}_Q*.json")):
-        rankings.update(load_json_run(path))
-    if not rankings:
-        raise FileNotFoundError(f"No run files found for setup {setup} in {runs_dir}")
+    has_trec = trec_path.exists()
+    rankings = load_trec_run(trec_path) if has_trec else {}
+    for qid in QIDS:
+        if qid in rankings:
+            continue
+        path = Path(runs_dir) / f"{setup}_{qid}.json"
+        if not path.exists():
+            raise FileNotFoundError(f"Incomplete {setup} run: no results recorded for {qid} in {runs_dir}")
+        saved = load_json_run(path)
+        if qid not in saved or (has_trec and saved[qid]):
+            raise ValueError(f"Inconsistent {setup} run for {qid}: check {path.name} and {trec_path.name}")
+        rankings[qid] = saved[qid]  # TREC has no row for a genuine zero-hit query.
     return rankings
 
 
@@ -226,12 +232,19 @@ def load_qrels(path: Path = DEFAULT_QRELS) -> dict[str, dict[str, int]]:
 def load_all_needs() -> dict[str, dict]:
     """Merge curated criteria with the need text stored in the query files."""
     needs = {qid: dict(value) for qid, value in INFORMATION_NEEDS.items()}
-    for path in sorted((QUERIES_DIR / "setup_a").glob("Q*.json")):
-        payload = load_json(path)
-        other = load_json(QUERIES_DIR / "setup_b" / path.name)
+    for setup in SETUPS:
+        directory = QUERIES_DIR / f"setup_{setup.lower()}"
+        if {p.stem for p in directory.glob("Q*.json")} != set(QIDS):
+            raise ValueError(f"Expected {', '.join(QIDS)} in {directory}")
+    for qid in QIDS:
+        name = f"{qid}.json"
+        payload = load_json(QUERIES_DIR / "setup_a" / name)
+        other = load_json(QUERIES_DIR / "setup_b" / name)
+        if payload["qid"] != qid:
+            raise ValueError(f"Query ID does not match {name}")
         for key in ("qid", "source", "need", "filters"):
             if payload[key] != other[key]:
-                raise ValueError(f"Setups disagree on {key} for {path.name}")
+                raise ValueError(f"Setups disagree on {key} for {name}")
         needs[payload["qid"]]["need"] = payload["need"]
     return needs
 
