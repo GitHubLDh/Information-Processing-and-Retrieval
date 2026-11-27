@@ -44,6 +44,7 @@ scripts/
   wiki_parse.py           extracts plots -> data/interim/wikipedia_plot.csv
   build_collection.py     joins interim files -> data/final/collection.jsonl + Solr upload file
   solr_client.py          runs Setup A or B query files and writes JSON and TREC runs
+  trec_eval_run.py        official trec_eval metrics for arbitrary saved runs
   demo_queries.py         prints a side-by-side A/B demo against the running index
   verify_index.py         checks the indexed collection against the source documents
 

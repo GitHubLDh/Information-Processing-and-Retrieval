@@ -1,0 +1,41 @@
+{
+  "qid": "Q4",
+  "need": "An FBI agent investigates a series of murders by a serial killer in a crime film or thriller.",
+  "source": "story",
+  "filters": [
+    "genres:(crime OR thriller)"
+  ],
+  "rewrite": {
+    "mode": "rubric",
+    "field": "plot",
+    "clauses": [
+      "plot:\"FBI agent\"^0.3",
+      "plot:\"serial killer\"^0.3",
+      "plot:\"series of murders\"^0.2",
+      "plot:profiler^0.1"
+    ],
+    "evidence": "eval/common.py INFORMATION_NEEDS vocabulary/criteria only"
+  },
+  "params": {
+    "q": "{!edismax v=$text bq=$rw}",
+    "text": "An FBI agent investigates a series of murders by a serial killer in a crime film or thriller.",
+    "qf": "plot",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:(crime OR thriller)"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "overviewq": "{!edismax qf=overview v=$text}",
+    "rq": "{!rerank reRankQuery=$overviewq reRankDocs=20 reRankWeight=1}",
+    "rw": [
+      "plot:\"FBI agent\"^0.3",
+      "plot:\"serial killer\"^0.3",
+      "plot:\"series of murders\"^0.2",
+      "plot:profiler^0.1"
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "qid": "Q2",
+  "need": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+  "source": "reviews",
+  "filters": [
+    "genres:romance"
+  ],
+  "rewrite": {
+    "mode": "rubric",
+    "field": "review_text",
+    "clauses": [
+      "review_text:predictable^0.3",
+      "review_text:\"formulaic romance\"^0.2",
+      "review_text:heartwarming^0.2",
+      "review_text:sentimental^0.1"
+    ],
+    "evidence": "eval/common.py INFORMATION_NEEDS vocabulary/criteria only"
+  },
+  "params": {
+    "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
+    "text": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+    "qf": "review_text",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:romance"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text bq=$rw}",
+    "rw": [
+      "review_text:predictable^0.3",
+      "review_text:\"formulaic romance\"^0.2",
+      "review_text:heartwarming^0.2",
+      "review_text:sentimental^0.1"
+    ]
+  }
+}

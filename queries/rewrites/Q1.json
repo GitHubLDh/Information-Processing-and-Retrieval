@@ -1,0 +1,40 @@
+{
+  "qid": "Q1",
+  "need": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+  "source": "reviews",
+  "filters": [
+    "genres:comedy"
+  ],
+  "rewrite": {
+    "mode": "rubric",
+    "field": "review_text",
+    "clauses": [
+      "review_text:\"witty dialogue\"^0.3",
+      "review_text:\"sharp writing\"^0.3",
+      "review_text:satirical^0.2",
+      "review_text:clever^0.1"
+    ],
+    "evidence": "eval/common.py INFORMATION_NEEDS vocabulary/criteria only"
+  },
+  "params": {
+    "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
+    "text": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+    "qf": "review_text",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:comedy"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text bq=$rw}",
+    "rw": [
+      "review_text:\"witty dialogue\"^0.3",
+      "review_text:\"sharp writing\"^0.3",
+      "review_text:satirical^0.2",
+      "review_text:clever^0.1"
+    ]
+  }
+}

@@ -8,11 +8,12 @@ grades in `eval/data/qrels.csv`. Rankings were produced on a scratch Solr 10.0.0
 core loaded from `data/final/solr_documents.json`; the M3 baseline reproduced
 `runs/B.run` byte-for-byte before any parameter was changed.
 
-`trec_eval` is not installed in this environment, so the trial metrics below use
-a local implementation of the definitions in `eval/output/results.md` (binary
-relevance at grade >= 1, qrel grade as the nDCG gain, pooled recall, depth 20).
-It reproduces the saved Setup B aggregates exactly, which validates the
-implementation. P4 should reproduce the final comparison with trec_eval v10.0.
+All metrics below were regenerated with **trec_eval v10.0** via
+`scripts/trec_eval_run.py`: binary relevance at grade >= 1, qrel grade as the
+nDCG gain, pooled recall at depth 20. The official engine reproduces the saved
+Setup B aggregates exactly. For `mm=70%`, Q5 has no retrieved documents, so
+trec_eval emits zeros for that query and exits non-zero; those zeros are included
+in the means below.
 
 ## Match requirement (`mm`) and tie breaking
 
@@ -33,10 +34,10 @@ Per-need change from B (`mm=2` / `mm=70%`):
 | Need | AP | nDCG@10 | Recall@20 |
 |---|---:|---:|---:|
 | Q1 | 0.326 → 0.326 / 0.030 | 0.697 → 0.697 / 0.110 | 0.364 → 0.364 / 0.030 |
-| Q2 | 0.486 → 0.486 / 0.037 | 0.891 → 0.891 / 0.110 | 0.519 → 0.519 / 0.037 |
+| Q2 | 0.486 → 0.486 / 0.037 | 0.891 → 0.891 / 0.110 | 0.518 → 0.518 / 0.037 |
 | Q3 | 0.452 → 0.442 / 0.056 | 0.679 → 0.687 / 0.227 | 0.556 → 0.556 / 0.056 |
 | Q4 | 0.460 → 0.465 / 0.071 | 0.603 → 0.603 / 0.257 | 0.500 → 0.500 / 0.071 |
-| Q5 | 0.763 → 0.738 / 0.000 | 0.816 → 0.873 / 0.000 | 1.000 → 1.000 / 0.000 |
+| Q5 | 0.763 → 0.738 / 0.000 | 0.816 → 0.874 / 0.000 | 1.000 → 1.000 / 0.000 |
 
 `mm=70%` collapses the run: after stopword removal and stemming these natural
 sentences still have many terms, and almost no movie matches that many. Q5
@@ -71,7 +72,7 @@ Per-need change from B (`rw=1` / `rw=0.5`):
 | Need | AP | nDCG@10 | Recall@20 |
 |---|---:|---:|---:|
 | Q1 | 0.326 → 0.326 / 0.326 | 0.697 → 0.697 / 0.697 | 0.364 → 0.364 / 0.364 |
-| Q2 | 0.486 → 0.486 / 0.486 | 0.891 → 0.891 / 0.891 | 0.519 → 0.519 / 0.519 |
+| Q2 | 0.486 → 0.486 / 0.486 | 0.891 → 0.891 / 0.891 | 0.518 → 0.518 / 0.518 |
 | Q3 | 0.452 → 0.302 / 0.298 | 0.679 → 0.379 / 0.379 | 0.556 → 0.556 / 0.556 |
 | Q4 | 0.460 → 0.466 / 0.461 | 0.603 → 0.596 / 0.568 | 0.500 → 0.500 / 0.500 |
 | Q5 | 0.763 → 0.738 / 0.757 | 0.816 → 0.836 / 0.845 | 1.000 → 1.000 / 1.000 |
@@ -107,8 +108,8 @@ Per-need change from B (`total` / `avg`):
 
 | Need | P@10 | AP | nDCG@10 | Recall@20 |
 |---|---:|---:|---:|---:|
-| Q1 | 0.800 → 0.500 / 0.000 | 0.326 → 0.178 / 0.022 | 0.697 → 0.490 / 0.000 | 0.364 → 0.212 / 0.121 |
-| Q2 | 0.900 → 0.500 / 0.300 | 0.486 → 0.292 / 0.126 | 0.891 → 0.446 / 0.437 | 0.519 → 0.444 / 0.222 |
+| Q1 | 0.800 → 0.500 / 0.000 | 0.326 → 0.178 / 0.022 | 0.697 → 0.489 / 0.000 | 0.364 → 0.212 / 0.121 |
+| Q2 | 0.900 → 0.500 / 0.300 | 0.486 → 0.292 / 0.126 | 0.891 → 0.446 / 0.437 | 0.518 → 0.444 / 0.222 |
 | Q3 | 0.700 → 0.700 / 0.700 | 0.452 → 0.452 / 0.452 | 0.679 → 0.679 / 0.679 | 0.556 → 0.556 / 0.556 |
 | Q4 | 0.900 → 0.900 / 0.900 | 0.460 → 0.460 / 0.460 | 0.603 → 0.603 / 0.603 | 0.500 → 0.500 / 0.500 |
 | Q5 | 0.600 → 0.600 / 0.600 | 0.763 → 0.763 / 0.763 | 0.816 → 0.816 / 0.816 | 1.000 → 1.000 / 1.000 |
@@ -194,4 +195,7 @@ python3 scripts/run_system.py --system m3_lexical \
   --queries queries/m3/variants/reviewjoin_avg --uri http://127.0.0.1:18984/solr --run-id M3_JOIN_AVG
 python3 scripts/run_system.py --system m3_lexical \
   --queries queries/m3/variants/phrase --uri http://127.0.0.1:18984/solr --run-id M3_PF
+python3 scripts/trec_eval_run.py runs/B.run runs/M3_MM2.run runs/M3_MM70.run \
+  runs/M3_BOOST_RW1.run runs/M3_BOOST_RW05.run \
+  runs/M3_JOIN_TOTAL.run runs/M3_JOIN_AVG.run runs/M3_PF.run --per-query
 ```

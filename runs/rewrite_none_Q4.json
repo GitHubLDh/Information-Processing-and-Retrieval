@@ -1,0 +1,194 @@
+{
+  "system": "m3_lexical",
+  "setup": "rewrite_none",
+  "qid": "Q4",
+  "need": "An FBI agent investigates a series of murders by a serial killer in a crime film or thriller.",
+  "rewrite_mode": "none",
+  "rewrite_clauses": [
+    "plot:\"FBI agent\"^0.3",
+    "plot:\"serial killer\"^0.3",
+    "plot:\"series of murders\"^0.2",
+    "plot:profiler^0.1"
+  ],
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 1518,
+  "query_params": {
+    "q": "{!edismax v=$text}",
+    "text": "An FBI agent investigates a series of murders by a serial killer in a crime film or thriller.",
+    "qf": "plot",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:(crime OR thriller)"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "overviewq": "{!edismax qf=overview v=$text}",
+    "rq": "{!rerank reRankQuery=$overviewq reRankDocs=20 reRankWeight=1}"
+  },
+  "latency_ms": 4.327,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 339527,
+      "title": "Solace",
+      "score": 18.983631,
+      "overview": "A psychic doctor, John Clancy, works with an FBI special agent in search of a serial killer.",
+      "year": 2015
+    },
+    {
+      "rank": 2,
+      "movie_id": 181283,
+      "title": "Child 44",
+      "score": 18.832148,
+      "overview": "Set in Stalin-era Soviet Union, a disgraced MGB agent is dispatched to investigate a series of child murders -- a case that begins to connect with the very top of party leadership.",
+      "year": 2015
+    },
+    {
+      "rank": 3,
+      "movie_id": 12395,
+      "title": "Thunderheart",
+      "score": 16.72765,
+      "overview": "A young mixed-blood FBI agent is assigned to work with a cynical veteran investigator on a murder on a poverty-stricken Sioux reservation.",
+      "year": 1992
+    },
+    {
+      "rank": 4,
+      "movie_id": 10871,
+      "title": "Switchback",
+      "score": 16.621668,
+      "overview": "After FBI agent Frank Lacrosse believes his son was kidnapped by a notorious serial killer, he travels to Amarillo, Texas, where he believes the murderer is in hiding. Although officially taken off the case because of its personal significance to him, Frank continues to pursue the killer, causing concern for local sheriff Buck Olmstead. When another victim pops up at a nearby car garage, Frank knows that he is as close as he'll ever be to tracking down the elusive killer.",
+      "year": 1997
+    },
+    {
+      "rank": 5,
+      "movie_id": 542130,
+      "title": "Waikiki",
+      "score": 16.088037,
+      "overview": "A couple of private eyes, a laid-back Californian and a streetwise New Yorker, team up to track down a killer in Hawaii known as \"The Cane Field Murderer\" in this unsuccessful pilot to a detective series.",
+      "year": 1980
+    },
+    {
+      "rank": 6,
+      "movie_id": 3432,
+      "title": "Mr. Brooks",
+      "score": 14.774246,
+      "overview": "A psychological thriller about a man who is sometimes controlled by his murder-and-mayhem-loving alter ego.",
+      "year": 2007
+    },
+    {
+      "rank": 7,
+      "movie_id": 9411,
+      "title": "Fallen",
+      "score": 14.165734,
+      "overview": "Homicide detective John Hobbes witnesses the execution of serial killer Edgar Reese. Soon after the execution the killings start again, and they are very similar to Reese's style.",
+      "year": 1998
+    },
+    {
+      "rank": 8,
+      "movie_id": 3489,
+      "title": "88 Minutes",
+      "score": 13.741142,
+      "overview": "Famed forensic psychiatrist Dr. Jack Gramm enjoys a reputation as one of the most sought-after profilers around. His expert testimony has resulted in the conviction of many criminals, including serial killer Jon Forster. On the eve of Forster's execution, one of Gramm's students is murdered in a vicious copycat crime, and Gramm himself receives an ominous message informing him that he has less than 90 minutes to live.",
+      "year": 2007
+    },
+    {
+      "rank": 9,
+      "movie_id": 12149,
+      "title": "Frailty",
+      "score": 13.712046,
+      "overview": "A mysterious man arrives at the offices of an FBI agent and recounts his childhood: how his religious fanatic father received visions telling him to kill people who were in fact \"demons.\"",
+      "year": 2002
+    },
+    {
+      "rank": 10,
+      "movie_id": 995926,
+      "title": "I, the Executioner",
+      "score": 13.565525,
+      "overview": "The veteran detective Seo Do-cheol and his team at Major Crimes, relentless in their pursuit of criminals, join forces with rookie cop Park Sun-woo to track down a serial killer who has plunged the nation into turmoil.",
+      "year": 2024
+    },
+    {
+      "rank": 11,
+      "movie_id": 6498,
+      "title": "Nightwatch",
+      "score": 13.37566,
+      "overview": "Martin, a law student, takes up a job as a nightwatchman at a mortuary to fund his studies. But the mortuary harbours a dark secret, and he has to find the truth before he is implicated in a serial murder case.",
+      "year": 1994
+    },
+    {
+      "rank": 12,
+      "movie_id": 581528,
+      "title": "The Gangster, the Cop, the Devil",
+      "score": 13.367529,
+      "overview": "After barely surviving a brutal attack by a sadistic serial killer, crime boss Jang Dong-su is left humiliated. Determined to catch the killer known as K, he forms an uneasy alliance with Jung Tae-seok, a relentless and incorruptible detective who often disrupts his illegal business. However, while Jang Dong-su wants K dead, Jung Tae-suk is determined to bring him to justice. With a deal in place—whoever finds K first will decide his fate—the hunt begins, blurring the lines between crime and law.",
+      "year": 2019
+    },
+    {
+      "rank": 13,
+      "movie_id": 11322,
+      "title": "Public Enemies",
+      "score": 11.100231,
+      "overview": "Depression-era bank robber John Dillinger's charm and audacity endear him to much of America's downtrodden public, but he's also a thorn in the side of J. Edgar Hoover and the fledgling FBI. Desperate to capture the elusive outlaw, Hoover makes Dillinger his first Public Enemy Number One and assigns his top agent, Melvin Purvis, the task of bringing him in dead or alive.",
+      "year": 2009
+    },
+    {
+      "rank": 14,
+      "movie_id": 9437,
+      "title": "Kiss the Girls",
+      "score": 10.847295,
+      "overview": "Forensic psychologist and detective Alex Cross travels to North Carolina and teams with escaped kidnap victim Kate McTiernan to hunt down \"Casanova,\" a serial killer who abducts strong-willed women and forces them to submit to his demands. The trail leads to Los Angeles, where the duo discovers that the psychopath may not be working alone.",
+      "year": 1997
+    },
+    {
+      "rank": 15,
+      "movie_id": 13572,
+      "title": "Twisted",
+      "score": 9.919254,
+      "overview": "Recently promoted and transferred to the homicide division, Inspector Jessica Shepard feels pressure to prove herself -- and what better way than by solving San Francisco's latest murder? However, as Shepard and her partner, Mike Delmarco, soon discover, the victim shared a romantic connection to her. As more of Shepard's ex-lovers turn up dead, her mind starts to become unstable, and she begins to wonder if she could be the very killer she's trying to track down.",
+      "year": 2004
+    },
+    {
+      "rank": 16,
+      "movie_id": 261023,
+      "title": "Black Mass",
+      "score": 9.785801,
+      "overview": "The true story of Whitey Bulger, the brother of a state senator and the most infamous violent criminal in the history of South Boston, who became an FBI informant to take down a Mafia family invading his turf.",
+      "year": 2015
+    },
+    {
+      "rank": 17,
+      "movie_id": 15472,
+      "title": "The Girl with the Dragon Tattoo",
+      "score": 9.671224,
+      "overview": "Swedish thriller based on Stieg Larsson's novel about a male journalist and a young female hacker. In the opening of the movie, Mikael Blomkvist, a middle-aged publisher for the magazine Millennium, loses a libel case brought by corrupt Swedish industrialist Hans-Erik Wennerström. Nevertheless, he is hired by Henrik Vanger in order to solve a cold case, the disappearance of Vanger's niece",
+      "year": 2009
+    },
+    {
+      "rank": 18,
+      "movie_id": 62835,
+      "title": "Colombiana",
+      "score": 9.062394,
+      "overview": "After witnessing her parents’ murder as a child in Bogota, Cataleya Restrepo grows up to be a stone-cold assassin. She works for her uncle as a hitman by day, but her personal time is spent engaging in vigilante murders that she hopes will lead her to her ultimate target: the mobster responsible for her parents' death.",
+      "year": 2011
+    },
+    {
+      "rank": 19,
+      "movie_id": 881164,
+      "title": "Boston Strangler",
+      "score": 7.8382897,
+      "overview": "Reporters Loretta McLaughlin and Jean Cole bravely pursue the story of the Boston Strangler at great personal risk, putting their own lives on the line in their quest to uncover the truth.",
+      "year": 2023
+    },
+    {
+      "rank": 20,
+      "movie_id": 112205,
+      "title": "The Family",
+      "score": 7.2367387,
+      "overview": "After ratting out his Mafia cohorts, Giovanni Manzoni and his family enter the Witness Protection Program and relocate to a sleepy town in France. Despite the best efforts of their handler to keep them in line, Giovanni (now called Fred Blake), his wife and children can't help but resort to doing things the \"family\" way. However, their dependence on such old habits places everyone in danger from vengeful mobsters.",
+      "year": 2013
+    }
+  ]
+}
