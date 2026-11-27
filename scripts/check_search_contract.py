@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline check of the shared search helpers against the frozen M2 A run.
+"""Offline check of the shared search helpers against the frozen M2 runs.
 
 Usage:
     python3 scripts/check_search_contract.py
@@ -18,7 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from search import Result, write_run  # noqa: E402
-from search import solr  # noqa: E402
+from search import lexical, registry, solr  # noqa: E402
 
 
 def saved_results(qid: str = "Q1") -> list[Result]:
@@ -63,6 +63,96 @@ def check_trec_contract(qid: str = "Q1") -> tuple[bool, str]:
     )
 
 
+def fake_solr_payload(saved: dict) -> dict:
+    """Build a Solr-shaped response from a frozen per-query JSON run."""
+    docs = [
+        {
+            "id": f"movie-{item['movie_id']}",
+            "movie_id": item["movie_id"],
+            "title": item.get("title"),
+            "year": item.get("year"),
+            "score": item["score"],
+            "overview": item.get("overview", ""),
+        }
+        for item in saved["results"]
+    ]
+    return {
+        "responseHeader": {"status": 0},
+        "response": {"numFound": saved["num_found"], "docs": docs},
+    }
+
+
+def check_m2_backends() -> tuple[bool, str]:
+    """The registry must reproduce both frozen A and B runs exactly."""
+    failures: list[str] = []
+    for setup_dir, setup in (("setup_a", "A"), ("setup_b", "B")):
+        saved_by_qid: dict[str, dict] = {}
+        for path in sorted((ROOT / "runs").glob(f"{setup}_Q*.json")):
+            saved = json.loads(path.read_text(encoding="utf-8"))
+            saved_by_qid[saved["qid"]] = saved
+
+        text_to_qid = {saved["need"]: qid for qid, saved in saved_by_qid.items()}
+        payload_by_text = {
+            saved["need"]: fake_solr_payload(saved) for saved in saved_by_qid.values()
+        }
+        calls: list[dict] = []
+
+        def fake_post(params, *_args, **_kwargs):
+            calls.append(params)
+            return payload_by_text[params["text"]]
+
+        rankings: dict[str, list[Result]] = {}
+        with patch.object(lexical, "post", side_effect=fake_post):
+            for query_file in sorted((ROOT / "queries" / setup_dir).glob("Q*.json")):
+                need = json.loads(query_file.read_text(encoding="utf-8"))
+                rankings[need["qid"]] = registry.search(need, f"m2_{setup.lower()}")
+
+        if len(calls) != len(saved_by_qid):
+            failures.append(
+                f"{setup}: expected {len(saved_by_qid)} Solr calls, got {len(calls)}"
+            )
+        for params in calls:
+            qid = text_to_qid.get(params.get("text"))
+            expected = saved_by_qid.get(qid, {}).get("query_params")
+            if expected is not None and params != expected:
+                failures.append(f"{setup} {qid}: generated Solr parameters differ")
+
+        for qid, results in rankings.items():
+            saved_items = saved_by_qid[qid]["results"]
+            if len(results) != len(saved_items):
+                failures.append(f"{setup} {qid}: result count differs")
+                continue
+            for rank, (result, item) in enumerate(zip(results, saved_items), start=1):
+                actual = (
+                    result.movie_id, result.title, result.year, result.score, result.snippet
+                )
+                expected = (
+                    item["movie_id"], item.get("title"), item.get("year"),
+                    item["score"], item.get("overview", ""),
+                )
+                if actual != expected:
+                    failures.append(f"{setup} {qid} rank {rank}: result fields differ")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            generated_path = write_run(rankings, Path(tmp) / f"{setup}.run", setup)
+            generated = generated_path.read_text(encoding="utf-8").splitlines()
+        saved_lines = (ROOT / "runs" / f"{setup}.run").read_text(encoding="utf-8").splitlines()
+        if generated != saved_lines:
+            failures.append(f"{setup}: generated run differs from runs/{setup}.run")
+
+    for stub in sorted(registry.STUBS):
+        try:
+            registry.search({}, stub)
+        except NotImplementedError:
+            pass
+        else:
+            failures.append(f"{stub} stub does not raise NotImplementedError")
+
+    if failures:
+        return False, "; ".join(failures[:3])
+    return True, "m2_a and m2_b reproduce both saved parameter sets and run files"
+
+
 def check_post_contract() -> tuple[bool, str]:
     """Check the Solr URL, form encoding and UTF-8 handling without a server."""
 
@@ -95,6 +185,7 @@ def main() -> int:
     ok = True
     for label, (passed, detail) in (
         ("TREC writer", check_trec_contract()),
+        ("M2 backends", check_m2_backends()),
         ("Solr transport", check_post_contract()),
     ):
         print(f"{label}: {'OK' if passed else 'FAIL'} - {detail}")
