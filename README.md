@@ -18,7 +18,17 @@ The goal is a document collection suitable for text-based search, where each doc
 - [x] Information needs defined
 - [x] Solr indexing, Setup A/B retrieval runs, pooled judgments, and evaluation metrics (Milestone 2)
 - The natural-language A/B runs use the same needs and constraints. See the [retrieval experiments](docs/query_specification.md) and [current judgment coverage and results](eval/output/results.md).
-- [ ] Semantic search (Milestone 3)
+- [x] M3 lexical runner, config format and rejected-variant experiments (P1)
+- [x] Flask search page over the shared registry; semantic/hybrid degrade gracefully (P1)
+- [x] Rubric-based query rewriting experiment (P1)
+- [ ] Semantic retrieval and vector field (Milestone 3, P2)
+- [ ] Query encoding and hybrid retrieval (Milestone 3, P3)
+- [ ] Final multi-system evaluation and report (Milestone 3, P4)
+
+P1 details: [M3 lexical changes](docs/m3_lexical.md),
+[query rewriting](docs/query_rewriting.md), [P1 handoff](docs/p1_handoff.md),
+and the [Flask page](web/README.md). The final M3 lexical system is frozen M2
+Setup B; no lexical change was adopted.
 
 ## Milestones
 
@@ -45,6 +55,7 @@ scripts/
   build_collection.py     joins interim files -> data/final/collection.jsonl + Solr upload file
   solr_client.py          runs Setup A or B query files and writes JSON and TREC runs
   trec_eval_run.py        official trec_eval metrics for arbitrary saved runs
+  build_p1_pool.py        builds the unjudged P1 candidate pool from saved runs
   demo_queries.py         prints a side-by-side A/B demo against the running index
   verify_index.py         checks the indexed collection against the source documents
 
@@ -66,6 +77,7 @@ eval/
 
 search/         shared result contract, registry and Solr/TREC helpers
 web/            Flask demo page over the shared registry (see web/README.md)
+docs/           experiment notes, M3 logs and the P1-to-P4 handoff
 ```
 
 ## Requirements

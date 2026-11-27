@@ -119,4 +119,5 @@ python3 scripts/trec_eval_run.py runs/M3_BASE.run runs/rewrite_none.run \
 
 Saved runs: `runs/rewrite_none.run`, `runs/rewrite_rubric.run` and their
 `_Q*.json` files. All reported numbers trace to those runs and
-`eval/data/qrels.csv`.
+`eval/data/qrels.csv`. The aggregate comparison, new judgment candidates and
+LaTeX-ready text for P4 are in [p1_handoff.md](p1_handoff.md).

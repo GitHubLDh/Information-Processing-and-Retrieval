@@ -157,21 +157,22 @@ The final lexical configuration is **the frozen M2 Setup B unchanged**:
 `mm=1`, `qf=plot` / `qf=review_text`, `score=max`, no phrase boost, no analyzer
 or schema change. P1's contribution here is the unrestricted verification of
 each proposed change and the evidence for rejecting it, plus the shared
-retrieval interface and search page.
+retrieval interface and search page. The complete P4 run inventory, aggregate
+comparison and LaTeX-ready summary are in [p1_handoff.md](p1_handoff.md).
 
-| Change | Saved run | Evidence | Decision |
-|---|---|---|---|
-| `mm=2`, `tie=0.1` | `runs/M3_MM2.run` | P@10 +0.02, nDCG +0.013, but P@5 −0.04, AP −0.006; Q3/Q5 AP down | not adopted |
-| `mm=70%`, `tie=0.1` | `runs/M3_MM70.run` | 0–2 results per need, Q5 empty | rejected |
-| `qf=plot^1 overview^2 title^2`, rerank 1 | `runs/M3_BOOST_RW1.run` | Q3 AP −0.150, nDCG −0.300 | rejected |
-| same, rerank 0.5 | `runs/M3_BOOST_RW05.run` | same Q3 loss, no recovery | rejected |
-| review join `score=total` | `runs/M3_JOIN_TOTAL.run` | rewards movies with many reviews, pooled recall −0.046 | rejected |
-| review join `score=avg` | `runs/M3_JOIN_AVG.run` | rewards single-review movies, pooled recall −0.108 | rejected |
-| `pf=field`, `ps=2` | `runs/M3_PF.run` | identical rankings to B | not adopted |
-| Analyzer / KStem change | M2 verification | KStem already handles the observed variants; changing it needs a reindex | not attempted |
-| Character trigrams | M2 scratch-core trial | no typo gain, promoted judged nonrelevant Q3/Q5 films | rejected (M2) |
-| Extra query stopwords | M2 fixed-pool trial | lower P@10, MAP and nDCG than the stock list | rejected (M2) |
-| WordNet synonyms | M2 fixed-pool trial | Q3 AP up but Q4 nDCG 0.631 → 0.426 | rejected (M2) |
+| Weak spot | M2 evidence | Change | Result (trec_eval) | Decision |
+|---|---|---|---|---|
+| `mm=1` / `q.op=OR` lets one generic word satisfy a long sentence | Both frozen setups use this configuration (`docs/query_specification.md`) | `mm=2`, `tie=0.1` (`runs/M3_MM2.run`) | P@10 +0.02 and nDCG@10 +0.013, but P@5 −0.04, AP −0.006; Q3/Q5 AP down | not adopted |
+| Same match-requirement weakness | Same M2 configuration | `mm=70%`, `tie=0.1` (`runs/M3_MM70.run`) | 0–2 results per need, Q5 empty | rejected |
+| Long plots suppress isolated overview evidence | `runs/B_overview_trial.run`: direct overview weighting displaced relevant Q3 films (Q3 AP .378 → .228) | `qf=plot^1 overview^2 title^2`, rerank 1 (`runs/M3_BOOST_RW1.run`) | Q3 AP −0.150, nDCG@10 −0.300 | rejected |
+| Same field-weighting weakness; maybe the rerank weight was too high | M2 rerank weight 1 was already the best of the unrestricted A/B variants | Same boosted `qf`, rerank 0.5 (`runs/M3_BOOST_RW05.run`) | Same Q3 loss, no recovery | rejected |
+| `score=max` cannot combine two reviewers | Q2's rubric needs both "predictable" and "heartwarming"; M2 review rankings use `score=max` | Review join `score=total` (`runs/M3_JOIN_TOTAL.run`) | Rewards movies with many reviews; pooled recall −0.046 | rejected |
+| Same review-combination weakness | Same M2 join configuration | Review join `score=avg` (`runs/M3_JOIN_AVG.run`) | Rewards single-review movies; pooled recall −0.108 | rejected |
+| Phrase evidence untested on the unrestricted pool | M2 fixed-pool word-pair boosts reduced ranking quality, especially with direct overview weighting (`docs/query_specification.md`) | `pf=field`, `ps=2` (`runs/M3_PF.run`) | Identical rankings to B | not adopted |
+| Morphological variants may not match | KStem already handles the observed variants; changing it needs a reindex | Analyzer / KStem change | No new run; cost and risk outweigh M2 evidence | not attempted |
+| Misspellings in need text | M2 trigram trial found no typo gain and promoted judged nonrelevant Q3/Q5 films | Character trigrams | No new run; rejected in M2 | rejected (M2) |
+| Generic request terms add noise | M2 fixed-pool trial lowered P@10, MAP and nDCG versus the stock stop list | Extra query stopwords | No new run; rejected in M2 | rejected (M2) |
+| Vocabulary mismatch between need and plot | M2 synonyms raised Q3 AP .594 → .631 but lowered Q4 nDCG@10 .631 → .426 | WordNet synonyms | No new run; rejected in M2 | rejected (M2) |
 
 ## Reproduce
 
