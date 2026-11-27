@@ -1,0 +1,35 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q2",
+  "need": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 1,
+  "query_params": {
+    "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
+    "text": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+    "qf": "review_text",
+    "mm": "70%",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:romance"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text}",
+    "tie": "0.1"
+  },
+  "latency_ms": 5.218,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 884605,
+      "title": "No Hard Feelings",
+      "score": 7.2620754,
+      "overview": "On the brink of losing her childhood home, Maddie discovers an intriguing job listing: wealthy helicopter parents looking for someone to “date” their introverted 19-year-old son, Percy, before he leaves for college. To her surprise, Maddie soon discovers the awkward Percy is no sure thing.",
+      "year": 2023
+    }
+  ]
+}

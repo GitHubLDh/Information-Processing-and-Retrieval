@@ -1,0 +1,25 @@
+{
+  "qid": "Q3",
+  "need": "In this science fiction film, astronauts are stranded far from Earth and struggle to survive or return home.",
+  "source": "story",
+  "filters": [
+    "genres:\"science fiction\""
+  ],
+  "params": {
+    "q": "{!edismax v=$text}",
+    "text": "In this science fiction film, astronauts are stranded far from Earth and struggle to survive or return home.",
+    "qf": "plot",
+    "mm": "70%",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:\"science fiction\""
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "overviewq": "{!edismax qf=overview v=$text}",
+    "rq": "{!rerank reRankQuery=$overviewq reRankDocs=20 reRankWeight=1}",
+    "tie": "0.1"
+  }
+}

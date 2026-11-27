@@ -1,0 +1,28 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q5",
+  "need": "Robert De Niro stars in a film about the loyalties and conflicts within an Italian-American Mafia family.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 0,
+  "query_params": {
+    "q": "{!edismax v=$text}",
+    "text": "Robert De Niro stars in a film about the loyalties and conflicts within an Italian-American Mafia family.",
+    "qf": "plot",
+    "mm": "70%",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "cast.name:(\"Robert De Niro\" OR \"Robert Deniro\")",
+      "-plot:\"Russian mafia\""
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "overviewq": "{!edismax qf=overview v=$text}",
+    "rq": "{!rerank reRankQuery=$overviewq reRankDocs=20 reRankWeight=1}",
+    "tie": "0.1"
+  },
+  "latency_ms": 4.181,
+  "results": []
+}

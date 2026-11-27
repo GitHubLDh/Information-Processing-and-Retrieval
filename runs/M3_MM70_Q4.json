@@ -1,0 +1,44 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q4",
+  "need": "An FBI agent investigates a series of murders by a serial killer in a crime film or thriller.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 2,
+  "query_params": {
+    "q": "{!edismax v=$text}",
+    "text": "An FBI agent investigates a series of murders by a serial killer in a crime film or thriller.",
+    "qf": "plot",
+    "mm": "70%",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:(crime OR thriller)"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "overviewq": "{!edismax qf=overview v=$text}",
+    "rq": "{!rerank reRankQuery=$overviewq reRankDocs=20 reRankWeight=1}",
+    "tie": "0.1"
+  },
+  "latency_ms": 5.659,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 9411,
+      "title": "Fallen",
+      "score": 9.5635805,
+      "overview": "Homicide detective John Hobbes witnesses the execution of serial killer Edgar Reese. Soon after the execution the killings start again, and they are very similar to Reese's style.",
+      "year": 1998
+    },
+    {
+      "rank": 2,
+      "movie_id": 12149,
+      "title": "Frailty",
+      "score": 9.478109,
+      "overview": "A mysterious man arrives at the offices of an FBI agent and recounts his childhood: how his religious fanatic father received visions telling him to kill people who were in fact \"demons.\"",
+      "year": 2002
+    }
+  ]
+}

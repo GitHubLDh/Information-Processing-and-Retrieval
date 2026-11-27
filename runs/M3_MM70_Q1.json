@@ -1,0 +1,35 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q1",
+  "need": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 1,
+  "query_params": {
+    "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
+    "text": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+    "qf": "review_text",
+    "mm": "70%",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:comedy"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text}",
+    "tie": "0.1"
+  },
+  "latency_ms": 7.218,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 546554,
+      "title": "Knives Out",
+      "score": 7.396788,
+      "overview": "When renowned crime novelist Harlan Thrombey is found dead at his estate just after his 85th birthday, the inquisitive and debonair Detective Benoit Blanc is mysteriously enlisted to investigate. From Harlan's dysfunctional family to his devoted staff, Blanc sifts through a web of red herrings and self-serving lies to uncover the truth behind Harlan's untimely death.",
+      "year": 2019
+    }
+  ]
+}
