@@ -62,6 +62,9 @@ eval/
   output/
     results.md      current metrics or pending judgment coverage
     pr_curve.pdf    current mean precision–recall chart used in the report
+
+search/         shared result contract, registry and Solr/TREC helpers
+web/            Flask demo page over the shared registry (see web/README.md)
 ```
 
 ## Requirements
@@ -74,7 +77,7 @@ eval/
 - Python packages:
 
 ```bash
-python3 -m pip install requests pandas beautifulsoup4 jsonschema
+python3 -m pip install requests pandas beautifulsoup4 jsonschema flask
 ```
 
 `matplotlib` is only needed for the optional EDA charts.
@@ -139,7 +142,17 @@ The judge accepts grades `0` (not relevant), `1` (partially relevant), and `2`
 existing grades. See [eval/README.md](eval/README.md) for the full judging
 workflow and options.
 
-### 5. Build the report
+### 5. Search page (optional demo)
+
+```bash
+python3 web/app.py
+```
+
+Open <http://127.0.0.1:5000/>. The page lets you compare M2-A, M2-B and
+M3-lexical; semantic/hybrid show a pending state until P2/P3 land. See
+[web/README.md](web/README.md) for Solr overrides and details.
+
+### 6. Build the report
 
 ```bash
 cd report

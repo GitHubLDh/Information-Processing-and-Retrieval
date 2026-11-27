@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PRI movie search</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<main class="shell">
+  <header class="hero">
+    <h1>Movie search</h1>
+    <p>Search the PRI movie collection with the same retrieval systems used in the runs.</p>
+  </header>
+
+  <form class="search" method="get" action="/search">
+    <label for="q">Information need</label>
+    <textarea id="q" name="q" rows="3" placeholder="e.g. a comedy whose reviewers praise its wit and sharp writing" required>{{ q }}</textarea>
+
+    <div class="controls">
+      <label for="system">System</label>
+      <select id="system" name="system">
+        {% for option in systems %}
+        <option value="{{ option.name }}" {% if option.name == selected_system %}selected{% endif %}>
+          {{ option.label }}{% if not option.implemented %} — pending{% endif %}
+        </option>
+        {% endfor %}
+      </select>
+
+      <label for="source">Search in</label>
+      <select id="source" name="source">
+        {% for value, label in source_labels.items() %}
+        <option value="{{ value }}" {% if value == selected_source %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit">Search</button>
+    </div>
+  </form>
+
+  {% if examples %}
+  <details class="examples">
+    <summary>Example needs</summary>
+    <ul>
+      {% for example in examples %}
+      <li>
+        <a href="{{ url_for('search', q=example.need, system=selected_system, source=example.source) }}">
+          {{ example.qid }} · {{ example.need }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </details>
+  {% endif %}
+
+  {% if error %}
+  <div class="notice error" role="alert">{{ error }}</div>
+  {% endif %}
+
+  {% if message %}
+  <div class="notice" role="status">{{ message }}</div>
+  {% endif %}
+
+  {% if results is not none %}
+    <section class="summary" aria-live="polite">
+      <strong>{{ num_found if num_found is not none else '?' }}</strong> matches found
+      <span class="divider">·</span>
+      <strong>{{ latency_ms if latency_ms is not none else '?' }} ms</strong> search latency
+    </section>
+
+    {% if results %}
+    <ol class="results">
+      {% for item in results %}
+      <li class="result">
+        <div class="rank">{{ item.rank }}</div>
+        <div class="result-body">
+          <h2>
+            {% if item.wikipedia_url %}
+            <a href="{{ item.wikipedia_url }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
+            {% else %}
+            {{ item.title }}
+            {% endif %}
+            {% if item.year %}<span class="year">({{ item.year }})</span>{% endif %}
+          </h2>
+          <p class="meta">
+            score {{ '%.4f'|format(item.score) if item.score is not none else 'n/a' }}
+            {% if item.matched_field %}<span class="divider">·</span> {{ item.matched_field }}{% endif %}
+            {% if item.wikipedia_url %}<span class="divider">·</span> Wikipedia{% endif %}
+          </p>
+          <p class="snippet">{{ item.snippet }}</p>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p class="empty">No movies matched this need. Try another system or a broader description.</p>
+    {% endif %}
+  {% endif %}
+
+  <footer class="footer">
+    Demo only: no run files are written. Backends come from <code>search.registry</code>.
+  </footer>
+</main>
+</body>
+</html>
