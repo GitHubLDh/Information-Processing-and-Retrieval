@@ -1,0 +1,186 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q1",
+  "need": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 987,
+  "query_params": {
+    "q": "{!parent which=\"doc_type:movie\" score=total v=$childq}",
+    "text": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+    "qf": "review_text",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:comedy"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text}"
+  },
+  "latency_ms": 13.46,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 284053,
+      "title": "Thor: Ragnarok",
+      "score": 45.191223,
+      "overview": "Thor is imprisoned on the other side of the universe and finds himself in a race against time to get back to Asgard to stop Ragnarok, the destruction of his home-world and the end of Asgardian civilization, at the hands of a powerful new threat, the ruthless Hela.",
+      "year": 2017
+    },
+    {
+      "rank": 2,
+      "movie_id": 533535,
+      "title": "Deadpool & Wolverine",
+      "score": 37.81853,
+      "overview": "A listless Wade Wilson toils away in civilian life with his days as the morally flexible mercenary, Deadpool, behind him. But when his homeworld faces an existential threat, Wade must reluctantly suit-up again with an even more reluctant Wolverine.",
+      "year": 2024
+    },
+    {
+      "rank": 3,
+      "movie_id": 346698,
+      "title": "Barbie",
+      "score": 35.49356,
+      "overview": "Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land. However, when they get a chance to go to the real world, they soon discover the joys and perils of living among humans.",
+      "year": 2023
+    },
+    {
+      "rank": 4,
+      "movie_id": 593643,
+      "title": "The Menu",
+      "score": 32.484783,
+      "overview": "A young couple travels to a remote island to eat at an exclusive restaurant where the chef has prepared a lavish menu, with some shocking surprises.",
+      "year": 2022
+    },
+    {
+      "rank": 5,
+      "movie_id": 546554,
+      "title": "Knives Out",
+      "score": 31.292063,
+      "overview": "When renowned crime novelist Harlan Thrombey is found dead at his estate just after his 85th birthday, the inquisitive and debonair Detective Benoit Blanc is mysteriously enlisted to investigate. From Harlan's dysfunctional family to his devoted staff, Blanc sifts through a web of red herrings and self-serving lies to uncover the truth behind Harlan's untimely death.",
+      "year": 2019
+    },
+    {
+      "rank": 6,
+      "movie_id": 43074,
+      "title": "Ghostbusters",
+      "score": 31.1643,
+      "overview": "Following a ghost invasion of Manhattan, paranormal enthusiasts Erin Gilbert and Abby Yates, nuclear engineer Jillian Holtzmann, and subway worker Patty Tolan band together to stop the otherworldly threat.",
+      "year": 2016
+    },
+    {
+      "rank": 7,
+      "movie_id": 496243,
+      "title": "Parasite",
+      "score": 30.017357,
+      "overview": "All unemployed, Ki-taek's family takes peculiar interest in the wealthy and glamorous Parks for their livelihood until they get entangled in an unexpected incident.",
+      "year": 2019
+    },
+    {
+      "rank": 8,
+      "movie_id": 436969,
+      "title": "The Suicide Squad",
+      "score": 29.842484,
+      "overview": "Supervillains Harley Quinn, Bloodsport, Peacemaker and a collection of nutty cons at Belle Reve prison join the super-secret, super-shady Task Force X as they are dropped off at the remote, enemy-infused island of Corto Maltese.",
+      "year": 2021
+    },
+    {
+      "rank": 9,
+      "movie_id": 466272,
+      "title": "Once Upon a Time... in Hollywood",
+      "score": 28.299822,
+      "overview": "Los Angeles, 1969. TV star Rick Dalton, a struggling actor specializing in westerns, and stuntman Cliff Booth, his best friend, try to survive in a constantly changing movie industry. Dalton is the neighbor of the young and promising actress and model Sharon Tate, who has just married the prestigious Polish director Roman Polanski…",
+      "year": 2019
+    },
+    {
+      "rank": 10,
+      "movie_id": 1035259,
+      "title": "The Naked Gun",
+      "score": 26.197012,
+      "overview": "Only one man has the particular set of skills... to lead Police Squad and save the world: Lt. Frank Drebin Jr. Following in his father's footsteps, he must solve a murder case to prevent Police Squad from closure.",
+      "year": 2025
+    },
+    {
+      "rank": 11,
+      "movie_id": 269149,
+      "title": "Zootopia",
+      "score": 25.417435,
+      "overview": "Determined to prove herself, Officer Judy Hopps, the first bunny on Zootopia's police force, jumps at the chance to crack her first case - even if it means partnering with scam-artist fox Nick Wilde to solve the mystery.",
+      "year": 2016
+    },
+    {
+      "rank": 12,
+      "movie_id": 804150,
+      "title": "Cocaine Bear",
+      "score": 25.316057,
+      "overview": "Inspired by a true story, an oddball group of cops, criminals, tourists and teens converge in a Georgia forest where a 500-pound black bear goes on a murderous rampage after unintentionally ingesting cocaine.",
+      "year": 2023
+    },
+    {
+      "rank": 13,
+      "movie_id": 748783,
+      "title": "The Garfield Movie",
+      "score": 23.70847,
+      "overview": "Garfield, the world-famous, Monday-hating, lasagna-loving indoor cat, is about to have a wild outdoor adventure! After an unexpected reunion with his long-lost father – scruffy street cat Vic – Garfield and his canine friend Odie are forced from their perfectly pampered life into joining Vic in a hilarious, high-stakes heist.",
+      "year": 2024
+    },
+    {
+      "rank": 14,
+      "movie_id": 718930,
+      "title": "Bullet Train",
+      "score": 23.677576,
+      "overview": "Unlucky assassin Ladybug is determined to do his job peacefully after one too many gigs gone off the rails. Fate, however, may have other plans, as Ladybug's latest mission puts him on a collision course with lethal adversaries from around the globe—all with connected, yet conflicting, objectives—on the world's fastest train.",
+      "year": 2022
+    },
+    {
+      "rank": 15,
+      "movie_id": 649609,
+      "title": "Renfield",
+      "score": 23.575054,
+      "overview": "Having grown sick and tired of his centuries as Dracula's lackey, Renfield finds a new lease on life — and maybe even redemption — when he falls for feisty, perennially angry traffic cop Rebecca Quincy.",
+      "year": 2023
+    },
+    {
+      "rank": 16,
+      "movie_id": 746036,
+      "title": "The Fall Guy",
+      "score": 22.360703,
+      "overview": "Fresh off an almost career-ending accident, stuntman Colt Seavers has to track down a missing movie star, solve a conspiracy and try to win back the love of his life while still doing his day job.",
+      "year": 2024
+    },
+    {
+      "rank": 17,
+      "movie_id": 1064213,
+      "title": "Anora",
+      "score": 21.36011,
+      "overview": "A young sex worker from Brooklyn gets her chance at a Cinderella story when she meets and impulsively marries the son of an oligarch. Once the news reaches Russia, her fairytale is threatened as his parents set out to get the marriage annulled.",
+      "year": 2024
+    },
+    {
+      "rank": 18,
+      "movie_id": 287947,
+      "title": "Shazam!",
+      "score": 19.59719,
+      "overview": "A boy is given the ability to become an adult superhero in times of need with a single magic word.",
+      "year": 2019
+    },
+    {
+      "rank": 19,
+      "movie_id": 884605,
+      "title": "No Hard Feelings",
+      "score": 19.54471,
+      "overview": "On the brink of losing her childhood home, Maddie discovers an intriguing job listing: wealthy helicopter parents looking for someone to “date” their introverted 19-year-old son, Percy, before he leaves for college. To her surprise, Maddie soon discovers the awkward Percy is no sure thing.",
+      "year": 2023
+    },
+    {
+      "rank": 20,
+      "movie_id": 567609,
+      "title": "Ready or Not",
+      "score": 19.500776,
+      "overview": "A young bride's wedding night turns into her worst nightmare when her ridiculously rich in-laws force her to play a gruesome game of hide-and-seek.",
+      "year": 2019
+    }
+  ]
+}

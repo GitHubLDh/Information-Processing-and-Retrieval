@@ -1,0 +1,23 @@
+{
+  "qid": "Q2",
+  "need": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+  "source": "reviews",
+  "filters": [
+    "genres:romance"
+  ],
+  "params": {
+    "q": "{!parent which=\"doc_type:movie\" score=avg v=$childq}",
+    "text": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+    "qf": "review_text",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:romance"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text}"
+  }
+}

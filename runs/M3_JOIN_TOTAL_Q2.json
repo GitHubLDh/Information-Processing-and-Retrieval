@@ -1,0 +1,186 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q2",
+  "need": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 388,
+  "query_params": {
+    "q": "{!parent which=\"doc_type:movie\" score=total v=$childq}",
+    "text": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+    "qf": "review_text",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:romance"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text}"
+  },
+  "latency_ms": 10.599,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 884605,
+      "title": "No Hard Feelings",
+      "score": 23.048004,
+      "overview": "On the brink of losing her childhood home, Maddie discovers an intriguing job listing: wealthy helicopter parents looking for someone to “date” their introverted 19-year-old son, Percy, before he leaves for college. To her surprise, Maddie soon discovers the awkward Percy is no sure thing.",
+      "year": 2023
+    },
+    {
+      "rank": 2,
+      "movie_id": 114,
+      "title": "Pretty Woman",
+      "score": 20.222792,
+      "overview": "While on a business trip in Los Angeles, Edward Lewis, a millionaire entrepreneur who makes a living buying and breaking up companies, picks up a prostitute, Vivian, while asking for directions; after, Edward hires Vivian to stay with him for the weekend to accompany him to a few social events, and the two get closer only to discover there are significant hurdles to overcome as they try to bridge the gap between their very different worlds.",
+      "year": 1990
+    },
+    {
+      "rank": 3,
+      "movie_id": 1064213,
+      "title": "Anora",
+      "score": 16.370647,
+      "overview": "A young sex worker from Brooklyn gets her chance at a Cinderella story when she meets and impulsively marries the son of an oligarch. Once the news reaches Russia, her fairytale is threatened as his parents set out to get the marriage annulled.",
+      "year": 2024
+    },
+    {
+      "rank": 4,
+      "movie_id": 521007,
+      "title": "Superintelligence",
+      "score": 13.586412,
+      "overview": "When an all-powerful Superintelligence chooses to study the most average person on Earth, Carol Peters, the fate of the world hangs in the balance. As the A.I. decides to enslave, save or destroy humanity, it’s up to Carol to prove that people are worth saving.",
+      "year": 2020
+    },
+    {
+      "rank": 5,
+      "movie_id": 843527,
+      "title": "The Idea of You",
+      "score": 12.104365,
+      "overview": "40-year-old single mom Solène begins an unexpected romance with 24-year-old Hayes Campbell, the lead singer of August Moon, the hottest boy band on the planet. As they begin a whirlwind romance, it isn't long before Hayes' superstar status poses unavoidable challenges to their relationship, and Solène soon discovers that life in the glare of his spotlight might be more than she bargained for.",
+      "year": 2024
+    },
+    {
+      "rank": 6,
+      "movie_id": 455207,
+      "title": "Crazy Rich Asians",
+      "score": 11.895007,
+      "overview": "An American-born Chinese economics professor accompanies her boyfriend to Singapore for his best friend's wedding, only to get thrust into the lives of Asia's rich and famous.",
+      "year": 2018
+    },
+    {
+      "rank": 7,
+      "movie_id": 792307,
+      "title": "Poor Things",
+      "score": 11.76215,
+      "overview": "Brought back to life by an unorthodox scientist, a young woman runs off with a lawyer on a whirlwind adventure across the continents. Free from the prejudices of her times, she grows steadfast in her purpose to stand for equality and liberation.",
+      "year": 2023
+    },
+    {
+      "rank": 8,
+      "movie_id": 1136867,
+      "title": "Materialists",
+      "score": 11.006702,
+      "overview": "A young, ambitious New York City matchmaker finds herself torn between the perfect match and her imperfect ex.",
+      "year": 2025
+    },
+    {
+      "rank": 9,
+      "movie_id": 137,
+      "title": "Groundhog Day",
+      "score": 10.974674,
+      "overview": "A cynical TV weatherman, along with his idealistic producer and his sardonic cameraman, is sent to report on Groundhog Day in the small town of Punxsutawney, where he finds himself repeating the same day over and over.",
+      "year": 1993
+    },
+    {
+      "rank": 10,
+      "movie_id": 974635,
+      "title": "Hit Man",
+      "score": 10.874657,
+      "overview": "A mild-mannered professor moonlighting as a fake hit man in police stings ignites a chain reaction of trouble when he falls for a potential client.",
+      "year": 2024
+    },
+    {
+      "rank": 11,
+      "movie_id": 9602,
+      "title": "Coming to America",
+      "score": 10.640266,
+      "overview": "An African prince decides it’s time for him to find a princess... and his mission leads him and his most loyal friend to Queens, New York. In disguise as an impoverished immigrant, the pampered prince quickly finds himself a new job, new friends, new digs, new enemies and lots of trouble.",
+      "year": 1988
+    },
+    {
+      "rank": 12,
+      "movie_id": 930094,
+      "title": "Red, White & Royal Blue",
+      "score": 10.4699,
+      "overview": "After an altercation between Alex, the president's son, and Britain's Prince Henry at a royal event becomes tabloid fodder, their long-running feud now threatens to drive a wedge in U.S./British relations. When the rivals are forced into a staged truce, their icy relationship begins to thaw and the friction between them sparks something deeper than they ever expected.",
+      "year": 2023
+    },
+    {
+      "rank": 13,
+      "movie_id": 459992,
+      "title": "Long Shot",
+      "score": 10.306067,
+      "overview": "Journalist Fred Flarsky reunites with his childhood crush, Charlotte Field, now one of the most influential women in the world. As she prepares to make a run for the Presidency, Charlotte hires Fred as her speechwriter — much to the dismay of her trusted advisers.",
+      "year": 2019
+    },
+    {
+      "rank": 14,
+      "movie_id": 38317,
+      "title": "Zookeeper",
+      "score": 10.167774,
+      "overview": "Kindhearted Griffin Keyes is one of the best-loved caretakers at the Franklin Park Zoo, but he's more comfortable with the animals than with females of his own species as proven by his failed marriage proposal to the self-absorbed Stephanie several years ago. The animals have listened to Griffin pine over her for years and, after she reappears in his life, they decide to help Griffin rekindle the relationship and become the alpha male she wants him to be. They inadvertently reveal their secret ability to talk and, after Griffin's initial shock, teach him the rules of courtship, animal-style. Surprisingly, the animals' advice really works and Griffin is about to get everything he's ever dreamed of--or is he?",
+      "year": 2011
+    },
+    {
+      "rank": 15,
+      "movie_id": 10096,
+      "title": "13 Going on 30",
+      "score": 9.920103,
+      "overview": "After total humiliation at her thirteenth birthday party, Jenna Rink wants to just hide until she's thirty. Thanks to some magic wishing dust, Jenna's prayer has been answered. With a knockout body, a fabulous wardrobe, an athlete boyfriend, a dream job, and superstar friends, this can't be a better life. But soon Jenna realizes that adult life isn’t as easy as she hoped for.",
+      "year": 2004
+    },
+    {
+      "rank": 16,
+      "movie_id": 331482,
+      "title": "Little Women",
+      "score": 9.531837,
+      "overview": "Four sisters come of age in America in the aftermath of the Civil War.",
+      "year": 2019
+    },
+    {
+      "rank": 17,
+      "movie_id": 746036,
+      "title": "The Fall Guy",
+      "score": 9.353755,
+      "overview": "Fresh off an almost career-ending accident, stuntman Colt Seavers has to track down a missing movie star, solve a conspiracy and try to win back the love of his life while still doing his day job.",
+      "year": 2024
+    },
+    {
+      "rank": 18,
+      "movie_id": 152601,
+      "title": "Her",
+      "score": 9.082948,
+      "overview": "In the not so distant future, Theodore, a lonely writer, purchases a newly developed operating system designed to meet the user's every need. To Theodore's surprise, a romantic relationship develops between him and his operating system. This unconventional love story blends science fiction and romance in a sweet tale that explores the nature of love and the ways that technology isolates and connects us all.",
+      "year": 2013
+    },
+    {
+      "rank": 19,
+      "movie_id": 758009,
+      "title": "Shotgun Wedding",
+      "score": 8.938459,
+      "overview": "Darcy and Tom gather their families for the ultimate destination wedding but when the entire party is taken hostage, “’Til Death Do Us Part” takes on a whole new meaning. Now, Darcy and Tom must save their loved ones—if they don’t kill each other first.",
+      "year": 2022
+    },
+    {
+      "rank": 20,
+      "movie_id": 587792,
+      "title": "Palm Springs",
+      "score": 8.925767,
+      "overview": "When carefree Nyles and reluctant maid of honor Sarah have a chance encounter at a Palm Springs wedding, things get complicated when they find themselves unable to escape the venue, themselves, or each other.",
+      "year": 2020
+    }
+  ]
+}

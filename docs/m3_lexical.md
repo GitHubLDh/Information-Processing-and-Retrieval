@@ -86,6 +86,48 @@ confirms on the unrestricted pool that reranking the top 20 is a safer way to
 use the short overview than mixing it into the first-stage query. Saved runs:
 `runs/M3_BOOST_RW1.run`, `runs/M3_BOOST_RW05.run`.
 
+## Review-join score mode
+
+Problem: `score=max` makes a movie inherit only its single best matching review,
+so Q2's rubric (one reviewer calls it predictable, another finds it
+heartwarming) cannot be satisfied by combining two pieces of evidence. Trial:
+change the block-join to `score=total` and `score=avg` for Q1/Q2 only; the three
+story needs are untouched. Solr rejects `score=sum` with *"Unable to parse
+ScoreMode from: sum"*, so `total` (Solr's name for summing child scores) is the
+sum variant. Configs: `queries/m3/variants/reviewjoin_total/` and
+`queries/m3/variants/reviewjoin_avg/`.
+
+| System | P@5 | P@10 | AP | nDCG@10 | Recall@20 | MRR@10 |
+|---|---:|---:|---:|---:|---:|---:|
+| B (frozen baseline) | 0.880 | 0.780 | 0.497 | 0.737 | 0.588 | 1.000 |
+| `score=total` | 0.840 | 0.640 | 0.429 | 0.607 | 0.542 | 1.000 |
+| `score=avg` | 0.600 | 0.500 | 0.365 | 0.507 | 0.480 | 0.800 |
+
+Per-need change from B (`total` / `avg`):
+
+| Need | P@10 | AP | nDCG@10 | Recall@20 |
+|---|---:|---:|---:|---:|
+| Q1 | 0.800 → 0.500 / 0.000 | 0.326 → 0.178 / 0.022 | 0.697 → 0.490 / 0.000 | 0.364 → 0.212 / 0.121 |
+| Q2 | 0.900 → 0.500 / 0.300 | 0.486 → 0.292 / 0.126 | 0.891 → 0.446 / 0.437 | 0.519 → 0.444 / 0.222 |
+| Q3 | 0.700 → 0.700 / 0.700 | 0.452 → 0.452 / 0.452 | 0.679 → 0.679 / 0.679 | 0.556 → 0.556 / 0.556 |
+| Q4 | 0.900 → 0.900 / 0.900 | 0.460 → 0.460 / 0.460 | 0.603 → 0.603 / 0.603 | 0.500 → 0.500 / 0.500 |
+| Q5 | 0.600 → 0.600 / 0.600 | 0.763 → 0.763 / 0.763 | 0.816 → 0.816 / 0.816 | 1.000 → 1.000 / 1.000 |
+
+Review counts of the top-10 movies show why both alternatives fail:
+
+| System | Q1 mean / max / >=5 reviews | Q2 mean / max / >=5 reviews |
+|---|---:|---:|
+| `score=max` (B) | 9.5 / 19 / 8 of 10 | 4.3 / 8 / 4 of 10 |
+| `score=total` | 16.5 / 34 / 10 of 10 | 6.5 / 12 / 8 of 10 |
+| `score=avg` | 1.4 / 3 / 0 of 10 | 2.8 / 5 / 2 of 10 |
+
+`total` rewards movies simply for having many reviews; `avg` rewards movies
+with one strong review and few others. Neither produces the two-reviewer
+consensus Q2 needs, and both lower pooled recall by replacing relevant
+candidates in the top 20. Q3–Q5 are bitwise identical to B, confirming the
+change was isolated. **Rejected**; keep `score=max`. Saved runs:
+`runs/M3_JOIN_TOTAL.run`, `runs/M3_JOIN_AVG.run`.
+
 ## Reproduce
 
 Start a scratch core on port 18984 (do not touch the project core on 8983):
@@ -102,4 +144,8 @@ python3 scripts/run_system.py --system m3_lexical \
   --queries queries/m3/variants/boosts_rw1 --uri http://127.0.0.1:18984/solr --run-id M3_BOOST_RW1
 python3 scripts/run_system.py --system m3_lexical \
   --queries queries/m3/variants/boosts_rw05 --uri http://127.0.0.1:18984/solr --run-id M3_BOOST_RW05
+python3 scripts/run_system.py --system m3_lexical \
+  --queries queries/m3/variants/reviewjoin_total --uri http://127.0.0.1:18984/solr --run-id M3_JOIN_TOTAL
+python3 scripts/run_system.py --system m3_lexical \
+  --queries queries/m3/variants/reviewjoin_avg --uri http://127.0.0.1:18984/solr --run-id M3_JOIN_AVG
 ```

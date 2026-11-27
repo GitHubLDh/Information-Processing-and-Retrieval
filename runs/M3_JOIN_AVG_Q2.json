@@ -1,0 +1,186 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q2",
+  "need": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 388,
+  "query_params": {
+    "q": "{!parent which=\"doc_type:movie\" score=avg v=$childq}",
+    "text": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+    "qf": "review_text",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:romance"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text}"
+  },
+  "latency_ms": 11.234,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 843543,
+      "title": "Meet Cute",
+      "score": 6.67715,
+      "overview": "A wildly inventive deconstruction of the romantic comedy built around the question: What would you do if you could travel to your loved ones’ past, heal their traumas, fix their problems, and change them into the perfect partner?",
+      "year": 2022
+    },
+    {
+      "rank": 2,
+      "movie_id": 843527,
+      "title": "The Idea of You",
+      "score": 6.0521827,
+      "overview": "40-year-old single mom Solène begins an unexpected romance with 24-year-old Hayes Campbell, the lead singer of August Moon, the hottest boy band on the planet. As they begin a whirlwind romance, it isn't long before Hayes' superstar status poses unavoidable challenges to their relationship, and Solène soon discovers that life in the glare of his spotlight might be more than she bargained for.",
+      "year": 2024
+    },
+    {
+      "rank": 3,
+      "movie_id": 10642,
+      "title": "Loser",
+      "score": 5.9681544,
+      "overview": "On a university scholarship, a good natured student from the midwest gets a crash course in city life while dealing with three evil roommates. He befriends a virtually homeless college student whom he falls for, but she's dating a nasty professor.",
+      "year": 2000
+    },
+    {
+      "rank": 4,
+      "movie_id": 11529,
+      "title": "Sweet Home Alabama",
+      "score": 5.4265904,
+      "overview": "New York fashion designer, Melanie Carmichael suddenly finds herself engaged to the city's most eligible bachelor. But her past holds many secrets—including Jake, the redneck husband she married in high school, who refuses to divorce her. Bound and determined to end their contentious relationship once and for all, Melanie sneaks back home to Alabama to confront her past.",
+      "year": 2002
+    },
+    {
+      "rank": 5,
+      "movie_id": 330483,
+      "title": "The Choice",
+      "score": 5.1718245,
+      "overview": "Travis and Gabby first meet as neighbors in a small coastal town and wind up in a relationship that is tested by life's most defining events.",
+      "year": 2016
+    },
+    {
+      "rank": 6,
+      "movie_id": 10096,
+      "title": "13 Going on 30",
+      "score": 4.9600515,
+      "overview": "After total humiliation at her thirteenth birthday party, Jenna Rink wants to just hide until she's thirty. Thanks to some magic wishing dust, Jenna's prayer has been answered. With a knockout body, a fabulous wardrobe, an athlete boyfriend, a dream job, and superstar friends, this can't be a better life. But soon Jenna realizes that adult life isn’t as easy as she hoped for.",
+      "year": 2004
+    },
+    {
+      "rank": 7,
+      "movie_id": 17130,
+      "title": "Crossroads",
+      "score": 4.8311973,
+      "overview": "After eight years apart, three childhood friends - Lucy, Kit, and Mimi - rediscover their friendship on a cross-country trip. With barely a plan, practically no money but plenty of dreams, the girls catch a lift with Mimi's handsome friend Ben in his convertible. Along the way they not only gather experiences that will change their lives, but they also discover how important it is to hold onto their hearts' desires.",
+      "year": 2002
+    },
+    {
+      "rank": 8,
+      "movie_id": 122906,
+      "title": "About Time",
+      "score": 4.8194666,
+      "overview": "The night after another unsatisfactory New Year's party, Tim's father tells his son that the men in his family have always had the ability to travel through time. They can't change history, but they can change what happens and has happened in their own lives. Thus begins the start of a lesson in learning to appreciate life itself as it is, as it comes, and most importantly, the people living alongside us.",
+      "year": 2013
+    },
+    {
+      "rank": 9,
+      "movie_id": 256591,
+      "title": "Focus",
+      "score": 4.8075275,
+      "overview": "Nicky, an accomplished con artist, gets romantically involved with his disciple Jess but later ends their relationship. Years later, she returns as a femme fatale to spoil his plans.",
+      "year": 2015
+    },
+    {
+      "rank": 10,
+      "movie_id": 521007,
+      "title": "Superintelligence",
+      "score": 4.5288043,
+      "overview": "When an all-powerful Superintelligence chooses to study the most average person on Earth, Carol Peters, the fate of the world hangs in the balance. As the A.I. decides to enslave, save or destroy humanity, it’s up to Carol to prove that people are worth saving.",
+      "year": 2020
+    },
+    {
+      "rank": 11,
+      "movie_id": 82654,
+      "title": "Warm Bodies",
+      "score": 4.5204363,
+      "overview": "After a zombie becomes involved with the girlfriend of one of his victims, their romance sets in motion a sequence of events that might transform the entire lifeless world.",
+      "year": 2013
+    },
+    {
+      "rank": 12,
+      "movie_id": 758009,
+      "title": "Shotgun Wedding",
+      "score": 4.4692297,
+      "overview": "Darcy and Tom gather their families for the ultimate destination wedding but when the entire party is taken hostage, “’Til Death Do Us Part” takes on a whole new meaning. Now, Darcy and Tom must save their loved ones—if they don’t kill each other first.",
+      "year": 2022
+    },
+    {
+      "rank": 13,
+      "movie_id": 72570,
+      "title": "The Vow",
+      "score": 4.3384843,
+      "overview": "Happy young married couple Paige and Leo are, well, happy. Then a car accident puts Paige into a life-threatening coma. Upon awakening she has lost the previous five years of memories, including those of her beloved Leo, her wedding, a confusing relationship with her parents, or the ending of her relationship with her ex-fiance. Despite these complications, Leo endeavors to win her heart again and rebuild their marriage.",
+      "year": 2012
+    },
+    {
+      "rank": 14,
+      "movie_id": 412209,
+      "title": "Tramps",
+      "score": 4.3240495,
+      "overview": "A young man and woman find love in an unlikely place while carrying out a shady deal.",
+      "year": 2016
+    },
+    {
+      "rank": 15,
+      "movie_id": 271718,
+      "title": "Trainwreck",
+      "score": 4.2183022,
+      "overview": "Ever since her father drilled into her head that monogamy isn't realistic, magazine writer Amy has made promiscuity her credo. As much as she enjoys an uninhibited life free of commitment, Amy is really in a rut. While writing a profile about charming and successful sports doctor Aaron Conners, she finds herself actually falling in love for the first time -- and what's more, Aaron seems to really like her too. Amy starts to wonder if it's time to clean up her act and face her fears.",
+      "year": 2015
+    },
+    {
+      "rank": 16,
+      "movie_id": 2898,
+      "title": "As Good as It Gets",
+      "score": 4.159787,
+      "overview": "A misanthropic author, a single mother and waitress, and a gay artist form an unlikely friendship after the artist is assaulted in a robbery.",
+      "year": 1997
+    },
+    {
+      "rank": 17,
+      "movie_id": 41630,
+      "title": "No Strings Attached",
+      "score": 4.1385803,
+      "overview": "Emma is a busy doctor who sets up a seemingly perfect arrangement when she offers her best friend Adam a relationship with one rule: No strings attached. But when a fling becomes a thing, can sex friends stay best friends?",
+      "year": 2011
+    },
+    {
+      "rank": 18,
+      "movie_id": 82693,
+      "title": "Silver Linings Playbook",
+      "score": 4.115614,
+      "overview": "After losing his job and wife, and spending time in an institution, a former teacher winds up living with his parents. He wants to rebuild his life and reconcile with his wife, but his father would be happy if he shared his obsession with the Philadelphia Eagles. Things get complicated when he meets Tiffany Maxwell who offers to help him reconnect with his wife if he will do something very important for her in exchange.",
+      "year": 2012
+    },
+    {
+      "rank": 19,
+      "movie_id": 11013,
+      "title": "Secretary",
+      "score": 4.0601707,
+      "overview": "A young woman, recently released from a mental hospital, gets a job as a secretary to a demanding lawyer, where their employer-employee relationship turns into a sexual, sadomasochistic one.",
+      "year": 2002
+    },
+    {
+      "rank": 20,
+      "movie_id": 987686,
+      "title": "A Family Affair",
+      "score": 4.0204067,
+      "overview": "The only thing worse than being the assistant to a high-maintenance movie star who doesn't take you seriously? Finding out he's smitten with your mom.",
+      "year": 2024
+    }
+  ]
+}

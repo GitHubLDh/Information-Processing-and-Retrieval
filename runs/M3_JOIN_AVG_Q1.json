@@ -1,0 +1,186 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q1",
+  "need": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 987,
+  "query_params": {
+    "q": "{!parent which=\"doc_type:movie\" score=avg v=$childq}",
+    "text": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+    "qf": "review_text",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:comedy"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text}"
+  },
+  "latency_ms": 26.206,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 43347,
+      "title": "Love & Other Drugs",
+      "score": 7.744266,
+      "overview": "Maggie is an alluring free spirit who won't let anyone – or anything – tie her down. But she meets her match in Jamie, whose relentless and nearly infallible charm serves him well with the ladies and the cutthroat world of pharmaceutical sales. Maggie and Jamie's evolving relationship takes them both by surprise, as they find themselves under the influence of the ultimate drug: love.",
+      "year": 2010
+    },
+    {
+      "rank": 2,
+      "movie_id": 19382,
+      "title": "Biloxi Blues",
+      "score": 6.938831,
+      "overview": "A Jewish teenager sets three goals: lose his virginity, become a writer, and survive World War II.",
+      "year": 1988
+    },
+    {
+      "rank": 3,
+      "movie_id": 570480,
+      "title": "Trouble",
+      "score": 6.6881237,
+      "overview": "A pampered dog named Trouble must learn to live in the real world while trying to escape from his former owner's greedy children and must learn how to survive on the big-city streets.",
+      "year": 2019
+    },
+    {
+      "rank": 4,
+      "movie_id": 2639,
+      "title": "Deconstructing Harry",
+      "score": 6.4966846,
+      "overview": "Writer Harry Block draws inspiration from people he knows, and from events that happened to him, sometimes causing these people to become alienated from him as a result.",
+      "year": 1997
+    },
+    {
+      "rank": 5,
+      "movie_id": 11665,
+      "title": "Get Smart",
+      "score": 5.911655,
+      "overview": "When members of the nefarious crime syndicate KAOS attack the U.S. spy agency Control and the identities of secret agents are compromised, the Chief has to promote hapless but eager analyst Maxwell Smart to field agent. He is partnered with veteran and capable Agent 99, the only spy whose cover remains intact. Can they work together to thwart the evil world-domination plans of KAOS and its crafty operative?",
+      "year": 2008
+    },
+    {
+      "rank": 6,
+      "movie_id": 5680,
+      "title": "Elvira: Mistress of the Dark",
+      "score": 5.7633276,
+      "overview": "Arriving in the small town of Fallwell, Massachusetts to claim her inheritance, horror hostess Elvira receives a less than enthusiastic reception from the conservative locals, including her sinister uncle Vincent.",
+      "year": 1988
+    },
+    {
+      "rank": 7,
+      "movie_id": 7512,
+      "title": "Idiocracy",
+      "score": 5.704882,
+      "overview": "To test its top-secret Human Hibernation Project, the Pentagon picks the most average Americans it can find - an Army private and a prostitute - and sends them to the year 2505 after a series of freak events. But when they arrive, they find a civilization so dumbed-down that they're the smartest people around.",
+      "year": 2006
+    },
+    {
+      "rank": 8,
+      "movie_id": 5072,
+      "title": "Severance",
+      "score": 5.685834,
+      "overview": "Seven employees of an international weapons manufacturer are treated to a team-building weekend at the company’s newly built luxury spa lodge. Things quickly go awry as the colleagues find their corporate weekend sabotaged by a deadly enemy.",
+      "year": 2006
+    },
+    {
+      "rank": 9,
+      "movie_id": 59436,
+      "title": "Midnight in Paris",
+      "score": 5.5354543,
+      "overview": "While on a trip to Paris with his fiancée's family, a nostalgic screenwriter finds himself mysteriously going back to the 1920s every day at midnight.",
+      "year": 2011
+    },
+    {
+      "rank": 10,
+      "movie_id": 774370,
+      "title": "Dog Man",
+      "score": 5.5353947,
+      "overview": "When a faithful police dog and his human police officer owner are injured together on the job, a harebrained but life-saving surgery fuses the two of them together and Dog Man is born. Dog Man is sworn to protect and serve—and fetch, sit and roll over. As Dog Man embraces his new identity and strives to impress his Chief, he must stop the pretty evil plots of feline supervillain Petey the Cat.",
+      "year": 2025
+    },
+    {
+      "rank": 11,
+      "movie_id": 844185,
+      "title": "Unfrosted",
+      "score": 5.4756927,
+      "overview": "In a time when breakfast is ruled by milk and cereal, a fierce corporate battle begins over a revolutionary new pastry.",
+      "year": 2024
+    },
+    {
+      "rank": 12,
+      "movie_id": 583,
+      "title": "Life of Brian",
+      "score": 5.321128,
+      "overview": "Brian Cohen is an average young Jewish man, but through a series of ridiculous events, he gains a reputation as the Messiah. When he's not dodging his followers or being scolded by his shrill mother, the hapless Brian has to contend with the pompous Pontius Pilate and acronym-obsessed members of a separatist movement. Rife with Monty Python's signature absurdity, the tale finds Brian's life paralleling Biblical lore, albeit with many more laughs.",
+      "year": 1979
+    },
+    {
+      "rank": 13,
+      "movie_id": 297222,
+      "title": "PK",
+      "score": 5.2735624,
+      "overview": "A stranger in the city asks questions no one has asked before. Known only by his initials, the man's innocent questions and childlike curiosity take him on a journey of love, laughter and letting go.",
+      "year": 2014
+    },
+    {
+      "rank": 14,
+      "movie_id": 706693,
+      "title": "Timestalker",
+      "score": 5.2504525,
+      "overview": "Hapless Agnes repeatedly falls for the wrong guy, dies a grim death, and is reincarnated a century later. As she experiences romantic misfortune spanning various eras, Agnes aims to avoid repeat mistakes and finally break the cycle.",
+      "year": 2024
+    },
+    {
+      "rank": 15,
+      "movie_id": 7552,
+      "title": "Fun with Dick and Jane",
+      "score": 5.1219835,
+      "overview": "After Dick Harper loses his job at Globodyne in an Enron-esque collapse, he and his wife, Jane, turn to crime in order to handle the massive debt they now face. Two intelligent people, Dick and Jane actually get pretty good at robbing people and even enjoy it -- but they have second thoughts when they're reminded that crime can hurt innocent people. When the couple hears that Globodyne boss Jack McCallister actually swindled the company, they plot revenge.",
+      "year": 2005
+    },
+    {
+      "rank": 16,
+      "movie_id": 810,
+      "title": "Shrek the Third",
+      "score": 5.0830026,
+      "overview": "The King of Far Far Away has died and Shrek and Fiona are to become King & Queen. However, Shrek wants to return to his cozy swamp and live in peace and quiet, so when he finds out there is another heir to the throne, they set off to bring him back to rule the kingdom.",
+      "year": 2007
+    },
+    {
+      "rank": 17,
+      "movie_id": 43939,
+      "title": "I'm Still Here",
+      "score": 5.0003624,
+      "overview": "I'm Still Here is a portrayal of a tumultuous year in the life of actor Joaquin Phoenix. With remarkable access, the film follows the Oscar-nominee as he announces his retirement from a successful film career in the fall of 2008 and sets off to reinvent himself as a hip-hop musician. The film is a portrait of an artist at a crossroads and explores notions of courage and creative reinvention, as well as the ramifications of a life spent in the public eye.",
+      "year": 2010
+    },
+    {
+      "rank": 18,
+      "movie_id": 187017,
+      "title": "22 Jump Street",
+      "score": 4.9963307,
+      "overview": "After making their way through high school (twice), big changes are in store for officers Schmidt and Jenko when they go deep undercover at a local college. But when Jenko meets a kindred spirit on the football team, and Schmidt infiltrates the bohemian art major scene, they begin to question their partnership. Now they don't have to just crack the case - they have to figure out if they can have a mature relationship. If these two overgrown adolescents can grow from freshmen into real men, college might be the best thing that ever happened to them.",
+      "year": 2014
+    },
+    {
+      "rank": 19,
+      "movie_id": 1597,
+      "title": "Meet the Parents",
+      "score": 4.9455132,
+      "overview": "Greg Focker is ready to marry his girlfriend, Pam, but before he pops the question, he must win over her formidable father, humorless former CIA agent Jack Byrnes, at the wedding of Pam's sister. As Greg bends over backward to make a good impression, his visit to the Byrnes home turns into a hilarious series of disasters, and everything that can go wrong does, all under Jack's critical, hawklike gaze.",
+      "year": 2000
+    },
+    {
+      "rank": 20,
+      "movie_id": 49520,
+      "title": "The Change-Up",
+      "score": 4.921697,
+      "overview": "Lifelong friends Dave and Mitch are envious of the other's life. Mitch thinks Dave has it all: a beautiful, loving family and a high-paying job at a prestigious law firm. But Dave thinks Mitch’s stress-free playboy life without obligation or consequence is the real dream come true. One fateful drunken night, they both admit that they wish they had the other’s life while peeing in a fountain when lightning strikes. The next morning, they wake up, hungover, in each other’s bodies! With time not on their side, Mitch and Dave comically struggle to avoid completely destroying each other’s lives before they can find a way to get their old ones back.",
+      "year": 2011
+    }
+  ]
+}
