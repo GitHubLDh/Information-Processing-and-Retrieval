@@ -1,0 +1,26 @@
+{
+  "qid": "Q5",
+  "need": "Robert De Niro stars in a film about the loyalties and conflicts within an Italian-American Mafia family.",
+  "source": "story",
+  "filters": [
+    "cast.name:(\"Robert De Niro\" OR \"Robert Deniro\")",
+    "-plot:\"Russian mafia\""
+  ],
+  "params": {
+    "q": "{!edismax v=$text pf=plot ps=2}",
+    "text": "Robert De Niro stars in a film about the loyalties and conflicts within an Italian-American Mafia family.",
+    "qf": "plot",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "cast.name:(\"Robert De Niro\" OR \"Robert Deniro\")",
+      "-plot:\"Russian mafia\""
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "overviewq": "{!edismax qf=overview v=$text}",
+    "rq": "{!rerank reRankQuery=$overviewq reRankDocs=20 reRankWeight=1}"
+  }
+}

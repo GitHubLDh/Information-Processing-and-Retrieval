@@ -1,0 +1,187 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q3",
+  "need": "In this science fiction film, astronauts are stranded far from Earth and struggle to survive or return home.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 755,
+  "query_params": {
+    "q": "{!edismax v=$text pf=plot ps=2}",
+    "text": "In this science fiction film, astronauts are stranded far from Earth and struggle to survive or return home.",
+    "qf": "plot",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:\"science fiction\""
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "overviewq": "{!edismax qf=overview v=$text}",
+    "rq": "{!rerank reRankQuery=$overviewq reRankDocs=20 reRankWeight=1}"
+  },
+  "latency_ms": 7.62,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 6795,
+      "title": "Zathura: A Space Adventure",
+      "score": 17.29595,
+      "overview": "After their father is called into work, two young boys, Walter and Danny, are left in the care of their teenage sister, Lisa, and told they must stay inside. Walter and Danny, who anticipate a boring day, are shocked when they begin playing Zathura, a space-themed board game, which they realize has mystical powers when their house is shot into space. With the help of an astronaut, the boys attempt to return home.",
+      "year": 2005
+    },
+    {
+      "rank": 2,
+      "movie_id": 286217,
+      "title": "The Martian",
+      "score": 15.868471,
+      "overview": "During a manned mission to Mars, Astronaut Mark Watney is presumed dead after a fierce storm and left behind by his crew. But Watney has survived and finds himself stranded and alone on the hostile planet. With only meager supplies, he must draw upon his ingenuity, wit and spirit to subsist and find a way to signal to Earth that he is alive.",
+      "year": 2015
+    },
+    {
+      "rank": 3,
+      "movie_id": 687163,
+      "title": "Project Hail Mary",
+      "score": 12.225786,
+      "overview": "Science teacher Ryland Grace wakes up on a spaceship light years from home with no recollection of who he is or how he got there. As his memory returns, he begins to uncover his mission: solve the riddle of the mysterious substance causing the sun to die out. He must call on his scientific knowledge and unorthodox ideas to save everything on Earth from extinction… but an unexpected friendship means he may not have to do it alone.",
+      "year": 2026
+    },
+    {
+      "rank": 4,
+      "movie_id": 30863,
+      "title": "Mutant Aliens",
+      "score": 11.391649,
+      "overview": "An unlikely crew – an astronaut, his intrepid daughter, and a quintet of sympathetic, albeit violent, alien creatures – seek revenge against a space industry baron.",
+      "year": 2002
+    },
+    {
+      "rank": 5,
+      "movie_id": 14161,
+      "title": "2012",
+      "score": 10.6188135,
+      "overview": "Dr. Adrian Helmsley, part of a worldwide geophysical team investigating the effect on the earth of radiation from unprecedented solar storms, learns that the earth's core is heating up. He warns U.S. President Thomas Wilson that the crust of the earth is becoming unstable and that without proper preparations for saving a fraction of the world's population, the entire race is doomed. Meanwhile, writer Jackson Curtis stumbles on the same information. While the world's leaders race to build \"arks\" to escape the impending cataclysm, Curtis struggles to find a way to save his family. Meanwhile, volcanic eruptions and earthquakes of unprecedented strength wreak havoc around the world.",
+      "year": 2009
+    },
+    {
+      "rank": 6,
+      "movie_id": 365942,
+      "title": "The Space Between Us",
+      "score": 10.147861,
+      "overview": "A young man raised by scientists on Mars returns to Earth to find his father.",
+      "year": 2017
+    },
+    {
+      "rank": 7,
+      "movie_id": 17431,
+      "title": "Moon",
+      "score": 9.926556,
+      "overview": "With only three weeks left in his three-year contract, Sam Bell is eager to return to Earth. Stationed alone at a Moon-based facility with his computer assistant GERTY, an unexpected accident sets off a series of unsettling events that shake his isolation.",
+      "year": 2009
+    },
+    {
+      "rank": 8,
+      "movie_id": 406759,
+      "title": "Moonfall",
+      "score": 9.409685,
+      "overview": "A mysterious force knocks the moon from its orbit around Earth and sends it hurtling on a collision course with life as we know it.",
+      "year": 2022
+    },
+    {
+      "rank": 9,
+      "movie_id": 535167,
+      "title": "The Wandering Earth",
+      "score": 8.80998,
+      "overview": "When the Sun begins to expand in such a way that it will inevitably engulf and destroy the Earth in a hundred years, united mankind finds a way to avoid extinction by propelling the planet out of the Solar System using gigantic engines, moving it to a new home located four light years away, an epic journey that will last thousands of years.",
+      "year": 2019
+    },
+    {
+      "rank": 10,
+      "movie_id": 8536,
+      "title": "Superman II",
+      "score": 8.7899685,
+      "overview": "Three Kryptonian criminals led by General Zod team up with Lex Luthor to conquer Earth, forcing a depowered Superman to regain his strength and stop them.",
+      "year": 1980
+    },
+    {
+      "rank": 11,
+      "movie_id": 916728,
+      "title": "Slingshot",
+      "score": 8.590972,
+      "overview": "An elite trio of astronauts aboard a years-long, possibly compromised mission to Saturn's moon Titan, gears up for a highly dangerous slingshot manoeuvre that will either catapult them to Titan or into deep space.",
+      "year": 2024
+    },
+    {
+      "rank": 12,
+      "movie_id": 36685,
+      "title": "The Rocky Horror Picture Show",
+      "score": 8.234417,
+      "overview": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr. Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",
+      "year": 1975
+    },
+    {
+      "rank": 13,
+      "movie_id": 75612,
+      "title": "Oblivion",
+      "score": 7.769907,
+      "overview": "Jack Harper is one of the last few drone repairmen stationed on Earth. Part of a massive operation to extract vital resources after decades of war with a terrifying threat known as the Scavs, Jack’s mission is nearly complete. His existence is brought crashing down when he rescues a beautiful  stranger from a downed spacecraft. Her arrival triggers a chain of events that  forces him to question everything he knows and puts the fate of humanity in his hands.",
+      "year": 2013
+    },
+    {
+      "rank": 14,
+      "movie_id": 95,
+      "title": "Armageddon",
+      "score": 7.757071,
+      "overview": "When an asteroid threatens to collide with Earth, NASA honcho Dan Truman determines the only way to stop it is to drill into its surface and detonate a nuclear bomb. This leads him to renowned driller Harry Stamper, who agrees to helm the dangerous space mission provided he can bring along his own hotshot crew. Among them is the cocksure A.J. who Harry thinks isn't good enough for his daughter, until the mission proves otherwise.",
+      "year": 1998
+    },
+    {
+      "rank": 15,
+      "movie_id": 667538,
+      "title": "Transformers: Rise of the Beasts",
+      "score": 7.7315626,
+      "overview": "When a new threat capable of destroying the entire planet emerges, Optimus Prime and the Autobots must team up with a powerful faction known as the Maximals. With the fate of humanity hanging in the balance, humans Noah and Elena will do whatever it takes to help the Transformers as they engage in the ultimate battle to save Earth.",
+      "year": 2023
+    },
+    {
+      "rank": 16,
+      "movie_id": 339964,
+      "title": "Valerian and the City of a Thousand Planets",
+      "score": 7.4853463,
+      "overview": "In the 28th century, Valerian and Laureline are special operatives charged with keeping order throughout the human territories. On assignment from the Minister of Defense, the two undertake a mission to Alpha, an ever-expanding metropolis where species from across the universe have converged over centuries to share knowledge, intelligence, and cultures. At the center of Alpha is a mysterious dark force which threatens the peaceful existence of the City of a Thousand Planets, and Valerian and Laureline must race to identify the menace and safeguard not just Alpha, but the future of the universe.",
+      "year": 2017
+    },
+    {
+      "rank": 17,
+      "movie_id": 31011,
+      "title": "Mr. Nobody",
+      "score": 5.9418197,
+      "overview": "Nemo Nobody leads an ordinary existence with his wife and 3 children; one day, he wakes up as a mortal centenarian in the year 2092.",
+      "year": 2009
+    },
+    {
+      "rank": 18,
+      "movie_id": 1022787,
+      "title": "Elio",
+      "score": 5.832527,
+      "overview": "Elio, a space fanatic with an active imagination, finds himself on a cosmic misadventure where he must form new bonds with eccentric alien lifeforms, navigate a crisis of intergalactic proportions and somehow discover who he is truly meant to be.",
+      "year": 2025
+    },
+    {
+      "rank": 19,
+      "movie_id": 297222,
+      "title": "PK",
+      "score": 5.8319864,
+      "overview": "A stranger in the city asks questions no one has asked before. Known only by his initials, the man's innocent questions and childlike curiosity take him on a journey of love, laughter and letting go.",
+      "year": 2014
+    },
+    {
+      "rank": 20,
+      "movie_id": 152,
+      "title": "Star Trek: The Motion Picture",
+      "score": 5.7213006,
+      "overview": "When an unidentified alien destroys three powerful Klingon cruisers, Captain James T. Kirk returns to the newly transformed U.S.S. Enterprise to take command.",
+      "year": 1979
+    }
+  ]
+}

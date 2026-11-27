@@ -128,6 +128,50 @@ candidates in the top 20. Q3–Q5 are bitwise identical to B, confirming the
 change was isolated. **Rejected**; keep `score=max`. Saved runs:
 `runs/M3_JOIN_TOTAL.run`, `runs/M3_JOIN_AVG.run`.
 
+## Phrase boosts
+
+Problem: M2's fixed-pool word-pair boost (`pf2=qf`, `ps2=1`) reduced graded
+ranking quality, so phrase evidence needs an unrestricted check before being
+adopted or dismissed. Trial: an isolated phrase boost with `pf` on the searched
+field and `ps=2`, inserted as local params in the main eDisMax query for story
+needs and in the nested `childq` for review needs. Configs:
+`queries/m3/variants/phrase/`.
+
+| System | P@5 | P@10 | AP | nDCG@10 | Recall@20 | MRR@10 |
+|---|---:|---:|---:|---:|---:|---:|
+| B (frozen baseline) | 0.880 | 0.780 | 0.497 | 0.737 | 0.588 | 1.000 |
+| `pf=field`, `ps=2` | 0.880 | 0.780 | 0.497 | 0.737 | 0.588 | 1.000 |
+
+All five top-20 lists are identical to B. Solr's parsed query confirms that
+the phrase clause was actually applied: for Q3 it contains
+`(plot:"? ? science fiction film astronaut ? stranded far from earth ? struggle ? survive ? return home"~2)`.
+It simply does not change any ordering at slop 2 for these needs, because few
+documents contain nearly the whole sentence in close proximity. **Not adopted**:
+no benefit, and M2's separate `pf2` trial was harmful on the fixed pool. Saved
+run: `runs/M3_PF.run`.
+
+## Final decisions
+
+The final lexical configuration is **the frozen M2 Setup B unchanged**:
+`mm=1`, `qf=plot` / `qf=review_text`, `score=max`, no phrase boost, no analyzer
+or schema change. P1's contribution here is the unrestricted verification of
+each proposed change and the evidence for rejecting it, plus the shared
+retrieval interface and search page.
+
+| Change | Saved run | Evidence | Decision |
+|---|---|---|---|
+| `mm=2`, `tie=0.1` | `runs/M3_MM2.run` | P@10 +0.02, nDCG +0.013, but P@5 −0.04, AP −0.006; Q3/Q5 AP down | not adopted |
+| `mm=70%`, `tie=0.1` | `runs/M3_MM70.run` | 0–2 results per need, Q5 empty | rejected |
+| `qf=plot^1 overview^2 title^2`, rerank 1 | `runs/M3_BOOST_RW1.run` | Q3 AP −0.150, nDCG −0.300 | rejected |
+| same, rerank 0.5 | `runs/M3_BOOST_RW05.run` | same Q3 loss, no recovery | rejected |
+| review join `score=total` | `runs/M3_JOIN_TOTAL.run` | rewards movies with many reviews, pooled recall −0.046 | rejected |
+| review join `score=avg` | `runs/M3_JOIN_AVG.run` | rewards single-review movies, pooled recall −0.108 | rejected |
+| `pf=field`, `ps=2` | `runs/M3_PF.run` | identical rankings to B | not adopted |
+| Analyzer / KStem change | M2 verification | KStem already handles the observed variants; changing it needs a reindex | not attempted |
+| Character trigrams | M2 scratch-core trial | no typo gain, promoted judged nonrelevant Q3/Q5 films | rejected (M2) |
+| Extra query stopwords | M2 fixed-pool trial | lower P@10, MAP and nDCG than the stock list | rejected (M2) |
+| WordNet synonyms | M2 fixed-pool trial | Q3 AP up but Q4 nDCG 0.631 → 0.426 | rejected (M2) |
+
 ## Reproduce
 
 Start a scratch core on port 18984 (do not touch the project core on 8983):
@@ -148,4 +192,6 @@ python3 scripts/run_system.py --system m3_lexical \
   --queries queries/m3/variants/reviewjoin_total --uri http://127.0.0.1:18984/solr --run-id M3_JOIN_TOTAL
 python3 scripts/run_system.py --system m3_lexical \
   --queries queries/m3/variants/reviewjoin_avg --uri http://127.0.0.1:18984/solr --run-id M3_JOIN_AVG
+python3 scripts/run_system.py --system m3_lexical \
+  --queries queries/m3/variants/phrase --uri http://127.0.0.1:18984/solr --run-id M3_PF
 ```

@@ -1,0 +1,186 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q2",
+  "need": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 388,
+  "query_params": {
+    "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
+    "text": "Reviewers describe a romantic comedy as predictable and clichéd, yet some find it genuinely heartwarming.",
+    "qf": "review_text",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:romance"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text pf=review_text ps=2}"
+  },
+  "latency_ms": 9.191,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 10096,
+      "title": "13 Going on 30",
+      "score": 9.394094,
+      "overview": "After total humiliation at her thirteenth birthday party, Jenna Rink wants to just hide until she's thirty. Thanks to some magic wishing dust, Jenna's prayer has been answered. With a knockout body, a fabulous wardrobe, an athlete boyfriend, a dream job, and superstar friends, this can't be a better life. But soon Jenna realizes that adult life isn’t as easy as she hoped for.",
+      "year": 2004
+    },
+    {
+      "rank": 2,
+      "movie_id": 843527,
+      "title": "The Idea of You",
+      "score": 8.86609,
+      "overview": "40-year-old single mom Solène begins an unexpected romance with 24-year-old Hayes Campbell, the lead singer of August Moon, the hottest boy band on the planet. As they begin a whirlwind romance, it isn't long before Hayes' superstar status poses unavoidable challenges to their relationship, and Solène soon discovers that life in the glare of his spotlight might be more than she bargained for.",
+      "year": 2024
+    },
+    {
+      "rank": 3,
+      "movie_id": 455207,
+      "title": "Crazy Rich Asians",
+      "score": 7.7924027,
+      "overview": "An American-born Chinese economics professor accompanies her boyfriend to Singapore for his best friend's wedding, only to get thrust into the lives of Asia's rich and famous.",
+      "year": 2018
+    },
+    {
+      "rank": 4,
+      "movie_id": 987686,
+      "title": "A Family Affair",
+      "score": 7.68893,
+      "overview": "The only thing worse than being the assistant to a high-maintenance movie star who doesn't take you seriously? Finding out he's smitten with your mom.",
+      "year": 2024
+    },
+    {
+      "rank": 5,
+      "movie_id": 884605,
+      "title": "No Hard Feelings",
+      "score": 7.2620754,
+      "overview": "On the brink of losing her childhood home, Maddie discovers an intriguing job listing: wealthy helicopter parents looking for someone to “date” their introverted 19-year-old son, Percy, before he leaves for college. To her surprise, Maddie soon discovers the awkward Percy is no sure thing.",
+      "year": 2023
+    },
+    {
+      "rank": 6,
+      "movie_id": 758009,
+      "title": "Shotgun Wedding",
+      "score": 7.167388,
+      "overview": "Darcy and Tom gather their families for the ultimate destination wedding but when the entire party is taken hostage, “’Til Death Do Us Part” takes on a whole new meaning. Now, Darcy and Tom must save their loved ones—if they don’t kill each other first.",
+      "year": 2022
+    },
+    {
+      "rank": 7,
+      "movie_id": 956842,
+      "title": "Fly Me to the Moon",
+      "score": 6.783579,
+      "overview": "Sparks fly in all directions as marketing maven Kelly Jones, brought in to fix NASA's public image, wreaks havoc on Apollo 11 launch director Cole Davis' already difficult task of putting a man on the moon. When the White House deems the mission too important to fail, Jones is directed to stage a fake moon landing as backup, and the countdown truly begins.",
+      "year": 2024
+    },
+    {
+      "rank": 8,
+      "movie_id": 843543,
+      "title": "Meet Cute",
+      "score": 6.67715,
+      "overview": "A wildly inventive deconstruction of the romantic comedy built around the question: What would you do if you could travel to your loved ones’ past, heal their traumas, fix their problems, and change them into the perfect partner?",
+      "year": 2022
+    },
+    {
+      "rank": 9,
+      "movie_id": 521007,
+      "title": "Superintelligence",
+      "score": 6.622751,
+      "overview": "When an all-powerful Superintelligence chooses to study the most average person on Earth, Carol Peters, the fate of the world hangs in the balance. As the A.I. decides to enslave, save or destroy humanity, it’s up to Carol to prove that people are worth saving.",
+      "year": 2020
+    },
+    {
+      "rank": 10,
+      "movie_id": 114,
+      "title": "Pretty Woman",
+      "score": 6.4777145,
+      "overview": "While on a business trip in Los Angeles, Edward Lewis, a millionaire entrepreneur who makes a living buying and breaking up companies, picks up a prostitute, Vivian, while asking for directions; after, Edward hires Vivian to stay with him for the weekend to accompany him to a few social events, and the two get closer only to discover there are significant hurdles to overcome as they try to bridge the gap between their very different worlds.",
+      "year": 1990
+    },
+    {
+      "rank": 11,
+      "movie_id": 930094,
+      "title": "Red, White & Royal Blue",
+      "score": 6.2276907,
+      "overview": "After an altercation between Alex, the president's son, and Britain's Prince Henry at a royal event becomes tabloid fodder, their long-running feud now threatens to drive a wedge in U.S./British relations. When the rivals are forced into a staged truce, their icy relationship begins to thaw and the friction between them sparks something deeper than they ever expected.",
+      "year": 2023
+    },
+    {
+      "rank": 12,
+      "movie_id": 10642,
+      "title": "Loser",
+      "score": 5.9681544,
+      "overview": "On a university scholarship, a good natured student from the midwest gets a crash course in city life while dealing with three evil roommates. He befriends a virtually homeless college student whom he falls for, but she's dating a nasty professor.",
+      "year": 2000
+    },
+    {
+      "rank": 13,
+      "movie_id": 137,
+      "title": "Groundhog Day",
+      "score": 5.9100347,
+      "overview": "A cynical TV weatherman, along with his idealistic producer and his sardonic cameraman, is sent to report on Groundhog Day in the small town of Punxsutawney, where he finds himself repeating the same day over and over.",
+      "year": 1993
+    },
+    {
+      "rank": 14,
+      "movie_id": 82693,
+      "title": "Silver Linings Playbook",
+      "score": 5.8585024,
+      "overview": "After losing his job and wife, and spending time in an institution, a former teacher winds up living with his parents. He wants to rebuild his life and reconcile with his wife, but his father would be happy if he shared his obsession with the Philadelphia Eagles. Things get complicated when he meets Tiffany Maxwell who offers to help him reconnect with his wife if he will do something very important for her in exchange.",
+      "year": 2012
+    },
+    {
+      "rank": 15,
+      "movie_id": 9602,
+      "title": "Coming to America",
+      "score": 5.460905,
+      "overview": "An African prince decides it’s time for him to find a princess... and his mission leads him and his most loyal friend to Queens, New York. In disguise as an impoverished immigrant, the pampered prince quickly finds himself a new job, new friends, new digs, new enemies and lots of trouble.",
+      "year": 1988
+    },
+    {
+      "rank": 16,
+      "movie_id": 11529,
+      "title": "Sweet Home Alabama",
+      "score": 5.4265904,
+      "overview": "New York fashion designer, Melanie Carmichael suddenly finds herself engaged to the city's most eligible bachelor. But her past holds many secrets—including Jake, the redneck husband she married in high school, who refuses to divorce her. Bound and determined to end their contentious relationship once and for all, Melanie sneaks back home to Alabama to confront her past.",
+      "year": 2002
+    },
+    {
+      "rank": 17,
+      "movie_id": 1064213,
+      "title": "Anora",
+      "score": 5.2547317,
+      "overview": "A young sex worker from Brooklyn gets her chance at a Cinderella story when she meets and impulsively marries the son of an oligarch. Once the news reaches Russia, her fairytale is threatened as his parents set out to get the marriage annulled.",
+      "year": 2024
+    },
+    {
+      "rank": 18,
+      "movie_id": 114150,
+      "title": "Pitch Perfect",
+      "score": 5.1957526,
+      "overview": "College student Beca knows she does not want to be part of a clique, but that's exactly where she finds herself after arriving at her new school. Thrust in among mean gals, nice gals and just plain weird gals, Beca finds that the only thing they have in common is how well they sing together. She takes the women of the group out of their comfort zone of traditional arrangements and into a world of amazing harmonic combinations in a fight to the top of college music competitions.",
+      "year": 2012
+    },
+    {
+      "rank": 19,
+      "movie_id": 549053,
+      "title": "Last Christmas",
+      "score": 5.193506,
+      "overview": "Kate is a young woman who has a habit of making bad decisions, and her last date with disaster occurs after she accepts work as Santa's elf for a department store. However, after she meets Tom there, her life takes a new turn.",
+      "year": 2019
+    },
+    {
+      "rank": 20,
+      "movie_id": 330483,
+      "title": "The Choice",
+      "score": 5.1718245,
+      "overview": "Travis and Gabby first meet as neighbors in a small coastal town and wind up in a relationship that is tested by life's most defining events.",
+      "year": 2016
+    }
+  ]
+}
