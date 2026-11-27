@@ -7,10 +7,11 @@ parameters and rankings with those runs.
 
 from __future__ import annotations
 
-from .result import Result
+from .result import Result, SearchResponse
 from .solr import DEFAULT_COLLECTION, DEFAULT_SOLR_URI, post
 
 M2_SETUPS = {"m2_a": "A", "m2_b": "B"}
+M3_SYSTEMS = {"m3_lexical"}
 
 
 def query_params(query: dict, setup: str) -> dict:
@@ -71,6 +72,34 @@ def to_results(payload: dict, *, source: str, setup: str = "A") -> list[Result]:
     return results
 
 
+def run_lexical(
+    need: dict,
+    system: str,
+    *,
+    uri: str = DEFAULT_SOLR_URI,
+    collection: str = DEFAULT_COLLECTION,
+) -> SearchResponse:
+    """Run a registered lexical system (M2 or M3) for one need."""
+    if system in M2_SETUPS:
+        setup = M2_SETUPS[system]
+    elif system in M3_SYSTEMS:
+        if "params" not in need:
+            raise ValueError(f"{system} needs an explicit params block in the query config")
+        setup = "A"
+    else:
+        raise ValueError(f"Not a lexical system: {system!r}")
+
+    params = query_params(need, setup)
+    if system in M3_SYSTEMS and "rq" in params:
+        setup = "B"  # metadata only: this run also reranks with the overview
+    payload = post(params, uri, collection)
+    return SearchResponse(
+        results=to_results(payload, source=need.get("source", "story"), setup=setup),
+        query_params=params,
+        num_found=payload["response"].get("numFound"),
+    )
+
+
 def search_m2(
     need: dict,
     system: str,
@@ -78,11 +107,5 @@ def search_m2(
     uri: str = DEFAULT_SOLR_URI,
     collection: str = DEFAULT_COLLECTION,
 ) -> list[Result]:
-    """Run one frozen M2 system (``m2_a`` or ``m2_b``) for one need."""
-    try:
-        setup = M2_SETUPS[system]
-    except KeyError:
-        raise ValueError(f"Not an M2 system: {system!r}") from None
-    params = query_params(need, setup)
-    payload = post(params, uri, collection)
-    return to_results(payload, source=need.get("source", "story"), setup=setup)
+    """Backward-compatible M2 entry point returning just the ranked results."""
+    return run_lexical(need, system, uri=uri, collection=collection).results

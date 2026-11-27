@@ -1,0 +1,186 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q1",
+  "need": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+  "endpoint": "http://localhost:8983/solr/movies/select",
+  "num_found": 987,
+  "query_params": {
+    "q": "{!parent which=\"doc_type:movie\" score=max v=$childq}",
+    "text": "I want a comedy whose reviewers praise the subtle humor for its clever writing, witty dialogue or intellectually sharp jokes.",
+    "qf": "review_text",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:comedy"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "childq": "{!edismax v=$text}"
+  },
+  "latency_ms": 321.673,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 137,
+      "title": "Groundhog Day",
+      "score": 10.139492,
+      "overview": "A cynical TV weatherman, along with his idealistic producer and his sardonic cameraman, is sent to report on Groundhog Day in the small town of Punxsutawney, where he finds himself repeating the same day over and over.",
+      "year": 1993
+    },
+    {
+      "rank": 2,
+      "movie_id": 5236,
+      "title": "Kiss Kiss Bang Bang",
+      "score": 9.837476,
+      "overview": "A petty thief posing as an actor is brought to Los Angeles for an unlikely audition and finds himself in the middle of a murder investigation along with his high school dream girl and a detective who's been training him for his upcoming role...",
+      "year": 2005
+    },
+    {
+      "rank": 3,
+      "movie_id": 346698,
+      "title": "Barbie",
+      "score": 9.815824,
+      "overview": "Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land. However, when they get a chance to go to the real world, they soon discover the joys and perils of living among humans.",
+      "year": 2023
+    },
+    {
+      "rank": 4,
+      "movie_id": 533535,
+      "title": "Deadpool & Wolverine",
+      "score": 9.192543,
+      "overview": "A listless Wade Wilson toils away in civilian life with his days as the morally flexible mercenary, Deadpool, behind him. But when his homeworld faces an existential threat, Wade must reluctantly suit-up again with an even more reluctant Wolverine.",
+      "year": 2024
+    },
+    {
+      "rank": 5,
+      "movie_id": 522627,
+      "title": "The Gentlemen",
+      "score": 8.963051,
+      "overview": "American expat Mickey Pearson has built a highly profitable marijuana empire in London. When word gets out that he’s looking to cash out of the business forever it triggers plots, schemes, bribery and blackmail in an attempt to steal his domain out from under him.",
+      "year": 2020
+    },
+    {
+      "rank": 6,
+      "movie_id": 493529,
+      "title": "Dungeons & Dragons: Honor Among Thieves",
+      "score": 8.953368,
+      "overview": "A charming thief and a band of unlikely adventurers undertake an epic heist to retrieve a lost relic, but things go dangerously awry when they run afoul of the wrong people.",
+      "year": 2023
+    },
+    {
+      "rank": 7,
+      "movie_id": 419479,
+      "title": "The Babysitter",
+      "score": 8.793292,
+      "overview": "When Cole stays up past his bedtime, he discovers that his hot babysitter is part of a Satanic cult that will stop at nothing to keep him quiet.",
+      "year": 2017
+    },
+    {
+      "rank": 8,
+      "movie_id": 593643,
+      "title": "The Menu",
+      "score": 8.456525,
+      "overview": "A young couple travels to a remote island to eat at an exclusive restaurant where the chef has prepared a lavish menu, with some shocking surprises.",
+      "year": 2022
+    },
+    {
+      "rank": 9,
+      "movie_id": 546554,
+      "title": "Knives Out",
+      "score": 8.439745,
+      "overview": "When renowned crime novelist Harlan Thrombey is found dead at his estate just after his 85th birthday, the inquisitive and debonair Detective Benoit Blanc is mysteriously enlisted to investigate. From Harlan's dysfunctional family to his devoted staff, Blanc sifts through a web of red herrings and self-serving lies to uncover the truth behind Harlan's untimely death.",
+      "year": 2019
+    },
+    {
+      "rank": 10,
+      "movie_id": 350,
+      "title": "The Devil Wears Prada",
+      "score": 8.346288,
+      "overview": "A young woman from the Midwest gets more than she bargained for when she moves to New York to become a writer and ends up as the assistant to the tyrannical, larger-than-life editor-in-chief of a major fashion magazine.",
+      "year": 2006
+    },
+    {
+      "rank": 11,
+      "movie_id": 748783,
+      "title": "The Garfield Movie",
+      "score": 8.035619,
+      "overview": "Garfield, the world-famous, Monday-hating, lasagna-loving indoor cat, is about to have a wild outdoor adventure! After an unexpected reunion with his long-lost father – scruffy street cat Vic – Garfield and his canine friend Odie are forced from their perfectly pampered life into joining Vic in a hilarious, high-stakes heist.",
+      "year": 2024
+    },
+    {
+      "rank": 12,
+      "movie_id": 583,
+      "title": "Life of Brian",
+      "score": 8.010942,
+      "overview": "Brian Cohen is an average young Jewish man, but through a series of ridiculous events, he gains a reputation as the Messiah. When he's not dodging his followers or being scolded by his shrill mother, the hapless Brian has to contend with the pompous Pontius Pilate and acronym-obsessed members of a separatist movement. Rife with Monty Python's signature absurdity, the tale finds Brian's life paralleling Biblical lore, albeit with many more laughs.",
+      "year": 1979
+    },
+    {
+      "rank": 13,
+      "movie_id": 706693,
+      "title": "Timestalker",
+      "score": 7.8581166,
+      "overview": "Hapless Agnes repeatedly falls for the wrong guy, dies a grim death, and is reincarnated a century later. As she experiences romantic misfortune spanning various eras, Agnes aims to avoid repeat mistakes and finally break the cycle.",
+      "year": 2024
+    },
+    {
+      "rank": 14,
+      "movie_id": 43347,
+      "title": "Love & Other Drugs",
+      "score": 7.744266,
+      "overview": "Maggie is an alluring free spirit who won't let anyone – or anything – tie her down. But she meets her match in Jamie, whose relentless and nearly infallible charm serves him well with the ladies and the cutthroat world of pharmaceutical sales. Maggie and Jamie's evolving relationship takes them both by surprise, as they find themselves under the influence of the ultimate drug: love.",
+      "year": 2010
+    },
+    {
+      "rank": 15,
+      "movie_id": 762,
+      "title": "Monty Python and the Holy Grail",
+      "score": 7.601056,
+      "overview": "King Arthur, accompanied by his squire, recruits his Knights of the Round Table, including Sir Bedevere the Wise, Sir Lancelot the Brave, Sir Robin the Not-Quite-So-Brave-As-Sir-Lancelot and Sir Galahad the Pure. On the way, Arthur battles the Black Knight who, despite having had all his limbs chopped off, insists he can still fight. They reach Camelot, but Arthur decides not  to enter, as \"it is a silly place\".",
+      "year": 1975
+    },
+    {
+      "rank": 16,
+      "movie_id": 818,
+      "title": "Austin Powers in Goldmember",
+      "score": 7.568876,
+      "overview": "The world's most shagadelic spy continues his fight against Dr. Evil. This time, the diabolical doctor and his clone, Mini-Me, team up with a new foe—'70s kingpin Goldmember. While pursuing the team of villains to stop them from world domination, Austin gets help from his dad and an old girlfriend.",
+      "year": 2002
+    },
+    {
+      "rank": 17,
+      "movie_id": 522931,
+      "title": "Hitman's Wife's Bodyguard",
+      "score": 7.2546268,
+      "overview": "The world’s most lethal odd couple – bodyguard Michael Bryce and hitman Darius Kincaid – are back on another life-threatening mission. Still unlicensed and under scrutiny, Bryce is forced into action by Darius's even more volatile wife, the infamous international con artist Sonia Kincaid. As Bryce is driven over the edge by his two most dangerous protectees, the trio get in over their heads in a global plot and soon find that they are all that stand between Europe and a vengeful and powerful madman.",
+      "year": 2021
+    },
+    {
+      "rank": 18,
+      "movie_id": 587792,
+      "title": "Palm Springs",
+      "score": 7.2466288,
+      "overview": "When carefree Nyles and reluctant maid of honor Sarah have a chance encounter at a Palm Springs wedding, things get complicated when they find themselves unable to escape the venue, themselves, or each other.",
+      "year": 2020
+    },
+    {
+      "rank": 19,
+      "movie_id": 37137,
+      "title": "The Naked Gun 2½: The Smell of Fear",
+      "score": 7.037832,
+      "overview": "Bumbling lieutenant Frank Drebin is out to foil the big boys in the energy industry, who intend to suppress technology that will put them out of business.",
+      "year": 1991
+    },
+    {
+      "rank": 20,
+      "movie_id": 816,
+      "title": "Austin Powers: International Man of Mystery",
+      "score": 6.996981,
+      "overview": "As a swinging fashion photographer by day and a groovy British superagent by night, Austin Powers is the '60s' most shagadelic spy. But can he stop megalomaniac Dr. Evil after the bald villain freezes himself and unthaws in the '90s? With the help of sexy sidekick Vanessa Kensington, he just might.",
+      "year": 1997
+    }
+  ]
+}

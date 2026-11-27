@@ -7,9 +7,11 @@ Usage:
 
 from __future__ import annotations
 
+import io
 import json
 import sys
 import tempfile
+from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
@@ -19,6 +21,8 @@ if str(ROOT) not in sys.path:
 
 from search import Result, write_run  # noqa: E402
 from search import lexical, registry, solr  # noqa: E402
+
+import run_system  # noqa: E402
 
 
 def saved_results(qid: str = "Q1") -> list[Result]:
@@ -153,6 +157,55 @@ def check_m2_backends() -> tuple[bool, str]:
     return True, "m2_a and m2_b reproduce both saved parameter sets and run files"
 
 
+def check_runner() -> tuple[bool, str]:
+    """The generic runner must reproduce the saved B run from queries/m3."""
+    saved_by_qid: dict[str, dict] = {}
+    for path in sorted((ROOT / "runs").glob("B_Q*.json")):
+        saved = json.loads(path.read_text(encoding="utf-8"))
+        saved_by_qid[saved["qid"]] = saved
+    payload_by_text = {
+        saved["need"]: fake_solr_payload(saved) for saved in saved_by_qid.values()
+    }
+
+    def fake_post(params, *_args, **_kwargs):
+        return payload_by_text[params["text"]]
+
+    previous_argv = sys.argv
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_path = Path(tmp)
+        sys.argv = [
+            "run_system.py",
+            "--system", "m3_lexical",
+            "--queries", str(ROOT / "queries" / "m3"),
+            "--run-id", "B",
+            "--runs", tmp,
+        ]
+        try:
+            with patch.object(lexical, "post", side_effect=fake_post):
+                with redirect_stdout(io.StringIO()):
+                    run_system.main()
+        finally:
+            sys.argv = previous_argv
+
+        generated_path = tmp_path / "B.run"
+        if not generated_path.exists():
+            return False, "runner did not write a TREC run"
+        if generated_path.read_text(encoding="utf-8") != (
+            ROOT / "runs" / "B.run"
+        ).read_text(encoding="utf-8"):
+            return False, "runner output differs from runs/B.run"
+
+        json_files = sorted(tmp_path.glob("B_Q*.json"))
+        if len(json_files) != len(saved_by_qid):
+            return False, f"expected {len(saved_by_qid)} per-query JSON files, got {len(json_files)}"
+        for path in json_files:
+            output = json.loads(path.read_text(encoding="utf-8"))
+            if "latency_ms" not in output or "query_params" not in output:
+                return False, f"{path.name} is missing run metadata"
+
+    return True, "runner reproduces runs/B.run from queries/m3 with per-query metadata"
+
+
 def check_post_contract() -> tuple[bool, str]:
     """Check the Solr URL, form encoding and UTF-8 handling without a server."""
 
@@ -186,6 +239,7 @@ def main() -> int:
     for label, (passed, detail) in (
         ("TREC writer", check_trec_contract()),
         ("M2 backends", check_m2_backends()),
+        ("Runner", check_runner()),
         ("Solr transport", check_post_contract()),
     ):
         print(f"{label}: {'OK' if passed else 'FAIL'} - {detail}")

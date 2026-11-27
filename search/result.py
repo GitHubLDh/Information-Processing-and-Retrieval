@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass(frozen=True, slots=True)
@@ -30,3 +30,12 @@ class Result:
             raise TypeError(f"score must be a number or None, got {self.score!r}")
         if not isinstance(self.snippet, str):
             raise TypeError(f"snippet must be a string, got {self.snippet!r}")
+
+
+@dataclass(frozen=True)
+class SearchResponse:
+    """Ranked results plus the request metadata needed to save a run."""
+
+    results: list[Result]
+    query_params: dict = field(default_factory=dict)
+    num_found: int | None = None
