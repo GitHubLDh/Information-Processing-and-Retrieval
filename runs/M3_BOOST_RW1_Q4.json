@@ -1,0 +1,187 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q4",
+  "need": "An FBI agent investigates a series of murders by a serial killer in a crime film or thriller.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 1585,
+  "query_params": {
+    "q": "{!edismax v=$text}",
+    "text": "An FBI agent investigates a series of murders by a serial killer in a crime film or thriller.",
+    "qf": "plot^1 overview^2 title^2",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:(crime OR thriller)"
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "overviewq": "{!edismax qf=overview v=$text}",
+    "rq": "{!rerank reRankQuery=$overviewq reRankDocs=20 reRankWeight=1}"
+  },
+  "latency_ms": 11.577,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 339527,
+      "title": "Solace",
+      "score": 34.78807,
+      "overview": "A psychic doctor, John Clancy, works with an FBI special agent in search of a serial killer.",
+      "year": 2015
+    },
+    {
+      "rank": 2,
+      "movie_id": 181283,
+      "title": "Child 44",
+      "score": 28.259476,
+      "overview": "Set in Stalin-era Soviet Union, a disgraced MGB agent is dispatched to investigate a series of child murders -- a case that begins to connect with the very top of party leadership.",
+      "year": 2015
+    },
+    {
+      "rank": 3,
+      "movie_id": 12395,
+      "title": "Thunderheart",
+      "score": 27.581108,
+      "overview": "A young mixed-blood FBI agent is assigned to work with a cynical veteran investigator on a murder on a poverty-stricken Sioux reservation.",
+      "year": 1992
+    },
+    {
+      "rank": 4,
+      "movie_id": 395834,
+      "title": "Wind River",
+      "score": 26.755342,
+      "overview": "An FBI agent teams with the town's veteran game tracker to investigate a murder that occurred on a Native American reservation.",
+      "year": 2017
+    },
+    {
+      "rank": 5,
+      "movie_id": 1226578,
+      "title": "Longlegs",
+      "score": 26.360222,
+      "overview": "FBI Agent Lee Harker is a gifted new recruit assigned to the unsolved case of an elusive serial killer. As the case takes complex turns, unearthing evidence of the occult, Harker discovers a personal connection to the merciless killer and must race against time to stop him before he claims the lives of another innocent family.",
+      "year": 2024
+    },
+    {
+      "rank": 6,
+      "movie_id": 11423,
+      "title": "Memories of Murder",
+      "score": 24.492218,
+      "overview": "A sadistic serial rapist and murderer of young women terrorizes a small province in 1980s South Korea. To prevent further crimes, three increasingly desperate detectives with conflicting methods race against time to unravel the violent mind of the killer in a futile effort to solve the case.",
+      "year": 2003
+    },
+    {
+      "rank": 7,
+      "movie_id": 3432,
+      "title": "Mr. Brooks",
+      "score": 24.197807,
+      "overview": "A psychological thriller about a man who is sometimes controlled by his murder-and-mayhem-loving alter ego.",
+      "year": 2007
+    },
+    {
+      "rank": 8,
+      "movie_id": 10871,
+      "title": "Switchback",
+      "score": 23.644403,
+      "overview": "After FBI agent Frank Lacrosse believes his son was kidnapped by a notorious serial killer, he travels to Amarillo, Texas, where he believes the murderer is in hiding. Although officially taken off the case because of its personal significance to him, Frank continues to pursue the killer, causing concern for local sheriff Buck Olmstead. When another victim pops up at a nearby car garage, Frank knows that he is as close as he'll ever be to tracking down the elusive killer.",
+      "year": 1997
+    },
+    {
+      "rank": 9,
+      "movie_id": 398173,
+      "title": "The House That Jack Built",
+      "score": 21.920773,
+      "overview": "Failed architect, engineer and vicious murderer Jack narrates the details of some of his most elaborately orchestrated crimes, each of them a towering piece of art that defines his life's work as a serial killer for twelve years.",
+      "year": 2018
+    },
+    {
+      "rank": 10,
+      "movie_id": 542130,
+      "title": "Waikiki",
+      "score": 21.514551,
+      "overview": "A couple of private eyes, a laid-back Californian and a streetwise New Yorker, team up to track down a killer in Hawaii known as \"The Cane Field Murderer\" in this unsuccessful pilot to a detective series.",
+      "year": 1980
+    },
+    {
+      "rank": 11,
+      "movie_id": 414906,
+      "title": "The Batman",
+      "score": 21.436623,
+      "overview": "In his second year of fighting crime, Batman uncovers corruption in Gotham City that connects to his own family while facing a serial killer known as the Riddler.",
+      "year": 2022
+    },
+    {
+      "rank": 12,
+      "movie_id": 807,
+      "title": "Se7en",
+      "score": 20.83789,
+      "overview": "Two homicide detectives are on a desperate hunt for a serial killer whose crimes are based on the \"seven deadly sins\" in this dark and haunting film that takes viewers from the tortured remains of one victim to the next. The seasoned Det. Somerset researches each sin in an effort to get inside the killer's mind, while his novice partner, Mills, scoffs at his efforts to unravel the case.",
+      "year": 1995
+    },
+    {
+      "rank": 13,
+      "movie_id": 257088,
+      "title": "Point Break",
+      "score": 20.74325,
+      "overview": "A young undercover FBI agent infiltrates a gang of thieves who share a common interest in extreme sports. A remake of the 1991 film, \"Point Break\".",
+      "year": 2015
+    },
+    {
+      "rank": 14,
+      "movie_id": 605886,
+      "title": "To Catch a Killer",
+      "score": 20.185575,
+      "overview": "Baltimore. New Year's Eve. A talented but troubled police officer is recruited by the FBI's chief investigator to help profile and track down a mass murderer.",
+      "year": 2023
+    },
+    {
+      "rank": 15,
+      "movie_id": 241,
+      "title": "Natural Born Killers",
+      "score": 19.886631,
+      "overview": "Two victims of traumatized childhoods become lovers and serial murderers irresponsibly glorified by the mass media.",
+      "year": 1994
+    },
+    {
+      "rank": 16,
+      "movie_id": 466420,
+      "title": "Killers of the Flower Moon",
+      "score": 19.555813,
+      "overview": "When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the mystery.",
+      "year": 2023
+    },
+    {
+      "rank": 17,
+      "movie_id": 9411,
+      "title": "Fallen",
+      "score": 19.378992,
+      "overview": "Homicide detective John Hobbes witnesses the execution of serial killer Edgar Reese. Soon after the execution the killings start again, and they are very similar to Reese's style.",
+      "year": 1998
+    },
+    {
+      "rank": 18,
+      "movie_id": 3489,
+      "title": "88 Minutes",
+      "score": 19.34253,
+      "overview": "Famed forensic psychiatrist Dr. Jack Gramm enjoys a reputation as one of the most sought-after profilers around. His expert testimony has resulted in the conviction of many criminals, including serial killer Jon Forster. On the eve of Forster's execution, one of Gramm's students is murdered in a vicious copycat crime, and Gramm himself receives an ominous message informing him that he has less than 90 minutes to live.",
+      "year": 2007
+    },
+    {
+      "rank": 19,
+      "movie_id": 1561955,
+      "title": "Stephen",
+      "score": 18.684412,
+      "overview": "A psychiatrist evaluating a self-confessed serial killer unravels a twisted web of trauma, deceit, and psychological manipulation—only to question if the killer is truly guilty or just another victim in a larger, darker game.",
+      "year": 2025
+    },
+    {
+      "rank": 20,
+      "movie_id": 12149,
+      "title": "Frailty",
+      "score": 18.53333,
+      "overview": "A mysterious man arrives at the offices of an FBI agent and recounts his childhood: how his religious fanatic father received visions telling him to kill people who were in fact \"demons.\"",
+      "year": 2002
+    }
+  ]
+}

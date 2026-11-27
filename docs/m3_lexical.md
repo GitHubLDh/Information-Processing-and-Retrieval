@@ -50,6 +50,42 @@ improves. **Not adopted as the default M3 configuration**; `mm` stays at 1 for
 the next trials. Because `tie=0.1` was changed together with `mm`, the two
 effects are not isolated. Saved runs: `runs/M3_MM2.run`, `runs/M3_MM70.run`.
 
+## Story field boosts and rerank weight
+
+Problem: M2 gives every story field equal implicit weight, and BM25 length
+normalisation suppresses a single matching term in a long plot (median 596
+words). Trial: for the three story needs set `qf=plot^1 overview^2 title^2`
+while keeping Setup B's top-20 overview rerank, at weight 1 and at weight 0.5.
+The two review needs are deliberately left unchanged, so their identical scores
+act as a control. Configs: `queries/m3/variants/boosts_rw1/` and
+`queries/m3/variants/boosts_rw05/`.
+
+| System | P@5 | P@10 | AP | nDCG@10 | Recall@20 | MRR@10 |
+|---|---:|---:|---:|---:|---:|---:|
+| B (frozen baseline) | 0.880 | 0.780 | 0.497 | 0.737 | 0.588 | 1.000 |
+| boosted `qf`, rerank weight 1 | 0.800 | 0.740 | 0.463 | 0.680 | 0.588 | 0.900 |
+| boosted `qf`, rerank weight 0.5 | 0.840 | 0.720 | 0.466 | 0.676 | 0.588 | 0.900 |
+
+Per-need change from B (`rw=1` / `rw=0.5`):
+
+| Need | AP | nDCG@10 | Recall@20 |
+|---|---:|---:|---:|
+| Q1 | 0.326 → 0.326 / 0.326 | 0.697 → 0.697 / 0.697 | 0.364 → 0.364 / 0.364 |
+| Q2 | 0.486 → 0.486 / 0.486 | 0.891 → 0.891 / 0.891 | 0.519 → 0.519 / 0.519 |
+| Q3 | 0.452 → 0.302 / 0.298 | 0.679 → 0.379 / 0.379 | 0.556 → 0.556 / 0.556 |
+| Q4 | 0.460 → 0.466 / 0.461 | 0.603 → 0.596 / 0.568 | 0.500 → 0.500 / 0.500 |
+| Q5 | 0.763 → 0.738 / 0.757 | 0.816 → 0.836 / 0.845 | 1.000 → 1.000 / 1.000 |
+
+**Rejected.** Direct overview weighting in `qf` reproduces the M2
+unrestricted regression on Q3: AP falls by 0.150 and nDCG@10 by 0.300, and P@10
+falls from 0.700 to 0.400. Q4 gains 0.006 AP and Q5 gains up to 0.029 nDCG@10,
+but every aggregate early-precision and ranking metric is worse and recall is
+unchanged. Lowering the rerank weight from 1 to 0.5 does not recover the loss.
+The M3 default therefore keeps `qf=plot` and rerank weight 1. This also
+confirms on the unrestricted pool that reranking the top 20 is a safer way to
+use the short overview than mixing it into the first-stage query. Saved runs:
+`runs/M3_BOOST_RW1.run`, `runs/M3_BOOST_RW05.run`.
+
 ## Reproduce
 
 Start a scratch core on port 18984 (do not touch the project core on 8983):
@@ -62,4 +98,8 @@ python3 scripts/run_system.py --system m3_lexical \
   --queries queries/m3/variants/mm2 --uri http://127.0.0.1:18984/solr --run-id M3_MM2
 python3 scripts/run_system.py --system m3_lexical \
   --queries queries/m3/variants/mm70 --uri http://127.0.0.1:18984/solr --run-id M3_MM70
+python3 scripts/run_system.py --system m3_lexical \
+  --queries queries/m3/variants/boosts_rw1 --uri http://127.0.0.1:18984/solr --run-id M3_BOOST_RW1
+python3 scripts/run_system.py --system m3_lexical \
+  --queries queries/m3/variants/boosts_rw05 --uri http://127.0.0.1:18984/solr --run-id M3_BOOST_RW05
 ```

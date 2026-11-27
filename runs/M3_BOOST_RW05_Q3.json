@@ -1,0 +1,187 @@
+{
+  "system": "m3_lexical",
+  "setup": "m3_lexical",
+  "qid": "Q3",
+  "need": "In this science fiction film, astronauts are stranded far from Earth and struggle to survive or return home.",
+  "endpoint": "http://127.0.0.1:18984/solr/movies/select",
+  "num_found": 760,
+  "query_params": {
+    "q": "{!edismax v=$text}",
+    "text": "In this science fiction film, astronauts are stranded far from Earth and struggle to survive or return home.",
+    "qf": "plot^1 overview^2 title^2",
+    "mm": "1",
+    "q.op": "OR",
+    "fq": [
+      "doc_type:movie",
+      "genres:\"science fiction\""
+    ],
+    "rows": 20,
+    "fl": "movie_id,id,title,score,overview,year",
+    "wt": "json",
+    "overviewq": "{!edismax qf=overview v=$text}",
+    "rq": "{!rerank reRankQuery=$overviewq reRankDocs=20 reRankWeight=0.5}"
+  },
+  "latency_ms": 7.426,
+  "results": [
+    {
+      "rank": 1,
+      "movie_id": 614911,
+      "title": "The Midnight Sky",
+      "score": 21.06214,
+      "overview": "A lone scientist in the Arctic races to contact a crew of astronauts returning home to a mysterious global catastrophe.",
+      "year": 2020
+    },
+    {
+      "rank": 2,
+      "movie_id": 286217,
+      "title": "The Martian",
+      "score": 20.979504,
+      "overview": "During a manned mission to Mars, Astronaut Mark Watney is presumed dead after a fierce storm and left behind by his crew. But Watney has survived and finds himself stranded and alone on the hostile planet. With only meager supplies, he must draw upon his ingenuity, wit and spirit to subsist and find a way to signal to Earth that he is alive.",
+      "year": 2015
+    },
+    {
+      "rank": 3,
+      "movie_id": 791568,
+      "title": "Settlers",
+      "score": 19.434076,
+      "overview": "Remmy and her parents, refugees from Earth, have found peace on the Martian outskirts until strangers appear in the hills beyond their farm. Told as a triptych, the film follows Remmy as she struggles to survive in an uneasy landscape.",
+      "year": 2021
+    },
+    {
+      "rank": 4,
+      "movie_id": 6795,
+      "title": "Zathura: A Space Adventure",
+      "score": 19.062937,
+      "overview": "After their father is called into work, two young boys, Walter and Danny, are left in the care of their teenage sister, Lisa, and told they must stay inside. Walter and Danny, who anticipate a boring day, are shocked when they begin playing Zathura, a space-themed board game, which they realize has mystical powers when their house is shot into space. With the help of an astronaut, the boys attempt to return home.",
+      "year": 2005
+    },
+    {
+      "rank": 5,
+      "movie_id": 283566,
+      "title": "Evangelion: 3.0+1.0 Thrice Upon a Time",
+      "score": 17.294085,
+      "overview": "In the aftermath of the Fourth Impact, stranded without their Evangelions, Shinji, Asuka and Rei find refuge in one of the rare pockets of humanity that still exist on the ruined planet Earth. There, each lives a life far different from their days as an Evangelion pilot. However, the danger to the world is far from over. A new impact is looming on the horizon—one that will prove to be the true end of Evangelion.",
+      "year": 2021
+    },
+    {
+      "rank": 6,
+      "movie_id": 687163,
+      "title": "Project Hail Mary",
+      "score": 15.019951,
+      "overview": "Science teacher Ryland Grace wakes up on a spaceship light years from home with no recollection of who he is or how he got there. As his memory returns, he begins to uncover his mission: solve the riddle of the mysterious substance causing the sun to die out. He must call on his scientific knowledge and unorthodox ideas to save everything on Earth from extinction… but an unexpected friendship means he may not have to do it alone.",
+      "year": 2026
+    },
+    {
+      "rank": 7,
+      "movie_id": 354251,
+      "title": "Southbound",
+      "score": 14.788594,
+      "overview": "The film contains five stories set on desolate stretches of a desert highway. Two men on the run from their past, a band on its way to a gig, a man struggling to get home, a brother in search of his long-lost sister and a family on vacation are forced to confront their worst fears and darkest secrets in these interwoven tales.",
+      "year": 2015
+    },
+    {
+      "rank": 8,
+      "movie_id": 286538,
+      "title": "Bokeh",
+      "score": 14.773076,
+      "overview": "On a romantic getaway to Iceland, a young American couple wake up one morning to discover every person on Earth has disappeared. Their struggle to survive and to reconcile the mysterious event lead them to reconsider everything they know about themselves and the world.",
+      "year": 2017
+    },
+    {
+      "rank": 9,
+      "movie_id": 531309,
+      "title": "Brightburn",
+      "score": 14.4067,
+      "overview": "What if a child from another world crash-landed on Earth, but instead of becoming a hero to mankind, he proved to be something far more sinister?",
+      "year": 2019
+    },
+    {
+      "rank": 10,
+      "movie_id": 429617,
+      "title": "Spider-Man: Far From Home",
+      "score": 14.364212,
+      "overview": "Peter Parker and his friends go on a summer trip to Europe. However, they will hardly be able to rest - Peter will have to agree to help Nick Fury uncover the mystery of creatures that cause natural disasters and destruction throughout the continent.",
+      "year": 2019
+    },
+    {
+      "rank": 11,
+      "movie_id": 22230,
+      "title": "Happy Accidents",
+      "score": 13.548103,
+      "overview": "A comedy that pays tribute to the science fiction genre -- specifically, the sub-genre of time travel. But here the alternate reality is contemporary New York City where past and future experiences of trust, commitment and denial are cleverly put to the test. Just as Ruby is beginning to relish her first-ever healthy relationship, Sam begins muttering about being a time traveler from the year 2470.",
+      "year": 2000
+    },
+    {
+      "rank": 12,
+      "movie_id": 535167,
+      "title": "The Wandering Earth",
+      "score": 13.320546,
+      "overview": "When the Sun begins to expand in such a way that it will inevitably engulf and destroy the Earth in a hundred years, united mankind finds a way to avoid extinction by propelling the planet out of the Solar System using gigantic engines, moving it to a new home located four light years away, an epic journey that will last thousands of years.",
+      "year": 2019
+    },
+    {
+      "rank": 13,
+      "movie_id": 14161,
+      "title": "2012",
+      "score": 13.007429,
+      "overview": "Dr. Adrian Helmsley, part of a worldwide geophysical team investigating the effect on the earth of radiation from unprecedented solar storms, learns that the earth's core is heating up. He warns U.S. President Thomas Wilson that the crust of the earth is becoming unstable and that without proper preparations for saving a fraction of the world's population, the entire race is doomed. Meanwhile, writer Jackson Curtis stumbles on the same information. While the world's leaders race to build \"arks\" to escape the impending cataclysm, Curtis struggles to find a way to save his family. Meanwhile, volcanic eruptions and earthquakes of unprecedented strength wreak havoc around the world.",
+      "year": 2009
+    },
+    {
+      "rank": 14,
+      "movie_id": 636706,
+      "title": "Spaceman",
+      "score": 12.894285,
+      "overview": "Six months into a solo mission, a lonely astronaut confronts the cracks in his marriage with help from a mysterious creature he discovers on his ship.",
+      "year": 2024
+    },
+    {
+      "rank": 15,
+      "movie_id": 869,
+      "title": "Planet of the Apes",
+      "score": 12.79772,
+      "overview": "After a spectacular crash-landing on an uncharted planet, brash astronaut Leo Davidson finds himself trapped in a savage world where talking apes dominate the human race. Desperate to find a way home, Leo must evade the invincible gorilla army led by Ruthless General Thade.",
+      "year": 2001
+    },
+    {
+      "rank": 16,
+      "movie_id": 1184918,
+      "title": "The Wild Robot",
+      "score": 12.68647,
+      "overview": "After a shipwreck, an intelligent robot called Roz is stranded on an uninhabited island. To survive the harsh environment, Roz bonds with the island's animals and cares for an orphaned baby goose.",
+      "year": 2024
+    },
+    {
+      "rank": 17,
+      "movie_id": 167948,
+      "title": "Space Milkshake",
+      "score": 12.676538,
+      "overview": "Four low-ranking astronauts are stuck together on an orbital Sanitation Station after they bring a mysterious device aboard their ship and all life on Earth disappears. Little do they know they are about to come under attack by a mutating rubber duck named Gary, who wants to open a portal to his evil dimension and take over the Universe.",
+      "year": 2012
+    },
+    {
+      "rank": 18,
+      "movie_id": 30863,
+      "title": "Mutant Aliens",
+      "score": 12.606685,
+      "overview": "An unlikely crew – an astronaut, his intrepid daughter, and a quintet of sympathetic, albeit violent, alien creatures – seek revenge against a space industry baron.",
+      "year": 2002
+    },
+    {
+      "rank": 19,
+      "movie_id": 842675,
+      "title": "The Wandering Earth II",
+      "score": 12.511851,
+      "overview": "Humans built huge engines on the surface of the earth to find a new home. But the road to the universe is perilous. In order to save earth, young people once again have to step forward to start a race against time for life and death.",
+      "year": 2023
+    },
+    {
+      "rank": 20,
+      "movie_id": 17431,
+      "title": "Moon",
+      "score": 12.141291,
+      "overview": "With only three weeks left in his three-year contract, Sam Bell is eager to return to Earth. Stationed alone at a Moon-based facility with his computer assistant GERTY, an unexpected accident sets off a series of unsettling events that shake his isolation.",
+      "year": 2009
+    }
+  ]
+}
